@@ -20,7 +20,8 @@ const KEYS_LETTER = 'abcdef';
 const KEYS_NUMBER = '123456';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// State (persisted to localStorage so a refresh never loses progress)
+// State (persisted to localStorage so a refresh never loses progress; guests use
+// sessionStorage, which is cleared when the tab closes)
 // ─────────────────────────────────────────────────────────────────────────────
 const defaultState = () => ({
   mode: 'practice',          // 'practice' | 'exam' | 'review' | 'learn'
@@ -43,10 +44,13 @@ let state = null;
 let timerHandle = null;
 let LEARN = null;           // learn.json for this exam, if it has training content
 
+const progressStore = () => (Auth.isGuest() ? sessionStorage : localStorage);
+
 // Reads an exam's saved progress; legacyKey covers data saved before multi-exam support.
 function readSaved(slug, legacyKey) {
   try {
-    const raw = localStorage.getItem(storageKey(slug)) ?? (legacyKey ? localStorage.getItem(legacyKey) : null);
+    const store = progressStore();
+    const raw = store.getItem(storageKey(slug)) ?? (legacyKey ? store.getItem(legacyKey) : null);
     return raw ? JSON.parse(raw) : null;
   } catch { return null; }
 }
@@ -64,7 +68,7 @@ function load() {
 }
 
 const writeSaved = (slug, data) => {
-  try { localStorage.setItem(storageKey(slug), JSON.stringify(data)); } catch { /* ignore quota/private mode */ }
+  try { progressStore().setItem(storageKey(slug), JSON.stringify(data)); } catch { /* ignore quota/private mode */ }
 };
 
 let saveQueued = false;
@@ -181,13 +185,14 @@ function session() {
 // questions don't vanish from 'Unanswered'/'Incorrect' views before you read the explanation.
 function buildPracticeList() {
   const p = state.practice;
+  const flagged = new Set(p.flagged);
   const ids = QUESTIONS.filter((q) => {
     if (p.domain !== 'ALL' && q.domain !== p.domain) return false;
     const a = p.answers[q.id];
     switch (p.status) {
       case 'unanswered': return a === undefined;
       case 'incorrect': return a !== undefined && !isCorrect(q, a);
-      case 'flagged': return p.flagged.includes(q.id);
+      case 'flagged': return flagged.has(q.id);
       default: return true;
     }
   }).map((q) => q.id);
@@ -239,7 +244,7 @@ function render() {
   const main = $('main');
   if (state.mode === 'learn') {
     $('navigator').hidden = true;
-    return Learn.renderLearn(main, { exam: EXAM, state, save, practiceDomain });
+    return Learn.renderLearn(main, { exam: EXAM, state, save, practiceDomain, guest: Auth.isGuest(), guestCta });
   }
   Learn.stopLearn();
   $('practice-filters').hidden = state.mode !== 'practice';
@@ -266,6 +271,9 @@ function render() {
   holder.index = Math.min(Math.max(holder.index || 0, 0), s.ids.length - 1);
   renderGrid(s);
   renderQuestion(main, s, holder.index);
+  if (Auth.isGuest() && FULL_COUNT > QUESTIONS.length) {
+    main.insertAdjacentHTML('afterbegin', guestCta(`Guest preview: ${QUESTIONS.length} of ${FULL_COUNT} questions.`));
+  }
 }
 
 function renderModeTabs() {
@@ -428,6 +436,16 @@ function renderQuestion(main, s, index) {
 
 function renderExamIntro(main) {
   renderGridEmpty();
+  if (Auth.isGuest()) {
+    main.innerHTML = `<section class="panel card-pad stack intro">
+        <div class="stack" style="gap:8px"><h2>${icon('lock')} Timed exams need an account · ${EXAM.code}</h2>
+        <p class="muted">Timed exams draw from all ${FULL_COUNT} questions, with a scaled score, domain breakdown and exam history. They're available once you sign in. Accounts are free.</p></div>
+        ${guestCta('Guests can preview practice questions and the first learning module.')}
+        <div><button class="btn btn-ghost" data-mode-go="practice">${icon('book')}Back to the practice preview</button></div>
+      </section>`;
+    main.querySelector('[data-mode-go]').addEventListener('click', () => setMode('practice'));
+    return;
+  }
   const last = state.history[0];
   main.innerHTML = `
     <section class="panel card-pad stack intro">
@@ -636,6 +654,7 @@ function pickQuestions(count) {
 }
 
 function startExam() {
+  if (Auth.isGuest()) return render();
   const count = examSize();
   const order = pickQuestions(count);
   for (const id of order) state.seen[id] = (state.seen[id] || 0) + 1;
@@ -856,9 +875,45 @@ async function fetchJson(url) {
   return res.json();
 }
 
-async function loadBank(slug) {
-  [EXAM, QUESTIONS] = await Promise.all([fetchJson(`/exams/${slug}/exam.json`), fetchJson(`/exams/${slug}/questions.json`)]);
+// The exam catalog is needed by the home page, cloud sync and the reports panel; fetch it once.
+let indexRequest = null;
+const fetchIndex = () => (indexRequest ||= fetchJson('/exams/index.json').catch((err) => { indexRequest = null; throw err; }));
+
+const fetchBank = (slug) => Promise.all([fetchJson(`/exams/${slug}/exam.json`), fetchJson(`/exams/${slug}/questions.json`)]);
+
+// `files` is an in-flight fetchBank() started early in init(), so downloads overlap sign-in.
+// ── Guest preview limits ─────────────────────────────────────────────────────
+// Guests get a fixed sample of each bank (spread across domains by exam weight),
+// the first learning module, and no timed exams. Signing in (free) unlocks everything.
+const GUEST_QUESTIONS = 20;
+let FULL_COUNT = 0; // size of the full bank, for "20 of 198" messaging
+
+function guestSample(questions) {
+  const byDomain = {};
+  for (const q of [...questions].sort((a, b) => a.id - b.id)) (byDomain[q.domain] ||= []).push(q);
+  const keys = Object.keys(byDomain);
+  const weight = (k) => DOMAINS[k]?.pct || 1;
+  const total = keys.reduce((n, k) => n + weight(k), 0);
+  const take = Object.fromEntries(keys.map((k) => [k, Math.min(byDomain[k].length, Math.max(1, Math.floor((GUEST_QUESTIONS * weight(k)) / total)))]));
+  let left = GUEST_QUESTIONS - Object.values(take).reduce((a, b) => a + b, 0);
+  for (const k of [...keys].sort((a, b) => weight(b) - weight(a))) {
+    if (left <= 0) break;
+    if (take[k] < byDomain[k].length) { take[k]++; left--; }
+  }
+  const keep = new Set(keys.flatMap((k) => byDomain[k].slice(0, take[k]).map((q) => q.id)));
+  return questions.filter((q) => keep.has(q.id)); // same set every visit, original order
+}
+
+const guestCta = (what) => `<div class="guest-limit" role="note">
+    ${icon('lock')}<span><b>${what}</b> Sign in to unlock every question, all learning modules and timed exams, and to save your progress. Accounts are free.</span>
+    <button class="btn btn-primary btn-sm" data-guest-exit="signin">Sign in for full access</button>
+  </div>`;
+
+async function loadBank(slug, files = fetchBank(slug)) {
+  [EXAM, QUESTIONS] = await files;
   DOMAINS = EXAM.domains;
+  FULL_COUNT = QUESTIONS.length;
+  if (Auth.isGuest()) QUESTIONS = guestSample(QUESTIONS);
   state = load();
   BY_ID = new Map(QUESTIONS.map((q) => [q.id, q]));
   // Drop saved references to questions that no longer exist in the bank.
@@ -875,6 +930,18 @@ async function loadBank(slug) {
   if (state.mode === 'review' && !state.review?.ids.length) state.mode = 'exam';
 }
 
+// Feeds the home page "Most popular" folder. Throttled so refreshes don't inflate counts.
+function logView(slug) {
+  if (!Auth.currentUser()) return;
+  const KEY = 'examsim:views';
+  let seen = {};
+  try { seen = JSON.parse(localStorage.getItem(KEY)) || {}; } catch { /* ignore */ }
+  if (Date.now() - (seen[slug] || 0) < 60 * 60 * 1000) return;
+  seen[slug] = Date.now();
+  try { localStorage.setItem(KEY, JSON.stringify(seen)); } catch { /* ignore */ }
+  Auth.recordView(slug).catch(() => { /* best effort */ });
+}
+
 // /az-104 or /network-plus selects an exam; / shows the exam picker.
 function currentSlug() {
   const fromQuery = new URLSearchParams(location.search).get('exam');
@@ -882,12 +949,6 @@ function currentSlug() {
   const slug = (fromQuery || fromPath || '').toLowerCase();
   return /^[a-z0-9-]+$/.test(slug) && slug !== 'index.html' ? slug : '';
 }
-
-// "2026-10-27" → "Oct 27, 2026" (parsed as a local date so it never shifts a day).
-const fmtDate = (iso) => {
-  const [y, m, d] = iso.split('-').map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-};
 
 const vendorKey = (v = '') => v.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
@@ -902,48 +963,243 @@ const levelMeter = (l) => {
     <span class="sr-only">Difficulty: </span>${label}</span>`;
 };
 
+function learningPathCard(e) {
+  const a = recentActivity(e, readSaved(e.slug, e.legacyStorageKey));
+  const total = (e.learningModules || 0) * 3;
+  const started = a && (a.parts || a.openedModule);
+  return `<a class="panel learning-path-card" href="/${e.slug}?mode=learn" data-vendor="${vendorKey(e.vendor)}">
+      <span class="learning-path-eyebrow">LEARNING PATH · ${escapeHtml(e.code)}</span>
+      <h3>${escapeHtml(e.name)}</h3>
+      <p>${escapeHtml(e.learningDescription || `Structured study materials for ${e.name}, organized by exam domain.`)}</p>
+      <span class="learning-path-meta"><span>${e.learningModules ? `${e.learningModules} modules` : 'One module per domain'}</span><span>Guides · slides · video</span></span>
+      ${started && total ? `<span class="recent-rows"><span class="recent-row"><span>Your progress</span><b>${a.parts} / ${total} parts</b></span>
+        <span class="recent-bar"><i style="width:${Math.round((a.parts / total) * 100)}%"></i></span></span>` : ''}
+      <span class="learning-path-action">${started ? 'Continue learning' : 'Start learning'} ${icon('right', 'icon')}</span>
+    </a>`;
+}
+
+// /learning-paths: every course with Learn content.
+async function renderLearningPathsPage() {
+  document.body.classList.add('home', 'subpage');
+  document.title = 'Learning paths · The IT Study Hall';
+  $('navigator').hidden = true;
+  let exams = [];
+  try { exams = await fetchIndex(); } catch { /* offline */ }
+  const paths = exams.filter((e) => e.learning)
+    .sort((a, b) => levelRank(a.level) - levelRank(b.level) || a.vendor.localeCompare(b.vendor));
+  $('main').innerHTML = `<section class="stack">
+      <div class="stack" style="gap:6px"><span class="eyebrow">LEARN</span><h2 class="home-title">Learning paths</h2>
+      <p class="muted">Structured study for each exam: a study guide, slides and a narrated video lesson for every exam domain. Easiest first.</p></div>
+      ${paths.length ? `<div class="learning-path-grid">${paths.map(learningPathCard).join('')}</div>`
+        : '<p class="panel empty">Learning paths are on the way. In the meantime, try the practice exams.</p>'}
+      <p class="muted small">Don't see your exam? <a href="https://github.com/abg0dw1n/az104-exam-simulator/issues/new?template=course-exam-request.yml" target="_blank" rel="noopener noreferrer">Request a learning path</a>.</p>
+    </section>`;
+}
+
+// What this person has done in an exam, or null if they haven't started it.
+function recentActivity(e, saved) {
+  if (!saved) return null;
+  const answered = Object.keys(saved.practice?.answers || {}).length;
+  const modules = Object.values(saved.learn?.progress || {});
+  const parts = modules.reduce((n, p) => n + ['guide', 'slides', 'video'].filter((k) => p?.[k]).length, 0);
+  const examRunning = !!(saved.exam && !saved.exam.result);
+  const last = saved.history?.[0];
+  const openedModule = !!saved.learn?.view?.module; // reading a module counts as started
+  if (!answered && !parts && !examRunning && !last && !openedModule) return null;
+  return { answered, parts, totalParts: (e.learningModules || 0) * 3, examRunning, last, openedModule, mode: saved.mode };
+}
+
+function recentCard({ e, activity: a }) {
+  const pct = (n, total) => (total ? Math.min(100, Math.round((n / total) * 100)) : 0);
+  const stats = [];
+  if (e.learning && (a.parts || a.openedModule || a.mode === 'learn')) {
+    stats.push(`<div class="recent-stat"><span class="recent-row"><span>Learning</span><b>${a.totalParts ? `${a.parts} / ${a.totalParts} parts` : `${a.parts} parts`}</b></span>
+      <span class="recent-bar"><i style="width:${pct(a.parts, a.totalParts)}%"></i></span></div>`);
+  }
+  if (a.answered || (!stats.length && !a.last && !a.examRunning)) {
+    stats.push(`<div class="recent-stat"><span class="recent-row"><span>Practice</span><b>${a.answered}${e.questions ? ` / ${e.questions}` : ''} answered</b></span>
+      <span class="recent-bar"><i style="width:${pct(a.answered, e.questions)}%"></i></span></div>`);
+  }
+  if (a.examRunning) stats.push('<div class="recent-stat"><span class="recent-row"><span>Timed exam</span><b class="running">In progress</b></span></div>');
+  else if (a.last) stats.push(`<div class="recent-stat"><span class="recent-row"><span>Last exam</span><b class="${a.last.passed ? 'good' : 'weak'}">${a.last.score}</b></span></div>`);
+  const learnFirst = a.mode === 'learn' && e.learning;
+  const action = a.examRunning ? 'Resume exam' : learnFirst ? 'Continue learning' : 'Continue practice';
+  return `<a class="panel learning-path-card recent-card" href="/${e.slug}${learnFirst ? '?mode=learn' : ''}" data-vendor="${vendorKey(e.vendor)}">
+      <span class="learning-path-eyebrow">${escapeHtml(e.vendor.toUpperCase())} · ${escapeHtml(e.code)}</span>
+      <h3>${escapeHtml(e.name)}</h3>
+      <span class="recent-rows">${stats.join('')}</span>
+      <span class="learning-path-action">${action} ${icon('right', 'icon')}</span>
+    </a>`;
+}
+
 async function renderHome() {
   document.body.classList.add('home');
   $('navigator').hidden = true;
   let exams = [];
-  try { exams = await fetchJson('/exams/index.json'); } catch { /* offline with nothing cached */ }
+  const popularRequest = Auth.currentUser() || Auth.isGuest() ? Auth.popularExams(30, 6).catch(() => []) : Promise.resolve([]);
+  try { exams = await fetchIndex(); } catch { /* offline with nothing cached */ }
   const cards = await Promise.all(exams.map(async (e) => {
-    let count = '';
-    try { count = (await fetchJson(`/exams/${e.slug}/questions.json`)).length; } catch { /* ignore */ }
+    // Counts are kept in index.json by scripts/stamp-updated.mjs; fall back to the bank if missing.
+    let count = e.questions ?? 0;
+    if (e.questions == null) try { count = (await fetchJson(`/exams/${e.slug}/questions.json`)).length; } catch { /* ignore */ }
     const saved = readSaved(e.slug, e.legacyStorageKey);
     const last = saved?.history?.[0];
     const answered = saved ? Object.keys(saved.practice?.answers || {}).length : 0;
-    return `<a class="panel exam-card" href="/${e.slug}" data-vendor="${vendorKey(e.vendor)}">
-      <span class="exam-vendor">${e.vendor}</span>
-      <h2>${e.name}</h2>
-      <span class="exam-chips"><span class="chip chip-vendor">${e.code}</span>${levelMeter(e.level)}</span>
-      <p class="muted small">${count ? `${count} questions` : ''}${answered ? ` · ${answered} practiced` : ''}${last ? ` · last exam <b class="${last.passed ? 'good' : 'weak'}">${last.score}</b>` : ''}</p>
-      ${e.updated ? `<p class="exam-updated">Updated ${fmtDate(e.updated)}</p>` : ''}
+    const vendor = vendorKey(e.vendor);
+    return `<a class="panel exam-card" href="/${e.slug}" data-vendor="${vendor}" data-name="${escapeHtml(`${e.name} ${e.code} ${e.vendor}`.toLowerCase())}">
+      <span class="exam-card-code">${escapeHtml(e.code)}</span>
+      <h2>${escapeHtml(e.name)}</h2>
+      <span class="exam-card-meta"><span>${count} questions</span>${levelMeter(e.level)}</span>
+      ${e.learning ? '<span class="exam-learning-badge">Study guide · slides · lessons</span>' : ''}
+      ${answered || last ? `<span class="exam-card-progress">${answered ? `${answered} practiced` : ''}${answered && last ? ' · ' : ''}${last ? `Last score <b class="${last.passed ? 'good' : 'weak'}">${last.score}</b>` : ''}</span>` : ''}
+      <span class="exam-card-action">Open exam ${icon('right', 'icon')}</span>
     </a>`;
   }));
-  // Group exams into one folder per vendor (order of first appearance); beginner exams first.
-  const folders = new Map();
-  exams.forEach((e, i) => {
-    if (!folders.has(e.vendor)) folders.set(e.vendor, []);
-    folders.get(e.vendor).push({ e, html: cards[i] });
-  });
-  // Folders always start collapsed; the summary previews each exam code with its difficulty dot.
-  const groups = folders.size ? [...folders].map(([vendor, list]) => {
-    list.sort((a, b) => levelRank(a.e.level) - levelRank(b.e.level));
-    const preview = list.map(({ e }) =>
-      `<span class="folder-code" data-level="${e.level || ''}" title="${e.name}">${e.code}</span>`).join('');
-    return `<details class="vendor-folder" data-vendor="${vendorKey(vendor)}" data-name="${vendor}">
-      <summary>${icon('right', 'icon folder-chevron')}${icon('folder', 'icon folder-icon')}<span class="folder-name">${vendor}</span>
+  const cardFor = Object.fromEntries(exams.map((e, i) => [e.slug, cards[i]]));
+
+  // ── Recents: exams this person has studied or practiced, most recently opened first.
+  const recents = exams.map((e) => ({ e, saved: readSaved(e.slug, e.legacyStorageKey) }))
+    .map(({ e, saved }) => ({ e, saved, activity: recentActivity(e, saved) }))
+    .filter((r) => r.activity)
+    .sort((a, b) => (b.saved.updatedAt || 0) - (a.saved.updatedAt || 0))
+    .slice(0, 6);
+  const learningCards = exams.filter((e) => e.learning).map(learningPathCard).join('');
+  const recentsBody = recents.length
+    ? `<div class="learning-path-grid">${recents.map(recentCard).join('')}</div>`
+    : learningCards
+      ? `<p class="recents-empty">Nothing in progress yet. Start with a learning path, or open any practice exam below.</p>
+         <div class="learning-path-grid">${learningCards}</div>`
+      : '<p class="recents-empty">Courses and exams you start will appear here.</p>';
+
+  // ── Most popular: an open folder of the most-viewed exams (all users, last 30 days).
+  const popular = ((await popularRequest) || []).filter((p) => cardFor[p?.exam]);
+  const popularFolder = popular.length ? `<details class="vendor-folder popular-folder" data-provider-group="popular" open>
+      <summary>
+        ${icon('trend', 'icon folder-icon')}
+        <span class="folder-name">Most popular</span>
+        <span class="folder-count">Last 30 days</span>
+      </summary>
+      <div class="exam-grid">${popular.map((p) => cardFor[p.exam]).join('')}</div>
+    </details>` : '';
+
+  const providers = [...new Set(exams.map((e) => e.vendor))];
+  const examGroups = popularFolder + providers.map((provider) => {
+    const key = vendorKey(provider);
+    const entries = exams.map((exam, index) => ({ exam, card: cards[index] }))
+      .filter(({ exam }) => exam.vendor === provider)
+      .sort((a, b) => levelRank(a.exam.level) - levelRank(b.exam.level)
+        || a.exam.code.localeCompare(b.exam.code, undefined, { numeric: true }));
+    const preview = entries.slice(0, 5).map(({ exam }) =>
+      `<span class="folder-code" data-level="${exam.level || ''}">${escapeHtml(exam.code)}</span>`).join('');
+    return `<details class="vendor-folder" data-provider-group="${key}" data-vendor="${key}">
+      <summary>
+        ${icon('folder', 'icon folder-icon')}
+        <span class="folder-name">${escapeHtml(provider)}</span>
         <span class="folder-preview">${preview}</span>
-        <span class="folder-count">${list.length} exam${list.length === 1 ? '' : 's'}</span></summary>
-      <div class="exam-grid">${list.map((x) => x.html).join('')}</div>
+        <span class="folder-count">${entries.length} exam${entries.length === 1 ? '' : 's'}</span>
+      </summary>
+      <div class="exam-grid">${entries.map(({ card }) => card).join('')}</div>
     </details>`;
-  }).join('') : '<p class="muted">No exams found.</p>';
-  $('main').innerHTML = `<section class="stack">
-      <div class="stack" style="gap:6px"><h2 class="home-title">Choose an exam</h2>
-      <p class="muted">Each exam keeps its own practice progress and history${Auth.currentUser() ? ', synced to your account' : ''}.</p></div>
-      <div class="folder-list">${groups}</div>
-    </section>`;
+  }).join('');
+  const providerControls = ['All providers', ...providers].map((provider, index) => {
+    const key = index === 0 ? 'all' : vendorKey(provider);
+    const count = index === 0 ? exams.length : exams.filter((e) => e.vendor === provider).length;
+    return `<button type="button" class="provider-filter${index === 0 ? ' active' : ''}" data-provider-filter="${key}" aria-pressed="${index === 0}">${escapeHtml(provider)} <span>${count}</span></button>`;
+  }).join('');
+  $('main').innerHTML = `<section class="catalog stack">
+    <section class="home-hero">
+      <div class="home-hero-copy">
+        <span class="eyebrow">YOUR CERTIFICATION STUDY SPACE</span>
+        <h2>Learn the concepts.<br><span>Practice with confidence.</span></h2>
+        <p>Start with a guided learning path, sharpen your skills with practice questions, and see how ready you are for exam day.</p>
+        <div class="home-hero-actions">
+          <a class="btn btn-primary" href="/learning-paths">${icon('learn')}Browse learning paths</a>
+          <a class="btn btn-ghost" href="#practice">Browse practice exams</a>
+        </div>
+      </div>
+      <div class="home-hero-steps" aria-label="A flexible path to exam readiness">
+        <div><span class="hero-step-icon">01</span><span><b>Learn</b><small>Guides, slides, and lessons</small></span></div>
+        <div><span class="hero-step-icon">02</span><span><b>Practice</b><small>Questions with explanations</small></span></div>
+        <div><span class="hero-step-icon">03</span><span><b>Get exam-ready</b><small>Timed tests and progress</small></span></div>
+      </div>
+    </section>
+    <section class="learning-section" id="recents" aria-labelledby="recents-title">
+      <div class="section-heading">
+        <div><span class="eyebrow">RECENTS</span><h2 id="recents-title">${recents.length ? 'Pick up where you left off' : 'Start learning'}</h2>
+          <p class="muted">${recents.length ? 'Your in-progress courses and practice exams, most recent first.' : 'Courses and exams you start will appear here.'}</p></div>
+        ${recents.length ? `<span class="learning-count">${recents.length} in progress</span>` : ''}
+      </div>
+      ${recentsBody}
+    </section>
+    <section class="practice-section" id="practice" aria-labelledby="practice-title">
+    <div class="catalog-heading">
+      <div class="stack" style="gap:6px"><span class="eyebrow">CERTIFICATION LIBRARY</span><h2 class="home-title" id="practice-title">Choose a certification to practice</h2>
+        <p class="muted">Work through question banks at your pace or take a timed exam.</p></div>
+      <div class="catalog-summary"><strong>${exams.length}</strong> exams <span>·</span> <strong>${providers.length}</strong> providers</div>
+    </div>
+    <div class="catalog-tools">
+      <label class="catalog-search"><span class="sr-only">Search certifications</span><input id="exam-search" type="search" placeholder="Search exams or codes" autocomplete="off"></label>
+      <div class="provider-filters" role="group" aria-label="Filter exams by provider">${providerControls}</div>
+    </div>
+    <div class="catalog-results-head"><div><h3>All practice exams</h3><p class="muted small">Search by certification or filter by provider to find your next practice session.</p></div><span id="exam-result-count" class="muted small">${exams.length} exams</span></div>
+    <div id="exam-grid" class="folder-list">${examGroups}</div>
+    <p id="exam-empty" class="panel catalog-empty" hidden>No certifications match your search. Try a different term or provider.</p>
+    </section>
+    <section class="request-section" aria-labelledby="request-title">
+      <div class="request-copy">
+        <span class="eyebrow">HELP SHAPE WHAT COMES NEXT</span>
+        <h2 id="request-title">Request a course or exam</h2>
+        <p>Tell us which certification you’re studying for and what learning materials would help. Requests help us prioritize future additions.</p>
+      </div>
+      <div class="request-action">
+        <a class="btn btn-primary" href="https://github.com/abg0dw1n/az104-exam-simulator/issues/new?template=course-exam-request.yml" target="_blank" rel="noopener noreferrer">Submit a request ${icon("right","icon")}</a>
+        <p>Requests are public on GitHub. A GitHub account is required. Please don’t include personal or sensitive information.</p>
+      </div>
+    </section>
+    ${Auth.currentUser() ? `<section class="feature-strip" aria-labelledby="feature-strip-title">
+      <div><h3 id="feature-strip-title">${icon('bulb')}Have an idea for the site?</h3>
+        <p class="muted small">Suggest a feature or improvement. Only the site owner sees it, and you can follow its status on your <a href="/account#features">Account page</a>.</p></div>
+      <button class="btn btn-ghost" data-feature-new>Suggest a feature</button>
+    </section>` : ''}
+  </section>`;
+  $('main').querySelector('[data-feature-new]')?.addEventListener('click', () => openFeatureForm());
+  const grid = $('exam-grid');
+  const search = $('exam-search');
+  let activeProvider = 'all';
+  const applyFilters = () => {
+    const query = search.value.trim().toLowerCase();
+    let visible = 0;
+    const filtering = !!query || activeProvider !== 'all';
+    grid.querySelectorAll('.vendor-folder').forEach((group) => {
+      const isPopular = group.dataset.providerGroup === 'popular';
+      const providerMatch = activeProvider === 'all' || group.dataset.providerGroup === activeProvider;
+      let groupVisible = 0;
+      group.querySelectorAll('.exam-card').forEach((card) => {
+        const match = !query || card.dataset.name.includes(query);
+        card.hidden = !match;
+        if (match) groupVisible++;
+      });
+      // "Most popular" repeats exams from the vendor folders, so hide it while filtering.
+      group.hidden = isPopular ? filtering : !providerMatch || groupVisible === 0;
+      if (isPopular) return;
+      // Vendor folders start collapsed; open the ones with matches while searching or filtering.
+      group.open = filtering && !group.hidden;
+      group.querySelector('.folder-count').textContent = `${groupVisible} exam${groupVisible === 1 ? '' : 's'}`;
+      visible += groupVisible;
+    });
+    $('exam-result-count').textContent = `${visible} exam${visible === 1 ? '' : 's'}`;
+    $('exam-empty').hidden = visible > 0;
+  };
+  search.addEventListener('input', applyFilters);
+  $('main').querySelectorAll('[data-provider-filter]').forEach((button) => button.addEventListener('click', () => {
+    activeProvider = button.dataset.providerFilter;
+    $('main').querySelectorAll('[data-provider-filter]').forEach((item) => {
+      const active = item === button;
+      item.classList.toggle('active', active);
+      item.setAttribute('aria-pressed', String(active));
+    });
+    applyFilters();
+  }));
 }
 
 // ── Sign-in screen ───────────────────────────────────────────────────────────
@@ -954,7 +1210,7 @@ function renderSignIn(error) {
     `<button class="btn btn-ghost full" data-provider="${p.id}">${p.label}</button>`).join('');
   $('main').innerHTML = `<section class="panel card-pad signin">
       <h2>Sign in</h2>
-      <p class="muted">This exam simulator is invite-only. Sign in to practice and keep your progress in sync across devices.</p>
+      <p class="muted">This site is invite-only. Sign in to practice and keep your progress in sync across devices. Not invited yet? Request a sign-in link anyway and the site owner will be asked to approve you.</p>
       ${error ? `<p class="signin-msg bad-msg" role="alert">${escapeHtml(error)}</p>` : ''}
       ${providers ? `<div class="stack" style="gap:10px">${providers}</div><div class="or"><span>or</span></div>` : ''}
       <form id="magic-form" class="stack" style="gap:10px">
@@ -963,9 +1219,15 @@ function renderSignIn(error) {
         <button class="btn btn-primary full" type="submit">Email me a sign-in link</button>
       </form>
       <p id="magic-status" class="signin-msg" role="status" hidden></p>
+      <div class="or"><span>or</span></div>
+      <div class="guest-option">
+        <button id="btn-guest" class="btn btn-ghost full" type="button">${icon('user')}Continue as guest</button>
+        <p class="small muted">${icon('alert')}<span><b>Guests get a preview and progress isn't saved.</b> Try ${GUEST_QUESTIONS} practice questions per exam and the first module of each learning path. Timed exams need an account. Progress is cleared when you close this tab.</span></p>
+      </div>
       <p class="signin-foot"><a href="/privacy">Privacy policy</a></p>
     </section>`;
   $('main').querySelectorAll('[data-provider]').forEach((b) => b.addEventListener('click', () => Auth.signInWith(b.dataset.provider)));
+  $('btn-guest').addEventListener('click', () => { Auth.startGuest(); location.reload(); });
   $('magic-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('button'); const status = $('magic-status');
@@ -982,18 +1244,81 @@ function renderSignIn(error) {
 
 function renderAccount() {
   const user = Auth.currentUser();
+  const guest = Auth.isGuest();
   const link = $('account');
-  link.hidden = !user;
+  link.hidden = !user && !guest;
   if (user) link.title = `Signed in as ${user.email || 'you'}`;
+  if (guest) { link.title = 'Guest: progress is not saved'; link.querySelector('span').textContent = 'Guest'; }
+  $('btn-header-signout').hidden = !user;
+}
+
+// Sign out (header button and Account page): confirm, upload pending progress, clear this device.
+async function confirmSignOut() {
+  if (!(await confirmModal('Sign out?', 'Your progress is saved to your account and removed from this device.', 'Sign out'))) return;
+  flushUpload();
+  await Auth.signOut();
+  location.assign('/');
+}
+
+// Leave guest mode (after confirming): discard this tab's guest progress and show the sign-in screen.
+async function confirmLeaveGuest(kind) {
+  const ok = kind === 'exit'
+    ? await confirmModal('Exit guest mode?', "Your guest progress in this tab will be discarded and you'll return to the sign-in screen.", 'Exit guest mode', 'Stay')
+    : await confirmModal('Sign in to save progress?', "Your guest progress in this tab will be discarded and you'll go to the sign-in screen, where you can sign in with an invited email.", 'Go to sign-in', 'Stay');
+  if (ok) leaveGuest();
+}
+
+function leaveGuest() {
+  Auth.endGuest();
+  try { sessionStorage.removeItem('examsim:guest'); } catch { /* ignore */ }
+  location.assign('/');
+}
+
+// ── Appearance (light/dark), saved per device by js/theme.js ─────────────────
+const appearancePanel = () => `<div class="panel card-pad appearance">
+    <div><h2 class="section-title" style="border:0;padding:0">Appearance</h2>
+      <p class="muted small" style="margin-top:4px">System follows your device's light or dark setting. Saved on this device.</p></div>
+    <div class="segmented" role="radiogroup" aria-label="Theme">
+      ${[['system', 'System'], ['light', 'Light'], ['dark', 'Dark']].map(([k, label]) =>
+        `<button type="button" role="radio" data-theme-pref="${k}" aria-checked="false">${label}</button>`).join('')}
+    </div>
+  </div>`;
+
+function wireAppearance() {
+  const sync = () => document.querySelectorAll('[data-theme-pref]').forEach((b) => {
+    const on = b.dataset.themePref === window.Theme?.pref();
+    b.setAttribute('aria-checked', String(on));
+    b.setAttribute('aria-selected', String(on)); // reuses the segmented control's selected style
+  });
+  document.querySelectorAll('[data-theme-pref]').forEach((b) => b.addEventListener('click', () => window.Theme?.set(b.dataset.themePref)));
+  document.addEventListener('themechange', sync);
+  sync();
 }
 
 // ── Account page (/account): profile, sign out, and admin tools ──────────────
 async function renderAccountPage() {
   document.body.classList.add('home', 'account-page');
-  document.title = 'Account · Exam Simulator';
+  document.title = 'Account · The IT Study Hall';
   $('navigator').hidden = true;
   $('account').classList.add('active');
   const user = Auth.currentUser();
+  if (Auth.isGuest()) {
+    $('main').innerHTML = `<section class="stack">
+      <div class="stack" style="gap:6px"><h2 class="home-title">Account</h2>
+      <p class="muted">You're using the site as a guest.</p></div>
+      <div class="panel card-pad account-card">
+        <div class="account-avatar" aria-hidden="true">${icon('user')}</div>
+        <div class="account-who"><span class="muted small">Browsing as</span><b>Guest</b>
+          <span class="muted small">Progress isn't saved. It's cleared when you close this tab and can't be moved to an account.</span></div>
+        <div class="account-actions"><a class="btn btn-ghost btn-sm" href="/privacy">Privacy policy</a>
+          <button class="btn btn-ghost btn-sm" data-guest-exit="exit">Exit guest mode</button>
+          <button class="btn btn-primary btn-sm" data-guest-exit="signin">Sign in to save progress</button></div>
+      </div>
+      ${appearancePanel()}
+    </section>`;
+    wireAppearance();
+    return;
+  }
   $('main').innerHTML = `<section class="stack">
       <div class="stack" style="gap:6px"><h2 class="home-title">Account</h2>
       <p class="muted">Your sign-in details and account settings.</p></div>
@@ -1004,15 +1329,161 @@ async function renderAccountPage() {
         <div class="account-actions"><a class="btn btn-ghost btn-sm" href="/privacy">Privacy policy</a>
           ${user ? '<button id="btn-signout" class="btn btn-ghost btn-sm">Sign out</button>' : ''}</div>
       </div>
+      ${appearancePanel()}
+      <div id="requests" class="stack"></div>
+      <div id="features" class="stack"></div>
       <div id="invites" class="stack"></div>
     </section>`;
-  $('btn-signout')?.addEventListener('click', async () => {
-    if (!(await confirmModal('Sign out?', 'Your progress is saved to your account and removed from this device.', 'Sign out'))) return;
-    flushUpload();
-    await Auth.signOut();
-    location.assign('/');
-  });
+  wireAppearance();
+  $('btn-signout')?.addEventListener('click', confirmSignOut);
   renderInvites();
+  renderAccessRequests();
+  renderFeatureRequests();
+}
+
+// ── Access requests (admins): uninvited sign-in attempts awaiting approval ───
+async function renderAccessRequests() {
+  const box = $('requests');
+  if (!box || !Auth.currentUser()) return;
+  let rows = [];
+  try {
+    const isAdmin = await Auth.listInvites().then((r) => !!r?.length).catch(() => false);
+    if (!isAdmin) return;
+    rows = await Auth.listAccessRequests();
+  } catch { return; }
+  const fmt = (d) => new Date(d).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  const pending = rows.filter((r) => r.status === 'pending');
+  const decided = rows.filter((r) => r.status !== 'pending').slice(0, 10);
+  const item = (r) => `<li class="report-item">
+      <span class="feature-body"><b>${escapeHtml(r.email)}</b>
+        <span class="muted small">Requested ${fmt(r.requested_at)}${r.attempts > 1 ? ` · tried ${r.attempts} times` : ''}${r.decided_at ? ` · ${r.status} ${fmt(r.decided_at)}` : ''}</span></span>
+      <span class="report-actions">
+        ${r.status === 'pending' ? `<button class="btn btn-primary btn-sm" data-req-approve="${r.id}">Approve</button>
+          <button class="btn btn-ghost btn-sm" data-req-deny="${r.id}">Deny</button>`
+          : `<span class="chip feature-status" data-status="${r.status === 'approved' ? 'done' : 'declined'}">${r.status === 'approved' ? 'Approved' : 'Denied'}</span>
+             ${r.status === 'denied' ? `<button class="btn btn-ghost btn-sm" data-req-approve="${r.id}">Approve</button>` : ''}`}
+      </span></li>`;
+  box.innerHTML = `<div class="panel card-pad stack" style="gap:14px">
+      <div><h2 class="section-title">Access requests ${pending.length ? `<span class="chip chip-review">${pending.length} waiting</span>` : ''}</h2>
+        <p class="muted small" style="margin-top:6px">People who tried to sign in with an email that isn't invited. Approving adds them to your invite list and emails them a sign-in link.</p></div>
+      ${pending.length ? `<ul class="invite-list">${pending.map(item).join('')}</ul>` : '<p class="muted small">No requests waiting.</p>'}
+      ${decided.length ? `<details class="req-history"><summary class="small muted">Recent decisions (${decided.length})</summary>
+        <ul class="invite-list">${decided.map(item).join('')}</ul></details>` : ''}
+    </div>`;
+  const find = (id) => rows.find((r) => String(r.id) === id);
+  box.querySelectorAll('[data-req-approve]').forEach((b) => b.addEventListener('click', async () => {
+    const r = find(b.dataset.reqApprove);
+    if (!(await confirmModal('Approve access?', `<b>${escapeHtml(r.email)}</b> will be added to your invite list and emailed a sign-in link.`, 'Approve'))) return;
+    b.disabled = true;
+    try {
+      try { await Auth.addInvite(r.email, 'Approved access request'); }
+      catch (err) { if (!/duplicate|already/i.test(err.message)) throw err; }
+      await Auth.decideAccessRequest(r.id, 'approved');
+      try {
+        await Auth.sendSignInLink(r.email);
+        toast(`Approved. A sign-in link was emailed to ${r.email}.`);
+      } catch (err) {
+        toast(`Approved and invited, but the sign-in email couldn't be sent (${err.message}). Let them know they can sign in now.`);
+      }
+    } catch (err) { toast(`Couldn't approve: ${err.message}`); }
+    renderAccessRequests(); renderInvites();
+  }));
+  box.querySelectorAll('[data-req-deny]').forEach((b) => b.addEventListener('click', async () => {
+    const r = find(b.dataset.reqDeny);
+    if (!(await confirmModal('Deny access?', `<b>${escapeHtml(r.email)}</b> won't be able to sign in. They aren't notified. If they try again, the request reopens.`, 'Deny'))) return;
+    b.disabled = true;
+    try { await Auth.decideAccessRequest(r.id, 'denied'); toast('Request denied.'); } catch (err) { toast(`Couldn't deny: ${err.message}`); }
+    renderAccessRequests();
+  }));
+  if (location.hash === '#requests') box.scrollIntoView({ block: 'start' });
+}
+
+// ── Feature requests ─────────────────────────────────────────────────────────
+const FEATURE_CATEGORIES = {
+  learning: 'Learning paths and lessons', practice: 'Practice questions', exams: 'Timed exams and scoring',
+  design: 'Look and feel', account: 'Account and sign-in', other: 'Something else',
+};
+const FEATURE_STATUS = { new: 'Submitted', planned: 'Planned', 'in-progress': 'In progress', done: 'Done', declined: 'Not planned' };
+
+// Opens the suggestion form; reopens with the same text if the title is too short.
+async function openFeatureForm(prefill = {}) {
+  const body = `<div class="report-form">
+      <p class="small">Suggest something that would make the site better. Only the site owner sees your request.</p>
+      <label class="small">Area
+        <select id="feature-category">${Object.entries(FEATURE_CATEGORIES).map(([k, v]) =>
+          `<option value="${k}" ${prefill.category === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
+      </label>
+      <label class="small">Your idea, in a few words
+        <input id="feature-title" type="text" maxlength="120" required placeholder="For example: flashcards for key terms" value="${escapeHtml(prefill.title || '')}">
+      </label>
+      <label class="small">Details (optional)
+        <textarea id="feature-details" rows="4" maxlength="2000" placeholder="What would it help you do? How would you use it?">${escapeHtml(prefill.details || '')}</textarea>
+      </label>
+    </div>`;
+  if (!(await confirmModal('Suggest a feature', body, 'Send suggestion'))) return;
+  const form = { category: $('feature-category').value, title: $('feature-title').value.trim(), details: $('feature-details').value };
+  if (form.title.length < 3) { toast('Add a short title for your idea (at least 3 characters).'); return openFeatureForm(form); }
+  try {
+    await Auth.submitFeatureRequest(form);
+    toast('Thanks! Your suggestion was sent. Track it on your Account page.');
+    if ($('features')) renderFeatureRequests();
+  } catch (err) {
+    toast(`Couldn't send your suggestion: ${err.message}`);
+  }
+}
+
+async function renderFeatureRequests() {
+  const box = $('features');
+  if (!box || !Auth.currentUser()) return;
+  let rows = [];
+  let isAdmin = false;
+  try {
+    [rows, isAdmin] = await Promise.all([
+      Auth.listFeatureRequests(),
+      Auth.listInvites().then((r) => !!r?.length).catch(() => false),
+    ]);
+  } catch { rows = []; }
+  const me = Auth.currentUser().id;
+  const fmt = (d) => new Date(d).toLocaleDateString(undefined, { dateStyle: 'medium' });
+  const open = rows.filter((r) => r.status === 'new').length;
+  box.innerHTML = `<div class="panel card-pad stack" style="gap:14px" id="feature-panel">
+      <div class="feature-head">
+        <div><h2 class="section-title">${isAdmin ? 'Feature requests' : 'Your feature requests'}
+          ${isAdmin && open ? `<span class="chip chip-review">${open} new</span>` : ''}</h2>
+          <p class="muted small" style="margin-top:6px">${isAdmin
+            ? 'Suggestions from everyone who uses the site. Set a status and an optional note; the person who sent it sees both.'
+            : 'Ideas you’ve suggested and where they stand. Only you and the site owner can see them.'}</p></div>
+        <button class="btn btn-primary btn-sm" data-feature-new>${icon('bulb')}Suggest a feature</button>
+      </div>
+      ${rows.length ? `<ul class="invite-list feature-list">${rows.map((r) => `<li class="report-item">
+        <span class="feature-body"><b>${escapeHtml(r.title)}</b>
+          <span class="muted small">${escapeHtml(FEATURE_CATEGORIES[r.category] || r.category)} · ${fmt(r.created_at)}${isAdmin && r.user_id !== me ? ` · ${escapeHtml(r.requester_email || '')}` : ''}</span>
+          ${r.details ? `<span class="small feature-details">${escapeHtml(r.details)}</span>` : ''}
+          ${r.admin_note ? `<span class="small feature-note"><b>Site owner:</b> ${escapeHtml(r.admin_note)}</span>` : ''}</span>
+        <span class="report-actions"><span class="chip feature-status" data-status="${escapeHtml(r.status)}">${FEATURE_STATUS[r.status] || escapeHtml(r.status)}</span>
+          ${isAdmin ? `<button class="btn btn-ghost btn-sm" data-feature-edit="${r.id}">Update</button>` : ''}</span></li>`).join('')}</ul>`
+        : `<p class="muted small">${isAdmin ? 'No feature requests yet.' : 'You haven’t suggested anything yet.'}</p>`}
+    </div>`;
+  box.querySelector('[data-feature-new]').addEventListener('click', () => openFeatureForm());
+  box.querySelectorAll('[data-feature-edit]').forEach((b) => b.addEventListener('click', async () => {
+    const r = rows.find((x) => String(x.id) === b.dataset.featureEdit);
+    const body = `<div class="report-form">
+        <p class="small"><b>${escapeHtml(r.title)}</b></p>
+        <label class="small">Status
+          <select id="feature-status">${Object.entries(FEATURE_STATUS).map(([k, v]) => `<option value="${k}" ${r.status === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
+        </label>
+        <label class="small">Note to the requester (optional)
+          <textarea id="feature-note" rows="3" maxlength="500" placeholder="For example: planned for next month">${escapeHtml(r.admin_note || '')}</textarea>
+        </label>
+      </div>`;
+    if (!(await confirmModal('Update feature request', body, 'Save'))) return;
+    try {
+      await Auth.updateFeatureRequest(r.id, { status: $('feature-status').value, admin_note: $('feature-note').value });
+      toast('Feature request updated.');
+      renderFeatureRequests();
+    } catch (err) { toast(`Couldn't update: ${err.message}`); }
+  }));
+  if (location.hash === '#features') box.scrollIntoView({ block: 'start' });
 }
 
 // ── Invites (shown to admins only) ───────────────────────────────────────────
@@ -1053,7 +1524,7 @@ async function renderReports(container) {
   let rows = [];
   try { rows = await Auth.listOpenReports(); } catch { return; }
   let exams = [];
-  try { exams = await fetchJson('/exams/index.json'); } catch { /* ignore */ }
+  try { exams = await fetchIndex(); } catch { /* ignore */ }
   const codes = Object.fromEntries(exams.map((e) => [e.slug, e.code]));
   container.querySelector('.reports-panel')?.remove();
   const panel = document.createElement('div');
@@ -1081,7 +1552,7 @@ const escapeHtml = (t = '') => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&am
 async function syncFromCloud() {
   if (!Auth.currentUser()) return;
   let exams = [];
-  try { exams = await fetchJson('/exams/index.json'); } catch { /* offline */ }
+  try { exams = await fetchIndex(); } catch { /* offline */ }
   const legacy = Object.fromEntries(exams.map((e) => [e.slug, e.legacyStorageKey]));
   const slugs = exams.map((e) => e.slug);
   const work = Auth.pullAll((slug) => readSaved(slug, legacy[slug]), writeSaved, slugs);
@@ -1089,37 +1560,60 @@ async function syncFromCloud() {
 }
 
 async function init() {
+  const initialSlug = currentSlug();
+  const initialMode = new URLSearchParams(location.search).get('mode');
+  const PAGES = ['account', 'learning-paths'];
+  const loadingMessage = initialSlug === 'account'
+    ? 'Loading your account…'
+    : initialSlug === 'learning-paths' ? 'Loading learning paths…'
+    : initialSlug
+      ? initialMode === 'learn' ? 'Loading learning materials…' : 'Loading exam…'
+      : 'Loading the learning and practice library…';
+  $('main').innerHTML = `<div class="panel empty" role="status"><p>${loadingMessage}</p></div>`;
+  // Exam content is public, so start downloading it now instead of after sign-in and sync.
+  const examPage = initialSlug && !PAGES.includes(initialSlug);
+  const bankFiles = examPage ? fetchBank(initialSlug) : null;
+  bankFiles?.catch(() => { /* reported by loadBank below */ });
+  const learnFiles = examPage ? Learn.loadLearn(initialSlug) : null;
+  if (!examPage) fetchIndex().catch(() => {});
   if (Auth.AUTH_ENABLED) {
     const auth = await Auth.initAuth();
+    if (auth.signedIn && sessionStorage.getItem('examsim:guest')) {
+      // Signed in from a guest tab: drop the guest data so it never reaches the account.
+      Auth.endGuest(); sessionStorage.removeItem('examsim:guest');
+    }
     renderAccount();
-    if (!auth.signedIn) return renderSignIn(auth.error);
+    if (!auth.signedIn && !Auth.isGuest()) return renderSignIn(auth.error);
     if (auth.error) toast(auth.error);
-    await syncFromCloud();
+    if (Auth.isGuest()) $('guest-banner').hidden = false;
+    else await syncFromCloud();
   }
   const slug = currentSlug();
   if (!slug) return renderHome();
   if (slug === 'account') return renderAccountPage();
+  if (slug === 'learning-paths') return renderLearningPathsPage();
   try {
-    await loadBank(slug);
+    await loadBank(slug, slug === initialSlug ? bankFiles : undefined);
   } catch (err) {
     $('main').innerHTML = `<div class="panel empty"><p>Couldn't load the "${slug}" exam (${err.message}).</p>
       <a class="btn btn-primary" href="/">All exams</a></div>`;
     $('navigator').hidden = true;
     return;
   }
-  document.title = `${EXAM.code} Exam Simulator`;
+  logView(slug);
+  document.title = `${EXAM.code} · The IT Study Hall`;
   document.body.dataset.vendor = vendorKey(EXAM.vendor);
-  $('brand-title').textContent = `${EXAM.code} Exam Simulator`;
-  $('brand-sub').textContent = `${EXAM.name} · ${QUESTIONS.length} questions`;
-  LEARN = await Learn.loadLearn(slug);
+  $('brand-title').textContent = 'The IT Study Hall';
+  $('brand-sub').textContent = `${EXAM.code} · ${EXAM.name}`;
+  LEARN = await (slug === initialSlug ? learnFiles : Learn.loadLearn(slug));
+  if (initialMode === 'learn' && LEARN) state.mode = 'learn';
   $('btn-mode-learn').hidden = !LEARN;
   $('mode-tabs').hidden = false;
   $('btn-drawer').hidden = false;
+  const perDomain = {};
+  for (const q of QUESTIONS) perDomain[q.domain] = (perDomain[q.domain] || 0) + 1;
   $('domain-filter').innerHTML = `<option value="ALL">All domains (${QUESTIONS.length})</option>` +
-    Object.entries(DOMAINS).map(([k, d], i) => {
-      const n = QUESTIONS.filter((q) => q.domain === k).length;
-      return `<option value="${k}">${i + 1}. ${d.name} (${n})</option>`;
-    }).join('');
+    Object.entries(DOMAINS).map(([k, d], i) => `<option value="${k}">${i + 1}. ${d.name} (${perDomain[k] || 0})</option>`).join('');
   syncFilterControls();
 
   for (const id of ['domain-filter', 'status-filter', 'order-filter']) $(id).addEventListener('change', applyPracticeFilters);
@@ -1218,6 +1712,16 @@ async function init() {
   render();
   save(); // persist anything created on first render (e.g. a new practice round)
 }
+
+$('btn-header-signout').addEventListener('click', confirmSignOut);
+
+// "Exit guest mode" / "Sign in to save progress" in the banner and on the Account page.
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-guest-exit]');
+  if (!b) return;
+  e.preventDefault();
+  confirmLeaveGuest(b.dataset.guestExit);
+});
 
 init();
 
