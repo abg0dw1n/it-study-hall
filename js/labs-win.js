@@ -4,3 +4,5 @@ export class WinSession {
   send(cmd) { return ''; }
   cmd = '';
 }
+
+export function newWin(config) { return new WinSession(config); }
