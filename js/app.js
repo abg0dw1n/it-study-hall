@@ -1,5 +1,6 @@
 import * as Auth from './auth.js';
 import * as Learn from './learn.js';
+import * as Labs from './labs.js';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Config
@@ -24,7 +25,7 @@ const KEYS_NUMBER = '123456';
 // sessionStorage, which is cleared when the tab closes)
 // ─────────────────────────────────────────────────────────────────────────────
 const defaultState = () => ({
-  mode: 'practice',          // 'practice' | 'exam' | 'review' | 'learn'
+  mode: 'practice',          // 'practice' | 'exam' | 'review' | 'learn' | 'labs'
   practice: {
     answers: {}, flagged: [], optionOrder: {}, index: 0,
     domain: 'ALL', status: 'all', shuffle: true,
@@ -43,8 +44,26 @@ const defaultState = () => ({
 let state = null;
 let timerHandle = null;
 let LEARN = null;           // learn.json for this exam, if it has training content
+let LABS = null;            // labs.json for this exam, if it has hands-on labs
 
 const progressStore = () => (Auth.isGuest() ? sessionStorage : localStorage);
+const HIDDEN_RECENTS_KEY = 'examsim:hidden-recents';
+
+// Get/set the list of hidden (dismissed) exam slugs from Recents.
+function getHiddenRecents() {
+  try { return JSON.parse(progressStore().getItem(HIDDEN_RECENTS_KEY)) || []; } catch { return []; }
+}
+function addHiddenRecent(slug) {
+  const hidden = getHiddenRecents();
+  if (!hidden.includes(slug)) {
+    hidden.push(slug);
+    try { progressStore().setItem(HIDDEN_RECENTS_KEY, JSON.stringify(hidden)); } catch { /* ignore */ }
+  }
+}
+function removeHiddenRecent(slug) {
+  const hidden = getHiddenRecents().filter((s) => s !== slug);
+  try { progressStore().setItem(HIDDEN_RECENTS_KEY, JSON.stringify(hidden)); } catch { /* ignore */ }
+}
 
 // Reads an exam's saved progress; legacyKey covers data saved before multi-exam support.
 function readSaved(slug, legacyKey) {
@@ -70,6 +89,49 @@ function load() {
 const writeSaved = (slug, data) => {
   try { progressStore().setItem(storageKey(slug), JSON.stringify(data)); } catch { /* ignore quota/private mode */ }
 };
+
+// Remove a course from Recents. Progress is deleted, not hidden — this is a hard reset.
+function clearSaved(slug) {
+  try { progressStore().removeItem(storageKey(slug)); } catch { /* ignore quota/private mode */ }
+  if (EXAM && EXAM.slug === slug) location.hash = '';
+  renderHome();
+}
+
+async function removeRecent(slug) {
+  let name = slug;
+  try {
+    const exam = (await fetchIndex()).find((e) => e.slug === slug);
+    if (exam) name = `${exam.name} (${exam.code})`;
+  } catch { /* offline: still allow removal with the slug as the name */ }
+  const ok = await confirmModal(
+    `Remove ${name} from Recents?`,
+    `Your progress — practice answers, learning modules, labs and timed-exam history — will be deleted. You can start over again anytime. This cannot be undone.`,
+    'Remove',
+    'Keep'
+  );
+  if (ok !== true) return;
+  clearSaved(slug);
+  toast(`${name} removed from Recents`);
+}
+
+// Hide a course from Recents without deleting progress.
+async function hideRecent(slug) {
+  let name = slug;
+  try {
+    const exam = (await fetchIndex()).find((e) => e.slug === slug);
+    if (exam) name = `${exam.name} (${exam.code})`;
+  } catch { /* offline: still allow hiding with the slug as the name */ }
+  const ok = await confirmModal(
+    `Hide ${name} from Recents?`,
+    `Your progress is kept. The course will no longer appear in Recents, but you can open it anytime from the full exam list.`,
+    'Hide',
+    'Keep'
+  );
+  if (ok !== true) return;
+  addHiddenRecent(slug);
+  renderHome();
+  toast(`${name} hidden from Recents`);
+}
 
 let saveQueued = false;
 function save() {
@@ -238,15 +300,22 @@ function currentHolder(s) { return s.holder || s.store; }
 // ─────────────────────────────────────────────────────────────────────────────
 function render() {
   if (state.mode === 'learn' && !LEARN) state.mode = 'practice';
+  if (state.mode === 'labs' && !LABS) state.mode = 'practice';
   renderModeTabs();
   renderTimer();
 
   const main = $('main');
   if (state.mode === 'learn') {
     $('navigator').hidden = true;
+    Labs.stopLabs();
     return Learn.renderLearn(main, { exam: EXAM, state, save, practiceDomain, guest: Auth.isGuest(), guestCta });
   }
   Learn.stopLearn();
+  if (state.mode === 'labs') {
+    $('navigator').hidden = true;
+    return Labs.renderLabs(main, { exam: EXAM, state, save, guest: Auth.isGuest(), guestCta });
+  }
+  Labs.stopLabs();
   $('practice-filters').hidden = state.mode !== 'practice';
   $('practice-stats').hidden = state.mode !== 'practice';
   $('btn-reset-practice').hidden = state.mode !== 'practice';
@@ -281,6 +350,7 @@ function renderModeTabs() {
   $('btn-mode-practice').setAttribute('aria-selected', String(state.mode === 'practice'));
   $('btn-mode-exam').setAttribute('aria-selected', String(examTab));
   $('btn-mode-learn').setAttribute('aria-selected', String(state.mode === 'learn'));
+  $('btn-mode-labs').setAttribute('aria-selected', String(state.mode === 'labs'));
 }
 
 let gridKey = '';
@@ -614,6 +684,9 @@ function setMode(mode) {
   if (mode === 'learn' && state.mode === 'learn' && state.learn?.view?.module) {
     state.learn.view.module = null; save(); return render(); // clicking Learn again returns to the module list
   }
+  if (mode === 'labs' && state.mode === 'labs' && state.labs?.view?.lab) {
+    state.labs.view.lab = null; save(); return render(); // clicking Labs again returns to the lab list
+  }
   if (mode !== 'exam' && state.mode === 'exam' && state.exam && !state.exam.result) {
     // The exam keeps running in the background; just switch the view.
     toast('Your exam is still running — switch back to Exam to continue.');
@@ -914,6 +987,8 @@ async function loadBank(slug, files = fetchBank(slug)) {
   DOMAINS = EXAM.domains;
   FULL_COUNT = QUESTIONS.length;
   if (Auth.isGuest()) QUESTIONS = guestSample(QUESTIONS);
+  // Opening a course brings it back into Recents.
+  removeHiddenRecent(slug);
   state = load();
   BY_ID = new Map(QUESTIONS.map((q) => [q.id, q]));
   // Drop saved references to questions that no longer exist in the bank.
@@ -926,6 +1001,13 @@ async function loadBank(slug, files = fetchBank(slug)) {
   if (state.exam && !state.exam.order.length) state.exam = null;
   if (state.review) state.review.ids = state.review.ids.filter(valid);
   if (state.practice.list) state.practice.list = state.practice.list.filter(valid);
+  // Questions added to the bank since this round was built join the end of the round.
+  if (state.practice.list) {
+    const inList = new Set(state.practice.list); const p = state.practice;
+    const fresh = QUESTIONS.filter((q) => !inList.has(q.id) && p.answers[q.id] === undefined && (p.domain === 'ALL' || q.domain === p.domain)
+      && !['incorrect', 'flagged'].includes(p.status)).map((q) => q.id);
+    if (fresh.length) p.list.push(...(p.order === 'ordered' ? fresh : shuffle(fresh)));
+  }
   if (state.practice.list && !state.practice.list.length) state.practice.list = null;
   if (state.mode === 'review' && !state.review?.ids.length) state.mode = 'exam';
 }
@@ -992,7 +1074,7 @@ async function renderLearningPathsPage() {
       <p class="muted">Structured study for each exam: a study guide, slides and a narrated video lesson for every exam domain. Easiest first.</p></div>
       ${paths.length ? `<div class="learning-path-grid">${paths.map(learningPathCard).join('')}</div>`
         : '<p class="panel empty">Learning paths are on the way. In the meantime, try the practice exams.</p>'}
-      <p class="muted small">Don't see your exam? <a href="https://github.com/abg0dw1n/az104-exam-simulator/issues/new?template=course-exam-request.yml" target="_blank" rel="noopener noreferrer">Request a learning path</a>.</p>
+      <p class="muted small">Don't see your exam? <a href="https://github.com/abg0dw1n/it-study-hall/issues/new?template=course-exam-request.yml" target="_blank" rel="noopener noreferrer">Request a learning path</a>.</p>
     </section>`;
 }
 
@@ -1005,32 +1087,72 @@ function recentActivity(e, saved) {
   const examRunning = !!(saved.exam && !saved.exam.result);
   const last = saved.history?.[0];
   const openedModule = !!saved.learn?.view?.module; // reading a module counts as started
-  if (!answered && !parts && !examRunning && !last && !openedModule) return null;
-  return { answered, parts, totalParts: (e.learningModules || 0) * 3, examRunning, last, openedModule, mode: saved.mode };
+  const labsDone = Object.values(saved.labs?.results || {}).filter((r) => r.done).length;
+  const labsStarted = Object.keys(saved.labs?.work || {}).length + Object.keys(saved.labs?.results || {}).length;
+  if (!answered && !parts && !examRunning && !last && !openedModule && !labsStarted) return null;
+  return { answered, parts, totalParts: (e.learningModules || 0) * 3, examRunning, last, openedModule, labsDone, labsStarted, mode: saved.mode };
 }
 
-function recentCard({ e, activity: a }) {
-  const pct = (n, total) => (total ? Math.min(100, Math.round((n / total) * 100)) : 0);
-  const rows = [];
-  if (e.learning && (a.parts || a.openedModule || a.mode === 'learn')) {
-    rows.push(`<span class="recent-row"><span>Learning</span><b>${a.totalParts ? `${a.parts} / ${a.totalParts} parts` : `${a.parts} parts`}</b></span>
-      <span class="recent-bar"><i style="width:${pct(a.parts, a.totalParts)}%"></i></span>`);
-  }
-  if (a.answered || (!rows.length && !a.last && !a.examRunning)) {
-    rows.push(`<span class="recent-row"><span>Practice</span><b>${a.answered}${e.questions ? ` / ${e.questions}` : ''} answered</b></span>
-      <span class="recent-bar"><i style="width:${pct(a.answered, e.questions)}%"></i></span>`);
-  }
-  if (a.examRunning) rows.push('<span class="recent-row"><span>Timed exam</span><b class="running">In progress</b></span>');
-  else if (a.last) rows.push(`<span class="recent-row"><span>Last exam</span><b class="${a.last.passed ? 'good' : 'weak'}">${a.last.score}</b></span>`);
-  const learnFirst = a.mode === 'learn' && e.learning;
-  const action = a.examRunning ? 'Resume exam' : learnFirst ? 'Continue learning' : 'Continue practice';
-  return `<a class="panel learning-path-card recent-card" href="/${e.slug}${learnFirst ? '?mode=learn' : ''}" data-vendor="${vendorKey(e.vendor)}">
-      <span class="learning-path-eyebrow">${escapeHtml(e.vendor.toUpperCase())} · ${escapeHtml(e.code)}</span>
-      <h3>${escapeHtml(e.name)}</h3>
-      <span class="recent-rows">${rows.join('')}</span>
-      <span class="learning-path-action">${action} ${icon('right', 'icon')}</span>
-    </a>`;
+// "today", "yesterday", "3 days ago", or a short date like "Oct 2".
+function lastStudied(at) {
+  if (!at) return '';
+  const day = 864e5, start = new Date(); start.setHours(0, 0, 0, 0);
+  if (at >= start.getTime()) return 'today';
+  if (at >= start.getTime() - day) return 'yesterday';
+  const days = Math.ceil((start.getTime() - at) / day);
+  return days < 7 ? `${days} days ago` : new Date(at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
+
+// Every Recents card shows the same four stats in the same places (learn, practice, labs,
+// timed exam), so cards are comparable at a glance; details are in each stat's tooltip.
+function recentCard({ e, saved, activity: a }) {
+  const pct = (n, total) => (total ? Math.min(100, Math.round((n / total) * 100)) : 0);
+  // Four compact stats in a 2x2 grid: a short value, and a thin bar only once there's progress.
+  const stat = (label, value, { cls = '', bar = null, title = '', href = null } = {}) => {
+    const attrs = `${title ? ` title="${escapeHtml(title)}"` : ''}${href ? ` data-stat-href="/${e.slug}${href}"` : ''}`;
+    const inner = `<span class="recent-stat-label">${label}</span><b>${value}</b>${bar ? `<span class="recent-bar"><i style="width:${Math.max(bar, 3)}%"></i></span>` : ''}`;
+    return href ? `<a class="recent-stat${cls ? ` ${cls}` : ''}"${attrs}>${inner}</a>` : `<span class="recent-stat${cls ? ` ${cls}` : ''}"${attrs}>${inner}</span>`;
+  };
+  const none = (label, title, href) => stat(label, '—', { cls: 'none', title, href });
+  const learnPct = pct(a.parts, a.totalParts);
+  const learning = !e.learning ? none('Learn', 'No learning path for this exam yet')
+    : a.parts ? stat('Learn', `${learnPct}%`, { bar: learnPct, title: `Learning path ${learnPct}% complete`, href: '?mode=learn' })
+      : a.openedModule || a.mode === 'learn' ? stat('Learn', 'Started', { cls: 'soft', href: '?mode=learn' }) : none('Learn', 'Learning path not started', '?mode=learn');
+  const practice = a.answered ? stat('Practice', `${a.answered}<small>/${e.questions || '?'}</small>`, { bar: pct(a.answered, e.questions), title: `${a.answered} of ${e.questions} questions answered`, href: '?mode=practice' })
+    : none('Practice', 'No questions answered yet', '?mode=practice');
+  const labs = !e.labs ? none('Labs', 'No labs for this exam yet')
+    : a.labsDone ? stat('Labs', `${a.labsDone}<small>/${e.labs}</small>`, { bar: pct(a.labsDone, e.labs), title: `${a.labsDone} of ${e.labs} labs completed`, href: '?mode=labs' })
+      : a.labsStarted ? stat('Labs', 'Started', { cls: 'soft', href: '?mode=labs' }) : none('Labs', 'No labs started', '?mode=labs');
+  const exam = a.examRunning ? stat('Exam', 'In progress', { cls: 'running', href: '?mode=exam' })
+    : a.last ? stat('Exam', `${a.last.score}<small>${a.last.passed ? ' passed' : ''}</small>`, { cls: a.last.passed ? 'good' : 'weak', title: `Last timed exam: ${a.last.score}, ${a.last.passed ? 'passed' : 'not passed'}`, href: '?mode=exam' })
+      : none('Exam', 'No timed exam taken', '?mode=exam');
+  const mode = a.examRunning ? 'exam' : a.mode === 'learn' && e.learning ? 'learn' : a.mode === 'labs' && e.labs ? 'labs' : 'practice';
+  const action = { exam: 'Resume timed exam', learn: 'Resume learning path', labs: 'Resume labs', practice: 'Resume practice' }[mode];
+  const when = lastStudied(saved?.updatedAt);
+  return `<div class="panel learning-path-card recent-card" data-vendor="${vendorKey(e.vendor)}" title="${escapeHtml(`${e.vendor} · ${e.code}`)}">
+      <a class="recent-link" href="/${e.slug}${mode === 'learn' || mode === 'labs' ? `?mode=${mode}` : ''}">
+        <span class="recent-head"><span class="learning-path-eyebrow">${escapeHtml(e.code)}</span>${when ? `<span class="recent-when">${when[0].toUpperCase()}${when.slice(1)}</span>` : ''}</span>
+        <h3>${escapeHtml(e.name)}</h3>
+        <span class="recent-stats">${learning}${practice}${labs}${exam}</span>
+        <span class="learning-path-action">${action} ${icon('right', 'icon')}</span>
+      </a>
+      <button class="recent-remove" data-action="remove-recent" data-slug="${escapeHtml(e.slug)}" title="Hide ${escapeHtml(e.name)} from Recents" aria-label="Hide ${escapeHtml(e.name)} from Recents">${icon('x', 'icon')}</button>
+    </div>`;
+}
+
+// One line under each vendor name on the home page. Vendors not listed get a generated summary.
+const VENDOR_BLURBS = {
+  Microsoft: 'Azure, AI, data and security, from fundamentals to administrator',
+  CompTIA: 'Vendor-neutral IT support, networking, security and data',
+  Cisco: 'Networking and cybersecurity, from entry-level CCST to CCNA',
+  'Amazon Web Services': 'AWS cloud, AI, development and operations',
+  'Google Cloud': 'Cloud, data and generative AI, from Digital Leader to Cloud Architect',
+  Salesforce: 'Data visualization and analytics with Tableau',
+  AAPC: 'Professional medical coding',
+  NHA: 'Healthcare billing, coding and front-office administration',
+  'Linux Professional Institute': 'Vendor-neutral Linux, starting from the basics',
+  'Red Hat': 'Hands-on Red Hat Enterprise Linux administration',
+};
 
 async function renderHome() {
   document.body.classList.add('home');
@@ -1046,14 +1168,18 @@ async function renderHome() {
     const last = saved?.history?.[0];
     const answered = saved ? Object.keys(saved.practice?.answers || {}).length : 0;
     const vendor = vendorKey(e.vendor);
-    return `<a class="panel exam-card" href="/${e.slug}" data-vendor="${vendor}" data-name="${escapeHtml(`${e.name} ${e.code} ${e.vendor}`.toLowerCase())}">
+    // The whole card opens the exam (a stretched link on the title); the buttons go straight to Learn or Practice.
+    return `<div class="panel exam-card" data-vendor="${vendor}" data-name="${escapeHtml(`${e.name} ${e.code} ${e.vendor}`.toLowerCase())}">
       <span class="exam-card-code">${escapeHtml(e.code)}</span>
-      <h2>${escapeHtml(e.name)}</h2>
+      <h2><a class="exam-card-link" href="/${e.slug}">${escapeHtml(e.name)}</a></h2>
       <span class="exam-card-meta"><span>${count} questions</span>${levelMeter(e.level)}</span>
-      ${e.learning ? '<span class="exam-learning-badge">Study guide · slides · lessons</span>' : ''}
       ${answered || last ? `<span class="exam-card-progress">${answered ? `${answered} practiced` : ''}${answered && last ? ' · ' : ''}${last ? `Last score <b class="${last.passed ? 'good' : 'weak'}">${last.score}</b>` : ''}</span>` : ''}
-      <span class="exam-card-action">Open exam ${icon('right', 'icon')}</span>
-    </a>`;
+      <span class="exam-card-actions">
+        ${e.learning ? `<a class="card-btn" href="/${e.slug}?mode=learn" aria-label="Learn ${escapeHtml(e.code)}">${icon('learn')}Learn</a>` : ''}
+        <a class="card-btn card-btn-primary" href="/${e.slug}?mode=practice" aria-label="Practice ${escapeHtml(e.code)}">${icon('book')}Practice</a>
+        ${e.labs ? `<a class="card-btn" href="/${e.slug}?mode=labs" aria-label="Labs for ${escapeHtml(e.code)}">${icon('terminal')}Labs</a>` : ''}
+      </span>
+    </div>`;
   }));
   const cardFor = Object.fromEntries(exams.map((e, i) => [e.slug, cards[i]]));
 
@@ -1061,6 +1187,7 @@ async function renderHome() {
   const recents = exams.map((e) => ({ e, saved: readSaved(e.slug, e.legacyStorageKey) }))
     .map(({ e, saved }) => ({ e, saved, activity: recentActivity(e, saved) }))
     .filter((r) => r.activity)
+    .filter((r) => !getHiddenRecents().includes(r.e.slug))
     .sort((a, b) => (b.saved.updatedAt || 0) - (a.saved.updatedAt || 0))
     .slice(0, 6);
   const learningCards = exams.filter((e) => e.learning).map(learningPathCard).join('');
@@ -1089,14 +1216,22 @@ async function renderHome() {
       .filter(({ exam }) => exam.vendor === provider)
       .sort((a, b) => levelRank(a.exam.level) - levelRank(b.exam.level)
         || a.exam.code.localeCompare(b.exam.code, undefined, { numeric: true }));
-    const preview = entries.slice(0, 5).map(({ exam }) =>
-      `<span class="folder-code" data-level="${exam.level || ''}">${escapeHtml(exam.code)}</span>`).join('');
+    // Right side: this person's progress in the vendor, or just the exam count if they haven't started.
+    const started = entries.filter(({ exam }) => recentActivity(exam, readSaved(exam.slug, exam.legacyStorageKey))).length;
+    const passed = entries.filter(({ exam }) => readSaved(exam.slug, exam.legacyStorageKey)?.history?.some((h) => h.passed)).length;
+    const total = `${entries.length} exam${entries.length === 1 ? '' : 's'}`;
+    const progress = started
+      ? `<span class="folder-progress" title="Exams you've opened in ${escapeHtml(provider)}">
+          <span>${started} of ${total} started${passed ? ` · ${passed} passed` : ''}</span>
+          <span class="folder-bar"><i style="width:${Math.round((started / entries.length) * 100)}%"></i></span></span>`
+      : `<span class="folder-count">${total}</span>`;
+    const blurb = VENDOR_BLURBS[provider] || `${total} · ${[...new Set(entries.map(({ exam }) => exam.level).filter(Boolean))].join(', ')}`;
     return `<details class="vendor-folder" data-provider-group="${key}" data-vendor="${key}">
       <summary>
         ${icon('folder', 'icon folder-icon')}
-        <span class="folder-name">${escapeHtml(provider)}</span>
-        <span class="folder-preview">${preview}</span>
-        <span class="folder-count">${entries.length} exam${entries.length === 1 ? '' : 's'}</span>
+        <span class="folder-title"><span class="folder-name">${escapeHtml(provider)}</span>
+          <span class="folder-blurb">${escapeHtml(blurb)}</span></span>
+        ${progress}
       </summary>
       <div class="exam-grid">${entries.map(({ card }) => card).join('')}</div>
     </details>`;
@@ -1126,7 +1261,7 @@ async function renderHome() {
     <section class="learning-section" id="recents" aria-labelledby="recents-title">
       <div class="section-heading">
         <div><span class="eyebrow">RECENTS</span><h2 id="recents-title">${recents.length ? 'Pick up where you left off' : 'Start learning'}</h2>
-          <p class="muted">${recents.length ? 'Your in-progress courses and practice exams, most recent first.' : 'Courses and exams you start will appear here.'}</p></div>
+          <p class="muted">${recents.length ? 'Courses you have opened, most recent first, with your learning, practice, lab and timed-exam progress.' : 'Courses and exams you start will appear here.'}</p></div>
         ${recents.length ? `<span class="learning-count">${recents.length} in progress</span>` : ''}
       </div>
       ${recentsBody}
@@ -1152,7 +1287,7 @@ async function renderHome() {
         <p>Tell us which certification you’re studying for and what learning materials would help. Requests help us prioritize future additions.</p>
       </div>
       <div class="request-action">
-        <a class="btn btn-primary" href="https://github.com/abg0dw1n/az104-exam-simulator/issues/new?template=course-exam-request.yml" target="_blank" rel="noopener noreferrer">Submit a request ${icon("right","icon")}</a>
+        <a class="btn btn-primary" href="https://github.com/abg0dw1n/it-study-hall/issues/new?template=course-exam-request.yml" target="_blank" rel="noopener noreferrer">Submit a request ${icon("right","icon")}</a>
         <p>Requests are public on GitHub. A GitHub account is required. Please don’t include personal or sensitive information.</p>
       </div>
     </section>
@@ -1163,6 +1298,20 @@ async function renderHome() {
     </section>` : ''}
   </section>`;
   $('main').querySelector('[data-feature-new]')?.addEventListener('click', () => openFeatureForm());
+  $('main').addEventListener('click', (e) => {
+    const stat = e.target.closest('[data-stat-href]');
+    if (stat) {
+      e.stopPropagation();
+      e.preventDefault();
+      location.href = stat.dataset.statHref;
+      return;
+    }
+    const act = e.target.closest('[data-action="remove-recent"]');
+    if (!act) return;
+    e.stopPropagation();
+    e.preventDefault();
+    return hideRecent(act.dataset.slug);
+  });
   const grid = $('exam-grid');
   const search = $('exam-search');
   let activeProvider = 'all';
@@ -1184,7 +1333,9 @@ async function renderHome() {
       if (isPopular) return;
       // Vendor folders start collapsed; open the ones with matches while searching or filtering.
       group.open = filtering && !group.hidden;
-      group.querySelector('.folder-count').textContent = `${groupVisible} exam${groupVisible === 1 ? '' : 's'}`;
+      // Rows showing personal progress have no count element; only plain-count rows are updated.
+      const count = group.querySelector('.folder-count');
+      if (count) count.textContent = `${groupVisible} exam${groupVisible === 1 ? '' : 's'}`;
       visible += groupVisible;
     });
     $('exam-result-count').textContent = `${visible} exam${visible === 1 ? '' : 's'}`;
@@ -1250,6 +1401,17 @@ function renderAccount() {
   if (user) link.title = `Signed in as ${user.email || 'you'}`;
   if (guest) { link.title = 'Guest: progress is not saved'; link.querySelector('span').textContent = 'Guest'; }
   $('btn-header-signout').hidden = !user;
+}
+
+// "Admin" badge on the header Account button (and the Account page) for admins.
+let adminCheck = null;
+const isAdmin = () => (adminCheck ||= Auth.amIAdmin().catch(() => false));
+async function showAdminBadge() {
+  if (!(await isAdmin())) return;
+  const link = $('account');
+  if (!link.querySelector('.admin-badge')) link.insertAdjacentHTML('beforeend', '<span class="admin-badge" title="You have admin access">Admin</span>');
+  link.title = `${link.title} (admin)`;
+  $('account-admin-chip')?.removeAttribute('hidden');
 }
 
 // Sign out (header button and Account page): confirm, upload pending progress, clear this device.
@@ -1324,7 +1486,7 @@ async function renderAccountPage() {
       <p class="muted">Your sign-in details and account settings.</p></div>
       <div class="panel card-pad account-card">
         <div class="account-avatar" aria-hidden="true">${escapeHtml((user?.email || '?')[0].toUpperCase())}</div>
-        <div class="account-who"><span class="muted small">Signed in as</span><b>${escapeHtml(user?.email || 'Guest')}</b>
+        <div class="account-who"><span class="muted small">Signed in as</span><b>${escapeHtml(user?.email || 'Guest')} <span id="account-admin-chip" class="admin-badge" hidden>Admin</span></b>
           <span class="muted small">Your practice progress and exam history sync to this account.</span></div>
         <div class="account-actions"><a class="btn btn-ghost btn-sm" href="/privacy">Privacy policy</a>
           ${user ? '<button id="btn-signout" class="btn btn-ghost btn-sm">Sign out</button>' : ''}</div>
@@ -1335,6 +1497,7 @@ async function renderAccountPage() {
       <div id="invites" class="stack"></div>
     </section>`;
   wireAppearance();
+  if (user) isAdmin().then((admin) => { if (admin) $('account-admin-chip')?.removeAttribute('hidden'); });
   $('btn-signout')?.addEventListener('click', confirmSignOut);
   renderInvites();
   renderAccessRequests();
@@ -1493,16 +1656,24 @@ async function renderInvites() {
   let rows;
   try { rows = await Auth.listInvites(); } catch { return; }
   if (!rows?.length) return; // not an admin
+  const me = (Auth.currentUser()?.email || '').toLowerCase();
   box.innerHTML = `<div class="panel card-pad stack" style="gap:14px">
-      <div><h2 class="section-title">Invite people</h2>
-      <p class="muted small" style="margin-top:8px">Invited people can sign in with that email address (email link${Auth.PROVIDERS.length ? ', ' + Auth.PROVIDERS.map((p) => p.label.replace('Continue with ', '')).join(', ') : ''}). Each person gets their own progress.</p></div>
+      <div><h2 class="section-title">People and admins</h2>
+      <p class="muted small" style="margin-top:8px">Invited people can sign in with that email address (email link${Auth.PROVIDERS.length ? ', ' + Auth.PROVIDERS.map((p) => p.label.replace('Continue with ', '')).join(', ') : ''}). Each person gets their own progress. Admins can also invite people, approve access requests, manage feature requests and reports, and make others admins.</p></div>
       <form id="invite-form" class="invite-row">
         <input id="invite-email" type="email" required placeholder="friend@example.com" aria-label="Email to invite">
         <input id="invite-note" type="text" placeholder="Name (optional)" aria-label="Name">
         <button class="btn btn-primary" type="submit">Invite</button>
       </form>
-      <ul class="invite-list">${rows.map((r) => `<li><span><b>${escapeHtml(r.email)}</b>${r.note ? ` <span class="muted">· ${escapeHtml(r.note)}</span>` : ''}</span>
-        ${r.is_admin ? '<span class="chip">admin</span>' : `<button class="btn btn-ghost btn-sm" data-uninvite="${escapeHtml(r.email)}">Remove</button>`}</li>`).join('')}</ul>
+      <ul class="invite-list">${[...rows].sort((a, b) => Number(b.is_admin) - Number(a.is_admin)).map((r) => {
+        const self = r.email === me;
+        const actions = r.is_admin
+          ? (self ? '<span class="muted small">You</span>' : `<button class="btn btn-ghost btn-sm" data-admin-off="${escapeHtml(r.email)}">Remove admin</button>`)
+          : `<button class="btn btn-ghost btn-sm" data-admin-on="${escapeHtml(r.email)}">Make admin</button>
+             <button class="btn btn-ghost btn-sm" data-uninvite="${escapeHtml(r.email)}">Remove</button>`;
+        return `<li><span><b>${escapeHtml(r.email)}</b>${r.is_admin ? ' <span class="admin-badge">Admin</span>' : ''}${r.note ? ` <span class="muted">· ${escapeHtml(r.note)}</span>` : ''}</span>
+          <span class="invite-actions">${actions}</span></li>`;
+      }).join('')}</ul>
     </div>`;
   $('invite-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1514,6 +1685,18 @@ async function renderInvites() {
     finally { renderInvites(); } // always show the current list
   });
   renderReports(box);
+  box.querySelectorAll('[data-admin-on]').forEach((b) => b.addEventListener('click', async () => {
+    const email = b.dataset.adminOn;
+    if (!(await confirmModal('Make admin?', `<b>${escapeHtml(email)}</b> will be able to invite and remove people, approve access requests, manage feature requests and question reports, and make other people admins.`, 'Make admin'))) return;
+    try { await Auth.setAdmin(email, true); toast(`${email} is now an admin.`); } catch (err) { toast(`Couldn't change admin access: ${err.message}`); }
+    renderInvites();
+  }));
+  box.querySelectorAll('[data-admin-off]').forEach((b) => b.addEventListener('click', async () => {
+    const email = b.dataset.adminOff;
+    if (!(await confirmModal('Remove admin access?', `<b>${escapeHtml(email)}</b> will keep their account and progress but lose admin tools.`, 'Remove admin'))) return;
+    try { await Auth.setAdmin(email, false); toast(`${email} is no longer an admin.`); } catch (err) { toast(`Couldn't change admin access: ${err.message}`); }
+    renderInvites();
+  }));
   box.querySelectorAll('[data-uninvite]').forEach((b) => b.addEventListener('click', async () => {
     if (!(await confirmModal('Remove invite?', `${escapeHtml(b.dataset.uninvite)} won't be able to create an account. If they already have one, it stays until you delete the user in Supabase.`, 'Remove'))) return;
     try { await Auth.removeInvite(b.dataset.uninvite); renderInvites(); } catch (err) { toast(`Couldn't remove: ${err.message}`); }
@@ -1575,6 +1758,7 @@ async function init() {
   const bankFiles = examPage ? fetchBank(initialSlug) : null;
   bankFiles?.catch(() => { /* reported by loadBank below */ });
   const learnFiles = examPage ? Learn.loadLearn(initialSlug) : null;
+  const labFiles = examPage ? Labs.loadLabs(initialSlug) : null;
   if (!examPage) fetchIndex().catch(() => {});
   if (Auth.AUTH_ENABLED) {
     const auth = await Auth.initAuth();
@@ -1586,7 +1770,7 @@ async function init() {
     if (!auth.signedIn && !Auth.isGuest()) return renderSignIn(auth.error);
     if (auth.error) toast(auth.error);
     if (Auth.isGuest()) $('guest-banner').hidden = false;
-    else await syncFromCloud();
+    else { showAdminBadge(); await syncFromCloud(); }
   }
   const slug = currentSlug();
   if (!slug) return renderHome();
@@ -1606,8 +1790,13 @@ async function init() {
   $('brand-title').textContent = 'The IT Study Hall';
   $('brand-sub').textContent = `${EXAM.code} · ${EXAM.name}`;
   LEARN = await (slug === initialSlug ? learnFiles : Learn.loadLearn(slug));
+  LABS = await (slug === initialSlug ? labFiles : Labs.loadLabs(slug));
   if (initialMode === 'learn' && LEARN) state.mode = 'learn';
+  if (initialMode === 'labs' && LABS) state.mode = 'labs';
+  if (initialMode === 'practice') state.mode = 'practice';
+  if (initialMode) history.replaceState(null, '', location.pathname); // keep the address tidy after honoring ?mode
   $('btn-mode-learn').hidden = !LEARN;
+  $('btn-mode-labs').hidden = !LABS;
   $('mode-tabs').hidden = false;
   $('btn-drawer').hidden = false;
   const perDomain = {};
@@ -1663,6 +1852,11 @@ async function init() {
       case 'clear-filters':
         state.practice.domain = 'ALL'; state.practice.status = 'all';
         syncFilterControls(); buildPracticeList(); save(); return render();
+      case 'remove-recent': {
+        e.stopPropagation();
+        e.preventDefault();
+        return hideRecent(act.dataset.slug);
+      }
     }
   });
 
