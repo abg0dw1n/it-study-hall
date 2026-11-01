@@ -37,3 +37,4 @@ self.addEventListener('fetch', (event) => {
         .then((hit) => hit || (request.mode === 'navigate' ? caches.match('/') : Response.error()))),
   );
 });
+// deployed 1793520242521199519
