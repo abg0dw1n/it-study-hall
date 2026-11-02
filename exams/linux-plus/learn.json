@@ -30,19 +30,357 @@
       "guide": [
         {
           "h": "What this domain covers",
-          "html": "<p>System management is <b>23%</b> of XK0-006, the largest domain. It spans seven objectives: Linux basics and boot, devices and kernel modules, storage, network configuration, shell operations, backup and restore, and virtualization.</p>"
+          "blocks": [
+            {
+              "p": "System management is <b>23%</b> of XK0-006, the largest domain. It covers seven objectives:"
+            },
+            {
+              "list": [
+                "Linux basics and the boot process",
+                "Devices, hardware and kernel modules",
+                "Storage: partitions, LVM, RAID and file systems",
+                "Network configuration",
+                "Shell operations",
+                "Backup and restore",
+                "Virtualization"
+              ]
+            }
+          ]
         },
         {
-          "h": "Boot and devices",
-          "html": "<p>Boot order: UEFI/BIOS → <b>GRUB 2</b> → kernel + <b>initramfs</b> → <b>systemd</b>. Change kernel arguments in <code>/etc/default/grub</code>, then regenerate (<code>grub2-mkconfig -o /boot/grub2/grub.cfg</code> or <code>update-grub</code>); on RHEL, <code>grubby</code> edits entries directly. Rebuild the initramfs with <code>dracut -f</code> (RHEL) or <code>update-initramfs -u</code> (Debian). Kernel modules: <code>lsmod</code>, <code>modinfo</code>, <code>modprobe</code> (resolves dependencies), <code>modprobe -r</code>; persist with <code>/etc/modules-load.d</code> and blacklist in <code>/etc/modprobe.d</code>. Hardware tools: <code>lspci -k</code>, <code>lsusb</code>, <code>lshw</code>, <code>dmidecode</code>, <code>lscpu</code>, <code>dmesg</code>. Architectures: x86_64, AArch64 (64-bit ARM), RISC-V.</p>"
+          "h": "How Linux boots",
+          "blocks": [
+            {
+              "steps": [
+                {
+                  "t": "Firmware (UEFI or BIOS)",
+                  "d": "Initializes hardware and loads the boot loader."
+                },
+                {
+                  "t": "GRUB 2",
+                  "d": "The boot loader. Shows the menu and loads the kernel with its arguments."
+                },
+                {
+                  "t": "Kernel + initramfs",
+                  "d": "The initramfs is a small temporary root file system with the drivers needed to mount the real root."
+                },
+                {
+                  "t": "systemd",
+                  "d": "The first process (PID 1). Starts services and reaches the default target."
+                }
+              ]
+            },
+            {
+              "cmds": [
+                [
+                  "<code>/etc/default/grub</code>",
+                  "Where you change default kernel arguments (GRUB_CMDLINE_LINUX)."
+                ],
+                [
+                  "<code>grub2-mkconfig -o /boot/grub2/grub.cfg</code>",
+                  "Regenerates the GRUB config after editing it (RHEL). Debian/Ubuntu use <code>update-grub</code>."
+                ],
+                [
+                  "<code>grubby</code>",
+                  "Edits boot entries directly on RHEL, for example to add an argument to every kernel."
+                ],
+                [
+                  "<code>dracut -f</code>",
+                  "Rebuilds the initramfs (RHEL). Debian/Ubuntu use <code>update-initramfs -u</code>."
+                ]
+              ],
+              "head": [
+                "Command or file",
+                "What it does"
+              ]
+            },
+            {
+              "note": "Editing <code>/etc/default/grub</code> does nothing until you regenerate the GRUB configuration.",
+              "kind": "tip"
+            }
+          ]
         },
         {
-          "h": "Storage",
-          "html": "<p>Partition with <code>fdisk</code>, <code>gdisk</code>, or <code>parted</code> (GPT for modern systems). <b>LVM</b>: <code>pvcreate</code> → <code>vgcreate</code> → <code>lvcreate</code> → <code>mkfs</code>; grow with <code>lvextend -r</code>. File systems: <b>ext4</b> (grow and shrink), <b>XFS</b> (grow only, <code>xfs_growfs</code>), <b>Btrfs</b> (subvolumes, snapshots), <b>tmpfs</b> (RAM). Software RAID with <code>mdadm</code> (check <code>/proc/mdstat</code>). Mount persistently in <code>/etc/fstab</code> by UUID (<code>blkid</code>), test with <code>mount -a</code> or <code>findmnt --verify</code>, and use options like <code>noexec,nosuid,nodev</code> and <code>_netdev</code> for NFS/SMB. Check space with <code>df -h</code> and inodes with <code>df -i</code>.</p>"
+          "h": "Hardware and kernel modules",
+          "blocks": [
+            {
+              "p": "Drivers usually load as kernel modules. You can list, inspect, load and unload them, and control which ones load at boot."
+            },
+            {
+              "cmds": [
+                [
+                  "<code>lsmod</code>",
+                  "Lists loaded modules."
+                ],
+                [
+                  "<code>modinfo NAME</code>",
+                  "Shows a module's details and parameters."
+                ],
+                [
+                  "<code>modprobe NAME</code>",
+                  "Loads a module and the modules it depends on."
+                ],
+                [
+                  "<code>modprobe -r NAME</code>",
+                  "Unloads a module."
+                ],
+                [
+                  "<code>/etc/modules-load.d/</code>",
+                  "Modules listed here load at every boot."
+                ],
+                [
+                  "<code>/etc/modprobe.d/</code>",
+                  "Options and blacklists, such as <code>blacklist nouveau</code>."
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "cmds": [
+                [
+                  "<code>lspci -k</code>",
+                  "PCI devices and the kernel driver each one uses."
+                ],
+                [
+                  "<code>lsusb</code>",
+                  "USB devices."
+                ],
+                [
+                  "<code>lshw</code>",
+                  "Detailed hardware inventory."
+                ],
+                [
+                  "<code>dmidecode</code>",
+                  "Firmware (DMI/SMBIOS) data such as model and serial number."
+                ],
+                [
+                  "<code>lscpu</code>",
+                  "CPU details and architecture."
+                ],
+                [
+                  "<code>dmesg</code>",
+                  "Kernel messages, including driver errors."
+                ]
+              ],
+              "head": [
+                "Hardware tool",
+                "Shows"
+              ]
+            },
+            {
+              "note": "Know the CPU architecture names: <b>x86_64</b> (64-bit Intel/AMD), <b>AArch64</b> (64-bit ARM, also shown as arm64) and <b>RISC-V</b>."
+            }
+          ]
         },
         {
-          "h": "Networking, shell, backups, and virtualization",
-          "html": "<p>Network: <code>nmcli con mod/up</code> (NetworkManager), Netplan YAML on Ubuntu (<code>netplan apply</code>), <code>/etc/hosts</code>, <code>/etc/resolv.conf</code>, <code>/etc/nsswitch.conf</code>; tools <code>ip</code>, <code>ss</code>, <code>dig</code>, <code>ping</code>, <code>tracepath</code>, <code>nc</code>. Shell: environment variables, <code>~/.bashrc</code> vs <code>~/.bash_profile</code>, <code>/etc/profile.d</code>, redirection and pipes, and vi/vim and nano basics. Backups: <code>tar</code>, <code>cpio</code>, <code>rsync -a</code>, <code>dd</code> for images, <code>ddrescue</code> for failing disks, and compression with gzip, bzip2, xz, zstd. Virtualization: <b>KVM</b> (kernel module) + <b>QEMU</b> (emulation), managed with <b>libvirt</b> (<code>virsh list --all</code>, <code>start</code>, <code>shutdown</code>, <code>snapshot-create-as</code>), disk images in qcow2 (<code>qemu-img</code>), and NAT, bridged, or isolated networks.</p>"
+          "h": "Partitions and LVM",
+          "blocks": [
+            {
+              "p": "Partition disks with <code>fdisk</code>, <code>gdisk</code> or <code>parted</code>. Use <b>GPT</b> on modern systems."
+            },
+            {
+              "p": "<b>LVM</b> pools disks so volumes can grow later. Build it in this order:"
+            },
+            {
+              "steps": [
+                {
+                  "t": "pvcreate",
+                  "d": "Marks a disk or partition as a physical volume."
+                },
+                {
+                  "t": "vgcreate",
+                  "d": "Pools physical volumes into a volume group."
+                },
+                {
+                  "t": "lvcreate",
+                  "d": "Carves a logical volume out of the group."
+                },
+                {
+                  "t": "mkfs",
+                  "d": "Creates a file system on the logical volume."
+                }
+              ]
+            },
+            {
+              "note": "<code>lvextend -r</code> grows a logical volume <b>and</b> its file system in one step.",
+              "kind": "tip"
+            }
+          ]
+        },
+        {
+          "h": "File systems, RAID and mounting",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "File system",
+                  "Key facts"
+                ],
+                "rows": [
+                  [
+                    "<b>ext4</b>",
+                    "Can grow and shrink."
+                  ],
+                  [
+                    "<b>XFS</b>",
+                    "Grows only (<code>xfs_growfs</code>); the RHEL default."
+                  ],
+                  [
+                    "<b>Btrfs</b>",
+                    "Subvolumes and snapshots."
+                  ],
+                  [
+                    "<b>tmpfs</b>",
+                    "Lives in RAM; emptied at reboot."
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "Software RAID uses <code>mdadm</code>; check array health in <code>/proc/mdstat</code>."
+            },
+            {
+              "p": "Persistent mounts go in <code>/etc/fstab</code>:"
+            },
+            {
+              "list": [
+                "Refer to devices by <b>UUID</b> (find it with <code>blkid</code>), because device names can change.",
+                "Test with <code>mount -a</code> or <code>findmnt --verify</code> before rebooting.",
+                "Hardening options: <code>noexec</code>, <code>nosuid</code>, <code>nodev</code>. Network shares need <code>_netdev</code>."
+              ]
+            },
+            {
+              "p": "Check free space with <code>df -h</code> and free inodes with <code>df -i</code>."
+            }
+          ]
+        },
+        {
+          "h": "Network configuration",
+          "blocks": [
+            {
+              "pairs": [
+                {
+                  "t": "NetworkManager (RHEL, Fedora)",
+                  "d": "<code>nmcli con mod</code> changes a connection profile; <code>nmcli con up</code> applies it."
+                },
+                {
+                  "t": "Netplan (Ubuntu)",
+                  "d": "YAML files in /etc/netplan; apply with <code>netplan apply</code>."
+                }
+              ]
+            },
+            {
+              "cmds": [
+                [
+                  "<code>/etc/hosts</code>",
+                  "Static name-to-address entries."
+                ],
+                [
+                  "<code>/etc/resolv.conf</code>",
+                  "DNS servers the system uses."
+                ],
+                [
+                  "<code>/etc/nsswitch.conf</code>",
+                  "Order of lookups (files before DNS, for example)."
+                ]
+              ],
+              "head": [
+                "File",
+                "Purpose"
+              ]
+            },
+            {
+              "p": "Everyday tools: <code>ip</code>, <code>ss</code>, <code>dig</code>, <code>ping</code>, <code>tracepath</code>, <code>nc</code>."
+            }
+          ]
+        },
+        {
+          "h": "Shell, backups and virtualization",
+          "blocks": [
+            {
+              "p": "<b>Shell:</b> environment variables, redirection and pipes, and basic vi/vim and nano editing."
+            },
+            {
+              "pairs": [
+                {
+                  "t": "<code>~/.bash_profile</code>",
+                  "d": "Read by login shells."
+                },
+                {
+                  "t": "<code>~/.bashrc</code>",
+                  "d": "Read by interactive non-login shells."
+                },
+                {
+                  "t": "<code>/etc/profile.d/</code>",
+                  "d": "System-wide login scripts for all users."
+                }
+              ]
+            },
+            {
+              "cmds": [
+                [
+                  "<code>tar</code>",
+                  "Bundle files (with optional compression)."
+                ],
+                [
+                  "<code>cpio</code>",
+                  "Older archive format, used inside initramfs and RPMs."
+                ],
+                [
+                  "<code>rsync -a</code>",
+                  "Efficient copies that preserve permissions."
+                ],
+                [
+                  "<code>dd</code>",
+                  "Block-level disk images."
+                ],
+                [
+                  "<code>ddrescue</code>",
+                  "Images of failing disks."
+                ]
+              ],
+              "head": [
+                "Backup tool",
+                "Use it for"
+              ]
+            },
+            {
+              "p": "Compression: gzip, bzip2, xz and zstd."
+            },
+            {
+              "p": "<b>Virtualization:</b> <b>KVM</b> is the kernel module; <b>QEMU</b> provides emulation; <b>libvirt</b> manages both."
+            },
+            {
+              "cmds": [
+                [
+                  "<code>virsh list --all</code>",
+                  "All VMs, including stopped ones."
+                ],
+                [
+                  "<code>virsh start / shutdown</code>",
+                  "Start or gracefully stop a VM."
+                ],
+                [
+                  "<code>virsh snapshot-create-as</code>",
+                  "Take a snapshot."
+                ],
+                [
+                  "<code>qemu-img</code>",
+                  "Create and convert disk images (qcow2)."
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "p": "VM networks can be NAT, bridged or isolated."
+            }
+          ]
         }
       ],
       "tips": [
@@ -336,23 +674,415 @@
       "guide": [
         {
           "h": "What this domain covers",
-          "html": "<p>Services and user management is <b>20%</b> of XK0-006: files and directories, local accounts, processes and jobs, software configuration, systemd, and containers.</p>"
+          "blocks": [
+            {
+              "p": "Services and user management is <b>20%</b> of XK0-006:"
+            },
+            {
+              "list": [
+                "Files and directories",
+                "Local accounts",
+                "Processes and jobs",
+                "Software configuration",
+                "systemd",
+                "Containers"
+              ]
+            }
+          ]
         },
         {
-          "h": "Accounts",
-          "html": "<p><code>useradd -m -s /bin/bash -G wheel name</code>, <code>usermod -aG</code>, <code>usermod -L</code> (lock), <code>userdel -r</code>, <code>groupadd</code>. System/service accounts: <code>useradd -r -s /sbin/nologin</code>. Password aging with <code>chage</code> (<code>-M</code> max days, <code>-d 0</code> force change, <code>-E</code> expiry, <code>-l</code> list); defaults in <code>/etc/login.defs</code>; templates in <code>/etc/skel</code>. Files: <code>/etc/passwd</code>, <code>/etc/shadow</code>, <code>/etc/group</code>, <code>/etc/gshadow</code>.</p>"
+          "h": "User and group accounts",
+          "blocks": [
+            {
+              "cmds": [
+                [
+                  "<code>useradd -m -s /bin/bash -G wheel NAME</code>",
+                  "Create a user with a home directory, shell and extra group."
+                ],
+                [
+                  "<code>usermod -aG GROUP NAME</code>",
+                  "Add a supplementary group (keep -a or other groups are removed)."
+                ],
+                [
+                  "<code>usermod -L NAME</code>",
+                  "Lock the account's password."
+                ],
+                [
+                  "<code>userdel -r NAME</code>",
+                  "Delete the user and their home directory."
+                ],
+                [
+                  "<code>groupadd NAME</code>",
+                  "Create a group."
+                ],
+                [
+                  "<code>useradd -r -s /sbin/nologin NAME</code>",
+                  "Create a system/service account with no login shell."
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "p": "<b>Password aging</b> with <code>chage</code>:"
+            },
+            {
+              "cmds": [
+                [
+                  "<code>chage -M 90</code>",
+                  "Maximum days between password changes."
+                ],
+                [
+                  "<code>chage -d 0</code>",
+                  "Force a change at next login."
+                ],
+                [
+                  "<code>chage -E DATE</code>",
+                  "Account expiry date."
+                ],
+                [
+                  "<code>chage -l</code>",
+                  "Show the current settings."
+                ]
+              ],
+              "head": [
+                "Option",
+                "Effect"
+              ]
+            },
+            {
+              "table": {
+                "head": [
+                  "File",
+                  "Holds"
+                ],
+                "rows": [
+                  [
+                    "<code>/etc/passwd</code>",
+                    "Accounts (no passwords)."
+                  ],
+                  [
+                    "<code>/etc/shadow</code>",
+                    "Password hashes and aging; root-only."
+                  ],
+                  [
+                    "<code>/etc/group</code>",
+                    "Groups and members."
+                  ],
+                  [
+                    "<code>/etc/gshadow</code>",
+                    "Group passwords and admins."
+                  ],
+                  [
+                    "<code>/etc/login.defs</code>",
+                    "Defaults for new accounts."
+                  ],
+                  [
+                    "<code>/etc/skel/</code>",
+                    "Files copied into new home directories."
+                  ]
+                ]
+              }
+            }
+          ]
         },
         {
-          "h": "Processes, jobs, and scheduling",
-          "html": "<p>Inspect with <code>ps -ef</code>, <code>ps aux --sort=-%cpu</code>, <code>top</code>/<code>htop</code>, <code>pstree</code>, <code>pgrep</code>, <code>lsof</code>. States: R running, S sleeping, D uninterruptible (I/O), Z zombie, T stopped. Signals: SIGTERM 15 (default), SIGKILL 9, SIGHUP 1 (reload), SIGINT 2 (Ctrl+C). Priority: <code>nice -n</code> starts, <code>renice -n N -p PID</code> changes (-20 highest, 19 lowest). Jobs: <code>&amp;</code>, Ctrl+Z, <code>bg</code>, <code>fg</code>, <code>jobs</code>, <code>nohup</code>. Scheduling: <code>crontab -e</code> (min hour dom mon dow), <code>at</code> for one-time jobs, <b>anacron</b> for machines that are off at night, and systemd timers.</p>"
+          "h": "Processes and signals",
+          "blocks": [
+            {
+              "p": "Inspect processes with <code>ps -ef</code>, <code>ps aux --sort=-%cpu</code>, <code>top / htop</code>, <code>pstree</code>, <code>pgrep</code>, <code>lsof</code>."
+            },
+            {
+              "table": {
+                "head": [
+                  "State",
+                  "Meaning"
+                ],
+                "rows": [
+                  [
+                    "R",
+                    "Running"
+                  ],
+                  [
+                    "S",
+                    "Sleeping"
+                  ],
+                  [
+                    "D",
+                    "Uninterruptible sleep (usually waiting on I/O)"
+                  ],
+                  [
+                    "Z",
+                    "Zombie (finished, not yet reaped by its parent)"
+                  ],
+                  [
+                    "T",
+                    "Stopped"
+                  ]
+                ]
+              }
+            },
+            {
+              "table": {
+                "head": [
+                  "Signal",
+                  "Use"
+                ],
+                "rows": [
+                  [
+                    "SIGTERM (15)",
+                    "Polite stop; the default for kill."
+                  ],
+                  [
+                    "SIGKILL (9)",
+                    "Force stop; can't be caught."
+                  ],
+                  [
+                    "SIGHUP (1)",
+                    "Often means reload configuration."
+                  ],
+                  [
+                    "SIGINT (2)",
+                    "What Ctrl+C sends."
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "<b>Priority:</b> <code>nice -n N CMD</code> starts a command with a nice value; <code>renice -n N -p PID</code> changes it. Values run from -20 (highest priority) to 19 (lowest)."
+            }
+          ]
         },
         {
-          "h": "Software and services",
-          "html": "<p>Package tools: <code>dnf</code>/<code>rpm</code> (RHEL, Fedora), <code>apt</code>/<code>dpkg</code> (Debian, Ubuntu), <code>zypper</code> (SUSE). Repositories live in <code>/etc/yum.repos.d/</code> or <code>/etc/apt/sources.list.d/</code> and are verified by GPG keys. Find owners: <code>rpm -qf</code>, <code>dnf provides</code>, <code>dpkg -S</code>. <code>update-alternatives</code> picks default versions. Know basic service roles: DNS (BIND), NTP/PTP (chrony, linuxptp), DHCP, HTTP (httpd, NGINX), SMTP (Postfix), IMAP (Dovecot).</p>"
+          "h": "Jobs and scheduling",
+          "blocks": [
+            {
+              "cmds": [
+                [
+                  "<code>CMD &</code>",
+                  "Run in the background."
+                ],
+                [
+                  "<code>Ctrl+Z, then bg</code>",
+                  "Suspend a foreground job, then resume it in the background."
+                ],
+                [
+                  "<code>fg</code>",
+                  "Bring a job to the foreground."
+                ],
+                [
+                  "<code>jobs</code>",
+                  "List the shell's jobs."
+                ],
+                [
+                  "<code>nohup CMD &</code>",
+                  "Keep running after you log out."
+                ]
+              ],
+              "head": [
+                "Keys or command",
+                "Effect"
+              ]
+            },
+            {
+              "table": {
+                "head": [
+                  "Scheduler",
+                  "Best for"
+                ],
+                "rows": [
+                  [
+                    "<code>crontab -e</code>",
+                    "Repeating jobs. Fields: minute, hour, day of month, month, day of week."
+                  ],
+                  [
+                    "<code>at</code>",
+                    "One-time jobs."
+                  ],
+                  [
+                    "anacron",
+                    "Daily/weekly jobs on machines that are often off at night."
+                  ],
+                  [
+                    "systemd timers",
+                    "Scheduled units with logging and dependencies."
+                  ]
+                ]
+              }
+            }
+          ]
         },
         {
-          "h": "systemd and containers",
-          "html": "<p>Unit types: service, timer, mount, target, socket. <code>systemctl start/stop/restart/reload/enable/disable/mask/status</code>, <code>systemctl daemon-reload</code> after editing units, <code>systemctl edit</code> for drop-ins, <code>systemctl list-timers</code>, <code>systemd-analyze blame</code>. Helpers: <code>hostnamectl</code>, <code>timedatectl</code>, <code>resolvectl</code>. Containers: <code>podman</code>/<code>docker run -d --name web -p 8080:80 -v data:/path image</code>, <code>ps</code>, <code>logs</code>, <code>exec</code>, <code>stop</code>, <code>rm</code>, <code>images</code>, <code>pull</code>, <code>build -t</code> from a Containerfile (<code>FROM</code>, <code>RUN</code>, <code>COPY</code>, <code>CMD</code>). Podman runs <b>rootless</b> by default; add <code>:Z</code> to bind mounts on SELinux hosts.</p>"
+          "h": "Software and network services",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Family",
+                  "Tools",
+                  "Repositories"
+                ],
+                "rows": [
+                  [
+                    "RHEL, Fedora",
+                    "<code>dnf</code>, <code>rpm</code>",
+                    "<code>/etc/yum.repos.d/</code>"
+                  ],
+                  [
+                    "Debian, Ubuntu",
+                    "<code>apt</code>, <code>dpkg</code>",
+                    "<code>/etc/apt/sources.list.d/</code>"
+                  ],
+                  [
+                    "SUSE",
+                    "<code>zypper</code>",
+                    "zypper repos"
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "Repositories are verified with GPG keys. To find which package owns a file: <code>rpm -qf</code>, <code>dnf provides</code> or <code>dpkg -S</code>. <code>update-alternatives</code> picks default versions of commands."
+            },
+            {
+              "table": {
+                "head": [
+                  "Service",
+                  "Common software"
+                ],
+                "rows": [
+                  [
+                    "DNS",
+                    "BIND"
+                  ],
+                  [
+                    "Time",
+                    "chrony (NTP), linuxptp (PTP)"
+                  ],
+                  [
+                    "DHCP",
+                    "Kea, ISC dhcpd"
+                  ],
+                  [
+                    "Web",
+                    "httpd (Apache), NGINX"
+                  ],
+                  [
+                    "Mail",
+                    "Postfix (SMTP), Dovecot (IMAP)"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "h": "systemd",
+          "blocks": [
+            {
+              "p": "Unit types you'll see: <b>service</b>, <b>timer</b>, <b>mount</b>, <b>target</b> and <b>socket</b>."
+            },
+            {
+              "cmds": [
+                [
+                  "<code>systemctl start | stop | restart | reload</code>",
+                  "Control a unit now."
+                ],
+                [
+                  "<code>systemctl enable | disable</code>",
+                  "Control whether it starts at boot."
+                ],
+                [
+                  "<code>systemctl mask</code>",
+                  "Block it from starting at all."
+                ],
+                [
+                  "<code>systemctl status</code>",
+                  "State plus recent log lines."
+                ],
+                [
+                  "<code>systemctl daemon-reload</code>",
+                  "Required after editing unit files."
+                ],
+                [
+                  "<code>systemctl edit UNIT</code>",
+                  "Create a drop-in override."
+                ],
+                [
+                  "<code>systemctl list-timers</code>",
+                  "Scheduled timers."
+                ],
+                [
+                  "<code>systemd-analyze blame</code>",
+                  "What slowed the boot."
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "p": "Helpers: <code>hostnamectl</code>, <code>timedatectl</code>, <code>resolvectl</code>."
+            },
+            {
+              "note": "<b>start</b> affects now; <b>enable</b> affects the next boot. Most tasks need both: <code>systemctl enable --now</code>.",
+              "kind": "warn"
+            }
+          ]
+        },
+        {
+          "h": "Containers",
+          "blocks": [
+            {
+              "p": "Podman and Docker use nearly the same commands. A typical run:"
+            },
+            {
+              "cmds": [
+                [
+                  "<code>podman run -d --name web -p 8080:80 -v data:/path IMAGE</code>",
+                  "Run detached, name it, publish host port 8080 to container port 80, mount a volume."
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "cmds": [
+                [
+                  "<code>ps / logs / exec</code>",
+                  "List containers, read output, run a command inside."
+                ],
+                [
+                  "<code>stop / rm</code>",
+                  "Stop and remove a container."
+                ],
+                [
+                  "<code>images / pull</code>",
+                  "List and download images."
+                ],
+                [
+                  "<code>build -t NAME .</code>",
+                  "Build an image from a Containerfile/Dockerfile."
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "p": "Containerfile instructions: <code>FROM</code> (base image), <code>RUN</code>, <code>COPY</code>, <code>CMD</code>."
+            },
+            {
+              "note": "Podman runs <b>rootless</b> by default. On SELinux hosts, add <code>:Z</code> to bind mounts so the container can use them.",
+              "kind": "tip"
+            }
+          ]
         }
       ],
       "tips": [
@@ -646,23 +1376,295 @@
       "guide": [
         {
           "h": "What this domain covers",
-          "html": "<p>Security is <b>18%</b> of XK0-006: OS hardening, authentication/authorization/accounting, firewalls, account hardening, cryptography, and compliance and audit.</p>"
+          "blocks": [
+            {
+              "p": "Security is <b>18%</b> of XK0-006:"
+            },
+            {
+              "list": [
+                "OS hardening",
+                "Authentication, authorization and accounting",
+                "Firewalls",
+                "Account hardening",
+                "Cryptography",
+                "Compliance and audit"
+              ]
+            }
+          ]
         },
         {
-          "h": "Hardening and access control",
-          "html": "<p>Grant least privilege with <code>sudo</code> rules in <code>/etc/sudoers.d/</code>, always edited with <code>visudo</code>. Permissions and special bits (SUID 4, SGID 2, sticky 1), <code>umask</code> (027 → files 640, dirs 750), <b>ACLs</b> (<code>setfacl -m u:name:rw</code>, <code>getfacl</code>), and file attributes (<code>chattr +i</code> immutable, <code>+a</code> append-only). Mandatory access control: <b>SELinux</b> (RHEL; <code>getenforce</code>, contexts, booleans) or <b>AppArmor</b> (Ubuntu, SUSE; profiles). SSH: <code>PermitRootLogin no</code>, <code>PasswordAuthentication no</code>, <code>AllowGroups</code>, test with <code>sshd -t</code>. Replace Telnet/FTP/HTTP logins with encrypted protocols. Secure Boot verifies signed bootloaders and kernels.</p>"
+          "h": "Privilege and file permissions",
+          "blocks": [
+            {
+              "p": "Grant least privilege with <code>sudo</code> rules in <code>/etc/sudoers.d/</code>, always edited with <code>visudo</code> so syntax is checked."
+            },
+            {
+              "table": {
+                "head": [
+                  "Special bit",
+                  "Octal",
+                  "Effect"
+                ],
+                "rows": [
+                  [
+                    "SUID",
+                    "4",
+                    "Program runs as its owner."
+                  ],
+                  [
+                    "SGID",
+                    "2",
+                    "On a directory, new files inherit its group."
+                  ],
+                  [
+                    "Sticky",
+                    "1",
+                    "Only owners can delete their files (like /tmp)."
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "<code>umask</code> removes permissions from new files. With umask 027, files are created 640 and directories 750."
+            },
+            {
+              "cmds": [
+                [
+                  "<code>setfacl -m u:NAME:rw FILE</code>",
+                  "Grant one extra user access (ACL)."
+                ],
+                [
+                  "<code>getfacl FILE</code>",
+                  "Show ACLs."
+                ],
+                [
+                  "<code>chattr +i FILE</code>",
+                  "Immutable: nobody, not even root, can change it."
+                ],
+                [
+                  "<code>chattr +a FILE</code>",
+                  "Append-only (useful for logs)."
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Mandatory access control and SSH",
+          "blocks": [
+            {
+              "pairs": [
+                {
+                  "t": "SELinux (RHEL)",
+                  "d": "Labels files, ports and processes. <code>getenforce</code> shows the mode; contexts and booleans control access."
+                },
+                {
+                  "t": "AppArmor (Ubuntu, SUSE)",
+                  "d": "Path-based profiles per program."
+                }
+              ]
+            },
+            {
+              "p": "<b>SSH hardening</b> in <code>/etc/ssh/sshd_config</code>:"
+            },
+            {
+              "list": [
+                "<code>PermitRootLogin no</code>",
+                "<code>PasswordAuthentication no</code> (keys only)",
+                "<code>AllowGroups</code> to limit who can log in",
+                "Validate with <code>sshd -t</code> before restarting."
+              ]
+            },
+            {
+              "list": [
+                "Replace Telnet, FTP and HTTP logins with encrypted protocols.",
+                "<b>Secure Boot</b> verifies signed boot loaders and kernels."
+              ]
+            }
+          ]
         },
         {
           "h": "Authentication and accounting",
-          "html": "<p><b>PAM</b> (<code>/etc/pam.d</code>) stacks modules such as <code>pam_pwquality</code> (password rules), <code>pam_faillock</code> (lockout; pam_tally2 is legacy), and MFA modules. <b>SSSD</b> joins hosts to LDAP or Active Directory (<code>realm join</code>) with <b>Kerberos</b>; Winbind is the Samba alternative. <b>polkit</b> authorizes privileged desktop/system actions. Accounting: <code>journalctl</code>, <code>rsyslog</code>, <code>logrotate</code>, and <b>auditd</b> rules (<code>auditctl -w /etc/passwd -p wa</code>, <code>ausearch</code>, <code>aureport</code>).</p>"
+          "blocks": [
+            {
+              "p": "<b>PAM</b> (<code>/etc/pam.d</code>) stacks modules for each service:"
+            },
+            {
+              "table": {
+                "head": [
+                  "Module",
+                  "Does"
+                ],
+                "rows": [
+                  [
+                    "<code>pam_pwquality</code>",
+                    "Password complexity rules."
+                  ],
+                  [
+                    "<code>pam_faillock</code>",
+                    "Locks accounts after failed logins (pam_tally2 is legacy)."
+                  ],
+                  [
+                    "MFA modules",
+                    "Add a second factor."
+                  ]
+                ]
+              }
+            },
+            {
+              "list": [
+                "<b>SSSD</b> joins hosts to LDAP or Active Directory (<code>realm join</code>) using <b>Kerberos</b>; Winbind is the Samba alternative.",
+                "<b>polkit</b> authorizes privileged system and desktop actions."
+              ]
+            },
+            {
+              "p": "<b>Accounting</b> (who did what): <code>journalctl</code>, rsyslog, logrotate and <b>auditd</b>."
+            },
+            {
+              "cmds": [
+                [
+                  "<code>auditctl -w /etc/passwd -p wa</code>",
+                  "Audit writes and attribute changes to a file."
+                ],
+                [
+                  "<code>ausearch</code>",
+                  "Search audit events."
+                ],
+                [
+                  "<code>aureport</code>",
+                  "Summarize audit events."
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            }
+          ]
         },
         {
-          "h": "Firewalls and cryptography",
-          "html": "<p><b>firewalld</b> (<code>firewall-cmd --permanent --add-service=https</code>, then <code>--reload</code>), <b>ufw</b> (<code>ufw default deny incoming</code>, <code>ufw allow OpenSSH</code>, <code>ufw enable</code>), and the underlying <b>nftables</b> (successor to iptables); <code>ipset</code> for address sets. Stateful filtering tracks connections. Routing and NAT need <code>net.ipv4.ip_forward=1</code>. Crypto: LUKS2 disk encryption (<code>cryptsetup luksFormat/open</code>, <code>/etc/crypttab</code>), GPG for files, OpenSSL for certificates (<code>openssl x509 -noout -enddate</code>), TLS 1.2/1.3 only, WireGuard VPN, SHA-256 hashes, and system crypto policies on RHEL.</p>"
+          "h": "Firewalls",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Tool",
+                  "Example"
+                ],
+                "rows": [
+                  [
+                    "firewalld (RHEL)",
+                    "<code>firewall-cmd --permanent --add-service=https</code>, then <code>firewall-cmd --reload</code>"
+                  ],
+                  [
+                    "ufw (Ubuntu)",
+                    "<code>ufw default deny incoming</code>, <code>ufw allow OpenSSH</code>, <code>ufw enable</code>"
+                  ],
+                  [
+                    "nftables",
+                    "The packet filter underneath both (successor to iptables)."
+                  ]
+                ]
+              }
+            },
+            {
+              "list": [
+                "Stateful filtering tracks connections, so replies are allowed automatically.",
+                "<code>ipset</code> manages large address lists.",
+                "Routing and NAT need <code>net.ipv4.ip_forward=1</code>."
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Cryptography",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Need",
+                  "Tool"
+                ],
+                "rows": [
+                  [
+                    "Encrypt a disk",
+                    "LUKS2: <code>cryptsetup luksFormat</code>, <code>cryptsetup open</code>, <code>/etc/crypttab</code>"
+                  ],
+                  [
+                    "Encrypt or sign files",
+                    "GPG"
+                  ],
+                  [
+                    "Check a certificate",
+                    "<code>openssl x509 -noout -enddate -in FILE</code>"
+                  ],
+                  [
+                    "VPN",
+                    "WireGuard"
+                  ],
+                  [
+                    "Integrity",
+                    "SHA-256 hashes"
+                  ],
+                  [
+                    "System-wide policy (RHEL)",
+                    "crypto policies"
+                  ]
+                ]
+              }
+            },
+            {
+              "note": "Allow only TLS 1.2 and 1.3.",
+              "kind": "tip"
+            }
+          ]
         },
         {
           "h": "Compliance and audit",
-          "html": "<p>Scan against benchmarks with <b>OpenSCAP</b> (CIS, STIG profiles); detect file changes with <b>AIDE</b>; check for rootkits with rkhunter; prioritize patches using <b>CVE</b> IDs and <b>CVSS</b> scores; destroy data securely (shred, secure erase, crypto-erase); verify software supply chains with signatures; and display legal login banners in <code>/etc/issue</code>, <code>/etc/issue.net</code>, and sshd's <code>Banner</code>.</p>"
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Task",
+                  "Tool or practice"
+                ],
+                "rows": [
+                  [
+                    "Scan against CIS or STIG benchmarks",
+                    "<b>OpenSCAP</b>"
+                  ],
+                  [
+                    "Detect changed files",
+                    "<b>AIDE</b>"
+                  ],
+                  [
+                    "Check for rootkits",
+                    "rkhunter"
+                  ],
+                  [
+                    "Prioritize patches",
+                    "<b>CVE</b> IDs and <b>CVSS</b> scores"
+                  ],
+                  [
+                    "Dispose of data",
+                    "shred, secure erase, crypto-erase"
+                  ],
+                  [
+                    "Trust software",
+                    "Verify signatures (supply chain)"
+                  ],
+                  [
+                    "Legal warning at login",
+                    "<code>/etc/issue</code>, <code>/etc/issue.net</code>, sshd <code>Banner</code>"
+                  ]
+                ]
+              }
+            }
+          ]
         }
       ],
       "tips": [
@@ -956,19 +1958,255 @@
       "guide": [
         {
           "h": "What this domain covers",
-          "html": "<p>Automation, orchestration, and scripting is <b>17%</b> of XK0-006: IaC and orchestration, shell scripting, Python basics, Git, AI best practices, and monitoring.</p>"
+          "blocks": [
+            {
+              "p": "Automation, orchestration and scripting is <b>17%</b> of XK0-006:"
+            },
+            {
+              "list": [
+                "Infrastructure as code and orchestration",
+                "Shell scripting",
+                "Python basics",
+                "Git",
+                "AI best practices",
+                "Monitoring"
+              ]
+            }
+          ]
         },
         {
-          "h": "Infrastructure as code and orchestration",
-          "html": "<p><b>Ansible</b> is agentless and pushes over SSH using YAML playbooks (hosts, tasks, modules, handlers, roles, inventory). <b>Puppet</b> agents pull manifests from a server. <b>OpenTofu</b>/Terraform provision infrastructure declaratively. All aim for <b>idempotence</b>: running twice changes nothing the second time. <b>Kickstart</b> automates RHEL installs; <b>cloud-init</b> configures cloud instances at first boot. CI/CD pipelines build and test every change. Containers are orchestrated by <b>Kubernetes</b> (pods, deployments, services), Docker Swarm, or Compose files for small multi-container apps.</p>"
+          "h": "Infrastructure as code",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Tool",
+                  "How it works"
+                ],
+                "rows": [
+                  [
+                    "<b>Ansible</b>",
+                    "Agentless; pushes over SSH using YAML playbooks (inventory, tasks, modules, handlers, roles)."
+                  ],
+                  [
+                    "<b>Puppet</b>",
+                    "Agents pull manifests from a server."
+                  ],
+                  [
+                    "<b>OpenTofu / Terraform</b>",
+                    "Provision infrastructure declaratively."
+                  ],
+                  [
+                    "<b>Kickstart</b>",
+                    "Automates RHEL installations."
+                  ],
+                  [
+                    "<b>cloud-init</b>",
+                    "Configures cloud instances at first boot."
+                  ]
+                ]
+              }
+            },
+            {
+              "note": "<b>Idempotence</b>: running the same automation twice changes nothing the second time. All these tools aim for it."
+            },
+            {
+              "p": "CI/CD pipelines build and test every change automatically."
+            }
+          ]
+        },
+        {
+          "h": "Container orchestration",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Option",
+                  "Scale"
+                ],
+                "rows": [
+                  [
+                    "<b>Kubernetes</b>",
+                    "Large clusters: pods, deployments, services."
+                  ],
+                  [
+                    "Docker Swarm",
+                    "Simpler clustering."
+                  ],
+                  [
+                    "Compose files",
+                    "Small multi-container apps on one host."
+                  ]
+                ]
+              }
+            }
+          ]
         },
         {
           "h": "Shell scripting",
-          "html": "<p>Start with <code>#!/bin/bash</code> and consider <code>set -euo pipefail</code>. Variables and expansion (<code>${var:-default}</code>, <code>${#var}</code>, <code>${file%.txt}</code>), command substitution <code>$(...)</code>, arithmetic <code>$((...))</code>. Tests: <code>[ -f ]</code>, <code>[ -d ]</code>, string <code>=</code>, numeric <code>-eq -lt -gt</code>, and <code>[[ ]]</code> with regex <code>=~</code>. Control flow: <code>if/elif/else/fi</code>, <code>case ... esac</code>, <code>for</code>, <code>while read -r line</code>, <code>until</code>. Functions: <code>name() { ...; }</code> with <code>return</code>. Exit codes: <code>$?</code>, <code>exit N</code>, <code>&amp;&amp;</code>, <code>||</code>. IFS controls word splitting; awk's OFS sets output separators.</p>"
+          "blocks": [
+            {
+              "p": "Start every script with <code>#!/bin/bash</code> and consider <code>set -euo pipefail</code> (stop on errors, unset variables and failed pipes)."
+            },
+            {
+              "cmds": [
+                [
+                  "<code>${var:-default}</code>",
+                  "Use a default if var is empty."
+                ],
+                [
+                  "<code>${#var}</code>",
+                  "Length of var."
+                ],
+                [
+                  "<code>${file%.txt}</code>",
+                  "Strip a suffix."
+                ],
+                [
+                  "<code>$(command)</code>",
+                  "Command substitution."
+                ],
+                [
+                  "<code>$((a + b))</code>",
+                  "Arithmetic."
+                ]
+              ],
+              "head": [
+                "Syntax",
+                "Meaning"
+              ]
+            },
+            {
+              "table": {
+                "head": [
+                  "Test",
+                  "True when"
+                ],
+                "rows": [
+                  [
+                    "<code>[ -f FILE ]</code>",
+                    "A regular file exists."
+                  ],
+                  [
+                    "<code>[ -d DIR ]</code>",
+                    "A directory exists."
+                  ],
+                  [
+                    "<code>[ \"$a\" = \"$b\" ]</code>",
+                    "Strings are equal."
+                  ],
+                  [
+                    "<code>-eq -lt -gt</code>",
+                    "Numeric comparisons."
+                  ],
+                  [
+                    "<code>[[ $x =~ REGEX ]]</code>",
+                    "Regex match (bash)."
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "Control flow: <code>if/elif/else/fi</code>, <code>case … esac</code>, <code>for</code>, <code>while read -r line</code>, <code>until</code>. Functions: <code>name() { …; }</code> with <code>return</code>."
+            },
+            {
+              "p": "Exit codes: <code>$?</code> holds the last one, <code>exit N</code> sets it, <code>&&</code> runs the next command on success and <code>||</code> on failure. IFS controls word splitting; awk's OFS sets its output separator."
+            }
+          ]
         },
         {
-          "h": "Python, Git, AI, and monitoring",
-          "html": "<p>Python: isolate dependencies with <code>python3 -m venv</code> and <code>pip install -r requirements.txt</code>; know data types (str, int, list, tuple, dict, set), built-in modules (os, sys, subprocess, json, pathlib), and PEP 8 style. Git: <code>clone</code>, <code>add</code>, <code>commit</code>, <code>push</code>, <code>pull</code>, <code>branch</code>, <code>switch -c</code>, <code>merge</code>, <code>rebase</code>, <code>stash</code>, <code>tag</code>, <code>log</code>, <code>diff</code>, and <code>.gitignore</code>. AI: review and test generated code, protect secrets and personal data, follow company policy, and write specific prompts. Monitoring: SLIs measure, SLOs set targets, SLAs are agreements; collect with agents or agentlessly (SNMP), alert on thresholds, and send webhooks.</p>"
+          "h": "Python and Git",
+          "blocks": [
+            {
+              "list": [
+                "Isolate dependencies: <code>python3 -m venv .venv</code>, then <code>pip install -r requirements.txt</code>.",
+                "Data types: str, int, list, tuple, dict, set.",
+                "Useful modules: os, sys, subprocess, json, pathlib.",
+                "Follow PEP 8 style."
+              ]
+            },
+            {
+              "cmds": [
+                [
+                  "<code>git clone</code>",
+                  "Copy a repository."
+                ],
+                [
+                  "<code>git add / commit</code>",
+                  "Stage and record changes."
+                ],
+                [
+                  "<code>git push / pull</code>",
+                  "Send or fetch changes."
+                ],
+                [
+                  "<code>git switch -c NAME</code>",
+                  "Create and switch to a branch."
+                ],
+                [
+                  "<code>git merge / rebase</code>",
+                  "Combine branches."
+                ],
+                [
+                  "<code>git stash</code>",
+                  "Shelve uncommitted work."
+                ],
+                [
+                  "<code>git tag / log / diff</code>",
+                  "Label releases, view history, compare."
+                ],
+                [
+                  "<code>.gitignore</code>",
+                  "Files Git should never track, such as secrets."
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            }
+          ]
+        },
+        {
+          "h": "AI and monitoring",
+          "blocks": [
+            {
+              "p": "<b>Using AI tools responsibly:</b>"
+            },
+            {
+              "list": [
+                "Review and test generated code before using it.",
+                "Never paste secrets or personal data.",
+                "Follow company policy.",
+                "Write specific prompts."
+              ]
+            },
+            {
+              "table": {
+                "head": [
+                  "Term",
+                  "Meaning"
+                ],
+                "rows": [
+                  [
+                    "SLI",
+                    "What you measure (for example, availability)."
+                  ],
+                  [
+                    "SLO",
+                    "The target (99.9%)."
+                  ],
+                  [
+                    "SLA",
+                    "The agreement with customers."
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "Collect metrics with agents or agentlessly (SNMP), alert on thresholds, and send alerts to chat or ticketing tools with webhooks."
+            }
+          ]
         }
       ],
       "tips": [
@@ -1221,19 +2459,218 @@
       "guide": [
         {
           "h": "What this domain covers",
-          "html": "<p>Troubleshooting is <b>22%</b> of XK0-006: hardware, storage, and OS issues; networking; security; and performance. Questions describe symptoms and ask for the most likely cause or the best next command.</p>"
+          "blocks": [
+            {
+              "p": "Troubleshooting is <b>22%</b> of XK0-006: hardware, storage and OS issues; networking; security; and performance."
+            },
+            {
+              "note": "Questions describe <b>symptoms</b> and ask for the most likely cause or the best next command. Learn the symptom → tool pairs below."
+            }
+          ]
         },
         {
-          "h": "Boot, storage, and services",
-          "html": "<p>A bad <code>/etc/fstab</code> line drops the system to emergency mode; fix it, then <code>mount -a</code>. Full disks: <code>df -h</code>, then <code>du -xh | sort -h</code>; space held by deleted-but-open files shows with <code>lsof +L1</code>; inode exhaustion shows with <code>df -i</code>. Quotas: <code>quota</code>, <code>repquota</code>, <code>xfs_quota</code>. Kernel panic after an update: boot the previous kernel from GRUB. A <code>grub&gt;</code> prompt means a broken GRUB config. Failed units: <code>systemctl status</code>, <code>journalctl -u name -b</code>. Missing drivers: <code>lspci -k</code>, <code>dmesg</code>. Memory leaks end with the OOM killer (<code>journalctl -k | grep -i oom</code>).</p>"
+          "h": "Boot and storage problems",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Symptom",
+                  "Cause or fix"
+                ],
+                "rows": [
+                  [
+                    "Boots into emergency mode",
+                    "A bad <code>/etc/fstab</code> line. Fix it, then <code>mount -a</code>."
+                  ],
+                  [
+                    "Kernel panic after an update",
+                    "Boot the previous kernel from the GRUB menu."
+                  ],
+                  [
+                    "<code>grub></code> prompt",
+                    "Broken GRUB configuration."
+                  ],
+                  [
+                    "Disk full",
+                    "<code>df -h</code>, then <code>du -xh / | sort -h</code> to find the culprit."
+                  ],
+                  [
+                    "Space not freed after deleting a file",
+                    "A process still has it open: <code>lsof +L1</code>."
+                  ],
+                  [
+                    "\"No space left\" but df shows free space",
+                    "Out of inodes: <code>df -i</code>."
+                  ],
+                  [
+                    "User over quota",
+                    "<code>quota</code>, <code>repquota</code>, <code>xfs_quota</code>."
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "h": "Service and hardware problems",
+          "blocks": [
+            {
+              "cmds": [
+                [
+                  "<code>systemctl status NAME</code>",
+                  "Why a unit failed, with recent logs."
+                ],
+                [
+                  "<code>journalctl -u NAME -b</code>",
+                  "The unit's full log for this boot."
+                ],
+                [
+                  "<code>lspci -k</code>",
+                  "Missing or wrong driver."
+                ],
+                [
+                  "<code>dmesg</code>",
+                  "Kernel and hardware errors."
+                ],
+                [
+                  "<code>journalctl -k | grep -i oom</code>",
+                  "Processes killed by the OOM killer (memory exhausted)."
+                ]
+              ],
+              "head": [
+                "Command",
+                "Shows"
+              ]
+            }
+          ]
         },
         {
           "h": "Networking",
-          "html": "<p>Work up the stack: link (<code>ip link</code>, <code>ethtool</code>), address and gateway (<code>ip addr</code>, <code>ip route</code>), name resolution (<code>dig</code>, <code>resolvectl</code>, <code>/etc/hosts</code>), firewall (<code>firewall-cmd --list-all</code>, <code>nft list ruleset</code>), and the service (<code>ss -tlnp</code>; listening on 127.0.0.1 only means remote clients can't connect). Large transfers stalling suggests MTU problems (<code>ping -M do -s 1400</code>). IP conflicts show with <code>arping -D</code>. Use <code>tcpdump</code>, <code>mtr</code>, and <code>tracepath</code> to see where traffic stops. In dual-stack networks, check IPv6 routes too.</p>"
+          "blocks": [
+            {
+              "p": "Work up the stack, one layer at a time:"
+            },
+            {
+              "steps": [
+                {
+                  "t": "Link",
+                  "d": "<code>ip link</code>, <code>ethtool</code>"
+                },
+                {
+                  "t": "Address and gateway",
+                  "d": "<code>ip addr</code>, <code>ip route</code>"
+                },
+                {
+                  "t": "Name resolution",
+                  "d": "<code>dig</code>, <code>resolvectl</code>, <code>/etc/hosts</code>"
+                },
+                {
+                  "t": "Firewall",
+                  "d": "<code>firewall-cmd --list-all</code>, <code>nft list ruleset</code>"
+                },
+                {
+                  "t": "Service",
+                  "d": "<code>ss -tlnp</code>. Listening on 127.0.0.1 only means remote clients can't connect."
+                }
+              ]
+            },
+            {
+              "table": {
+                "head": [
+                  "Symptom",
+                  "Suspect"
+                ],
+                "rows": [
+                  [
+                    "Small transfers work, large ones stall",
+                    "MTU. Test with <code>ping -M do -s 1400 HOST</code>."
+                  ],
+                  [
+                    "Intermittent drops, duplicate address warnings",
+                    "IP conflict: <code>arping -D</code>."
+                  ],
+                  [
+                    "Traffic stops somewhere on the path",
+                    "<code>tcpdump</code>, <code>mtr</code>, <code>tracepath</code>."
+                  ]
+                ]
+              }
+            },
+            {
+              "note": "In dual-stack networks, check IPv6 addresses and routes too.",
+              "kind": "tip"
+            }
+          ]
         },
         {
-          "h": "Security and performance",
-          "html": "<p>Security: SELinux denials (<code>ausearch -m AVC -ts recent</code>, <code>sealert</code>) are fixed with correct labels (<code>semanage fcontext</code> + <code>restorecon</code>), port labels, or booleans, not by disabling SELinux. Permission problems: check the path's execute bits, group membership (log in again), and ACL masks. Account issues: <code>passwd -S</code>, <code>chage -l</code>, <code>faillock</code>. Certificates: expired, wrong name, or missing intermediate chain. Performance: high <code>wa</code> in top means I/O wait (<code>iostat -x</code>, <code>iotop</code>); high load with high CPU means a CPU bottleneck (<code>ps --sort=-%cpu</code>); swapping and OOM point to memory (<code>free -h</code>, <code>vmstat</code>); <code>sar</code> compares with a baseline.</p>"
+          "h": "Security problems",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Problem",
+                  "Check"
+                ],
+                "rows": [
+                  [
+                    "SELinux denial",
+                    "<code>ausearch -m AVC -ts recent</code>, <code>sealert</code>"
+                  ],
+                  [
+                    "Permission denied",
+                    "Execute bits on every directory in the path, group membership (log in again after changes) and ACL masks."
+                  ],
+                  [
+                    "Can't log in",
+                    "<code>passwd -S</code>, <code>chage -l</code>, <code>faillock</code>"
+                  ],
+                  [
+                    "Certificate errors",
+                    "Expired, wrong name or missing intermediate chain."
+                  ]
+                ]
+              }
+            },
+            {
+              "note": "Fix SELinux denials with correct labels (<code>semanage fcontext</code> + <code>restorecon</code>), port labels or booleans, <b>not</b> by disabling SELinux.",
+              "kind": "warn"
+            }
+          ]
+        },
+        {
+          "h": "Performance",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Symptom",
+                  "Bottleneck",
+                  "Tools"
+                ],
+                "rows": [
+                  [
+                    "High <code>wa</code> in top",
+                    "Disk I/O wait",
+                    "<code>iostat -x</code>, <code>iotop</code>"
+                  ],
+                  [
+                    "High load and high CPU use",
+                    "CPU",
+                    "<code>ps --sort=-%cpu</code>"
+                  ],
+                  [
+                    "Swapping, OOM kills",
+                    "Memory",
+                    "<code>free -h</code>, <code>vmstat</code>"
+                  ]
+                ]
+              }
+            },
+            {
+              "note": "<code>sar</code> records history, so you can compare today with a baseline.",
+              "kind": "tip"
+            }
+          ]
         }
       ],
       "tips": [

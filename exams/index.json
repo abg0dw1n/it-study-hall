@@ -6,7 +6,7 @@
     "vendor": "Microsoft",
     "legacyStorageKey": "az104-sim:v2",
     "level": "advanced",
-    "updated": "2026-10-29",
+    "updated": "2026-11-02",
     "learning": true,
     "learningDescription": "Configure Azure identities and governance, manage storage, deploy compute, build virtual networks, and monitor and maintain Azure resources.",
     "questions": 229,

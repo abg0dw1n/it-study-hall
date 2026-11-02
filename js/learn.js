@@ -103,7 +103,7 @@ function renderIndex(main) {
         <div><h3>${esc(m.title)}</h3>${dom ? `<span class="muted small">${esc(dom.weight)} of the exam</span>` : ''}</div></div>
       <p class="muted">${esc(m.summary)}</p>
       <div class="learn-parts">
-        ${part(m.id, 'guide', 'book', 'Study guide', `${Math.max(1, Math.round(words(m.guide.map((s) => s.html.replace(/<[^>]+>/g, ' ')).join(' ')) / 200))} min read`, p.guide)}
+        ${part(m.id, 'guide', 'book', 'Study guide', `${Math.max(1, Math.round(words(m.guide.map((s) => sectionHtml(s).replace(/<[^>]+>/g, ' ')).join(' ')) / 200))} min read`, p.guide)}
         ${part(m.id, 'slides', 'grid', 'Slides', `${m.slides.length} slides`, p.slides)}
         ${part(m.id, 'video', 'play', 'Video lesson', `~${minutesOf(m)} min`, p.video)}
       </div>
@@ -156,16 +156,51 @@ function renderModule(main, m) {
 }
 
 // ── Study guide ──────────────────────────────────────────────────────────────
+// Guide sections are either authored HTML (s.html) or structured blocks (s.blocks):
+//   { p: html }                      paragraph
+//   { list: [html, ...] }            bullet list
+//   { steps: [{ t, d }, ...] }       numbered steps / a sequence
+//   { cmds: [[command, meaning], ...], head?: [a, b] }  command or term reference table
+//   { table: { head: [...], rows: [[...], ...] } }
+//   { note: html, kind?: 'tip' | 'warn' | 'info' }   callout
+//   { pairs: [{ t, d }, ...] }       side-by-side comparison cards
+function guideBlocks(blocks) {
+  return blocks.map((b) => {
+    if (b.p) return `<p>${b.p}</p>`;
+    if (b.list) return `<ul class="g-list">${b.list.map((x) => `<li>${x}</li>`).join('')}</ul>`;
+    if (b.steps) return `<ol class="g-steps">${b.steps.map((x) => `<li><b>${x.t}</b>${x.d ? `<span>${x.d}</span>` : ''}</li>`).join('')}</ol>`;
+    if (b.cmds) return `<div class="g-table-wrap"><table class="g-cmds">${b.head ? `<thead><tr><th>${b.head[0]}</th><th>${b.head[1]}</th></tr></thead>` : ''}<tbody>${b.cmds.map(([c, d]) => `<tr><td>${c}</td><td>${d}</td></tr>`).join('')}</tbody></table></div>`;
+    if (b.table) return `<div class="g-table-wrap"><table><thead><tr>${b.table.head.map((h) => `<th>${h}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    if (b.note) return `<div class="g-note ${b.kind || 'info'}">${icon(b.kind === 'warn' ? 'alert' : 'bulb')}<div>${b.note}</div></div>`;
+    if (b.pairs) return `<div class="g-pairs">${b.pairs.map((x) => `<div><b>${x.t}</b><span>${x.d}</span></div>`).join('')}</div>`;
+    return '';
+  }).join('');
+}
+
+const sectionHtml = (s) => s.html ?? guideBlocks(s.blocks || []);
+
 function renderGuide(body, m) {
   const p = progressOf(m.id);
-  const slug = (t, i) => `g-${m.id}-${i}`;
+  const id = (i) => `g-${m.id}-${i}`;
+  const html = sectionHtml;
+  const text = m.guide.map((s) => html(s).replace(/<[^>]+>/g, ' ')).join(' ') + (m.tips || []).join(' ');
+  const mins = Math.max(2, Math.round(words(text) / 200));
   body.innerHTML = `<div class="guide-layout">
-      <nav class="panel guide-toc" aria-label="Contents"><b class="small">Contents</b>
-        <ol>${m.guide.map((s, i) => `<li><a href="#${slug(s.h, i)}">${esc(s.h)}</a></li>`).join('')}</ol></nav>
-      <article class="panel card-pad guide">
-        ${m.guide.map((s, i) => `<section id="${slug(s.h, i)}"><h3>${esc(s.h)}</h3>${s.html}</section>`).join('')}
-        ${m.tips?.length ? `<section class="guide-tips"><h3>${icon('bulb')}Exam tips</h3><ul>${m.tips.map((t) => `<li>${t}</li>`).join('')}</ul></section>` : ''}
-        ${m.terms?.length ? `<section><h3>Key terms</h3><dl class="guide-terms">${m.terms.map(([t, d]) => `<dt>${esc(t)}</dt><dd>${d}</dd>`).join('')}</dl></section>` : ''}
+      <nav class="guide-toc" aria-label="Contents"><b class="small">In this guide</b>
+        <ol>${m.guide.map((s, i) => `<li><a href="#${id(i)}" data-toc="${i}">${esc(s.h)}</a></li>`).join('')}
+        ${m.tips?.length ? `<li><a href="#${id('tips')}" data-toc="tips">Exam tips</a></li>` : ''}
+        ${m.terms?.length ? `<li><a href="#${id('terms')}" data-toc="terms">Key terms</a></li>` : ''}</ol></nav>
+      <article class="guide">
+        <header class="guide-head">
+          <span class="guide-meta">${icon('book')}${m.guide.length} sections · about ${mins} min read</span>
+          ${m.summary ? `<p class="guide-summary">${esc(m.summary)}</p>` : ''}
+        </header>
+        ${m.guide.map((s, i) => `<section class="g-sec" id="${id(i)}" data-sec="${i}">
+          <h3><span class="g-num">${i + 1}</span>${esc(s.h)}</h3><div class="g-body">${html(s)}</div></section>`).join('')}
+        ${m.tips?.length ? `<section class="g-sec g-tips" id="${id('tips')}" data-sec="tips"><h3><span class="g-num">${icon('bulb')}</span>Exam tips</h3>
+          <ul>${m.tips.map((t) => `<li>${t}</li>`).join('')}</ul></section>` : ''}
+        ${m.terms?.length ? `<section class="g-sec" id="${id('terms')}" data-sec="terms"><h3><span class="g-num">${icon('book')}</span>Key terms</h3>
+          <dl class="g-terms">${m.terms.map(([t, d]) => `<div><dt>${esc(t)}</dt><dd>${d}</dd></div>`).join('')}</dl></section>` : ''}
         <div class="guide-actions">
           <button class="btn ${p.guide ? 'btn-ghost' : 'btn-primary'}" data-done>${icon('check')}${p.guide ? 'Completed' : 'Mark as complete'}</button>
           <button class="btn btn-ghost" data-practice>${icon('book')}Practice ${esc(m.short || 'this domain')} questions</button>
@@ -175,9 +210,20 @@ function renderGuide(body, m) {
     mark(m.id, 'guide'); e.currentTarget.className = 'btn btn-ghost'; e.currentTarget.innerHTML = `${icon('check')}Completed`;
   });
   body.querySelector('[data-practice]').addEventListener('click', () => { stopLearn(); ctx.practiceDomain(m.id); });
-  body.querySelectorAll('.guide-toc a').forEach((a) => a.addEventListener('click', (e) => {
+  const links = [...body.querySelectorAll('.guide-toc a')];
+  links.forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }));
+  // Highlight the section you're reading in the contents list.
+  if ('IntersectionObserver' in window) {
+    const seen = new Map();
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) seen.set(e.target.dataset.sec, e.isIntersecting);
+      const cur = [...body.querySelectorAll('.g-sec')].find((x) => seen.get(x.dataset.sec));
+      if (cur) links.forEach((a) => a.classList.toggle('current', a.dataset.toc === cur.dataset.sec));
+    }, { rootMargin: '-80px 0px -55% 0px' });
+    body.querySelectorAll('.g-sec').forEach((x) => io.observe(x));
+  }
 }
 
 // ── Slide rendering (shared by the slideshow and the video) ──────────────────
