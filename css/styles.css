@@ -1,4 +1,4 @@
-/* The IT Study Hall — hand-written CSS (no runtime framework). */
+/* The IT Study Hall — hand-written CSS v2 (no runtime framework). */
 
 /* Fonts: self-hosted, Latin subset, variable weight (SIL Open Font License; see /fonts). */
 @font-face { font-family: "Inter"; src: url("/fonts/inter-latin-var.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
