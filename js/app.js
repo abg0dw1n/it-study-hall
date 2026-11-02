@@ -923,6 +923,7 @@ function retryMissed() {
 function applyPracticeFilters() {
   const p = state.practice;
   p.domain = $('domain-filter').value;
+  updateDomainCount();
   p.status = $('status-filter').value;
   p.order = $('order-filter').value;
   p.shuffle = p.order !== 'ordered';
@@ -991,8 +992,16 @@ function toast(msg) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Wiring (event delegation: one listener instead of one per button)
 // ─────────────────────────────────────────────────────────────────────────────
+// Question count for the chosen domain, shown beside the "Domain" label (long names truncate it in the box).
+function updateDomainCount() {
+  const d = $('domain-filter').value;
+  const n = d === 'ALL' ? QUESTIONS.length : QUESTIONS.filter((q) => q.domain === d).length;
+  $('domain-count').textContent = `${n} question${n === 1 ? '' : 's'}`;
+}
+
 function syncFilterControls() {
   $('domain-filter').value = state.practice.domain;
+  updateDomainCount();
   $('status-filter').value = state.practice.status;
   $('order-filter').value = state.practice.order || (state.practice.shuffle ? 'shuffled' : 'ordered');
 }
@@ -1855,10 +1864,9 @@ async function init() {
   $('btn-mode-labs').hidden = !LABS;
   $('mode-tabs').hidden = false;
   $('btn-drawer').hidden = false;
-  const perDomain = {};
-  for (const q of QUESTIONS) perDomain[q.domain] = (perDomain[q.domain] || 0) + 1;
-  $('domain-filter').innerHTML = `<option value="ALL">All domains (${QUESTIONS.length})</option>` +
-    Object.entries(DOMAINS).map(([k, d], i) => `<option value="${k}">${i + 1}. ${d.name} (${perDomain[k] || 0})</option>`).join('');
+  // Counts are shown beside the "Domain" label (updateDomainCount), not in the options.
+  $('domain-filter').innerHTML = '<option value="ALL">All domains</option>' +
+    Object.entries(DOMAINS).map(([k, d], i) => `<option value="${k}">${i + 1}. ${escapeHtml(d.name)}</option>`).join('');
   syncFilterControls();
 
   for (const id of ['domain-filter', 'status-filter', 'order-filter']) $(id).addEventListener('change', applyPracticeFilters);
