@@ -274,6 +274,80 @@ function currentHolder(s) { return s.holder || s.store; }
 // ─────────────────────────────────────────────────────────────────────────────
 // Rendering
 // ─────────────────────────────────────────────────────────────────────────────
+// ── Course overview ─────────────────────────────────────────────────────────
+// Shown when a course is opened from its Recents card (/slug?mode=overview): one tile per
+// section with your progress, so you can choose where to go. It's a view, not a saved mode,
+// so the course still resumes in the last section you used.
+let overview = false;
+
+function renderOverview(main) {
+  $('navigator').hidden = true;
+  $('practice-filters').hidden = true;
+  $('practice-stats').hidden = true;
+  const pct = (n, t) => (t ? Math.round((n / t) * 100) : 0);
+  const bar = (v, cls = '') => `<span class="ov-bar"><i class="${cls}" style="width:${Math.max(v, v ? 3 : 0)}%"></i></span>`;
+  const tiles = [];
+
+  if (LEARN) {
+    const mods = LEARN.modules;
+    const prog = state.learn?.progress || {};
+    const parts = mods.reduce((n, m) => n + ['guide', 'slides', 'video'].filter((k) => prog[m.id]?.[k]).length, 0);
+    const done = mods.filter((m) => ['guide', 'slides', 'video'].every((k) => prog[m.id]?.[k])).length;
+    const open = mods.find((m) => m.id === state.learn?.view?.module);
+    const next = open || mods.find((m) => !['guide', 'slides', 'video'].every((k) => prog[m.id]?.[k]));
+    const p = pct(parts, mods.length * 3);
+    tiles.push({ mode: 'learn', ic: 'learn', title: 'Learn', blurb: 'Study guides, slides and video lessons for each exam domain.',
+      stat: `${p}%`, sub: `${done} of ${mods.length} module${mods.length === 1 ? '' : 's'} complete`, bar: bar(p),
+      cta: parts || open ? (next ? `Continue: ${next.title}` : 'Review modules') : 'Start learning' });
+  }
+
+  const answered = Object.keys(state.practice.answers).map(Number);
+  const correct = answered.filter((id) => isCorrect(BY_ID.get(id), state.practice.answers[id])).length;
+  const mastered = QUESTIONS.filter((q) => (state.mastery?.[q.id]?.box || 0) >= 3).length;
+  const acc = pct(correct, answered.length);
+  tiles.push({ mode: 'practice', ic: 'book', title: 'Practice', blurb: 'Answer at your own pace with an explanation after every question.',
+    stat: `${answered.length}<small> / ${QUESTIONS.length}</small>`,
+    sub: answered.length ? `${acc}% correct · ${mastered} mastered` : 'No questions answered yet',
+    bar: bar(pct(answered.length, QUESTIONS.length)), cta: answered.length ? 'Continue practice' : 'Start practicing' });
+
+  const hist = state.history || [];
+  const running = state.exam && !state.exam.result;
+  const best = hist.reduce((m, h) => Math.max(m, h.score), 0);
+  const passMark = EXAM.scoring?.pass;
+  tiles.push({ mode: 'exam', ic: 'clock', title: 'Timed exam', blurb: `A scored, timed run that mirrors the real ${escapeHtml(EXAM.code)} exam.`,
+    stat: running ? '<span class="ov-live">In progress</span>' : hist.length ? `${hist[0].score}` : '—',
+    sub: running ? 'Your exam is still running' : hist.length
+      ? `Last score${passMark ? ` (pass ${passMark})` : ''} · best ${best} · ${hist.length} attempt${hist.length === 1 ? '' : 's'}`
+      : 'No timed exam taken yet',
+    cls: running ? 'running' : hist.length ? (hist[0].passed ? 'good' : 'weak') : '',
+    cta: running ? 'Resume exam' : hist.length ? 'Take another exam' : 'Start a timed exam' });
+
+  if (LABS) {
+    const sum = Labs.labSummary(state, LABS.labs.length);
+    const p = pct(sum.done, sum.total);
+    tiles.push({ mode: 'labs', ic: 'terminal', title: 'Labs', blurb: 'Hands-on scenarios in a simulated terminal or console.',
+      stat: `${sum.done}<small> / ${sum.total}</small>`, sub: sum.done ? `${sum.done} lab${sum.done === 1 ? '' : 's'} completed` : sum.started ? 'Started' : 'No labs started yet',
+      bar: bar(p), cta: sum.started ? 'Continue labs' : 'Start a lab' });
+  }
+
+  const last = { learn: 'Learn', labs: 'Labs', exam: 'Timed exam', review: 'Timed exam', practice: 'Practice' }[state.mode];
+  main.innerHTML = `<section class="overview stack">
+    <header class="ov-head">
+      <span class="learning-path-eyebrow">${escapeHtml(EXAM.vendor)} · ${escapeHtml(EXAM.code)}</span>
+      <h2 class="home-title">${escapeHtml(EXAM.name)}</h2>
+      <p class="muted">Choose where to pick up. ${last ? `You were last in <b>${last}</b>.` : ''}</p>
+    </header>
+    <div class="ov-grid">${tiles.map((t) => `
+      <button type="button" class="panel ov-tile${t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review') ? ' last' : ''}" data-action="overview-go" data-go="${t.mode}">
+        <span class="ov-top"><span class="ov-icon">${icon(t.ic)}</span><span class="ov-title">${t.title}</span></span>
+        <span class="ov-blurb">${t.blurb}</span>
+        <span class="ov-stat ${t.cls || ''}"><b>${t.stat}</b><span>${t.sub}</span>${t.bar || ''}</span>
+        <span class="learning-path-action">${escapeHtml(t.cta)} ${icon('right')}</span>
+      </button>`).join('')}
+    </div>
+  </section>`;
+}
+
 function render() {
   if (state.mode === 'learn' && !LEARN) state.mode = 'practice';
   if (state.mode === 'labs' && !LABS) state.mode = 'practice';
@@ -281,6 +355,10 @@ function render() {
   renderTimer();
 
   const main = $('main');
+  if (overview) {
+    Learn.stopLearn(); Labs.stopLabs();
+    return renderOverview(main);
+  }
   if (state.mode === 'learn') {
     $('navigator').hidden = true;
     Labs.stopLabs();
@@ -322,11 +400,11 @@ function render() {
 }
 
 function renderModeTabs() {
-  const examTab = state.mode === 'exam' || state.mode === 'review';
-  $('btn-mode-practice').setAttribute('aria-selected', String(state.mode === 'practice'));
-  $('btn-mode-exam').setAttribute('aria-selected', String(examTab));
-  $('btn-mode-learn').setAttribute('aria-selected', String(state.mode === 'learn'));
-  $('btn-mode-labs').setAttribute('aria-selected', String(state.mode === 'labs'));
+  const on = (m) => String(!overview && (state.mode === m || (m === 'exam' && state.mode === 'review')));
+  $('btn-mode-practice').setAttribute('aria-selected', on('practice'));
+  $('btn-mode-exam').setAttribute('aria-selected', on('exam'));
+  $('btn-mode-learn').setAttribute('aria-selected', on('learn'));
+  $('btn-mode-labs').setAttribute('aria-selected', on('labs'));
 }
 
 let gridKey = '';
@@ -657,6 +735,7 @@ function toggleFlag() {
 }
 
 function setMode(mode) {
+  if (overview) { overview = false; if (mode === 'exam' && state.mode === 'review') state.mode = 'exam'; }
   if (mode === 'learn' && state.mode === 'learn' && state.learn?.view?.module) {
     state.learn.view.module = null; save(); return render(); // clicking Learn again returns to the module list
   }
@@ -1102,14 +1181,12 @@ function recentCard({ e, saved, activity: a }) {
   const exam = a.examRunning ? stat('Exam', 'In progress', { cls: 'running', href: '?mode=exam' })
     : a.last ? stat('Exam', `${a.last.score}<small>${a.last.passed ? ' passed' : ''}</small>`, { cls: a.last.passed ? 'good' : 'weak', title: `Last timed exam: ${a.last.score}, ${a.last.passed ? 'passed' : 'not passed'}`, href: '?mode=exam' })
       : none('Exam', 'No timed exam taken', '?mode=exam');
-  const mode = a.examRunning ? 'exam' : a.mode === 'learn' && e.learning ? 'learn' : a.mode === 'labs' && e.labs ? 'labs' : 'practice';
-  const action = { exam: 'Resume timed exam', learn: 'Resume learning path', labs: 'Resume labs', practice: 'Resume practice' }[mode];
   const when = lastStudied(saved?.updatedAt);
   return `<div class="panel learning-path-card recent-card" data-vendor="${vendorKey(e.vendor)}">
       <span class="recent-head"><span class="learning-path-eyebrow">${escapeHtml(e.code)}</span>${when ? `<span class="recent-when">${when[0].toUpperCase()}${when.slice(1)}</span>` : ''}</span>
-      <h3><a href="/${e.slug}${mode === 'learn' || mode === 'labs' ? `?mode=${mode}` : ''}" title="${escapeHtml(`${e.vendor} · ${e.code}`)}">${escapeHtml(e.name)}</a></h3>
+      <h3><a href="/${e.slug}?mode=overview" title="${escapeHtml(`${e.vendor} · ${e.code}`)}">${escapeHtml(e.name)}</a></h3>
       <span class="recent-stats">${learning}${practice}${labs}${exam}</span>
-      <span class="learning-path-action">${action} ${icon('right', 'icon')}</span>
+      <span class="learning-path-action">Open course overview ${icon('right', 'icon')}</span>
       <button type="button" class="recent-remove" data-action="remove-recent" data-slug="${escapeHtml(e.slug)}" title="Hide from Recents" aria-label="Hide ${escapeHtml(e.name)} from Recents">${icon('x', 'icon')}</button>
     </div>`;
 }
@@ -1772,6 +1849,7 @@ async function init() {
   if (initialMode === 'labs' && LABS) state.mode = 'labs';
   if (initialMode === 'practice') state.mode = 'practice';
   if (initialMode === 'exam') state.mode = 'exam';
+  if (initialMode === 'overview') overview = true;
   if (initialMode) history.replaceState(null, '', location.pathname); // keep the address tidy after honoring ?mode
   $('btn-mode-learn').hidden = !LEARN;
   $('btn-mode-labs').hidden = !LABS;
@@ -1830,6 +1908,7 @@ async function init() {
       case 'clear-filters':
         state.practice.domain = 'ALL'; state.practice.status = 'all';
         syncFilterControls(); buildPracticeList(); save(); return render();
+      case 'overview-go': return setMode(act.dataset.go);
       case 'remove-recent': {
         e.stopPropagation();
         e.preventDefault();
