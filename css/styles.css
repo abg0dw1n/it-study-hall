@@ -1042,3 +1042,9 @@ body.account-page .exams-link, body.subpage .exams-link { display: inline-flex; 
 }
 .act-body > .btn, .portal-table > .btn { justify-self: start; width: auto; }
 @media (max-width: 600px) { .recent-card h3 { min-height: 0; } }
+
+/* Pre-rendered lesson video (a module with videoUrl) */
+.prerendered-video { display: grid; gap: 14px; }
+.prerendered-player { display: block; width: 100%; max-width: max(560px, calc((100dvh - 250px) * 16 / 9)); aspect-ratio: 16 / 9; margin-inline: auto; background: #000; border-radius: 12px; box-shadow: var(--shadow); }
+.prerendered-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.prerendered-meta p { flex: 1 1 100%; margin: 0; }
