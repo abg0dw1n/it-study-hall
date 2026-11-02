@@ -65,13 +65,13 @@
     "learningModules": 2
   },
   {
-    "slug": "ai-102",
-    "code": "AI-102",
-    "name": "Microsoft Azure AI Fundamentals",
+    "slug": "ai-103",
+    "code": "AI-103",
+    "name": "Developing AI Apps and Agents on Azure",
     "vendor": "Microsoft",
     "level": "advanced",
-    "updated": "2026-10-30",
-    "questions": 5
+    "updated": "2026-11-02",
+    "questions": 100
   },
   {
     "slug": "aws-aif",
@@ -335,7 +335,7 @@
     "learningDescription": "Administer Linux servers: boot, storage and LVM, networking, systemd, containers, security hardening, automation with scripts, Ansible and Git, and troubleshooting.",
     "learningModules": 5,
     "questions": 148,
-    "updated": "2026-10-29",
+    "updated": "2026-11-02",
     "labs": 7
   },
   {

@@ -72,6 +72,11 @@
   ],
   "redirects": [
     {
+      "source": "/ai-102",
+      "destination": "/ai-103",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {

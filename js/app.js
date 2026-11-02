@@ -90,30 +90,6 @@ const writeSaved = (slug, data) => {
   try { progressStore().setItem(storageKey(slug), JSON.stringify(data)); } catch { /* ignore quota/private mode */ }
 };
 
-// Remove a course from Recents. Progress is deleted, not hidden — this is a hard reset.
-function clearSaved(slug) {
-  try { progressStore().removeItem(storageKey(slug)); } catch { /* ignore quota/private mode */ }
-  if (EXAM && EXAM.slug === slug) location.hash = '';
-  renderHome();
-}
-
-async function removeRecent(slug) {
-  let name = slug;
-  try {
-    const exam = (await fetchIndex()).find((e) => e.slug === slug);
-    if (exam) name = `${exam.name} (${exam.code})`;
-  } catch { /* offline: still allow removal with the slug as the name */ }
-  const ok = await confirmModal(
-    `Remove ${name} from Recents?`,
-    `Your progress — practice answers, learning modules, labs and timed-exam history — will be deleted. You can start over again anytime. This cannot be undone.`,
-    'Remove',
-    'Keep'
-  );
-  if (ok !== true) return;
-  clearSaved(slug);
-  toast(`${name} removed from Recents`);
-}
-
 // Hide a course from Recents without deleting progress.
 async function hideRecent(slug) {
   let name = slug;
@@ -1109,7 +1085,7 @@ function recentCard({ e, saved, activity: a }) {
   const pct = (n, total) => (total ? Math.min(100, Math.round((n / total) * 100)) : 0);
   // Four compact stats in a 2x2 grid: a short value, and a thin bar only once there's progress.
   const stat = (label, value, { cls = '', bar = null, title = '', href = null } = {}) => {
-    const attrs = `${title ? ` title="${escapeHtml(title)}"` : ''}${href ? ` data-stat-href="/${e.slug}${href}"` : ''}`;
+    const attrs = `${title ? ` title="${escapeHtml(title)}"` : ''}${href ? ` href="/${e.slug}${href}"` : ''}`;
     const inner = `<span class="recent-stat-label">${label}</span><b>${value}</b>${bar ? `<span class="recent-bar"><i style="width:${Math.max(bar, 3)}%"></i></span>` : ''}`;
     return href ? `<a class="recent-stat${cls ? ` ${cls}` : ''}"${attrs}>${inner}</a>` : `<span class="recent-stat${cls ? ` ${cls}` : ''}"${attrs}>${inner}</span>`;
   };
@@ -1129,14 +1105,12 @@ function recentCard({ e, saved, activity: a }) {
   const mode = a.examRunning ? 'exam' : a.mode === 'learn' && e.learning ? 'learn' : a.mode === 'labs' && e.labs ? 'labs' : 'practice';
   const action = { exam: 'Resume timed exam', learn: 'Resume learning path', labs: 'Resume labs', practice: 'Resume practice' }[mode];
   const when = lastStudied(saved?.updatedAt);
-  return `<div class="panel learning-path-card recent-card" data-vendor="${vendorKey(e.vendor)}" title="${escapeHtml(`${e.vendor} · ${e.code}`)}">
-      <a class="recent-link" href="/${e.slug}${mode === 'learn' || mode === 'labs' ? `?mode=${mode}` : ''}">
-        <span class="recent-head"><span class="learning-path-eyebrow">${escapeHtml(e.code)}</span>${when ? `<span class="recent-when">${when[0].toUpperCase()}${when.slice(1)}</span>` : ''}</span>
-        <h3>${escapeHtml(e.name)}</h3>
-        <span class="recent-stats">${learning}${practice}${labs}${exam}</span>
-        <span class="learning-path-action">${action} ${icon('right', 'icon')}</span>
-      </a>
-      <button class="recent-remove" data-action="remove-recent" data-slug="${escapeHtml(e.slug)}" title="Hide ${escapeHtml(e.name)} from Recents" aria-label="Hide ${escapeHtml(e.name)} from Recents">${icon('x', 'icon')}</button>
+  return `<div class="panel learning-path-card recent-card" data-vendor="${vendorKey(e.vendor)}">
+      <span class="recent-head"><span class="learning-path-eyebrow">${escapeHtml(e.code)}</span>${when ? `<span class="recent-when">${when[0].toUpperCase()}${when.slice(1)}</span>` : ''}</span>
+      <h3><a href="/${e.slug}${mode === 'learn' || mode === 'labs' ? `?mode=${mode}` : ''}" title="${escapeHtml(`${e.vendor} · ${e.code}`)}">${escapeHtml(e.name)}</a></h3>
+      <span class="recent-stats">${learning}${practice}${labs}${exam}</span>
+      <span class="learning-path-action">${action} ${icon('right', 'icon')}</span>
+      <button type="button" class="recent-remove" data-action="remove-recent" data-slug="${escapeHtml(e.slug)}" title="Hide from Recents" aria-label="Hide ${escapeHtml(e.name)} from Recents">${icon('x', 'icon')}</button>
     </div>`;
 }
 
@@ -1154,6 +1128,7 @@ const VENDOR_BLURBS = {
   'Red Hat': 'Hands-on Red Hat Enterprise Linux administration',
 };
 
+let homeClicksBound = false;
 async function renderHome() {
   document.body.classList.add('home');
   $('navigator').hidden = true;
@@ -1298,20 +1273,16 @@ async function renderHome() {
     </section>` : ''}
   </section>`;
   $('main').querySelector('[data-feature-new]')?.addEventListener('click', () => openFeatureForm());
-  $('main').addEventListener('click', (e) => {
-    const stat = e.target.closest('[data-stat-href]');
-    if (stat) {
-      e.stopPropagation();
+  // One delegated listener for the home page's Recents "hide" buttons (renderHome runs many times).
+  if (!homeClicksBound) {
+    homeClicksBound = true;
+    $('main').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action="remove-recent"]');
+      if (!btn || EXAM) return; // on exam pages the main handler in init() takes it
       e.preventDefault();
-      location.href = stat.dataset.statHref;
-      return;
-    }
-    const act = e.target.closest('[data-action="remove-recent"]');
-    if (!act) return;
-    e.stopPropagation();
-    e.preventDefault();
-    return hideRecent(act.dataset.slug);
-  });
+      hideRecent(btn.dataset.slug);
+    });
+  }
   const grid = $('exam-grid');
   const search = $('exam-search');
   let activeProvider = 'all';
@@ -1757,9 +1728,13 @@ async function init() {
   const examPage = initialSlug && !PAGES.includes(initialSlug);
   const bankFiles = examPage ? fetchBank(initialSlug) : null;
   bankFiles?.catch(() => { /* reported by loadBank below */ });
-  const learnFiles = examPage ? Learn.loadLearn(initialSlug) : null;
-  const labFiles = examPage ? Labs.loadLabs(initialSlug) : null;
-  if (!examPage) fetchIndex().catch(() => {});
+  // Only request learning and lab files the catalog says exist (avoids 404s); if the catalog
+  // can't be read (offline), try them anyway.
+  // null = catalog loaded but no such course; undefined = catalog unavailable.
+  const catalogEntry = fetchIndex().then((list) => list.find((e) => e.slug === initialSlug) || null, () => undefined);
+  const optional = (flag, load) => catalogEntry.then((e) => (e === null || (e && !e[flag]) ? null : load(initialSlug)));
+  const learnFiles = examPage ? optional('learning', Learn.loadLearn) : null;
+  const labFiles = examPage ? optional('labs', Labs.loadLabs) : null;
   if (Auth.AUTH_ENABLED) {
     const auth = await Auth.initAuth();
     if (auth.signedIn && sessionStorage.getItem('examsim:guest')) {
@@ -1779,7 +1754,8 @@ async function init() {
   try {
     await loadBank(slug, slug === initialSlug ? bankFiles : undefined);
   } catch (err) {
-    $('main').innerHTML = `<div class="panel empty"><p>Couldn't load the "${slug}" exam (${err.message}).</p>
+    const known = await fetchIndex().then((list) => list.some((e) => e.slug === slug), () => true);
+    $('main').innerHTML = `<div class="panel empty"><p>${known ? `Couldn't load the "${escapeHtml(slug)}" exam (${escapeHtml(err.message)}). Check your connection and try again.` : `There's no course at /${escapeHtml(slug)}.`}</p>
       <a class="btn btn-primary" href="/">All exams</a></div>`;
     $('navigator').hidden = true;
     return;
@@ -1789,11 +1765,13 @@ async function init() {
   document.body.dataset.vendor = vendorKey(EXAM.vendor);
   $('brand-title').textContent = 'The IT Study Hall';
   $('brand-sub').textContent = `${EXAM.code} · ${EXAM.name}`;
-  LEARN = await (slug === initialSlug ? learnFiles : Learn.loadLearn(slug));
-  LABS = await (slug === initialSlug ? labFiles : Labs.loadLabs(slug));
+  const entry = slug === initialSlug ? null : await fetchIndex().then((list) => list.find((e) => e.slug === slug), () => undefined);
+  LEARN = await (slug === initialSlug ? learnFiles : entry && !entry.learning ? null : Learn.loadLearn(slug));
+  LABS = await (slug === initialSlug ? labFiles : entry && !entry.labs ? null : Labs.loadLabs(slug));
   if (initialMode === 'learn' && LEARN) state.mode = 'learn';
   if (initialMode === 'labs' && LABS) state.mode = 'labs';
   if (initialMode === 'practice') state.mode = 'practice';
+  if (initialMode === 'exam') state.mode = 'exam';
   if (initialMode) history.replaceState(null, '', location.pathname); // keep the address tidy after honoring ?mode
   $('btn-mode-learn').hidden = !LEARN;
   $('btn-mode-labs').hidden = !LABS;

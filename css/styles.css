@@ -324,6 +324,7 @@ kbd { font: 11px var(--mono); padding: 1px 5px; border-radius: 4px; border: 1px 
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 900px) {
   .layout { flex-direction: column; padding-top: 14px; }
+  .main { width: 100%; }
   .navigator { width: 100%; position: static; max-height: none; }
   .qgrid { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); max-height: 210px; }
   .navigator:not(.open) { display: none; }
@@ -337,6 +338,7 @@ kbd { font: 11px var(--mono); padding: 1px 5px; border-radius: 4px; border: 1px 
   .brand h1 { font-size: 14.5px; }
   .qgrid { grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); }
   .qhead, .qbody, .qfoot { padding-left: 14px; padding-right: 14px; }
+  .qfoot { flex-wrap: wrap; row-gap: 8px; }
   .card-pad { padding: 18px; }
   .scenario { font-size: 15.5px; }
   .btn { padding: 9px 12px; }
@@ -776,17 +778,18 @@ body.account-page .exams-link, body.subpage .exams-link { display: inline-flex; 
 .recent-bar-none { visibility: hidden; }
 .recent-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .recent-when { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
-.recent-remove { background: none; border: none; color: var(--muted); cursor: pointer; padding: 2px 4px; border-radius: 6px; line-height: 1; opacity: 0; transition: opacity .15s, color .15s, background .15s; }
-.recent-card:hover .recent-remove { opacity: 1; }
+/* Recents card: the title link stretches over the whole card; stat shortcuts and the hide button sit above it. */
+.recent-card { position: relative; }
+.recent-card h3 a { color: inherit; text-decoration: none; }
+.recent-card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.recent-card h3 a:focus-visible { outline: none; }
+.recent-card:has(h3 a:focus-visible) { outline: 2px solid var(--azure); outline-offset: 2px; }
+.recent-card .recent-head { padding-right: 30px; }
+.recent-remove { position: absolute; top: 14px; right: 14px; z-index: 2; display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border: none; border-radius: 8px; background: transparent; color: var(--muted); cursor: pointer; opacity: 0; transition: opacity .15s, color .15s, background .15s; }
+.recent-card:hover .recent-remove, .recent-remove:focus-visible { opacity: 1; }
+@media (hover: none) { .recent-remove { opacity: .8; } }
 .recent-remove:hover { color: var(--bad-text); background: color-mix(in srgb, var(--bad) 14%, transparent); }
 .recent-remove svg { width: 14px; height: 14px; }
-
-/* Wrapper card for Recents */
-.recent-card { position: relative; display: flex; flex-direction: column; padding: 0 !important; }
-.recent-link { display: flex; flex-direction: column; gap: 10px; padding: 19px; text-decoration: none; color: inherit; height: 100%; }
-.recent-link .learning-path-action { margin-top: auto; }
-.recent-card .recent-remove { position: absolute; top: 16px; right: 16px; z-index: 10; padding: 4px; background: color-mix(in srgb, var(--bg) 80%, transparent); border-radius: 6px; }
-.recent-card:hover .recent-remove { opacity: 1; }
 .recent-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
 .recent-stat { display: grid; gap: 3px; align-content: start; padding: 9px 10px; border-radius: 10px; background: color-mix(in srgb, var(--text) 4%, transparent); min-width: 0; }
 .recent-stat-label { font-size: 11px; color: var(--muted); letter-spacing: .02em; }
@@ -796,8 +799,8 @@ body.account-page .exams-link, body.subpage .exams-link { display: inline-flex; 
 .recent-stat.soft b { font-size: 13.5px; }
 .recent-stat.good b { color: var(--ok-text); } .recent-stat.weak b { color: var(--bad-text); } .recent-stat.running b { color: var(--azure-text); font-size: 13.5px; }
 .recent-stat .recent-bar { height: 3px; margin: 3px 0 0; }
-.recent-stat[data-stat-href] { cursor: pointer; }
-.recent-stat[data-stat-href]:hover { background: color-mix(in srgb, var(--text) 8%, transparent); }
+a.recent-stat { position: relative; z-index: 1; color: inherit; text-decoration: none; transition: background .15s; }
+a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent); }
 .recent-bar { display: block; height: 5px; border-radius: 99px; background: var(--border); overflow: hidden; margin-bottom: 4px; }
 .recent-bar i { display: block; height: 100%; background: var(--v, var(--azure)); border-radius: inherit; }
 .popular-folder { --v: var(--azure); border-left-color: var(--azure); background: linear-gradient(135deg, var(--azure-soft), transparent 55%), var(--panel-2); }
@@ -873,6 +876,10 @@ body.account-page .exams-link, body.subpage .exams-link { display: inline-flex; 
   .topbar .icon-btn { width: 34px; height: 34px; }
   .topbar-actions .btn-sm { padding: 7px 9px; }
   .topbar .segmented button { padding-left: 9px; padding-right: 9px; }
+  /* During a timed exam the timer joins the row: drop its icon and let the row wrap rather than overflow on very narrow phones */
+  .topbar .timer { padding: 6px 8px; font-size: 13px; }
+  .topbar .timer .icon { display: none; }
+  body:not(.home):not(.account-page) .topbar-actions { flex-wrap: wrap; row-gap: 6px; }
 }
 @media (max-width: 340px) { .topbar-actions .exams-link { display: none !important; } } /* the site name links home */
 

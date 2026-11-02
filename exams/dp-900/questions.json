@@ -2177,66 +2177,126 @@
   {
     "id": 88,
     "domain": "D1",
-    "scenario": "Which type of data workload is characterized by many small transactions that are processed quickly?",
+    "scenario": "A retail point-of-sale system records thousands of small sales a minute, each of which must be saved immediately and reliably. Which type of data workload is this?",
     "options": [
-      { "text": "OLTP", "note": "" },
-      { "text": "OLAP", "note": "" },
-      { "text": "Batch processing", "note": "" },
-      { "text": "Streaming", "note": "" }
+      {
+        "text": "Online transaction processing (OLTP)",
+        "note": ""
+      },
+      {
+        "text": "Online analytical processing (OLAP)",
+        "note": "OLAP serves large read-heavy queries for analysis, not many small writes."
+      },
+      {
+        "text": "Batch processing",
+        "note": "Batch handles data in scheduled groups, not each sale as it happens."
+      },
+      {
+        "text": "Stream analytics only",
+        "note": "Streaming analyzes events in motion; it isn't the system of record for transactions."
+      }
     ],
     "answer": 0,
-    "explanation": "Online Transactional Processing (OLTP) is optimized for high-volume, low-latency transaction processing."
+    "explanation": "OLTP systems handle high volumes of small, fast transactions with ACID guarantees, such as recording each sale."
   },
   {
     "id": 89,
     "domain": "D1",
-    "scenario": "In a relational database, what is used to uniquely identify each row in a table?",
+    "scenario": "In a relational table of customers, which column property guarantees that each row can be uniquely identified?",
     "options": [
-      { "text": "Foreign key", "note": "" },
-      { "text": "Primary key", "note": "" },
-      { "text": "Index", "note": "" },
-      { "text": "Constraint", "note": "" }
+      {
+        "text": "A primary key",
+        "note": ""
+      },
+      {
+        "text": "A foreign key",
+        "note": "A foreign key references another table's key; values can repeat."
+      },
+      {
+        "text": "A non-unique index",
+        "note": "An index speeds lookups but doesn't guarantee uniqueness."
+      },
+      {
+        "text": "A default constraint",
+        "note": "It supplies a value when none is given; it doesn't enforce uniqueness."
+      }
     ],
-    "answer": 1,
-    "explanation": "A primary key is a column or set of columns that uniquely identifies each row in a relational table."
+    "answer": 0,
+    "explanation": "A primary key uniquely identifies every row and can't be null."
   },
   {
     "id": 90,
     "domain": "D3",
-    "scenario": "Which Azure service is a globally distributed, multi-model database?",
+    "scenario": "A global app needs a NoSQL database with single-digit-millisecond reads and writes in several Azure regions and a choice of APIs such as NoSQL, MongoDB and Cassandra. Which service should you choose?",
     "options": [
-      { "text": "Azure SQL Database", "note": "" },
-      { "text": "Azure Cosmos DB", "note": "" },
-      { "text": "Azure Database for MySQL", "note": "" },
-      { "text": "Azure Database for PostgreSQL", "note": "" }
+      {
+        "text": "Azure Cosmos DB",
+        "note": ""
+      },
+      {
+        "text": "Azure SQL Database",
+        "note": "It's a relational database, not a multi-API NoSQL service."
+      },
+      {
+        "text": "Azure Database for MySQL",
+        "note": "It's a managed relational MySQL service."
+      },
+      {
+        "text": "Azure Database for PostgreSQL",
+        "note": "It's a managed relational PostgreSQL service."
+      }
     ],
-    "answer": 1,
-    "explanation": "Azure Cosmos DB is a fully managed, globally distributed NoSQL database service."
+    "answer": 0,
+    "explanation": "Azure Cosmos DB is a globally distributed NoSQL database with multi-region writes and several APIs."
   },
   {
     "id": 91,
     "domain": "D4",
-    "scenario": "Which type of visualization is best for showing trends over time?",
+    "scenario": "In a Power BI report, which visual is best for showing how monthly revenue changed over the past two years?",
     "options": [
-      { "text": "Pie chart", "note": "" },
-      { "text": "Line chart", "note": "" },
-      { "text": "Bar chart", "note": "" },
-      { "text": "Scatter plot", "note": "" }
+      {
+        "text": "A line chart",
+        "note": ""
+      },
+      {
+        "text": "A pie chart",
+        "note": "Pie charts show parts of a whole at one point in time."
+      },
+      {
+        "text": "A card",
+        "note": "A card shows a single value."
+      },
+      {
+        "text": "A scatter chart",
+        "note": "Scatter charts show the relationship between two measures."
+      }
     ],
-    "answer": 1,
-    "explanation": "Line charts are ideal for displaying continuous data and identifying trends over time."
+    "answer": 0,
+    "explanation": "Line charts show a measure across a continuous time axis, which makes trends easy to see."
   },
   {
     "id": 92,
     "domain": "D4",
-    "scenario": "What is the process of extracting, transforming, and loading data called?",
+    "scenario": "Data is copied from source systems, cleaned and reshaped in a separate engine, and then loaded into a data warehouse. What is this process called?",
     "options": [
-      { "text": "ELT", "note": "" },
-      { "text": "ETL", "note": "" },
-      { "text": "EQL", "note": "" },
-      { "text": "ERD", "note": "" }
+      {
+        "text": "Extract, transform, load (ETL)",
+        "note": ""
+      },
+      {
+        "text": "Extract, load, transform (ELT)",
+        "note": "In ELT the data is loaded first and transformed inside the target store."
+      },
+      {
+        "text": "Online transaction processing",
+        "note": "OLTP records day-to-day transactions."
+      },
+      {
+        "text": "Data replication",
+        "note": "Replication copies data unchanged."
+      }
     ],
-    "answer": 1,
-    "explanation": "ETL (Extract, Transform, Load) is the standard process for moving data from source systems to a data warehouse."
+    "answer": 0,
+    "explanation": "In ETL the transformation happens before loading into the warehouse; in ELT it happens after loading."
   }
 ]

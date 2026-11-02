@@ -11,7 +11,7 @@ Source: https://github.com/abg0dw1n/it-study-hall
 | CompTIA A+ Core 1 (220-1201) · beginner | `exams/a-plus-core1` | 128 | 675 on 100–900 to pass |
 | CompTIA A+ Core 2 (220-1202) · beginner | `exams/a-plus-core2` | 127 | 700 on 100–900 to pass |
 | Microsoft Security, Compliance, and Identity Fundamentals (SC-900) · beginner | `exams/sc-900` | 92 | 700 / 1000 to pass |
-| Microsoft Azure Data Fundamentals (DP-900) · beginner | `exams/dp-900` | 87 | 700 / 1000 to pass |
+| Microsoft Azure Data Fundamentals (DP-900) · beginner | `exams/dp-900` | 92 | 700 / 1000 to pass |
 | CompTIA Tech+ (FC0-U71) · beginner | `exams/tech-plus` | 93 | 650 on 100–900 to pass |
 | Cisco CCST Networking (100-150) · beginner | `exams/ccst-networking` | 91 | ~70% (Cisco doesn't publish a cut score) |
 | Cisco CCST Cybersecurity (100-160) · beginner | `exams/ccst-cybersecurity` | 83 | ~70% (Cisco doesn't publish a cut score) |
@@ -31,6 +31,7 @@ Source: https://github.com/abg0dw1n/it-study-hall
 | Cisco CCNA (200-301 v2.0) | `exams/ccna` | 200 | ~825 / 1000 (Cisco doesn't publish a cut score) |
 | AWS Solutions Architect – Associate (SAA-C03) | `exams/aws-saa` | 197 | 720 on 100–1000 to pass |
 | Microsoft Azure AI Fundamentals (AI-901) | `exams/ai-901` | 100 | 700 / 1000 to pass |
+| Developing AI Apps and Agents on Azure (AI-103) | `exams/ai-103` | 100 | 700 / 1000 to pass |
 | AWS Certified AI Practitioner (AIF-C01) | `exams/aws-aif` | 132 | 700 on 100–1000 to pass |
 | Google Cloud Generative AI Leader | `exams/google-gail` | 110 | ~70% (Google doesn't publish a cut score) |
 | AAPC Certified Professional Coder (CPC) | `exams/cpc` | 152 | 70% to pass (real exam is open-book) |

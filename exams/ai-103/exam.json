@@ -1,0 +1,47 @@
+{
+  "slug": "ai-103",
+  "code": "AI-103",
+  "name": "Developing AI Apps and Agents on Azure",
+  "vendor": "Microsoft",
+  "domains": {
+    "D1": {
+      "name": "Plan and manage an Azure AI solution",
+      "weight": "25–30%",
+      "pct": 27
+    },
+    "D2": {
+      "name": "Implement generative AI and agentic solutions",
+      "weight": "30–35%",
+      "pct": 33
+    },
+    "D3": {
+      "name": "Implement computer vision solutions",
+      "weight": "10–15%",
+      "pct": 13
+    },
+    "D4": {
+      "name": "Implement text analysis solutions",
+      "weight": "10–15%",
+      "pct": 13
+    },
+    "D5": {
+      "name": "Implement information extraction solutions",
+      "weight": "10–15%",
+      "pct": 14
+    }
+  },
+  "scoring": {
+    "min": 0,
+    "max": 1000,
+    "pass": 700
+  },
+  "minutesPerQuestion": 2,
+  "defaultSize": 50,
+  "sizeOptions": [
+    20,
+    35,
+    50
+  ],
+  "realExamNote": "Based on the AI-103 skills measured as of April 16, 2026. AI-103 replaced AI-102, which retired June 30, 2026. It leads to the Azure AI Apps and Agents Developer Associate certification.",
+  "scoreNote": "Microsoft uses scaled scoring, so treat 700+ as a readiness signal, not a guarantee."
+}
