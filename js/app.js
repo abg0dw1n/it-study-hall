@@ -474,6 +474,15 @@ function masterySummary() {
     ${weak ? `<button class="btn btn-ghost btn-sm stats-wide" data-action="weak-round">${icon('bulb')}Review ${weak} weak spot${weak > 1 ? 's' : ''}</button>` : ''}`;
 }
 
+// "Read more" links under an explanation: refs: [{ title, url }] pointing at official docs.
+const DOC_SITES = { 'learn.microsoft.com': 'Microsoft Learn', 'docs.aws.amazon.com': 'AWS docs', 'cloud.google.com': 'Google Cloud docs', 'www.cisco.com': 'Cisco', 'access.redhat.com': 'Red Hat docs', 'docs.redhat.com': 'Red Hat docs' };
+function docLinks(q) {
+  const refs = (q.refs || []).filter((r) => /^https:\/\//.test(r.url));
+  if (!refs.length) return '';
+  const site = (u) => DOC_SITES[new URL(u).hostname] || new URL(u).hostname;
+  return `<ul class="explain-refs" aria-label="Documentation">${refs.map((r) => `<li>${icon('book')}<a href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.title)}</a><span class="muted">${escapeHtml(site(r.url))}</span></li>`).join('')}</ul>`;
+}
+
 function renderQuestion(main, s, index) {
   const id = s.ids[index];
   const q = BY_ID.get(id);
@@ -509,7 +518,7 @@ function renderQuestion(main, s, index) {
       ? `${icon('bulb')} Not answered — correct answer: ${correctLetter}`
       : right ? `${icon('check')} Correct` : `${icon('x')} Incorrect — correct answer: ${correctLetter}`;
     explain = `<div class="explain ${!answered ? '' : right ? 'ok' : 'bad'}" role="status">
-      <h4>${head}</h4><p>${q.explanation}</p></div>`;
+      <h4>${head}</h4><p>${q.explanation}</p>${docLinks(q)}</div>`;
   }
 
   const modeChip = state.mode === 'review'

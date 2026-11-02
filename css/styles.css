@@ -267,6 +267,11 @@ select {
 .explain.bad { border-left-color: var(--bad); }
 .explain.bad h4 { color: var(--bad-text); }
 .explain p { color: var(--text-2); font-size: 14.5px; }
+.explain-refs { list-style: none; margin: 10px 0 0; padding: 10px 0 0; border-top: 1px solid var(--border); display: grid; gap: 6px; }
+.explain-refs li { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; font-size: 13.5px; }
+.explain-refs .icon { width: 14px; height: 14px; flex: none; align-self: center; color: var(--muted); }
+.explain-refs a { color: var(--azure-text); font-weight: 600; text-underline-offset: 2px; overflow-wrap: anywhere; }
+.explain-refs .muted { font-size: 12px; }
 
 .qfoot { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--border); background: var(--panel-2); }
 .qfoot .right { display: flex; gap: 10px; }

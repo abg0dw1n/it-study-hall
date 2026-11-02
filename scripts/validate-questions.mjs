@@ -31,6 +31,12 @@ for (const entry of index.filter((e) => !only || e.slug === only)) {
     else q.options.forEach((o, i) => { if (!o.text) errors.push(`Q${q.id}: option ${i} has no text`); });
     if (!(q.answer >= 0 && q.answer < (q.options?.length || 0))) errors.push(`Q${q.id}: answer index out of range`);
     if (!q.scenario || !q.explanation) errors.push(`Q${q.id}: missing scenario or explanation`);
+    if (q.refs !== undefined) {
+      if (!Array.isArray(q.refs)) errors.push(`Q${q.id}: refs must be a list`);
+      else q.refs.forEach((r, i) => {
+        if (!r || !r.title || !/^https:\/\/[^\s"<>]+$/.test(r.url || '')) errors.push(`Q${q.id}: refs[${i}] needs a title and an https url`);
+      });
+    }
   }
   if (entry.questions != null && entry.questions !== questions.length) {
     errors.push(`index.json says ${entry.questions} questions but the bank has ${questions.length} (run node scripts/stamp-updated.mjs)`);
