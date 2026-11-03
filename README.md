@@ -213,9 +213,9 @@ Signed-in users can suggest site features from the home page ("Have an idea for 
 
 Under **Account → Appearance** users pick System (follows the device) or one of twelve palettes, each family with a dark and a light version: Monokai Pro / Monokai Light, PowerShell / PowerShell Light, Dracula / Dracula Light, One Dark / One Light, Nord / Nord Light and Solarized Dark / Solarized Light. The header sun/moon button switches to the other half of the chosen family. The choice is saved per device in `localStorage` (`itsh:theme`). To add a palette, add an entry to `LIST` in `js/theme.js` and a `:root[data-palette="<id>"]` block in `css/styles.css` (set every colour token and `pair`, the id of its light/dark counterpart; `scheme` decides whether the light or dark base rules apply).
 
-## Galaxy background
+## Backgrounds
 
-`js/galaxy.js` draws a fixed star-and-nebula canvas behind every page in the current theme's colors. Users can turn it off under Account → Appearance (`itsh:bg` in `localStorage`). To remove the feature, revert the "Galaxy background" commit.
+`js/background.js` draws a fixed animated canvas behind every page in the current theme's colors. Users pick one under Account → Appearance → Background: Galaxy (default), Neon grid, Circuit board, Code rain, Constellation network, or None (`itsh:bg` in `localStorage`). To add one, add an entry to `STYLES` (an `init` and a `draw`) and to `ORDER`.
 
 ## Light and dark mode
 

@@ -1607,13 +1607,20 @@ const appearancePanel = () => {
         <span class="theme-name">${t.name}<small>${t.scheme === 'auto' ? 'Matches your device' : t.scheme === 'light' ? 'Light' : 'Dark'}</small></span>
       </button>`).join('')}
     </div>
-    <label class="bg-toggle"><input type="checkbox" id="galaxy-toggle"> <span>Galaxy background<small>Stars and a soft nebula in your theme's colors. Turn off for a plain background.</small></span></label>
+    <h3 class="bg-heading">Background</h3>
+    <p class="muted small" style="margin-top:4px">Animated backdrop behind the pages, drawn in your theme's colors.</p>
+    <div class="theme-grid bg-grid" role="radiogroup" aria-label="Background">
+      ${(window.Background?.list || []).map((b) => `<button type="button" class="theme-opt" role="radio" data-bg-pref="${b.id}" aria-checked="false">
+        <span class="theme-name">${b.name}<small>${b.blurb}</small></span></button>`).join('')}
+    </div>
   </div>`;
 };
 
 function wireAppearance() {
-  const gt = document.getElementById('galaxy-toggle');
-  if (gt) { gt.checked = window.Galaxy?.enabled() !== false; gt.addEventListener('change', () => window.Galaxy?.set(gt.checked)); }
+  const syncBg = () => document.querySelectorAll('[data-bg-pref]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.bgPref === window.Background?.pref())));
+  document.querySelectorAll('[data-bg-pref]').forEach((b) => b.addEventListener('click', () => window.Background?.set(b.dataset.bgPref)));
+  document.addEventListener('bgchange', syncBg);
+  syncBg();
   const sync = () => document.querySelectorAll('[data-theme-pref]').forEach((b) => {
     b.setAttribute('aria-checked', String(b.dataset.themePref === window.Theme?.pref()));
   });
