@@ -1607,10 +1607,13 @@ const appearancePanel = () => {
         <span class="theme-name">${t.name}<small>${t.scheme === 'auto' ? 'Matches your device' : t.scheme === 'light' ? 'Light' : 'Dark'}</small></span>
       </button>`).join('')}
     </div>
+    <label class="bg-toggle"><input type="checkbox" id="galaxy-toggle"> <span>Galaxy background<small>Stars and a soft nebula in your theme's colors. Turn off for a plain background.</small></span></label>
   </div>`;
 };
 
 function wireAppearance() {
+  const gt = document.getElementById('galaxy-toggle');
+  if (gt) { gt.checked = window.Galaxy?.enabled() !== false; gt.addEventListener('change', () => window.Galaxy?.set(gt.checked)); }
   const sync = () => document.querySelectorAll('[data-theme-pref]').forEach((b) => {
     b.setAttribute('aria-checked', String(b.dataset.themePref === window.Theme?.pref()));
   });
