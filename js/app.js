@@ -553,6 +553,7 @@ function renderQuestion(main, s, index) {
         <p class="prompt-label">Select the best answer</p>
         <div class="options" role="radiogroup" aria-label="Answer options">${options}</div>
         ${explain}
+        ${showResult && state.mode !== 'exam' ? '<section class="discuss" id="discuss" aria-label="Discussion"></section>' : ''}
       </div>
       <div class="qfoot">
         <button class="btn btn-ghost" data-action="prev" ${index === 0 ? 'disabled' : ''}>${icon('left')}Previous</button>
@@ -566,6 +567,7 @@ function renderQuestion(main, s, index) {
 
   // Code is set via textContent so it is never parsed as HTML.
   if (q.code) main.querySelector('.codeblock').textContent = q.code;
+  if ($('discuss')) initDiscussion(id);
 }
 
 function renderExamIntro(main) {
@@ -939,6 +941,174 @@ function applyPracticeFilters() {
   p.shuffle = p.order !== 'ordered';
   buildPracticeList();
   save(); render();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Question discussion: signed-in users comment under each practice question.
+// Everything is rendered as plain text (escaped, no links). The database enforces who can
+// post, edit and delete, sets the author name from the person's display name, and rate-limits.
+// ─────────────────────────────────────────────────────────────────────────────
+const COMMENT_REASONS = {
+  'exam-content': 'Shares real exam questions or answers',
+  abusive: 'Abusive, harassing or hateful',
+  spam: 'Spam or advertising',
+  'personal-info': 'Shows personal information',
+  copyright: 'Copied material I own',
+  other: 'Something else',
+};
+const NAME_HELP = 'Use 3 to 24 letters, numbers, spaces, dots, dashes or underscores. Don’t use your email or a web address.';
+let myProfile; // undefined = not loaded yet, null = no display name yet
+let myAdminFlag; // undefined = unknown
+const commentCountCache = new Map(); // exam -> Map(questionId -> count)
+const commentCountLoading = new Set();
+
+const friendlyDbError = (err) => {
+  const m = err?.message || '';
+  if (/profiles_display_name_key|duplicate key/.test(m) && /display_name/.test(m)) return 'That display name is already taken.';
+  if (/profiles_display_name_check/.test(m)) return NAME_HELP;
+  return m || 'Something went wrong.';
+};
+const timeAgo = (iso) => {
+  const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return `${Math.floor(s / 60)} min ago`;
+  if (s < 86400) return `${Math.floor(s / 3600)} h ago`;
+  if (s < 86400 * 30) return `${Math.floor(s / 86400)} d ago`;
+  return new Date(iso).toLocaleDateString(undefined, { dateStyle: 'medium' });
+};
+
+async function loadCommentCounts(slug) {
+  if (commentCountCache.has(slug) || commentCountLoading.has(slug)) return;
+  commentCountLoading.add(slug);
+  try {
+    const rows = await Auth.commentCounts(slug);
+    commentCountCache.set(slug, new Map((rows || []).map((r) => [r.question_id, Number(r.n)])));
+  } catch { /* counts are optional */ } finally { commentCountLoading.delete(slug); }
+}
+const bumpCount = (slug, id, delta) => {
+  const m = commentCountCache.get(slug) || new Map();
+  m.set(id, Math.max(0, (m.get(id) || 0) + delta));
+  commentCountCache.set(slug, m);
+};
+
+async function initDiscussion(id) {
+  const box = $('discuss');
+  if (!box) return;
+  box.dataset.qid = String(id);
+  if (!Auth.currentUser()) {
+    box.innerHTML = `<p class="muted small discuss-note">${icon('chat')}<span>Sign in to read and join the discussion about this question.</span></p>`;
+    return;
+  }
+  const slug = EXAM.slug;
+  let open = false;
+  const stale = () => !box.isConnected || box.dataset.qid !== String(id);
+  const count = () => commentCountCache.get(slug)?.get(id) || 0;
+  const head = () => `<button type="button" class="discuss-toggle" data-discuss-toggle aria-expanded="${open}">${icon('chat')}<span>Discussion</span><span class="chip" id="discuss-count">${count()}</span></button>`;
+  const shell = (inner = '') => { box.innerHTML = `${head()}<div class="discuss-body" ${open ? '' : 'hidden'}>${inner}</div>`; };
+  shell();
+  loadCommentCounts(slug).then(() => { if (!stale() && $('discuss-count')) $('discuss-count').textContent = String(count()); });
+
+  let comments = null;
+  let isAdmin = myAdminFlag === true;
+  const me = Auth.currentUser().id;
+
+  const bodyHtml = () => {
+    const list = comments.length ? `<ul class="comments">${comments.map((c) => `<li class="comment" data-cid="${c.id}">
+        <div class="comment-head"><b>${escapeHtml(c.author_name)}</b>${c.author_is_admin ? '<span class="chip chip-azure">Admin</span>' : ''}${c.user_id === me ? '<span class="muted small">(you)</span>' : ''}
+          <span class="muted small">${timeAgo(c.created_at)}${c.edited_at ? ' · edited' : ''}</span></div>
+        <p class="ctext">${escapeHtml(c.body)}</p>
+        <div class="comment-actions">${c.user_id === me
+          ? `<button type="button" class="link-btn" data-c-edit="${c.id}">Edit</button><button type="button" class="link-btn" data-c-delete="${c.id}">Delete</button>`
+          : `<button type="button" class="link-btn" data-c-report="${c.id}">Report</button>${isAdmin ? `<button type="button" class="link-btn" data-c-delete="${c.id}">Delete (admin)</button>` : ''}`}</div></li>`).join('')}</ul>`
+      : '<p class="muted small">No comments yet. Share how you worked out the answer.</p>';
+    const form = myProfile
+      ? `<div class="comment-form">
+          <label class="small" for="comment-text">Add a comment as <b>${escapeHtml(myProfile.display_name)}</b></label>
+          <textarea id="comment-text" rows="3" maxlength="2000" placeholder="Explain your reasoning or ask a question about this topic…"></textarea>
+          <div class="comment-form-foot"><span class="muted small" id="comment-counter">0 / 2000</span>
+            <button type="button" class="btn btn-primary btn-sm" data-c-post>Post</button></div>
+          <p class="muted small">Talk about concepts and reasoning. Don’t share real exam questions or answers, personal information or links. Comments are visible to other signed-in users and can be removed. <a href="/privacy#community">Community guidelines</a></p>
+        </div>`
+      : `<div class="comment-form">
+          <label class="small" for="display-name">Choose a display name to join the discussion</label>
+          <div class="name-row"><input id="display-name" type="text" maxlength="24" autocomplete="off" placeholder="For example: CloudLearner42">
+            <button type="button" class="btn btn-primary btn-sm" data-c-name>Save name</button></div>
+          <p class="muted small">${NAME_HELP} Other signed-in users see this name, never your email.</p>
+        </div>`;
+    return list + form;
+  };
+  const paint = () => {
+    shell(bodyHtml());
+    const ta = $('comment-text');
+    ta?.addEventListener('input', () => { $('comment-counter').textContent = `${ta.value.length} / 2000`; });
+  };
+
+  const load = async () => {
+    $('discuss')?.querySelector('.discuss-body')?.removeAttribute('hidden');
+    box.querySelector('.discuss-body').innerHTML = '<p class="muted small">Loading…</p>';
+    try {
+      const [c, p, adm] = await Promise.all([
+        Auth.listComments(slug, id),
+        myProfile === undefined ? Auth.getProfile() : Promise.resolve(myProfile),
+        myAdminFlag === undefined ? Auth.amIAdmin().catch(() => false) : Promise.resolve(myAdminFlag),
+      ]);
+      if (stale()) return;
+      comments = c || []; myProfile = p; myAdminFlag = adm; isAdmin = adm === true;
+      commentCountCache.get(slug)?.set(id, comments.length);
+      paint();
+    } catch (err) {
+      if (!stale()) box.querySelector('.discuss-body').innerHTML = `<p class="small">Couldn’t load the discussion (${escapeHtml(err.message)}). Try again later.</p>`;
+    }
+  };
+
+  box.onclick = async (e) => {
+    const t = e.target.closest('button');
+    if (!t || !box.contains(t)) return;
+    if (t.hasAttribute('data-discuss-toggle')) {
+      open = !open;
+      if (open && !comments) { shell(''); await load(); } else if (comments) paint(); else shell();
+      return;
+    }
+    if (t.hasAttribute('data-c-name')) {
+      t.disabled = true;
+      try { await Auth.saveProfile($('display-name').value, false); myProfile = { display_name: $('display-name').value.trim() }; paint(); toast('Display name saved.'); }
+      catch (err) { toast(friendlyDbError(err)); t.disabled = false; }
+      return;
+    }
+    if (t.hasAttribute('data-c-post')) {
+      const text = $('comment-text').value.trim();
+      if (!text) { toast('Write a comment first.'); return; }
+      t.disabled = true;
+      try {
+        const c = await Auth.addComment({ exam: slug, questionId: id, body: text });
+        comments.push(c); bumpCount(slug, id, 1); paint();
+      } catch (err) { toast(friendlyDbError(err)); t.disabled = false; }
+      return;
+    }
+    const cid = Number(t.dataset.cEdit || t.dataset.cDelete || t.dataset.cReport);
+    const c = comments?.find((x) => x.id === cid);
+    if (!c) return;
+    if (t.dataset.cEdit) {
+      if (!(await confirmModal('Edit comment', `<div class="report-form"><textarea id="edit-text" rows="5" maxlength="2000">${escapeHtml(c.body)}</textarea></div>`, 'Save'))) return;
+      const text = $('edit-text').value.trim();
+      if (!text) { toast('A comment can’t be empty.'); return; }
+      try { await Auth.editComment(c.id, text); c.body = text; c.edited_at = new Date().toISOString(); if (!stale()) paint(); }
+      catch (err) { toast(friendlyDbError(err)); }
+    } else if (t.dataset.cDelete) {
+      if (!(await confirmModal('Delete comment?', `<p class="small">This permanently removes the comment${c.user_id === me ? '' : ` by <b>${escapeHtml(c.author_name)}</b>`}.</p>`, 'Delete'))) return;
+      try { await Auth.deleteComment(c.id); comments = comments.filter((x) => x.id !== c.id); bumpCount(slug, id, -1); if (!stale()) paint(); toast('Comment deleted.'); }
+      catch (err) { toast(friendlyDbError(err)); }
+    } else if (t.dataset.cReport) {
+      const body = `<div class="report-form">
+          <label class="small">Why are you reporting this comment?
+            <select id="creport-reason">${Object.entries(COMMENT_REASONS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
+          <label class="small">Details (optional)
+            <textarea id="creport-details" rows="3" maxlength="500"></textarea></label></div>`;
+      if (!(await confirmModal('Report comment', body, 'Send report'))) return;
+      try { await Auth.reportComment(c.id, $('creport-reason').value, $('creport-details').value); toast('Thanks. The site owner will review it.'); }
+      catch (err) { toast(/duplicate key/.test(err.message) ? 'You already reported this comment.' : friendlyDbError(err)); }
+    }
+  };
 }
 
 const REPORT_REASONS = {
@@ -1726,15 +1896,68 @@ async function renderAccountPage() {
           ${user ? '<button id="btn-signout" class="btn btn-ghost btn-sm">Sign out</button>' : ''}</div>
       </div>
       ${appearanceLink()}
+      <div id="profile-box" class="stack"></div>
+      <div id="comment-mod" class="stack"></div>
       <div id="requests" class="stack"></div>
       <div id="features" class="stack"></div>
       <div id="invites" class="stack"></div>
     </section>`;
   if (user) isAdmin().then((admin) => { if (admin) $('account-admin-chip')?.removeAttribute('hidden'); });
   $('btn-signout')?.addEventListener('click', confirmSignOut);
+  renderProfileBox();
+  renderCommentModeration();
   renderInvites();
   renderAccessRequests();
   renderFeatureRequests();
+}
+
+// ── Account: display name, and comment moderation (admins) ───────────────────
+async function renderProfileBox() {
+  const box = $('profile-box');
+  if (!box || !Auth.currentUser()) return;
+  let p = null;
+  try { p = await Auth.getProfile(); myProfile = p; } catch { return; }
+  box.innerHTML = `<div class="panel card-pad appearance appearance-link">
+      <div><h2 class="section-title" style="border:0;padding:0">Display name</h2>
+        <p class="muted small" style="margin-top:4px">${p ? `Shown on your comments: <b>${escapeHtml(p.display_name)}</b>. Your email is never shown.` : 'Choose a name to join question discussions. Your email is never shown.'}</p></div>
+      <button class="btn btn-ghost btn-sm" id="btn-display-name">${p ? 'Change name' : 'Choose a name'}</button></div>`;
+  $('btn-display-name').addEventListener('click', async () => {
+    const body = `<div class="report-form"><label class="small">Display name
+        <input id="dn-input" type="text" maxlength="24" autocomplete="off" value="${escapeHtml(p?.display_name || '')}"></label>
+        <p class="muted small">${NAME_HELP}</p></div>`;
+    if (!(await confirmModal(p ? 'Change display name' : 'Choose a display name', body, 'Save'))) return;
+    try { await Auth.saveProfile($('dn-input').value, !!p); toast('Display name saved.'); renderProfileBox(); }
+    catch (err) { toast(friendlyDbError(err)); }
+  });
+}
+
+async function renderCommentModeration() {
+  const box = $('comment-mod');
+  if (!box || !Auth.currentUser()) return;
+  let rows = [];
+  try {
+    if (!(await Auth.amIAdmin())) return;
+    rows = await Auth.listOpenCommentReports();
+  } catch { return; }
+  box.innerHTML = `<div class="panel card-pad stack" style="gap:12px">
+      <h2 class="section-title">Reported comments ${rows.length ? `<span class="chip chip-review">${rows.length} open</span>` : ''}</h2>
+      ${rows.length ? `<ul class="invite-list">${rows.map((r) => `<li class="report-item mod-item">
+        <span class="feature-body"><b>${escapeHtml(COMMENT_REASONS[r.reason] || r.reason)}</b>
+          <span class="muted small">${r.comment ? `${escapeHtml(r.comment.author_name)} · ${escapeHtml(r.comment.exam)} #${r.comment.question_id}` : 'Comment already removed'}</span>
+          ${r.comment ? `<span class="ctext small">${escapeHtml(r.comment.body)}</span>` : ''}
+          ${r.details ? `<span class="small feature-note"><b>Reporter:</b> ${escapeHtml(r.details)}</span>` : ''}</span>
+        <span class="report-actions">
+          ${r.comment ? `<button class="btn btn-ghost btn-sm" data-mod-delete="${r.comment.id}">Delete comment</button>` : ''}
+          <button class="btn btn-ghost btn-sm" data-mod-dismiss="${r.id}">Dismiss</button></span></li>`).join('')}</ul>`
+        : '<p class="muted small">No reported comments.</p>'}
+    </div>`;
+  box.querySelectorAll('[data-mod-delete]').forEach((b) => b.addEventListener('click', async () => {
+    if (!(await confirmModal('Delete comment?', '<p class="small">This permanently removes the comment and closes its reports.</p>', 'Delete'))) return;
+    try { await Auth.deleteComment(b.dataset.modDelete); toast('Comment deleted.'); renderCommentModeration(); } catch (err) { toast(friendlyDbError(err)); }
+  }));
+  box.querySelectorAll('[data-mod-dismiss]').forEach((b) => b.addEventListener('click', async () => {
+    try { await Auth.resolveCommentReport(b.dataset.modDismiss); renderCommentModeration(); } catch (err) { toast(friendlyDbError(err)); }
+  }));
 }
 
 // ── Access requests (admins): uninvited sign-in attempts awaiting approval ───

@@ -267,3 +267,66 @@ export async function setAdmin(email, makeAdmin) {
   await ensureFresh();
   return api('/rest/v1/rpc/set_admin', { method: 'POST', body: { target_email: email, make_admin: !!makeAdmin } });
 }
+
+// ── Display name and question discussions ────────────────────────────────────
+// Comments are visible to signed-in users only. The database enforces who can post, edit and
+// delete, fills in the author name (never the email) and applies rate limits. See the
+// question_comments migration; text is always rendered as plain text by the page.
+export async function getProfile() {
+  await ensureFresh();
+  const rows = await api('/rest/v1/profiles?select=display_name&limit=1');
+  return rows?.[0] || null;
+}
+export async function saveProfile(name, exists) {
+  await ensureFresh();
+  const display_name = String(name || '').trim();
+  if (exists) {
+    return api('/rest/v1/profiles?user_id=eq.' + encodeURIComponent(session.user.id), {
+      method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: { display_name },
+    });
+  }
+  return api('/rest/v1/profiles', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: { display_name } });
+}
+export async function listComments(exam, questionId) {
+  await ensureFresh();
+  return api(`/rest/v1/question_comments?select=id,user_id,body,author_name,author_is_admin,created_at,edited_at&exam=eq.${encodeURIComponent(exam)}&question_id=eq.${Number(questionId)}&order=created_at.asc&limit=200`);
+}
+export async function commentCounts(exam) {
+  await ensureFresh();
+  return api('/rest/v1/rpc/comment_counts', { method: 'POST', body: { p_exam: exam } });
+}
+export async function addComment({ exam, questionId, body }) {
+  await ensureFresh();
+  return api('/rest/v1/question_comments?select=id,user_id,body,author_name,author_is_admin,created_at,edited_at', {
+    method: 'POST', headers: { Prefer: 'return=representation' },
+    body: { exam, question_id: Number(questionId), body: String(body).trim().slice(0, 2000) },
+  }).then((r) => r?.[0]);
+}
+export async function editComment(id, body) {
+  await ensureFresh();
+  return api(`/rest/v1/question_comments?id=eq.${Number(id)}`, {
+    method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: { body: String(body).trim().slice(0, 2000) },
+  });
+}
+export async function deleteComment(id) {
+  await ensureFresh();
+  return api(`/rest/v1/question_comments?id=eq.${Number(id)}`, { method: 'DELETE' });
+}
+export async function reportComment(commentId, reason, details) {
+  await ensureFresh();
+  return api('/rest/v1/comment_reports', {
+    method: 'POST', headers: { Prefer: 'return=minimal' },
+    body: { comment_id: Number(commentId), reason, details: (details || '').trim().slice(0, 500) || null },
+  });
+}
+// Admins only (RLS): open reports with the comment they point to.
+export async function listOpenCommentReports() {
+  await ensureFresh();
+  return api('/rest/v1/comment_reports?select=id,reason,details,created_at,comment:question_comments(id,body,author_name,exam,question_id)&status=eq.open&order=created_at.asc&limit=100');
+}
+export async function resolveCommentReport(id) {
+  await ensureFresh();
+  return api(`/rest/v1/comment_reports?id=eq.${Number(id)}`, {
+    method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: { status: 'resolved' },
+  });
+}

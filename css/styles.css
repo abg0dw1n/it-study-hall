@@ -1606,3 +1606,23 @@ a.icon-btn { display: inline-flex; align-items: center; justify-content: center;
 
 /* Logo follows the theme (the browser-tab icon is updated by js/theme.js). */
 .brand-mark { --brand-bg: var(--code-bg); --brand-accent: var(--azure); --brand-accent-2: var(--accent-2); }
+
+/* Question discussion */
+.discuss { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 12px; }
+.discuss-note { display: flex; align-items: center; gap: 8px; margin: 0; }
+.discuss-toggle { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; margin-left: -10px; font: 600 .9rem var(--font); color: var(--text); background: transparent; border: 0; border-radius: 8px; cursor: pointer; }
+.discuss-toggle:hover { background: var(--panel-2); }
+.discuss-toggle:focus-visible, .link-btn:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+.discuss-body { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+.comments { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.comment { padding: 10px 12px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; }
+.comment-head { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; }
+.ctext { margin: 4px 0 6px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.comment-actions { display: flex; gap: 12px; }
+.link-btn { padding: 0; font: 600 .78rem var(--font); color: var(--muted); background: none; border: 0; cursor: pointer; text-decoration: underline; }
+.link-btn:hover { color: var(--text); }
+.comment-form { display: flex; flex-direction: column; gap: 8px; }
+.comment-form textarea, .name-row input { width: 100%; padding: 9px 11px; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 8px; resize: vertical; }
+.comment-form-foot, .name-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.name-row input { flex: 1; min-width: 0; }
+.mod-item .ctext { margin: 4px 0; }

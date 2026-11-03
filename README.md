@@ -215,6 +215,10 @@ Under **Account → Appearance** users pick System (follows the device) or one o
 
 PowerShell ISE themes (`group: 'ise'` in `js/theme.js`, colors in `css/themes-ise.css`) are generated from the editor and token colors of the themes in [AbyKumar/PowerShell-ISE-Themes](https://github.com/AbyKumar/PowerShell-ISE-Themes); surfaces, borders and status colors are derived from them and adjusted for readable contrast. They are single-mode, so the header button returns to the theme you just left.
 
+## Question discussions
+
+Signed-in users can comment under each practice question (not guests, not timed exams). Data lives in Supabase: `profiles` (display name, owner-only), `question_comments` and `comment_reports`, all with row-level security; a trigger sets the author name from the profile (emails are never exposed), blocks spoofing, and rate-limits (5 per 10 minutes, 40 per day). Text is rendered as escaped plain text with no links. Authors can edit and delete their own comments; admins can delete any comment and review reports on the Account page. Community guidelines are in `privacy.html#community`.
+
 ## Backgrounds
 
 `js/background.js` draws a fixed animated canvas behind every page in the current theme's colors. Users pick one under Account → Appearance → Background: Galaxy (default), Neon grid, Circuit board, Code rain, Constellation network, or None (`itsh:bg` in `localStorage`). To add one, add an entry to `STYLES` (an `init` and a `draw`) and to `ORDER`.
