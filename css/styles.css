@@ -1603,3 +1603,6 @@ a.icon-btn { display: inline-flex; align-items: center; justify-content: center;
 .pv-btn { align-self: flex-start; font-style: normal; font-size: .72rem; font-weight: 700; padding: 5px 11px; border-radius: 6px; background: var(--pv-accent); color: var(--pv-on) !important; }
 .pv-name { margin: 0; font: 700 .85rem var(--font-head); }
 @media (max-width: 820px) { .appearance-layout { grid-template-columns: 1fr; } .ap-preview { position: static; order: -1; } .theme-list { max-height: 360px; } }
+
+/* Logo follows the theme (the browser-tab icon is updated by js/theme.js). */
+.brand-mark { --brand-bg: var(--code-bg); --brand-accent: var(--azure); --brand-accent-2: var(--accent-2); }

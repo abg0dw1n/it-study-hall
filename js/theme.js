@@ -71,6 +71,19 @@
     b.title = label;
   }
 
+  // Browser-tab icon in the theme's colors (reads the resolved CSS variables, so it runs once styles are loaded).
+  function favicon() {
+    var s = getComputedStyle(document.documentElement);
+    function v(n, d) { var x = s.getPropertyValue(n).trim(); return /^#[0-9a-f]{6}$/i.test(x) ? x : d; }
+    var bg = v('--code-bg', '#19181a'), a = v('--azure', '#ffd866'), b = v('--accent-2', '#ff6188');
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="' + bg + '"/>' +
+      '<rect x="3" y="3" width="58" height="58" rx="12" fill="none" stroke="' + a + '" stroke-width="4"/>' +
+      '<path d="M16 20 L29 32 L16 44" fill="none" stroke="' + a + '" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M34 45 H49" stroke="' + b + '" stroke-width="7.5" stroke-linecap="round"/></svg>';
+    var l = document.querySelector('link[rel="icon"][type="image/svg+xml"]');
+    if (l) l.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+  }
+
   function apply() {
     var t = BY_ID[resolve(pref())];
     var root = document.documentElement;
@@ -79,6 +92,7 @@
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', t.panel);
     syncToggle();
+    if (document.readyState !== 'loading') favicon();
     document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: t.scheme, palette: t.id, pref: pref() } }));
   }
 
@@ -109,5 +123,7 @@
     var b = document.getElementById('theme-toggle');
     if (b) b.addEventListener('click', function () { window.Theme.toggle(); });
     syncToggle();
+    favicon();
   });
+  window.addEventListener('load', favicon); // stylesheets are loaded by now
 })();
