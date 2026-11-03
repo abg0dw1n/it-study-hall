@@ -299,6 +299,7 @@ function renderOverview(main) {
     const p = pct(parts, mods.length * 3);
     tiles.push({ mode: 'learn', ic: 'learn', title: 'Learn', blurb: 'Study guides, slides and video lessons for each exam domain.',
       stat: `${p}%`, sub: `${done} of ${mods.length} module${mods.length === 1 ? '' : 's'} complete`, bar: bar(p),
+      active: !!(parts || open),
       cta: parts || open ? (next ? `Continue: ${next.title}` : 'Review modules') : 'Start learning' });
   }
 
@@ -306,10 +307,10 @@ function renderOverview(main) {
   const correct = answered.filter((id) => isCorrect(BY_ID.get(id), state.practice.answers[id])).length;
   const mastered = QUESTIONS.filter((q) => (state.mastery?.[q.id]?.box || 0) >= 3).length;
   const acc = pct(correct, answered.length);
-  tiles.push({ mode: 'practice', ic: 'book', title: 'Practice exams', featured: true, blurb: 'Work through the full question bank at your own pace, with a clear explanation after every answer. The fastest way to find what to study next.',
+  tiles.push({ mode: 'practice', ic: 'book', title: 'Practice exams', blurb: 'Work through the full question bank at your own pace, with a clear explanation after every answer. The fastest way to find what to study next.',
     stat: `${answered.length}<small> / ${QUESTIONS.length}</small>`,
     sub: answered.length ? `${acc}% correct · ${mastered} mastered` : 'No questions answered yet',
-    bar: bar(pct(answered.length, QUESTIONS.length)), cta: answered.length ? 'Continue practice' : 'Start practicing' });
+    bar: bar(pct(answered.length, QUESTIONS.length)), active: answered.length > 0, cta: answered.length ? 'Continue practice' : 'Start practicing' });
 
   const hist = state.history || [];
   const running = state.exam && !state.exam.result;
@@ -320,6 +321,7 @@ function renderOverview(main) {
     sub: running ? 'Your exam is still running' : hist.length
       ? `Last score${passMark ? ` (pass ${passMark})` : ''} · best ${best} · ${hist.length} attempt${hist.length === 1 ? '' : 's'}`
       : 'No timed exam taken yet',
+    active: !!(running || hist.length),
     cls: running ? 'running' : hist.length ? (hist[0].passed ? 'good' : 'weak') : '',
     cta: running ? 'Resume exam' : hist.length ? 'Take another exam' : 'Start a timed exam' });
 
@@ -328,10 +330,11 @@ function renderOverview(main) {
     const p = pct(sum.done, sum.total);
     tiles.push({ mode: 'labs', ic: 'terminal', title: 'Labs', blurb: 'Hands-on scenarios in a simulated terminal or console.',
       stat: `${sum.done}<small> / ${sum.total}</small>`, sub: sum.done ? `${sum.done} lab${sum.done === 1 ? '' : 's'} completed` : sum.started ? 'Started' : 'No labs started yet',
-      bar: bar(p), cta: sum.started ? 'Continue labs' : 'Start a lab' });
+      bar: bar(p), active: !!(sum.started || sum.done), cta: sum.started ? 'Continue labs' : 'Start a lab' });
   }
 
-  const last = { learn: 'Learn', labs: 'Labs', exam: 'Timed exam', review: 'Timed exam', practice: 'Practice' }[state.mode];
+  const lastTile = tiles.find((t) => t.active && (t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review')));
+  const last = lastTile && { learn: 'Learn', labs: 'Labs', exam: 'Timed exam', practice: 'Practice' }[lastTile.mode];
   main.innerHTML = `<section class="overview stack">
     <header class="ov-head">
       <span class="learning-path-eyebrow">${SKILL ? 'IT SKILL PATH' : `${escapeHtml(EXAM.vendor)} · ${escapeHtml(EXAM.code)}`}</span>
@@ -339,8 +342,8 @@ function renderOverview(main) {
       <p class="muted">${SKILL ? 'Learn the topic, then practice it hands-on in the labs.' : 'Learn the material, practice it, then prove it.'} Choose where to pick up. ${last ? `You were last in <b>${last}</b>.` : ''}</p>
     </header>
     <div class="ov-grid">${['learn', 'labs', 'practice', 'exam'].map((m) => tiles.find((t) => t.mode === m)).filter((t) => t && (!SKILL || t.mode === 'learn' || t.mode === 'labs')).map((t) => `
-      <button type="button" class="panel ov-tile${t.featured ? ' featured' : ''}${t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review') ? ' last' : ''}" data-action="overview-go" data-go="${t.mode}">
-        <span class="ov-top"><span class="ov-icon">${icon(t.ic)}</span><span class="ov-title">${t.title}</span>${t.featured ? '<span class="ov-flag">Core feature</span>' : ''}</span>
+      <button type="button" class="panel ov-tile${t.active && (t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review')) ? ' last' : ''}" data-action="overview-go" data-go="${t.mode}">
+        <span class="ov-top"><span class="ov-icon">${icon(t.ic)}</span><span class="ov-title">${t.title}</span></span>
         <span class="ov-blurb">${t.blurb}</span>
         <span class="ov-stat ${t.cls || ''}"><b>${t.stat}</b><span>${t.sub}</span>${t.bar || ''}</span>
         <span class="learning-path-action">${escapeHtml(t.cta)} ${icon('right')}</span>

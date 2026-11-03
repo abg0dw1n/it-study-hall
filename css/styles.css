@@ -1103,7 +1103,7 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
 .ov-tile { display: flex; flex-direction: column; align-items: stretch; gap: 10px; padding: 18px; text-align: left; font: inherit; color: inherit; cursor: pointer; border-left: 4px solid var(--v, var(--azure)); transition: transform .15s, border-color .15s, box-shadow .15s; }
 .ov-tile:hover { transform: translateY(-2px); border-color: var(--v, var(--azure)); }
 .ov-tile:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
-.ov-tile.last { box-shadow: 0 0 0 1px var(--v, var(--azure)) inset; }
+.ov-tile.last { border-color: var(--azure); box-shadow: 0 0 0 1px var(--azure); background: linear-gradient(135deg, var(--azure-soft), transparent 70%), var(--panel); }
 .ov-top { display: flex; align-items: center; gap: 10px; }
 .ov-icon { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--azure-soft); color: var(--azure-text); }
 .ov-icon .icon { width: 18px; height: 18px; }
@@ -1120,11 +1120,7 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
 .ov-tile .learning-path-action { margin-top: auto; }
 
 /* Featured tile: practice exams stand out a little from the other course sections */
-.ov-tile.featured { border-left-width: 6px; background: linear-gradient(135deg, var(--azure-soft), transparent 70%), var(--panel); }
-.ov-tile.featured .ov-title { font-size: 19px; }
-.ov-flag { margin-left: auto; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 650; letter-spacing: .03em; color: var(--azure-text); background: var(--azure-soft); }
-@media (min-width: 700px) and (max-width: 1099px) { .ov-tile.featured { grid-column: span 2; } }
-
+@media (min-width: 700px) and (max-width: 1099px) { 
 /* Skills & Topics: non-certification skill paths */
 .skills-section { display: grid; gap: 16px; margin-top: 8px; padding-top: 22px; border-top: 1px solid var(--border); }
 .exam-card h3 { font-size: 17px; font-weight: 650; line-height: 1.35; }
