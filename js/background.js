@@ -1,6 +1,6 @@
 // Animated page background: a fixed canvas behind the page, drawn in the current
-// theme's colors. The choice is per device ('itsh:bg'): galaxy (default), grid,
-// circuit, rain, net or off. Pauses when the tab is hidden; static for visitors
+// theme's colors. The choice is per device ('itsh:bg'): galaxy (default), grid, circuit,
+// rain, net, aurora, globe, terrain, tunnel, streaks or off. Pauses when the tab is hidden; static for visitors
 // who prefer reduced motion. Content panels stay opaque so text is unaffected.
 (function () {
   var KEY = 'itsh:bg', DEFAULT = 'galaxy';
@@ -123,8 +123,136 @@
         N.forEach(function (a) { c.fillStyle = rg(a.k ? p.a2 : p.a1, d ? .85 : .7); c.beginPath(); c.arc(a.x, a.y, a.r, 0, 6.283); c.fill(); });
       },
     },
+    aurora: {
+      name: 'Aurora', blurb: 'Slow ribbons of light drifting across the page',
+      init: function () {
+        var r = [];
+        for (var i = 0; i < 4; i++) r.push({ y: .22 + i * .17, f1: rnd(.0014, .0028), f2: rnd(.004, .008), a1: rnd(.07, .12), a2: rnd(.02, .05), sp: rnd(.00012, .00028) * (i % 2 ? -1 : 1), th: rnd(.07, .12), k: i % 2 });
+        return { r: r };
+      },
+      draw: function (c, t, w, h, p, S) {
+        var d = p.dark;
+        S.r.forEach(function (q, i) {
+          var col = q.k ? p.a2 : p.a1, top = [], bot = [], x;
+          for (x = 0; x <= w + 24; x += 24) {
+            var cy = q.y * h + Math.sin(x * q.f1 + t * q.sp + i * 2) * h * q.a1 + Math.sin(x * q.f2 - t * q.sp * 1.7) * h * q.a2;
+            var th = h * q.th * (.65 + .35 * Math.sin(x * .003 + t * q.sp * .8 + i));
+            top.push([x, cy - th]); bot.push([x, cy + th]);
+          }
+          [1, .62, .32].forEach(function (sc, n) {
+            var g = c.createLinearGradient(0, (q.y - q.a1 - q.a2 - q.th) * h, 0, (q.y + q.a1 + q.a2 + q.th) * h);
+            g.addColorStop(0, rg(col, 0)); g.addColorStop(.5, rg(col, (d ? .12 : .055) * (n ? .8 : 1))); g.addColorStop(1, rg(col, 0));
+            c.fillStyle = g; c.beginPath();
+            top.forEach(function (pt, j) { var m = (pt[1] + bot[j][1]) / 2, y = m + (pt[1] - m) * sc; j ? c.lineTo(pt[0], y) : c.moveTo(pt[0], y); });
+            for (var j = bot.length - 1; j >= 0; j--) { var m2 = (top[j][1] + bot[j][1]) / 2; c.lineTo(bot[j][0], m2 + (bot[j][1] - m2) * sc); }
+            c.closePath(); c.fill();
+          });
+        });
+      },
+    },
+    globe: {
+      name: 'Network globe', blurb: 'A rotating wireframe globe with data links between sites',
+      init: function () {
+        var pts = [], arcs = [], i;
+        for (i = 0; i < 46; i++) pts.push({ lat: Math.asin(rnd(-.9, .9)), lon: rnd(-Math.PI, Math.PI) });
+        while (arcs.length < 11) { var A = pts[Math.floor(rnd(0, pts.length))], B = pts[Math.floor(rnd(0, pts.length))], dd = Math.acos(Math.sin(A.lat) * Math.sin(B.lat) + Math.cos(A.lat) * Math.cos(B.lat) * Math.cos(A.lon - B.lon)); if (dd > .6 && dd < 1.7) arcs.push({ a: A, b: B, off: Math.random(), sp: rnd(.00006, .00014), k: arcs.length % 4 === 0 }); }
+        return { pts: pts, arcs: arcs };
+      },
+      draw: function (c, t, w, h, p, S) {
+        var d = p.dark, cx = w * .7, cy = h * .52, R = Math.min(h * .44, w * .34), rot = t * .00012, tilt = .42, ct = Math.cos(tilt), st = Math.sin(tilt);
+        function vec(lat, lon) { return [Math.cos(lat) * Math.sin(lon + rot), Math.sin(lat), Math.cos(lat) * Math.cos(lon + rot)]; }
+        function scr(v, s) { var y = v[1] * ct - v[2] * st, z = v[1] * st + v[2] * ct; return [cx + v[0] * R * s, cy - y * R * s, z]; }
+        var g = c.createRadialGradient(cx, cy, R * .6, cx, cy, R * 1.35); g.addColorStop(0, rg(p.a1, d ? .07 : .06)); g.addColorStop(1, rg(p.a1, 0));
+        c.fillStyle = g; c.fillRect(0, 0, w, h);
+        c.lineWidth = 1; c.strokeStyle = rg(p.a1, d ? .3 : .3); c.beginPath(); c.arc(cx, cy, R, 0, 6.283); c.stroke();
+        function line(fn, n) {
+          var prev = null;
+          for (var i = 0; i <= n; i++) {
+            var q = scr(fn(i / n), 1);
+            if (prev) { var z = (q[2] + prev[2]) / 2; c.strokeStyle = rg(p.a1, z > 0 ? (d ? .2 : .26) : (d ? .06 : .08)); c.beginPath(); c.moveTo(prev[0], prev[1]); c.lineTo(q[0], q[1]); c.stroke(); }
+            prev = q;
+          }
+        }
+        for (var m = 0; m < 12; m++) line(function (u) { return vec(-1.5708 + u * 3.1416, m * .5236 - rot); }, 28);
+        for (var l = -3; l <= 3; l++) line(function (u) { return vec(l * .39, u * 6.283 - rot); }, 48);
+        S.arcs.forEach(function (ar) {
+          var A = vec(ar.a.lat, ar.a.lon), B = vec(ar.b.lat, ar.b.lon), om = Math.acos(Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2])));
+          
+          function at(f) { var s1 = Math.sin((1 - f) * om) / Math.sin(om), s2 = Math.sin(f * om) / Math.sin(om), lift = 1 + .14 * Math.sin(f * 3.1416); return scr([(A[0] * s1 + B[0] * s2), (A[1] * s1 + B[1] * s2), (A[2] * s1 + B[2] * s2)], lift); }
+          var col = ar.k ? p.a2 : p.a1, prev = at(0);
+          for (var i = 1; i <= 24; i++) { var q = at(i / 24); if (q[2] > 0 && prev[2] > 0) { c.strokeStyle = rg(col, d ? .4 : .42); c.beginPath(); c.moveTo(prev[0], prev[1]); c.lineTo(q[0], q[1]); c.stroke(); } prev = q; }
+          var f = (t * ar.sp + ar.off) % 1, hd = at(f);
+          if (hd[2] > 0) { var gr = c.createRadialGradient(hd[0], hd[1], 0, hd[0], hd[1], 9); gr.addColorStop(0, rg(col, .95)); gr.addColorStop(1, rg(col, 0)); c.fillStyle = gr; c.beginPath(); c.arc(hd[0], hd[1], 9, 0, 6.283); c.fill(); }
+        });
+        S.pts.forEach(function (q) { var s = scr(vec(q.lat, q.lon), 1); if (s[2] > 0) { c.fillStyle = rg(p.a1, d ? .85 : .75); c.beginPath(); c.arc(s[0], s[1], 2.2, 0, 6.283); c.fill(); } });
+      },
+    },
+    terrain: {
+      name: 'Wireframe terrain', blurb: 'A mesh landscape rolling toward a glowing horizon',
+      init: function () { return {}; },
+      draw: function (c, t, w, h, p) {
+        var d = p.dark, hz = h * .5, N = 34, M = 80, s = t * .0006, fl = Math.floor(s), fr = s - fl;
+        var g = c.createRadialGradient(w / 2, hz, 0, w / 2, hz, w * .5); g.addColorStop(0, rg(p.a2, d ? .22 : .2)); g.addColorStop(.5, rg(p.a1, d ? .06 : .05)); g.addColorStop(1, rg(p.a1, 0));
+        c.fillStyle = g; c.fillRect(0, 0, w, h);
+        for (var k = 0; k < N; k++) {
+          var f = (k + fr) / N, id = k - fl, y0 = hz + (h - hz) * Math.pow(f, 2.1), sc = .1 + f * 1.1, pts = [];
+          for (var i = 0; i <= M; i++) {
+            var X = (i / M - .5) * 2, hgt = (Math.sin(X * 3.1 + id * .37) * Math.cos(id * .23 - X * 1.7) + .5 * Math.sin(X * 7 + id * .9)) * (.25 + Math.abs(X) * 1.1);
+            pts.push([w / 2 + X * w * (.85 + f * .5), y0 - hgt * h * .26 * sc]);
+          }
+          c.beginPath(); pts.forEach(function (q, j) { j ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); });
+          c.lineTo(pts[M][0], h + 5); c.lineTo(pts[0][0], h + 5); c.closePath();
+          c.fillStyle = p.bg; c.fill();
+          c.strokeStyle = rg(k % 5 === 0 ? p.a2 : p.a1, (.1 + .4 * f) * (d ? 1 : .9)); c.lineWidth = 1; c.beginPath();
+          pts.forEach(function (q, j) { j ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); }); c.stroke();
+        }
+      },
+    },
+    tunnel: {
+      name: 'Data tunnel', blurb: 'Flying down a corridor of glowing frames with packets on the rails',
+      init: function () {
+        var pk = [];
+        for (var i = 0; i < 26; i++) pk.push({ rail: Math.floor(rnd(0, 8)), off: Math.random(), sp: rnd(.00006, .00014), k: Math.random() < .25 });
+        return { pk: pk };
+      },
+      draw: function (c, t, w, h, p, S) {
+        var d = p.dark, cx = w / 2, cy = h * .5, W = w * .78, H = h * .78, N = 14, ph = (t * .00018) % 1, g = c.createRadialGradient(cx, cy, 0, cx, cy, w * .4);
+        g.addColorStop(0, rg(p.a1, d ? .16 : .12)); g.addColorStop(1, rg(p.a1, 0)); c.fillStyle = g; c.fillRect(0, 0, w, h);
+        var rails = [[-1, -1], [0, -1], [1, -1], [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0]];
+        c.lineWidth = 1; c.strokeStyle = rg(p.a1, d ? .12 : .16); c.beginPath();
+        rails.forEach(function (r) { c.moveTo(cx, cy); c.lineTo(cx + r[0] * W, cy + r[1] * H); }); c.stroke();
+        for (var k = 0; k < N; k++) {
+          var f = (k + ph) / N, s = Math.pow(f, 2.4);
+          c.strokeStyle = rg(k % 4 === 0 ? p.a2 : p.a1, (.05 + .34 * f) * (d ? 1 : .95)); c.lineWidth = .8 + f * 1.2;
+          c.strokeRect(cx - W * s, cy - H * s, W * s * 2, H * s * 2);
+        }
+        S.pk.forEach(function (q) {
+          var f = (t * q.sp + q.off) % 1, s = Math.pow(f, 2.4), r = rails[q.rail], x = cx + r[0] * W * s, y = cy + r[1] * H * s, z = 1 + 6 * f, col = q.k ? p.a2 : p.a1;
+          c.fillStyle = rg(col, (.2 + .75 * f) * (d ? 1 : .9)); c.fillRect(x - z / 2, y - z / 2, z, z);
+        });
+      },
+    },
+    streaks: {
+      name: 'Fiber streaks', blurb: 'Pulses of light racing along diagonal fiber lines',
+      init: function (w, h) {
+        var a = [], n = Math.min(60, Math.round(w / 26));
+        for (var i = 0; i < n; i++) a.push({ pos: rnd(-.3, 1.3), off: Math.random(), sp: rnd(.00012, .0004), len: rnd(.1, .3), k: Math.random() < .2, wd: Math.random() < .2 ? 2 : 1 });
+        return { a: a };
+      },
+      draw: function (c, t, w, h, p, S) {
+        var d = p.dark, ang = -.42, dx = Math.cos(ang), dy = Math.sin(ang), nx = -dy, ny = dx, D = Math.sqrt(w * w + h * h), mx = w / 2, my = h / 2;
+        S.a.forEach(function (q) {
+          var ox = mx + nx * (q.pos - .5) * D * 1.15, oy = my + ny * (q.pos - .5) * D * 1.15, x0 = ox - dx * D, y0 = oy - dy * D, x1 = ox + dx * D, y1 = oy + dy * D, col = q.k ? p.a2 : p.a1;
+          c.lineWidth = 1; c.strokeStyle = rg(p.a1, d ? .06 : .09); c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke();
+          [0, .5].forEach(function (o2) { var f = (t * q.sp + q.off + o2) % 1.3 - .15, hx = x0 + (x1 - x0) * f, hy = y0 + (y1 - y0) * f, tx = hx - dx * D * q.len, ty = hy - dy * D * q.len;
+          var g = c.createLinearGradient(tx, ty, hx, hy); g.addColorStop(0, rg(col, 0)); g.addColorStop(1, rg(col, d ? .7 : .75));
+          c.strokeStyle = g; c.lineWidth = q.wd + .6; c.beginPath(); c.moveTo(tx, ty); c.lineTo(hx, hy); c.stroke();
+          c.fillStyle = rg(col, d ? .9 : .85); c.beginPath(); c.arc(hx, hy, q.wd + 1, 0, 6.283); c.fill(); });
+        });
+      },
+    },
   };
-  var ORDER = ['galaxy', 'grid', 'circuit', 'rain', 'net'];
+  var ORDER = ['galaxy', 'grid', 'circuit', 'rain', 'net', 'aurora', 'globe', 'terrain', 'tunnel', 'streaks'];
   var LIST = [{ id: 'off', name: 'None', blurb: 'Plain background' }].concat(ORDER.map(function (id) { return { id: id, name: STYLES[id].name, blurb: STYLES[id].blurb }; }));
 
   var cv = document.createElement('canvas');

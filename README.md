@@ -221,7 +221,7 @@ Signed-in users can comment under each practice question (not guests, not timed 
 
 ## Backgrounds
 
-`js/background.js` draws a fixed animated canvas behind every page in the current theme's colors. Users pick one under Account → Appearance → Background: Galaxy (default), Neon grid, Circuit board, Code rain, Constellation network, or None (`itsh:bg` in `localStorage`). To add one, add an entry to `STYLES` (an `init` and a `draw`) and to `ORDER`.
+`js/background.js` draws a fixed animated canvas behind every page in the current theme's colors. Users pick one under Account → Appearance → Background: Galaxy (default), Neon grid, Circuit board, Code rain, Constellation network, Aurora, Network globe, Wireframe terrain, Data tunnel, Fiber streaks, or None (`itsh:bg` in `localStorage`). To add one, add an entry to `STYLES` (an `init` and a `draw`) and to `ORDER`.
 
 ## Light and dark mode
 
