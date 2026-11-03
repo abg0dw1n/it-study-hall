@@ -213,7 +213,7 @@ Signed-in users can suggest site features from the home page ("Have an idea for 
 
 Under **Account → Appearance** users pick System (follows the device) or one of 22 palettes, each family with a dark and a light version: Monokai, PowerShell, Dracula, One, Nord, Solarized, Gruvbox, Tokyo Night, Catppuccin (Mocha/Latte), GitHub and Rosé Pine. The header sun/moon button switches to the other half of the chosen family. The choice is saved per device in `localStorage` (`itsh:theme`). To add a palette, add an entry to `LIST` in `js/theme.js` and a `:root[data-palette="<id>"]` block in `css/styles.css` (set every colour token and `pair`, the id of its light/dark counterpart; `scheme` decides whether the light or dark base rules apply).
 
-PowerShell ISE themes (`group: 'ise'` in `js/theme.js`, colors in `css/themes-ise.css`) are generated from the editor and token colors of the themes in [AbyKumar/PowerShell-ISE-Themes](https://github.com/AbyKumar/PowerShell-ISE-Themes); surfaces, borders and status colors are derived from them and adjusted for readable contrast. They are single-mode, so the header button returns to the theme you just left.
+PowerShell ISE themes (`group: 'ise'` in `js/theme.js`, colors in `css/themes-ise.css`) are generated from the editor and token colors of the themes in [AbyKumar/PowerShell-ISE-Themes](https://github.com/AbyKumar/PowerShell-ISE-Themes); surfaces, borders and status colors are derived from them and adjusted for readable contrast. Each one has a generated opposite-mode twin in `css/themes-ise-twins.css` (e.g. Obsidian ↔ Obsidian Light, same hue family), so every theme has a light and a dark version and the header button always switches within the same colorway.
 
 ## Question discussions
 
