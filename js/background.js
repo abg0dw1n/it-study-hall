@@ -125,6 +125,8 @@
 
   var cv = document.createElement('canvas');
   cv.className = 'bg-canvas'; cv.setAttribute('aria-hidden', 'true');
+  // Inline so the canvas stays behind the page even if the stylesheet is stale or slow to load.
+  cv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block';
   var ctx = cv.getContext('2d'), w = 0, h = 0, raf = 0, cols = null, S = null, cur = null;
 
   function pref() { try { var v = localStorage.getItem(KEY); return v === 'off' || STYLES[v] ? v : DEFAULT; } catch (e) { return DEFAULT; } }
