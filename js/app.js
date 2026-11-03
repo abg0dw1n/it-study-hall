@@ -1118,11 +1118,37 @@ const levelMeter = (l) => {
     <span class="sr-only">Difficulty: </span>${label}</span>`;
 };
 
+// Topic areas used to search learning paths by type of exam (e.g. "AI" lists every AI path).
+const TOPICS = {
+  ai: { label: 'AI', words: 'ai artificial intelligence machine learning generative genai copilot agents' },
+  cloud: { label: 'Cloud', words: 'cloud azure aws google gcp' },
+  security: { label: 'Security', words: 'security cybersecurity identity compliance' },
+  networking: { label: 'Networking', words: 'networking network cisco routing switching' },
+  linux: { label: 'Linux', words: 'linux unix red hat' },
+  support: { label: 'IT support', words: 'support helpdesk hardware a+ desktop technician fundamentals' },
+  data: { label: 'Data', words: 'data analytics database sql tableau' },
+  healthcare: { label: 'Healthcare', words: 'healthcare medical coding billing administrative' },
+};
+const EXAM_TOPICS = {
+  'ai-901': ['ai', 'cloud'], 'ai-103': ['ai', 'cloud'], 'aws-aif': ['ai', 'cloud'], 'google-gail': ['ai', 'cloud'],
+  'az-104': ['cloud'], 'az-900': ['cloud'], 'aws-clf': ['cloud'], 'aws-saa': ['cloud'], 'aws-dva': ['cloud'], 'aws-soa': ['cloud'],
+  'google-cdl': ['cloud'], 'google-ace': ['cloud'], 'google-pca': ['cloud'], 'google-adp': ['data', 'cloud'],
+  'sc-900': ['security', 'cloud'], 'security-plus': ['security'], 'ccna-cyber': ['security'], 'ccst-cybersecurity': ['security'],
+  'network-plus': ['networking'], 'ccna': ['networking'], 'ccst-networking': ['networking'],
+  'linux-essentials': ['linux'], 'linux-plus': ['linux'], 'rhcsa': ['linux'],
+  'a-plus-core1': ['support'], 'a-plus-core2': ['support'], 'tech-plus': ['support'], 'ccst-it-support': ['support'],
+  'dp-900': ['data', 'cloud'], 'data-plus': ['data'], 'tableau-foundations': ['data'],
+  cpc: ['healthcare'], cbcs: ['healthcare'], cmaa: ['healthcare'],
+};
+const topicsOf = (e) => (EXAM_TOPICS[e.slug] || []).filter((t) => TOPICS[t]);
+const pathSearchText = (e) => [e.name, e.code, e.vendor, e.level, ...topicsOf(e).map((t) => `${TOPICS[t].label} ${TOPICS[t].words}`)]
+  .join(' ').toLowerCase();
+
 function learningPathCard(e) {
   const a = recentActivity(e, readSaved(e.slug, e.legacyStorageKey));
   const total = (e.learningModules || 0) * 3;
   const started = a && (a.parts || a.openedModule);
-  return `<a class="panel learning-path-card" href="/${e.slug}?mode=learn" data-vendor="${vendorKey(e.vendor)}">
+  return `<a class="panel learning-path-card" href="/${e.slug}?mode=learn" data-vendor="${vendorKey(e.vendor)}" data-search="${escapeHtml(pathSearchText(e))}" data-topics="${topicsOf(e).join(' ')}">
       <span class="learning-path-eyebrow">LEARNING PATH · ${escapeHtml(e.code)}</span>
       <h3>${escapeHtml(e.name)}</h3>
       <p>${escapeHtml(e.learningDescription || `Structured study materials for ${e.name}, organized by exam domain.`)}</p>
@@ -1145,10 +1171,44 @@ async function renderLearningPathsPage() {
   $('main').innerHTML = `<section class="stack">
       <div class="stack" style="gap:6px"><span class="eyebrow">LEARN</span><h2 class="home-title">Learning paths</h2>
       <p class="muted">Structured study for each exam: a study guide, slides and a narrated video lesson for every exam domain. Easiest first.</p></div>
-      ${paths.length ? `<div class="learning-path-grid">${paths.map(learningPathCard).join('')}</div>`
+      ${paths.length ? `<div class="catalog-tools">
+        <label class="catalog-search"><span class="sr-only">Search learning paths</span><input id="path-search" type="search" placeholder="Search by topic, vendor or exam, e.g. AI, Linux, Cisco" autocomplete="off"></label>
+        <div class="provider-filters" role="group" aria-label="Filter learning paths by topic">
+          <button type="button" class="provider-filter active" data-topic-filter="all" aria-pressed="true">All <span>${paths.length}</span></button>
+          ${Object.keys(TOPICS).filter((t) => paths.some((e) => topicsOf(e).includes(t)))
+            .map((t) => `<button type="button" class="provider-filter" data-topic-filter="${t}" aria-pressed="false">${TOPICS[t].label} <span>${paths.filter((e) => topicsOf(e).includes(t)).length}</span></button>`).join('')}
+        </div></div>
+        <p id="path-count" class="muted small" aria-live="polite">${paths.length} learning path${paths.length === 1 ? '' : 's'}</p>
+        <div class="learning-path-grid" id="path-grid">${paths.map(learningPathCard).join('')}</div>
+        <p id="path-empty" class="panel catalog-empty" hidden>No learning paths match. Try a different topic, such as AI, Cloud or Security.</p>`
         : '<p class="panel empty">Learning paths are on the way. In the meantime, try the practice exams.</p>'}
       <p class="muted small">Don't see your exam? <a href="https://github.com/abg0dw1n/it-study-hall/issues/new?template=course-exam-request.yml" target="_blank" rel="noopener noreferrer">Request a learning path</a>.</p>
     </section>`;
+  const search = $('path-search');
+  if (!search) return;
+  let topic = 'all';
+  const apply = () => {
+    const words = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    $('path-grid').querySelectorAll('.learning-path-card').forEach((card) => {
+      const hay = card.dataset.search.split(/[^a-z0-9+]+/);
+      // Every typed word must start a word in the card's name, code, vendor or topic keywords.
+      const textOk = words.every((w) => hay.some((h) => h.startsWith(w)));
+      const topicOk = topic === 'all' || card.dataset.topics.split(' ').includes(topic);
+      card.hidden = !(textOk && topicOk);
+      if (!card.hidden) shown++;
+    });
+    $('path-count').textContent = `${shown} learning path${shown === 1 ? '' : 's'}`;
+    $('path-empty').hidden = shown > 0;
+  };
+  search.addEventListener('input', apply);
+  $('main').querySelectorAll('[data-topic-filter]').forEach((b) => b.addEventListener('click', () => {
+    topic = b.dataset.topicFilter;
+    $('main').querySelectorAll('[data-topic-filter]').forEach((x) => {
+      x.classList.toggle('active', x === b); x.setAttribute('aria-pressed', String(x === b));
+    });
+    apply();
+  }));
 }
 
 // What this person has done in an exam, or null if they haven't started it.
