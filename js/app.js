@@ -1006,10 +1006,11 @@ async function initDiscussion(id) {
   let open = false;
   const stale = () => !box.isConnected || box.dataset.qid !== String(id);
   const count = () => commentCountCache.get(slug)?.get(id) || 0;
-  const head = () => `<button type="button" class="discuss-toggle" data-discuss-toggle aria-expanded="${open}">${icon('chat')}<span>Discussion</span><span class="chip" id="discuss-count">${count()}</span></button>`;
+  const hint = () => (open ? 'Hide comments' : count() ? `View ${count() === 1 ? '1 comment' : count() + ' comments'}` : 'Be the first to comment');
+  const head = () => `<button type="button" class="discuss-toggle" data-discuss-toggle aria-expanded="${open}">${icon('chat')}<span class="dt-title">Discussion</span><span class="chip" id="discuss-count">${count()}</span><span class="dt-hint" id="discuss-hint">${hint()}</span>${icon('chev')}</button>`;
   const shell = (inner = '') => { box.innerHTML = `${head()}<div class="discuss-body" ${open ? '' : 'hidden'}>${inner}</div>`; };
   shell();
-  loadCommentCounts(slug).then(() => { if (!stale() && $('discuss-count')) $('discuss-count').textContent = String(count()); });
+  loadCommentCounts(slug).then(() => { if (!stale() && $('discuss-count')) { $('discuss-count').textContent = String(count()); if ($('discuss-hint')) $('discuss-hint').textContent = hint(); } });
 
   let comments = null;
   let isAdmin = myAdminFlag === true;
