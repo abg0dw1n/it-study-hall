@@ -22,7 +22,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Structured data follows a schema, as in relational databases."
+    "explanation": "Structured data follows a fixed schema of tables with rows and columns, as in relational databases. Semi-structured data (JSON, XML) has tags or keys but a flexible shape, and unstructured data (video, images, free text) has no schema.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Identify data formats",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats"
+      }
+    ]
   },
   {
     "id": 2,
@@ -47,7 +53,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "XML and YAML are other semi-structured formats."
+    "explanation": "A JSON document is semi-structured: it has self-describing keys, but each item can have different fields. XML and YAML are other semi-structured formats. Structured data requires every row to share the same columns.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Identify data formats",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats"
+      }
+    ]
   },
   {
     "id": 3,
@@ -72,7 +84,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Images, audio, video and free-form documents are unstructured."
+    "explanation": "Unstructured data has no predefined model or schema. Video, audio, images and free-form documents are classic examples. A table of orders is structured, and JSON or CSV data is structured or semi-structured.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Identify data formats",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/2-data-formats"
+      }
+    ]
   },
   {
     "id": 4,
@@ -97,7 +115,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Parquet and ORC are columnar; Avro is row-based binary."
+    "explanation": "Parquet is a columnar format optimized for analytics: reading only the columns a query needs is fast and compresses well. ORC is also columnar. CSV, JSON and XML are text-based and row- or document-oriented.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Explore file storage",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage"
+      }
+    ]
   },
   {
     "id": 5,
@@ -122,7 +146,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Avro stores the schema in JSON along with binary data."
+    "explanation": "Avro is a row-based binary format often used for streaming and serialization, and it stores its schema as JSON alongside the binary data. Parquet and ORC are columnar, and CSV is plain text.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Explore file storage",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/3-file-storage"
+      }
+    ]
   },
   {
     "id": 6,
@@ -147,7 +177,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "OLTP systems are usually normalized and support ACID transactions."
+    "explanation": "OLTP workloads handle many small, fast transactions such as orders and payments. They are usually normalized and rely on ACID guarantees. OLAP is the opposite: complex reads over lots of historical data.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Explore transactional data processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing"
+      }
+    ]
   },
   {
     "id": 7,
@@ -172,7 +208,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Analytical systems are often read-optimized and denormalized."
+    "explanation": "OLAP (analytical processing) runs complex queries over large volumes of historical data for reporting and analysis. These systems are read-optimized and often denormalized, for example into star schemas. OLTP handles the day-to-day transactions.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Explore analytical data processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing"
+      }
+    ]
   },
   {
     "id": 8,
@@ -197,7 +239,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Atomicity means a transaction completes fully or not at all."
+    "explanation": "ACID stands for atomicity, consistency, isolation and durability, the guarantees that make database transactions reliable. Atomicity means a transaction either completes fully or not at all.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Explore transactional data processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing"
+      }
+    ]
   },
   {
     "id": 9,
@@ -222,7 +270,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Committed changes are written to persistent storage."
+    "explanation": "Durability guarantees that once a transaction is committed, its changes are written to persistent storage and survive a crash or power failure. Atomicity is all-or-nothing, consistency keeps data valid, and isolation keeps concurrent transactions apart.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Explore transactional data processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing"
+      }
+    ]
   },
   {
     "id": 10,
@@ -247,7 +301,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Data engineers design and maintain data integration and storage."
+    "explanation": "Data engineers build and maintain the pipelines and storage that ingest, transform and integrate data. Data analysts explore and visualize it, and database administrators keep databases secure and available.",
+    "refs": [
+      {
+        "title": "Explore data roles and services: Explore job roles in the world of data",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles"
+      }
+    ]
   },
   {
     "id": 11,
@@ -272,7 +332,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "DBAs also manage permissions, patching and performance."
+    "explanation": "Database administrators are responsible for backups, security, availability, patching and performance of databases. Data engineers build pipelines and analysts create reports.",
+    "refs": [
+      {
+        "title": "Explore data roles and services: Explore job roles in the world of data",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles"
+      }
+    ]
   },
   {
     "id": 12,
@@ -297,7 +363,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Data analysts often use Power BI."
+    "explanation": "Data analysts explore data and build reports and visualizations, often in Power BI, to support business decisions. Engineers build pipelines and DBAs run the database platforms.",
+    "refs": [
+      {
+        "title": "Explore data roles and services: Explore job roles in the world of data",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/2-explore-job-roles"
+      }
+    ]
   },
   {
     "id": 13,
@@ -322,7 +394,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Normalized tables are linked by keys, which improves consistency for transactional systems."
+    "explanation": "Normalization splits data into related tables, linked by keys, so each fact is stored once. That reduces duplication and improves consistency, which suits transactional systems. Combining everything into one wide table is the opposite (denormalization).",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Understand normalization",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/3-normalization"
+      }
+    ]
   },
   {
     "id": 14,
@@ -347,7 +425,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Primary keys can't contain duplicates or nulls."
+    "explanation": "A primary key uniquely identifies each row in a table, so it can't contain duplicates or nulls. A column that links to another table is a foreign key.",
+    "refs": [
+      {
+        "title": "Describe concepts of relational data: Explore relational data structures",
+        "url": "https://learn.microsoft.com/en-us/training/modules/describe-concepts-of-relational-data/3-explore-structures"
+      },
+      {
+        "title": "Explore fundamental relational data concepts: Describe database objects",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/5-database-objects"
+      }
+    ]
   },
   {
     "id": 15,
@@ -372,7 +460,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Foreign keys enforce relationships between tables."
+    "explanation": "A foreign key is a column that references the primary key of another table, enforcing the relationship between the two. It need not be unique, so a customer ID can appear on many order rows.",
+    "refs": [
+      {
+        "title": "Describe concepts of relational data: Explore relational data structures",
+        "url": "https://learn.microsoft.com/en-us/training/modules/describe-concepts-of-relational-data/3-explore-structures"
+      },
+      {
+        "title": "Explore fundamental relational data concepts: Describe database objects",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/5-database-objects"
+      }
+    ]
   },
   {
     "id": 16,
@@ -397,7 +495,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "DDL defines database objects like tables and views."
+    "explanation": "CREATE, ALTER and DROP are data definition language (DDL) statements that define database objects such as tables and views. DML (INSERT, UPDATE, DELETE, SELECT) works with the rows, and DCL (GRANT, REVOKE) manages permissions.",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Explore SQL",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/4-query-with-sql"
+      },
+      {
+        "title": "Transact-SQL statements",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/statements"
+      }
+    ]
   },
   {
     "id": 17,
@@ -422,7 +530,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "DCL manages permissions on database objects."
+    "explanation": "GRANT and REVOKE (and DENY) are data control language (DCL) statements that manage permissions on database objects. DDL defines objects and DML works with the data.",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Explore SQL",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/4-query-with-sql"
+      },
+      {
+        "title": "GRANT (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/grant-transact-sql"
+      }
+    ]
   },
   {
     "id": 18,
@@ -447,7 +565,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "INSERT, UPDATE, DELETE and SELECT are DML statements."
+    "explanation": "INSERT adds new rows to a table. UPDATE changes existing rows, SELECT reads rows, and ALTER (a DDL statement) changes a table's structure. INSERT, UPDATE, DELETE and SELECT are the DML statements.",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Explore SQL",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/4-query-with-sql"
+      },
+      {
+        "title": "INSERT (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/statements/insert-transact-sql"
+      }
+    ]
   },
   {
     "id": 19,
@@ -472,7 +600,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Views simplify queries and can limit which columns users see."
+    "explanation": "A view is a virtual table defined by a query. It stores no data of its own, which lets it simplify complex queries and limit which columns users can see.",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Describe database objects",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/5-database-objects"
+      },
+      {
+        "title": "Views",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/views/views"
+      }
+    ]
   },
   {
     "id": 20,
@@ -497,7 +635,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Indexes speed reads but add overhead to writes."
+    "explanation": "An index speeds up queries that search or sort on the indexed columns, much like a book index. The trade-off is that indexes add overhead to writes and take storage. Indexes don't encrypt data or enforce uniqueness unless declared unique.",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Describe database objects",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/5-database-objects"
+      },
+      {
+        "title": "Indexes",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/indexes/indexes"
+      }
+    ]
   },
   {
     "id": 21,
@@ -522,7 +670,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Stored procedures encapsulate logic and can improve security and performance."
+    "explanation": "A stored procedure is saved SQL code that you run by name, often with parameters. It encapsulates logic and can improve performance and security. It isn't a log, copy or backup schedule.",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Describe database objects",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/5-database-objects"
+      },
+      {
+        "title": "Stored Procedures (Database Engine)",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/stored-procedures/stored-procedures-database-engine"
+      }
+    ]
   },
   {
     "id": 22,
@@ -547,7 +705,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Batch is efficient for large volumes when latency isn't critical."
+    "explanation": "Batch processing collects data over time and processes it in groups, like a nightly job. It is efficient for large volumes when low latency isn't needed. Stream processing handles data continuously as it arrives.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of real-time analytics: Understand batch and stream processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-stream-processing/2-batch-stream"
+      }
+    ]
   },
   {
     "id": 23,
@@ -572,7 +736,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Streaming supports real-time dashboards and alerts."
+    "explanation": "Stream processing handles data continuously as it arrives, which is what sensor readings need to power real-time dashboards and alerts. Batch processing would wait and process them in groups later.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of real-time analytics: Understand batch and stream processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-stream-processing/2-batch-stream"
+      }
+    ]
   },
   {
     "id": 24,
@@ -597,7 +767,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Dimension tables hold descriptive attributes used to filter and group facts."
+    "explanation": "In a star schema, the fact table holds numeric measures such as sales amount, and dimension tables hold the descriptive attributes used to filter and group them, such as product or date.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of data visualization: Describe core concepts of data modeling",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/3-data-modeling"
+      },
+      {
+        "title": "Explore core data concepts: Explore analytical data processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/6-analytical-processing"
+      }
+    ]
   },
   {
     "id": 25,
@@ -622,7 +802,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "A lakehouse combines data lake storage with warehouse-style querying."
+    "explanation": "A data lake stores raw files of any format (structured, semi-structured or unstructured) cheaply, for later analysis. A lakehouse adds warehouse-style querying on top of lake storage. A relational OLTP database requires a schema up front.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Explore databases",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases"
+      },
+      {
+        "title": "Explore Azure Storage for nonrelational data: Explore Azure Data Lake Storage Gen2",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-non-relational-data-services-azure/3-azure-data-lake-gen2"
+      }
+    ]
   },
   {
     "id": 26,
@@ -647,7 +837,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Azure SQL Database handles patching, backups and high availability."
+    "explanation": "Azure SQL Database is a fully managed PaaS database engine: Azure handles patching, backups and high availability, and there is no OS or instance for you to manage. SQL Server on a VM is IaaS, and Table storage isn't a relational engine.",
+    "refs": [
+      {
+        "title": "Explore relational database services in Azure: Describe Azure SQL services and capabilities",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/2-azure-sql"
+      },
+      {
+        "title": "What is the Azure SQL Database service?",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/sql-database-paas-overview"
+      }
+    ]
   },
   {
     "id": 27,
@@ -672,7 +872,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Managed Instance suits lift-and-shift migrations with minimal changes."
+    "explanation": "Azure SQL Managed Instance offers near-100% compatibility with the latest SQL Server (Enterprise Edition) database engine, including features such as SQL Agent, as a managed PaaS service. That makes it ideal for lift-and-shift migrations with minimal changes. A single Azure SQL Database lacks instance-level features such as SQL Agent.",
+    "refs": [
+      {
+        "title": "What is Azure SQL Managed Instance?",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/sql-managed-instance-paas-overview"
+      },
+      {
+        "title": "Explore relational database services in Azure: Describe Azure SQL services and capabilities",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/2-azure-sql"
+      }
+    ]
   },
   {
     "id": 28,
@@ -697,7 +907,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "This is IaaS: you manage patching and configuration."
+    "explanation": "SQL Server on Azure Virtual Machines is IaaS: you get full control of the OS and SQL Server configuration, and you're responsible for patching and management. Azure SQL Database and Managed Instance hide the OS.",
+    "refs": [
+      {
+        "title": "Overview of SQL Server on Azure Windows Virtual Machines",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/sql-server-on-azure-vm-iaas-what-is-overview"
+      },
+      {
+        "title": "Explore relational database services in Azure: Describe Azure SQL services and capabilities",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/2-azure-sql"
+      }
+    ]
   },
   {
     "id": 29,
@@ -722,7 +942,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Flexible Server is the main deployment option for both."
+    "explanation": "Azure Database for PostgreSQL and Azure Database for MySQL are managed services for open-source relational databases, with Flexible Server as the main deployment option. Cosmos DB for Gremlin is a graph API, and Blob and Files are storage services.",
+    "refs": [
+      {
+        "title": "Explore relational database services in Azure: Describe Azure services for open-source databases",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/3-azure-database-open-source"
+      },
+      {
+        "title": "What is Azure Database for PostgreSQL flexible server?",
+        "url": "https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/service-overview"
+      }
+    ]
   },
   {
     "id": 30,
@@ -747,7 +977,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The vCore model also supports Azure Hybrid Benefit for SQL Server licenses."
+    "explanation": "In the vCore-based purchasing model you choose the number of vCores, memory and storage independently. The DTU model bundles compute, memory and I/O into preset blocks. The vCore model also supports Azure Hybrid Benefit.",
+    "refs": [
+      {
+        "title": "vCore purchasing model",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/service-tiers-sql-database-vcore"
+      },
+      {
+        "title": "Purchasing Models",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/purchasing-models"
+      }
+    ]
   },
   {
     "id": 31,
@@ -772,7 +1012,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Serverless suits intermittent or unpredictable workloads."
+    "explanation": "The serverless compute tier of Azure SQL Database scales compute automatically, bills per second for the compute used, and pauses the database when it's idle. It suits intermittent or unpredictable workloads. Elastic pools and Hyperscale don't pause databases.",
+    "refs": [
+      {
+        "title": "Serverless compute tier",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/serverless-tier-overview"
+      }
+    ]
   },
   {
     "id": 32,
@@ -797,7 +1043,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Elastic pools suit SaaS apps with many databases and varying load."
+    "explanation": "An elastic pool lets multiple databases share a pool of resources, which is cost-effective for SaaS apps with many databases whose load peaks at different times. Read replicas and failover groups are for scale-out reads and disaster recovery.",
+    "refs": [
+      {
+        "title": "Manage Multiple Databases with Elastic Pools",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/elastic-pool-overview"
+      }
+    ]
   },
   {
     "id": 33,
@@ -822,7 +1074,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "WHERE filters rows; ORDER BY sorts; GROUP BY aggregates."
+    "explanation": "The WHERE clause filters rows, so <code>WHERE State = 'OH'</code> returns only Ohio customers. ORDER BY only sorts, UPDATE changes data, and DELETE would remove the Ohio customers.",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Explore SQL",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/4-query-with-sql"
+      },
+      {
+        "title": "WHERE (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/where-transact-sql"
+      }
+    ]
   },
   {
     "id": 34,
@@ -847,7 +1109,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "INNER JOIN returns matches; LEFT JOIN keeps all rows from the left table."
+    "explanation": "JOIN combines rows from two tables based on a related column. INNER JOIN returns only matching rows, while LEFT JOIN keeps all rows from the left table. GROUP BY aggregates, ORDER BY sorts and HAVING filters groups.",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Explore SQL",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/4-query-with-sql"
+      },
+      {
+        "title": "Joins (SQL Server)",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/performance/joins"
+      }
+    ]
   },
   {
     "id": 35,
@@ -872,7 +1144,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use aggregate functions like SUM, COUNT and AVG with GROUP BY."
+    "explanation": "GROUP BY groups rows so that aggregate functions such as SUM, COUNT and AVG compute a total per category. WHERE filters individual rows before grouping, and JOIN combines tables.",
+    "refs": [
+      {
+        "title": "Explore fundamental relational data concepts: Explore SQL",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/4-query-with-sql"
+      },
+      {
+        "title": "GROUP BY (Transact-SQL)",
+        "url": "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-group-by-transact-sql"
+      }
+    ]
   },
   {
     "id": 36,
@@ -897,7 +1179,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Azure SQL Database offers a 99.99% SLA; zone redundancy can add more resilience."
+    "explanation": "Azure SQL Database includes built-in high availability: the service maintains replicas automatically with no configuration, and it offers a 99.99% SLA. Zone redundancy can add resilience against a datacenter failure. You don't set up log shipping yourself.",
+    "refs": [
+      {
+        "title": "Availability Through Local and Zone Redundancy",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/high-availability-sla-local-zone-redundancy"
+      },
+      {
+        "title": "Explore relational database services in Azure: Describe Azure SQL services and capabilities",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/2-azure-sql"
+      }
+    ]
   },
   {
     "id": 37,
@@ -922,7 +1214,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Point-in-time restore can be set from 1 to 35 days; long-term retention can keep backups for years."
+    "explanation": "Azure SQL Database takes automated backups and keeps them for point-in-time restore for 7 days by default, configurable from 1 to 35 days. Long-term retention can keep backups for up to 10 years. Backups are automatic.",
+    "refs": [
+      {
+        "title": "Automatic, Geo-Redundant Backups",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/automated-backups-overview"
+      },
+      {
+        "title": "Long-Term Retention Backups",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/long-term-retention-overview"
+      }
+    ]
   },
   {
     "id": 38,
@@ -947,7 +1249,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Always Encrypted protects sensitive columns even from DBAs."
+    "explanation": "Transparent data encryption (TDE) encrypts the database, backups and logs at rest, and it is on by default for new Azure SQL databases. Always Encrypted protects specific columns even from DBAs, and dynamic data masking only hides values in results.",
+    "refs": [
+      {
+        "title": "Transparent Data Encryption",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/transparent-data-encryption-tde-overview"
+      },
+      {
+        "title": "Always Encrypted documentation",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/always-encrypted-landing"
+      }
+    ]
   },
   {
     "id": 39,
@@ -972,7 +1284,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "The data isn't changed; only the results are masked."
+    "explanation": "Dynamic data masking hides sensitive values, such as credit card numbers, in query results for non-privileged users. The stored data isn't changed, only what the query returns. TDE encrypts data at rest instead.",
+    "refs": [
+      {
+        "title": "Dynamic Data Masking",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/dynamic-data-masking-overview"
+      }
+    ]
   },
   {
     "id": 40,
@@ -997,7 +1315,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "SSMS runs on Windows; VS Code with the mssql extension runs on Windows, macOS and Linux."
+    "explanation": "Visual Studio Code with the mssql extension is a free, cross-platform tool (Windows, macOS, Linux) for querying Azure SQL and SQL Server. SSMS is Windows-only. Data Factory Studio and Storage Explorer don't run T-SQL queries.",
+    "refs": [
+      {
+        "title": "Quickstart: Run Your First Query",
+        "url": "https://learn.microsoft.com/en-us/sql/tools/visual-studio-code-extensions/mssql/mssql-run-first-query"
+      },
+      {
+        "title": "SQL Tools Overview",
+        "url": "https://learn.microsoft.com/en-us/sql/tools/overview-sql-tools"
+      }
+    ]
   },
   {
     "id": 41,
@@ -1022,7 +1350,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Hyperscale separates compute and storage for fast scaling."
+    "explanation": "Hyperscale separates compute from storage and supports very large databases, up to 128 TB, with fast scaling and quick backups and restores. Basic and Standard tiers have far lower size limits.",
+    "refs": [
+      {
+        "title": "What is the Hyperscale service tier?",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/service-tier-hyperscale"
+      },
+      {
+        "title": "Azure SQL Database Hyperscale FAQ",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/service-tier-hyperscale-frequently-asked-questions-faq"
+      }
+    ]
   },
   {
     "id": 42,
@@ -1047,7 +1385,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "PaaS trades some control for reduced management."
+    "explanation": "PaaS databases such as Azure SQL Database reduce administration: Azure patches, backs up and maintains availability for you. The trade-off is less control, since you don't get OS-level access or the ability to install arbitrary software. Those are features of SQL Server on a VM.",
+    "refs": [
+      {
+        "title": "Explore relational database services in Azure: Describe Azure SQL services and capabilities",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/2-azure-sql"
+      },
+      {
+        "title": "Describe concepts of relational data: Choose the right platform for a relational workload",
+        "url": "https://learn.microsoft.com/en-us/training/modules/describe-concepts-of-relational-data/4-choose-right-platform-relational-workload"
+      }
+    ]
   },
   {
     "id": 43,
@@ -1072,7 +1420,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Azure Database for MariaDB was retired; Microsoft recommends MySQL Flexible Server."
+    "explanation": "Azure Database for MariaDB was retired, and Microsoft recommends migrating MariaDB workloads to Azure Database for MySQL Flexible Server because MariaDB and MySQL are closely related. Cosmos DB's Cassandra API and Managed Instance are different engines.",
+    "refs": [
+      {
+        "title": "Explore relational database services in Azure: Describe Azure services for open-source databases",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/3-azure-database-open-source"
+      },
+      {
+        "title": "What is Azure Database for MySQL flexible server?",
+        "url": "https://learn.microsoft.com/en-us/azure/mysql/flexible-server/overview"
+      }
+    ]
   },
   {
     "id": 44,
@@ -1097,7 +1455,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Other constraints include UNIQUE, CHECK, PRIMARY KEY and FOREIGN KEY."
+    "explanation": "A NOT NULL constraint prevents a column from holding empty (null) values. Other constraints include UNIQUE, CHECK, PRIMARY KEY and FOREIGN KEY. Views and stored procedures don't enforce column rules.",
+    "refs": [
+      {
+        "title": "Unique constraints and check constraints",
+        "url": "https://learn.microsoft.com/en-us/sql/relational-databases/tables/unique-constraints-and-check-constraints"
+      },
+      {
+        "title": "Explore fundamental relational data concepts: Describe database objects",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/5-database-objects"
+      }
+    ]
   },
   {
     "id": 45,
@@ -1122,7 +1490,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Hybrid Benefit applies to the vCore model and SQL Server VMs."
+    "explanation": "Azure Hybrid Benefit lets you apply existing SQL Server licenses with Software Assurance to Azure SQL (vCore model) and SQL Server on Azure VMs, so you pay a reduced rate. Reservations, Spot VMs and Dev/Test pricing don't reuse existing licenses.",
+    "refs": [
+      {
+        "title": "Azure Hybrid Benefit",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/azure-hybrid-benefit"
+      },
+      {
+        "title": "Explore relational database services in Azure: Describe Azure SQL services and capabilities",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-relational-database-offerings-azure/2-azure-sql"
+      }
+    ]
   },
   {
     "id": 46,
@@ -1147,7 +1525,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Failover groups add automatic failover and a single listener endpoint."
+    "explanation": "Active geo-replication and auto-failover groups continuously copy a database to another region for disaster recovery. Failover groups add automatic failover and a single listener endpoint. Masking, elastic jobs and Query Store don't replicate data.",
+    "refs": [
+      {
+        "title": "Failover Groups Overview & Best Practices",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/failover-group-sql-db"
+      },
+      {
+        "title": "Active Geo-Replication",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/active-geo-replication-overview"
+      }
+    ]
   },
   {
     "id": 47,
@@ -1172,7 +1560,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Blobs are stored in containers within a storage account."
+    "explanation": "Azure Blob Storage stores massive amounts of unstructured object data, such as images and videos, in containers within a storage account. Files is for file shares, Table is key-value, and Queue is messaging.",
+    "refs": [
+      {
+        "title": "Explore Azure Storage for nonrelational data: Explore Azure blob storage",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-non-relational-data-services-azure/2-azure-blob-storage"
+      },
+      {
+        "title": "Introduction to Blob (object) Storage",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction"
+      }
+    ]
   },
   {
     "id": 48,
@@ -1197,7 +1595,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Archive is offline; you must rehydrate to hot, cool or cold before reading."
+    "explanation": "Archive is the lowest-cost tier for storage, but it is offline: you must rehydrate a blob to hot, cool or cold before you can read it, and rehydration can take hours. Hot, cool and cold are online tiers.",
+    "refs": [
+      {
+        "title": "Access tiers for blob data",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview"
+      },
+      {
+        "title": "Blob rehydration from the archive tier",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/archive-rehydrate-overview"
+      }
+    ]
   },
   {
     "id": 49,
@@ -1222,7 +1630,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Hierarchical namespace adds directories and POSIX-like permissions for analytics."
+    "explanation": "Enabling a hierarchical namespace on a storage account turns Blob Storage into Azure Data Lake Storage Gen2, adding real directories and POSIX-like permissions that analytics workloads need. Soft delete, tiers and private endpoints don't change the storage model.",
+    "refs": [
+      {
+        "title": "Explore Azure Storage for nonrelational data: Explore Azure Data Lake Storage Gen2",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-non-relational-data-services-azure/3-azure-data-lake-gen2"
+      },
+      {
+        "title": "Azure Data Lake Storage overview",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction"
+      }
+    ]
   },
   {
     "id": 50,
@@ -1247,7 +1665,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Azure Files also supports NFS shares on premium accounts."
+    "explanation": "Azure Files provides fully managed cloud file shares that can be mounted using SMB (and NFS on premium accounts). Blob, Table and Cosmos DB aren't mountable file shares.",
+    "refs": [
+      {
+        "title": "Explore Azure Storage for nonrelational data: Explore Azure Files",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-non-relational-data-services-azure/4-azure-files"
+      },
+      {
+        "title": "What is Azure Files?",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-introduction"
+      }
+    ]
   },
   {
     "id": 51,
@@ -1272,7 +1700,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cosmos DB for Table offers the same API with more performance and global distribution."
+    "explanation": "Azure Table storage stores NoSQL key-value entities identified by a partition key and a row key. Cosmos DB for Table offers the same API with better performance and global distribution.",
+    "refs": [
+      {
+        "title": "Explore Azure Storage for nonrelational data: Explore Azure Tables",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-non-relational-data-services-azure/5-azure-tables"
+      },
+      {
+        "title": "Introduction to Table storage - Object storage in Azure",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-overview"
+      }
+    ]
   },
   {
     "id": 52,
@@ -1297,7 +1735,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cosmos DB can replicate to any Azure region and offers multiple consistency levels."
+    "explanation": "Azure Cosmos DB is a fully managed, globally distributed, multi-model NoSQL database with single-digit millisecond latency. It can replicate to any Azure region and offers several consistency levels. Azure SQL and MySQL are relational, and Synapse is analytics.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Describe Azure Cosmos DB",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/2-describe-azure-cosmos-db"
+      },
+      {
+        "title": "Azure Cosmos DB: Unified AI database",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/introduction"
+      }
+    ]
   },
   {
     "id": 53,
@@ -1322,7 +1770,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "The NoSQL API is Cosmos DB's native API."
+    "explanation": "The API for NoSQL is Cosmos DB's native API. It stores JSON documents and is queried with a SQL-like language. Gremlin is for graphs, Cassandra for wide-column data and Table for key-value.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Identify Azure Cosmos DB APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/3-cosmos-db-apis"
+      }
+    ]
   },
   {
     "id": 54,
@@ -1347,7 +1801,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cosmos DB for MongoDB is wire-protocol compatible with MongoDB drivers."
+    "explanation": "Azure Cosmos DB for MongoDB is wire-protocol compatible with MongoDB drivers, so a MongoDB app can move to Azure with minimal code changes. Azure SQL, PostgreSQL and Files are different data models.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Identify Azure Cosmos DB APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/3-cosmos-db-apis"
+      },
+      {
+        "title": "Azure Cosmos DB for MongoDB: Introduction and overview",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/introduction"
+      }
+    ]
   },
   {
     "id": 55,
@@ -1372,7 +1836,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Graph databases store nodes (vertices) and relationships (edges)."
+    "explanation": "The API for Apache Gremlin stores graph data as nodes (vertices) and relationships (edges), which fits data about relationships such as social networks. Table is key-value, MongoDB is document and Cassandra is wide-column.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Identify Azure Cosmos DB APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/3-cosmos-db-apis"
+      }
+    ]
   },
   {
     "id": 56,
@@ -1397,7 +1867,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Apps can keep using CQL queries."
+    "explanation": "The API for Apache Cassandra lets apps that already use Cassandra's wide-column model keep using CQL queries and drivers against Cosmos DB. Gremlin is graph, and the NoSQL API is the document model.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Identify Azure Cosmos DB APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/3-cosmos-db-apis"
+      }
+    ]
   },
   {
     "id": 57,
@@ -1422,7 +1898,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Choose a key with many distinct values to spread load evenly."
+    "explanation": "The partition key distributes data across physical partitions so a container can scale horizontally. Choose a key with many distinct values so load is spread evenly. It doesn't control encryption, backups or permissions.",
+    "refs": [
+      {
+        "title": "Partitioning and horizontal scaling in Azure Cosmos DB",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview"
+      },
+      {
+        "title": "Partitioning and horizontal scaling in Azure Cosmos DB: Choose a partition key",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/partitioning-overview#choose-a-partition-key"
+      }
+    ]
   },
   {
     "id": 58,
@@ -1447,7 +1933,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Throughput can be provisioned, autoscale or serverless."
+    "explanation": "Throughput in Azure Cosmos DB is measured in request units (RUs), a normalized cost of read, write and query operations. Throughput can be provisioned, autoscale or serverless. DTUs are an Azure SQL concept.",
+    "refs": [
+      {
+        "title": "Request Units as a throughput and performance currency in Azure Cosmos DB",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/request-units"
+      },
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Describe Azure Cosmos DB",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/2-describe-azure-cosmos-db"
+      }
+    ]
   },
   {
     "id": 59,
@@ -1472,7 +1968,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Levels range from strong to bounded staleness, session, consistent prefix and eventual."
+    "explanation": "Stronger consistency (such as strong) gives up some latency and availability, while weaker levels (session, consistent prefix, eventual) give better latency and availability. The five levels range from strong to bounded staleness, session, consistent prefix and eventual.",
+    "refs": [
+      {
+        "title": "Consistency level choices in Azure Cosmos DB",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels"
+      },
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Describe Azure Cosmos DB",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/2-describe-azure-cosmos-db"
+      }
+    ]
   },
   {
     "id": 60,
@@ -1497,7 +2003,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "NoSQL suits flexible schemas, high scale and low latency."
+    "explanation": "Non-relational databases suit flexible schemas, high scale and low latency, for example a product catalog where each product has different attributes. Ledgers, strictly normalized HR data and multi-table joins are relational strengths.",
+    "refs": [
+      {
+        "title": "Describe concepts of relational data: Choose the right platform for a relational workload",
+        "url": "https://learn.microsoft.com/en-us/training/modules/describe-concepts-of-relational-data/4-choose-right-platform-relational-workload"
+      },
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Describe Azure Cosmos DB",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/2-describe-azure-cosmos-db"
+      }
+    ]
   },
   {
     "id": 61,
@@ -1522,7 +2038,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "GZRS combines zone redundancy with a secondary region."
+    "explanation": "Geo-redundant storage (GRS) copies data to a secondary region hundreds of miles away. LRS and ZRS stay within one region, and GZRS combines zone redundancy in the primary region with a secondary region.",
+    "refs": [
+      {
+        "title": "Data redundancy",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy"
+      },
+      {
+        "title": "Data redundancy: Redundancy in a secondary region",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy#redundancy-in-a-secondary-region"
+      }
+    ]
   },
   {
     "id": 62,
@@ -1547,7 +2073,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Azure Table storage and Cosmos DB for Table are key-value stores."
+    "explanation": "A key-value store keeps simple pairs of a unique key and a value, which makes lookups very fast. Azure Table storage and Cosmos DB for Table are key-value stores. Graph, column-family and relational stores model data differently.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Identify Azure Cosmos DB APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/3-cosmos-db-apis"
+      },
+      {
+        "title": "Introduction to Table storage - Object storage in Azure",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-overview"
+      }
+    ]
   },
   {
     "id": 63,
@@ -1572,7 +2108,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Versioning and point-in-time restore add more protection."
+    "explanation": "Soft delete retains deleted blobs for a retention period so you can restore them after accidental deletion. Versioning and point-in-time restore add more protection. The archive tier and hierarchical namespace don't provide recovery.",
+    "refs": [
+      {
+        "title": "Soft Delete for Blobs to Recover Data",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview"
+      },
+      {
+        "title": "Enable soft delete for blobs",
+        "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-enable"
+      }
+    ]
   },
   {
     "id": 64,
@@ -1597,7 +2143,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Fabric includes Data Factory, Data Engineering, Data Warehouse, Real-Time Intelligence and Power BI."
+    "explanation": "Microsoft Fabric is a unified analytics platform with a shared data lake, OneLake. It brings together Data Factory, Data Engineering, Data Warehouse, Real-Time Intelligence and Power BI in one product.",
+    "refs": [
+      {
+        "title": "What is Microsoft Fabric",
+        "url": "https://learn.microsoft.com/en-us/fabric/fundamentals/microsoft-fabric-overview"
+      },
+      {
+        "title": "Explore Azure Storage for nonrelational data: Explore Microsoft OneLake in Fabric",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-non-relational-data-services-azure/3a-one-lake"
+      }
+    ]
   },
   {
     "id": 65,
@@ -1622,7 +2178,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "OneLake is built on Azure Data Lake Storage Gen2 and stores tables in Delta Parquet format."
+    "explanation": "OneLake is the single, logical data lake built into Fabric for the whole organization, like OneDrive for data. It is built on Azure Data Lake Storage Gen2 and stores tables in Delta Parquet format.",
+    "refs": [
+      {
+        "title": "OneLake, the unified data lake",
+        "url": "https://learn.microsoft.com/en-us/fabric/onelake/onelake-overview"
+      },
+      {
+        "title": "Explore Azure Storage for nonrelational data: Explore Microsoft OneLake in Fabric",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-non-relational-data-services-azure/3a-one-lake"
+      }
+    ]
   },
   {
     "id": 66,
@@ -1647,7 +2213,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "A lakehouse stores data in Delta format in OneLake."
+    "explanation": "A lakehouse combines data lake files with tables you can query with SQL and Spark. In Fabric it stores data in Delta format in OneLake. An eventstream ingests streaming events and a Power BI dashboard visualizes.",
+    "refs": [
+      {
+        "title": "What is a lakehouse?",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview"
+      }
+    ]
   },
   {
     "id": 67,
@@ -1672,7 +2244,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Delta tables enable ACID transactions and time travel on Parquet files."
+    "explanation": "Delta Lake is an open table format that adds ACID transactions, versioning and time travel to Parquet files in a data lake. CSV, XML and ZIP files provide none of those.",
+    "refs": [
+      {
+        "title": "Delta Lake Table Format Interoperability",
+        "url": "https://learn.microsoft.com/en-us/fabric/fundamentals/delta-lake-interoperability"
+      },
+      {
+        "title": "Lakehouse and Delta Tables",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-and-delta-tables"
+      }
+    ]
   },
   {
     "id": 68,
@@ -1697,7 +2279,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Fabric Data Factory provides similar pipelines inside Fabric."
+    "explanation": "Azure Data Factory orchestrates data movement and transformation with pipelines and connectors. Fabric Data Factory offers similar pipelines inside Fabric. Key Vault, Bastion and DNS aren't data integration services.",
+    "refs": [
+      {
+        "title": "Introduction to Azure Data Factory",
+        "url": "https://learn.microsoft.com/en-us/azure/data-factory/introduction"
+      },
+      {
+        "title": "What is Data Factory",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-factory/data-factory-overview"
+      }
+    ]
   },
   {
     "id": 69,
@@ -1722,7 +2314,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "ELT loads raw data first and transforms it in the destination."
+    "explanation": "ETL stands for extract, transform, load: data is extracted from sources, transformed in a separate engine, then loaded into the destination. ELT loads the raw data first and transforms it in the destination.",
+    "refs": [
+      {
+        "title": "Explore concepts of data analytics: Describe data ingestion and processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-concepts-of-data-analytics/2-describe-data-ingestion-process"
+      }
+    ]
   },
   {
     "id": 70,
@@ -1747,7 +2345,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Spark also runs in Microsoft Fabric and Azure Synapse Analytics."
+    "explanation": "Azure Databricks is an Apache Spark-based analytics platform for data engineering and data science. Spark also runs in Microsoft Fabric and Azure Synapse Analytics. Azure SQL Database, Files and Monitor aren't Spark platforms.",
+    "refs": [
+      {
+        "title": "What is Azure Databricks?",
+        "url": "https://learn.microsoft.com/en-us/azure/databricks/introduction"
+      },
+      {
+        "title": "Explore concepts of data analytics: Explore data analytics",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-concepts-of-data-analytics/4-explore"
+      }
+    ]
   },
   {
     "id": 71,
@@ -1772,7 +2380,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Power BI Desktop builds reports; the Power BI service shares them."
+    "explanation": "Power BI creates interactive reports and dashboards from data models. Power BI Desktop builds reports and the Power BI service shares them. Data Factory moves data, Event Hubs ingests events and Stream Analytics processes streams.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of data visualization: Describe Power BI tools and workflow",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/2-power-bi"
+      },
+      {
+        "title": "What is Power BI?",
+        "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/power-bi-overview"
+      }
+    ]
   },
   {
     "id": 72,
@@ -1797,7 +2415,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Dashboards are created in the Power BI service by pinning visuals from reports."
+    "explanation": "A report has one or more interactive pages of visuals built on a semantic model. A dashboard is a single page of tiles pinned from reports (and other sources) in the Power BI service. They aren't the same, and both are Power BI items.",
+    "refs": [
+      {
+        "title": "Introduction to dashboards for Power BI designers",
+        "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/service-dashboards"
+      },
+      {
+        "title": "Explore fundamentals of data visualization: Describe Power BI tools and workflow",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/2-power-bi"
+      }
+    ]
   },
   {
     "id": 73,
@@ -1822,7 +2450,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Bar or column charts compare categories."
+    "explanation": "A line chart is best for showing a trend over time because it connects values across a continuous axis. Bar or column charts compare categories, a card shows a single number and a pie chart shows proportions.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of data visualization: Describe considerations for data visualization",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/4-data-visualizations"
+      },
+      {
+        "title": "Overview of visualizations in Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-types-for-reports-and-q-and-a"
+      }
+    ]
   },
   {
     "id": 74,
@@ -1847,7 +2485,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Event Hubs is often paired with Stream Analytics or Fabric Real-Time Intelligence."
+    "explanation": "Azure Event Hubs is a big-data streaming platform that ingests millions of events per second from apps and devices. It is often paired with Stream Analytics or Fabric Real-Time Intelligence to process them.",
+    "refs": [
+      {
+        "title": "What is Azure Event Hubs - Real-time data streaming platform",
+        "url": "https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-about"
+      },
+      {
+        "title": "Explore fundamentals of real-time analytics: Explore common elements of stream processing architecture",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-stream-processing/3-explore-common-elements"
+      }
+    ]
   },
   {
     "id": 75,
@@ -1872,7 +2520,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Stream Analytics supports windowing functions like tumbling and hopping windows."
+    "explanation": "Azure Stream Analytics runs SQL-like queries over streaming data in real time and supports windowing functions such as tumbling and hopping windows. Data Factory is for batch movement and Blob Storage just stores data.",
+    "refs": [
+      {
+        "title": "Introduction to Azure Stream Analytics",
+        "url": "https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-introduction"
+      },
+      {
+        "title": "Azure Stream Analytics Windowing Functions Overview",
+        "url": "https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-window-functions"
+      }
+    ]
   },
   {
     "id": 76,
@@ -1897,7 +2555,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Eventhouses store event data and are queried with Kusto Query Language (KQL)."
+    "explanation": "Real-Time Intelligence in Fabric handles streaming data with eventstreams, and stores event data in eventhouses (KQL databases) queried with Kusto Query Language. Data Warehouse and Data Factory are for other workloads.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of real-time analytics: Explore Microsoft Fabric Real-Time Intelligence",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-stream-processing/4-fabric-real-time-intelligence"
+      },
+      {
+        "title": "What Is Real-Time Intelligence in Microsoft Fabric?",
+        "url": "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/overview"
+      }
+    ]
   },
   {
     "id": 77,
@@ -1922,7 +2590,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Warehouses usually use star or snowflake schemas."
+    "explanation": "A data warehouse is a store of structured data optimized for analytical queries, usually modeled as star or snowflake schemas. A data lake holds raw files, a cache holds hot content and an OLTP database handles transactions.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Explore databases",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/4-databases"
+      },
+      {
+        "title": "What Is Fabric Data Warehouse?",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing"
+      }
+    ]
   },
   {
     "id": 78,
@@ -1947,7 +2625,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Microsoft Fabric is the newer unified platform for many of these workloads."
+    "explanation": "Azure Synapse Analytics is an enterprise analytics platform combining SQL pools, Spark and pipelines. Microsoft Fabric is the newer unified platform for many of these workloads. Cosmos DB, PostgreSQL and Files aren't analytics platforms.",
+    "refs": [
+      {
+        "title": "What is Azure Synapse Analytics?",
+        "url": "https://learn.microsoft.com/en-us/azure/synapse-analytics/overview-what-is"
+      }
+    ]
   },
   {
     "id": 79,
@@ -1972,7 +2656,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Measures are written in DAX (Data Analysis Expressions)."
+    "explanation": "A measure is a calculation, such as total sales, that is evaluated in the context of the report's filters and visuals. Measures are written in DAX (Data Analysis Expressions).",
+    "refs": [
+      {
+        "title": "Explore fundamentals of data visualization: Describe core concepts of data modeling",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/3-data-modeling"
+      },
+      {
+        "title": "DAX overview",
+        "url": "https://learn.microsoft.com/en-us/dax/dax-overview"
+      }
+    ]
   },
   {
     "id": 80,
@@ -1997,7 +2691,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Facts link to dimensions by keys, making filtering and aggregation fast."
+    "explanation": "A star schema simplifies queries and improves performance for analytical models: facts link to dimension tables by keys, which makes filtering and aggregation fast. It still needs keys and holds structured data.",
+    "refs": [
+      {
+        "title": "Understand star schema and the importance for Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema"
+      },
+      {
+        "title": "Explore fundamentals of data visualization: Describe core concepts of data modeling",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/3-data-modeling"
+      }
+    ]
   },
   {
     "id": 81,
@@ -2022,7 +2726,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Many architectures combine both (lambda or kappa patterns)."
+    "explanation": "Streaming analytics produces results within seconds of data arriving, while batch analytics runs on accumulated data and returns results in minutes or hours. Many architectures combine both.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of real-time analytics: Understand batch and stream processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-stream-processing/2-batch-stream"
+      }
+    ]
   },
   {
     "id": 82,
@@ -2047,7 +2757,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "A lakehouse's SQL analytics endpoint is read-only; the warehouse supports writes."
+    "explanation": "A Fabric warehouse supports T-SQL for both reading and writing with full transactional support. A lakehouse's SQL analytics endpoint is read-only. Eventstreams, notebooks and semantic models do other jobs.",
+    "refs": [
+      {
+        "title": "What Is Fabric Data Warehouse?",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing"
+      },
+      {
+        "title": "What Is Fabric Data Warehouse?: Fabric Data Warehouse",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing#fabric-data-warehouse"
+      }
+    ]
   },
   {
     "id": 83,
@@ -2072,7 +2792,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Dataflows Gen2 in Fabric use Power Query's low-code editor."
+    "explanation": "Dataflows (Dataflows Gen2 in Fabric) use the Power Query low-code editor to clean and shape data visually before loading it. Event Hubs, Key Vault and Bastion don't transform data.",
+    "refs": [
+      {
+        "title": "Differences between Dataflow Gen1 and Dataflow Gen2",
+        "url": "https://learn.microsoft.com/en-us/fabric/data-factory/dataflows-gen2-overview"
+      },
+      {
+        "title": "Explore concepts of data analytics: Describe data ingestion and processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-concepts-of-data-analytics/2-describe-data-ingestion-process"
+      }
+    ]
   },
   {
     "id": 84,
@@ -2097,7 +2827,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Semantic models were formerly called datasets."
+    "explanation": "A semantic model (formerly called a dataset) holds the tables, relationships and measures that Power BI reports are built on. It isn't a machine learning model, storage account type or security policy.",
+    "refs": [
+      {
+        "title": "Semantic models in the Power BI service",
+        "url": "https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand"
+      },
+      {
+        "title": "Explore fundamentals of data visualization: Describe core concepts of data modeling",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/3-data-modeling"
+      }
+    ]
   },
   {
     "id": 85,
@@ -2122,7 +2862,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Copilot can also draft report pages and summaries."
+    "explanation": "Copilot in Power BI (and Q&A) lets business users explore data by asking questions in natural language. Copilot can also draft report pages and summaries. Bastion, Data Factory and SQL Agent don't offer a natural-language interface.",
+    "refs": [
+      {
+        "title": "Copilot for Power BI overview",
+        "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/copilot-introduction"
+      },
+      {
+        "title": "Use natural language to explore data with Power BI Q&A",
+        "url": "https://learn.microsoft.com/en-us/power-bi/natural-language/q-and-a-intro"
+      }
+    ]
   },
   {
     "id": 86,
@@ -2147,7 +2897,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "After ingestion comes transformation, modeling and visualization."
+    "explanation": "Data ingestion brings data from its sources into the analytics store. Transformation, modeling and visualization come after ingestion. It isn't about deleting, encrypting or securing data.",
+    "refs": [
+      {
+        "title": "Explore concepts of data analytics: Describe data ingestion and processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-concepts-of-data-analytics/2-describe-data-ingestion-process"
+      }
+    ]
   },
   {
     "id": 87,
@@ -2172,7 +2928,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The medallion architecture uses bronze (raw), silver (cleaned) and gold (business-ready) layers."
+    "explanation": "Raw data lands in a data lake, often called the bronze layer in the medallion architecture, before it's cleaned (silver) and made business-ready (gold). A dashboard, semantic model or VPN gateway doesn't hold raw data.",
+    "refs": [
+      {
+        "title": "What is the medallion lakehouse architecture?",
+        "url": "https://learn.microsoft.com/en-us/azure/databricks/lakehouse/medallion"
+      },
+      {
+        "title": "Implement Medallion Lakehouse Architecture in Fabric",
+        "url": "https://learn.microsoft.com/en-us/fabric/onelake/onelake-medallion-lakehouse-architecture"
+      }
+    ]
   },
   {
     "id": 88,
@@ -2197,7 +2963,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "OLTP systems handle high volumes of small, fast transactions with ACID guarantees, such as recording each sale."
+    "explanation": "A point-of-sale system that records thousands of small sales and must save each one immediately and reliably is an OLTP workload. OLTP handles high volumes of small, fast transactions with ACID guarantees. OLAP, batch and stream analytics are for analysis.",
+    "refs": [
+      {
+        "title": "Explore core data concepts: Explore transactional data processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-core-data-concepts/5-transactional-data-processing"
+      }
+    ]
   },
   {
     "id": 89,
@@ -2222,7 +2994,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "A primary key uniquely identifies every row and can't be null."
+    "explanation": "A primary key uniquely identifies every row in a table and can't be null. A foreign key only references another table's key, and a non-unique index or default constraint doesn't guarantee uniqueness.",
+    "refs": [
+      {
+        "title": "Describe concepts of relational data: Explore relational data structures",
+        "url": "https://learn.microsoft.com/en-us/training/modules/describe-concepts-of-relational-data/3-explore-structures"
+      },
+      {
+        "title": "Explore fundamental relational data concepts: Describe database objects",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-relational-data-offerings/5-database-objects"
+      }
+    ]
   },
   {
     "id": 90,
@@ -2247,7 +3029,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Azure Cosmos DB is a globally distributed NoSQL database with multi-region writes and several APIs."
+    "explanation": "Azure Cosmos DB is a globally distributed NoSQL database with single-digit millisecond latency and multi-region writes. It offers several APIs including NoSQL, MongoDB and Cassandra. Azure SQL Database, MySQL and PostgreSQL are relational services.",
+    "refs": [
+      {
+        "title": "Azure Cosmos DB: Unified AI database",
+        "url": "https://learn.microsoft.com/en-us/azure/cosmos-db/introduction"
+      },
+      {
+        "title": "Explore fundamentals of Azure Cosmos DB: Identify Azure Cosmos DB APIs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/3-cosmos-db-apis"
+      }
+    ]
   },
   {
     "id": 91,
@@ -2272,7 +3064,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Line charts show a measure across a continuous time axis, which makes trends easy to see."
+    "explanation": "A line chart shows a measure across a continuous time axis, which makes a trend such as monthly revenue over two years easy to see. A pie chart shows proportions of a whole, a card shows one value and a scatter chart shows correlation.",
+    "refs": [
+      {
+        "title": "Explore fundamentals of data visualization: Describe considerations for data visualization",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/4-data-visualizations"
+      },
+      {
+        "title": "Overview of visualizations in Power BI",
+        "url": "https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-types-for-reports-and-q-and-a"
+      }
+    ]
   },
   {
     "id": 92,
@@ -2297,6 +3099,12 @@
       }
     ],
     "answer": 0,
-    "explanation": "In ETL the transformation happens before loading into the warehouse; in ELT it happens after loading."
+    "explanation": "In ETL the data is extracted, transformed (cleaned and reshaped) in a separate engine, and then loaded into the warehouse. In ELT the raw data is loaded first and transformed inside the destination.",
+    "refs": [
+      {
+        "title": "Explore concepts of data analytics: Describe data ingestion and processing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/explore-concepts-of-data-analytics/2-describe-data-ingestion-process"
+      }
+    ]
   }
 ]
