@@ -4,7 +4,7 @@
 // sign-out keeps. 'dark' and 'light' are the original Monokai Pro pair (kept as ids so
 // older saved choices still work). CSS for the other palettes is in css/styles.css.
 (function () {
-  var KEY = 'itsh:theme';
+  var KEY = 'itsh:theme', BACK = 'itsh:theme-back';
   // scheme = base light/dark styling; bg/panel/accent/text feed the picker swatches and the browser UI color.
   var LIST = [
     { id: 'dark', pair: 'light',            name: 'Monokai Pro',     scheme: 'dark',  bg: '#221f22', panel: '#2d2a2e', accent: '#ffd866', text: '#fcfcfa' },
@@ -29,6 +29,29 @@
     { id: 'github-light', pair: 'github-dark', name: 'GitHub Light', scheme: 'light', bg: '#f6f8fa', panel: '#ffffff', accent: '#0969da', text: '#1f2328' },
     { id: 'rose-pine', pair: 'rose-pine-dawn', name: 'Rosé Pine', scheme: 'dark', bg: '#191724', panel: '#1f1d2e', accent: '#ebbcba', text: '#e0def4' },
     { id: 'rose-pine-dawn', pair: 'rose-pine', name: 'Rosé Pine Dawn', scheme: 'light', bg: '#f2e9e1', panel: '#faf4ed', accent: '#a0516b', text: '#575279' },
+    { id: 'ise-ambient', name: 'Ambient', scheme: 'dark', group: 'ise', bg: '#091012', panel: '#0c1619', accent: '#ec7600', text: '#e0e2e4' },
+    { id: 'ise-ambients', name: 'Ambients', scheme: 'dark', group: 'ise', bg: '#0c1a26', panel: '#112435', accent: '#ffcc66', text: '#ffffff' },
+    { id: 'ise-base16-tomorrow', name: 'Base16 Tomorrow', scheme: 'dark', group: 'ise', bg: '#151618', panel: '#1d1f21', accent: '#de935f', text: '#e0e2e4' },
+    { id: 'ise-black-pastel', name: 'Black Pastel', scheme: 'dark', group: 'ise', bg: '#000000', panel: '#000000', accent: '#c78d9b', text: '#c0c0c0' },
+    { id: 'ise-dependonme', name: 'DependOnMe', scheme: 'dark', group: 'ise', bg: '#161616', panel: '#1e1e1e', accent: '#42b7c9', text: '#d8d8d8' },
+    { id: 'ise-gedit-original', name: 'gedit Original', scheme: 'dark', group: 'ise', bg: '#212527', panel: '#2e3436', accent: '#edd400', text: '#d3d7cf' },
+    { id: 'ise-havenjark', name: 'Havenjark', scheme: 'dark', group: 'ise', bg: '#202729', panel: '#2d3639', accent: '#dfbe95', text: '#cbc3b7' },
+    { id: 'ise-monokai-classic', name: 'Monokai Classic', scheme: 'dark', group: 'ise', bg: '#1c1d18', panel: '#272822', accent: '#79abff', text: '#f8f8f2' },
+    { id: 'ise-navy-ocean', name: 'Navy Ocean', scheme: 'dark', group: 'ise', bg: '#0d253e', panel: '#123456', accent: '#ec7600', text: '#e0e2e4' },
+    { id: 'ise-notepad-like', name: 'Notepad++ Like', scheme: 'light', group: 'ise', bg: '#f2f2f2', panel: '#ffffff', accent: '#b25900', text: '#210042' },
+    { id: 'ise-oblivion', name: 'Oblivion', scheme: 'dark', group: 'ise', bg: '#161616', panel: '#1e1e1e', accent: '#ffc600', text: '#d8d8d8' },
+    { id: 'ise-obsidian', name: 'Obsidian', scheme: 'dark', group: 'ise', bg: '#1e2325', panel: '#293134', accent: '#ec7600', text: '#e0e2e4' },
+    { id: 'ise-ocean-deep', name: 'Ocean Deep', scheme: 'dark', group: 'ise', bg: '#0c232e', panel: '#103040', accent: '#00ffff', text: '#e8eee0' },
+    { id: 'ise-pastel', name: 'Pastel', scheme: 'dark', group: 'ise', bg: '#161819', panel: '#1f2223', accent: '#678cb1', text: '#e0e2e4' },
+    { id: 'ise-placidity', name: 'Placidity', scheme: 'dark', group: 'ise', bg: '#1d1d1d', panel: '#282828', accent: '#b8860b', text: '#abb7b8' },
+    { id: 'ise-recogneyes', name: 'RecognEyes', scheme: 'dark', group: 'ise', bg: '#0c0c17', panel: '#101020', accent: '#ffff00', text: '#d0d0d0' },
+    { id: 'ise-retta', name: 'Retta', scheme: 'dark', group: 'ise', bg: '#000000', panel: '#000000', accent: '#e79e3c', text: '#f8e1aa' },
+    { id: 'ise-roboticket', name: 'Roboticket', scheme: 'light', group: 'ise', bg: '#e9e9e9', panel: '#f5f5f5', accent: '#af0f91', text: '#515151' },
+    { id: 'ise-sublime-text-2', name: 'Sublime Text 2', scheme: 'dark', group: 'ise', bg: '#1c1d18', panel: '#272822', accent: '#ff1d8e', text: '#cfbfad' },
+    { id: 'ise-vs2013-dark', name: 'VS2013 Dark', scheme: 'dark', group: 'ise', bg: '#161616', panel: '#1e1e1e', accent: '#b58900', text: '#eeedf0' },
+    { id: 'ise-vibrant-ink', name: 'Vibrant Ink', scheme: 'dark', group: 'ise', bg: '#121212', panel: '#191919', accent: '#f7c527', text: '#ffffff' },
+    { id: 'ise-wombat', name: 'Wombat', scheme: 'dark', group: 'ise', bg: '#1a1a1a', panel: '#242424', accent: '#95e454', text: '#f6f3e8' },
+    { id: 'ise-zenburn', name: 'Zenburn', scheme: 'dark', group: 'ise', bg: '#2e2e2e', panel: '#404040', accent: '#dfbe95', text: '#f6f3e8' },
   ];
   var BY_ID = {};
   LIST.forEach(function (t) { BY_ID[t.id] = t; });
@@ -68,11 +91,15 @@
       try { if (p === 'system' || !BY_ID[p]) localStorage.removeItem(KEY); else localStorage.setItem(KEY, p); } catch (e) { /* ignore */ }
       apply();
     },
-    // The header button flips to the light/dark counterpart of the chosen theme
-    // (e.g. Dracula <-> Dracula Light). With System, it picks a fixed theme.
+    // The header button flips between light and dark. It returns to the theme you just left,
+    // otherwise goes to the chosen theme's light/dark counterpart (e.g. Dracula <-> Dracula Light),
+    // otherwise to Monokai.
     toggle: function () {
-      var t = BY_ID[this.palette()];
-      this.set(t && t.pair ? t.pair : (this.current() === 'light' ? 'dark' : 'light'));
+      var cur = this.palette(), t = BY_ID[cur], back = null;
+      try { back = JSON.parse(localStorage.getItem(BACK) || 'null'); } catch (e) { /* ignore */ }
+      var to = back && back.at === cur && BY_ID[back.to] ? back.to : (t && t.pair) || (this.current() === 'light' ? 'dark' : 'light');
+      try { localStorage.setItem(BACK, JSON.stringify({ at: to, to: cur })); } catch (e) { /* ignore */ }
+      this.set(to);
     },
   };
 

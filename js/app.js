@@ -1601,7 +1601,16 @@ const appearancePanel = () => {
     <div><h2 class="section-title" style="border:0;padding:0">Appearance</h2>
       <p class="muted small" style="margin-top:4px">Pick a color theme. System follows your device's light or dark setting. Saved on this device.</p></div>
     <div class="theme-grid" role="radiogroup" aria-label="Theme">
-      ${opts.map((t) => `<button type="button" class="theme-opt" role="radio" data-theme-pref="${t.id}" aria-checked="false">
+      ${opts.filter((t) => t.group !== 'ise').map((t) => `<button type="button" class="theme-opt" role="radio" data-theme-pref="${t.id}" aria-checked="false">
+        <span class="theme-swatch" style="${t.id === 'system' ? 'background:linear-gradient(135deg,#221f22 50%,#faf4f2 50%)' : `background:${t.bg}`}">
+          ${t.id === 'system' ? '' : `<i style="background:${t.accent}"></i><i style="background:${t.text}"></i>`}</span>
+        <span class="theme-name">${t.name}<small>${t.scheme === 'auto' ? 'Matches your device' : t.scheme === 'light' ? 'Light' : 'Dark'}</small></span>
+      </button>`).join('')}
+    </div>
+    <h3 class="bg-heading">PowerShell ISE themes</h3>
+    <p class="muted small" style="margin-top:4px">Editor color schemes from the PowerShell ISE theme collection.</p>
+    <div class="theme-grid" role="radiogroup" aria-label="PowerShell ISE themes">
+      ${opts.filter((t) => t.group === 'ise').map((t) => `<button type="button" class="theme-opt" role="radio" data-theme-pref="${t.id}" aria-checked="false">
         <span class="theme-swatch" style="${t.id === 'system' ? 'background:linear-gradient(135deg,#221f22 50%,#faf4f2 50%)' : `background:${t.bg}`}">
           ${t.id === 'system' ? '' : `<i style="background:${t.accent}"></i><i style="background:${t.text}"></i>`}</span>
         <span class="theme-name">${t.name}<small>${t.scheme === 'auto' ? 'Matches your device' : t.scheme === 'light' ? 'Light' : 'Dark'}</small></span>
