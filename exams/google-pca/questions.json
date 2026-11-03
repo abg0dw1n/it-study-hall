@@ -22,7 +22,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud Run scales to zero and handles bursts without capacity planning."
+    "explanation": "Cloud Run is serverless and autoscales (including to zero), so unpredictable spikes need no capacity planning or server management. A fixed fleet sized for peak wastes money, and sole-tenant or bare-metal options add management.",
+    "refs": [
+      {
+        "title": "Deploy container images to Cloud Run services",
+        "url": "https://docs.cloud.google.com/run/docs/deploying"
+      }
+    ]
   },
   {
     "id": 2,
@@ -47,7 +53,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "IaaS provides the most control over the operating system."
+    "explanation": "A legacy app needing a specific kernel module and full OS control requires IaaS, so Compute Engine VMs fit. Cloud Run, Cloud Run functions and App Engine standard restrict the OS and runtime.",
+    "refs": [
+      {
+        "title": "gcloud compute instances create | Google Cloud SDK",
+        "url": "https://docs.cloud.google.com/sdk/gcloud/reference/compute/instances/create"
+      }
+    ]
   },
   {
     "id": 3,
@@ -72,7 +84,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Spanner provides external consistency and up to 99.999% availability in multi-region setups."
+    "explanation": "Spanner in a multi-region configuration gives a relational database with strong (external) consistency across continents and up to 99.999% availability. Cloud SQL read replicas are eventually consistent, and Bigtable and Firestore are NoSQL."
   },
   {
     "id": 4,
@@ -97,7 +109,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Design row keys to avoid hotspots, e.g., by not leading with timestamps."
+    "explanation": "Bigtable handles millions of time-series writes per second with single-digit millisecond reads by key. Design row keys to avoid hotspots, for example by not leading with a timestamp. Cloud SQL and BigQuery don't fit that write rate and latency.",
+    "refs": [
+      {
+        "title": "Bigtable overview",
+        "url": "https://docs.cloud.google.com/bigtable/docs/overview"
+      }
+    ]
   },
   {
     "id": 5,
@@ -122,7 +140,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "AlloyDB includes a columnar engine for analytics."
+    "explanation": "AlloyDB for PostgreSQL combines high transactional performance with a columnar engine for fast analytics on the same data. Firestore and Bigtable aren't PostgreSQL-compatible.",
+    "refs": [
+      {
+        "title": "AlloyDB overview | AlloyDB for PostgreSQL",
+        "url": "https://docs.cloud.google.com/alloydb/docs/overview"
+      }
+    ]
   },
   {
     "id": 6,
@@ -147,7 +171,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Choose DR patterns based on RTO/RPO: backup/restore, pilot light, warm standby or multi-region active."
+    "explanation": "An RTO of minutes with RPO near zero needs a replicated, failover-capable design: Cloud SQL Enterprise Plus with a cross-region replica. Nightly or weekly backups, or a single zone, have far worse RPO/RTO.",
+    "refs": [
+      {
+        "title": "About high availability | Cloud SQL for MySQL",
+        "url": "https://docs.cloud.google.com/sql/docs/mysql/high-availability"
+      }
+    ]
   },
   {
     "id": 7,
@@ -172,7 +202,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Add Cloud CDN and Cloud Armor to the same load balancer."
+    "explanation": "The global external Application Load Balancer fronts a global HTTPS app with backends in several regions, and Cloud CDN and Cloud Armor attach to it. Regional internal and passthrough balancers are regional.",
+    "refs": [
+      {
+        "title": "Cloud Load Balancing overview",
+        "url": "https://docs.cloud.google.com/load-balancing/docs/load-balancing-overview"
+      }
+    ]
   },
   {
     "id": 8,
@@ -197,7 +233,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Media CDN is designed for large-scale streaming."
+    "explanation": "Cloud CDN or Media CDN caches static content at the edge, cutting latency and egress from the origin. More origin VMs or Cloud NAT don't cache globally.",
+    "refs": [
+      {
+        "title": "Cloud CDN overview",
+        "url": "https://docs.cloud.google.com/cdn/docs/overview"
+      },
+      {
+        "title": "Media CDN overview",
+        "url": "https://docs.cloud.google.com/media-cdn/docs/overview"
+      }
+    ]
   },
   {
     "id": 9,
@@ -222,7 +268,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Bucket Lock makes retention policies immutable."
+    "explanation": "Cloud Storage Archive class with a retention policy suits petabytes of rarely accessed data kept for compliance, and Bucket Lock makes the retention immutable. Filestore and Memorystore are for active data.",
+    "refs": [
+      {
+        "title": "Storage classes | Cloud Storage",
+        "url": "https://docs.cloud.google.com/storage/docs/storage-classes"
+      },
+      {
+        "title": "Bucket Lock | Cloud Storage",
+        "url": "https://docs.cloud.google.com/storage/docs/bucket-lock"
+      }
+    ]
   },
   {
     "id": 10,
@@ -247,7 +303,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Migrate to Virtual Machines can also convert VMs to Compute Engine."
+    "explanation": "Google Cloud VMware Engine runs VMware workloads in Google Cloud with no refactoring. Migrate to Virtual Machines can instead convert VMs to Compute Engine; rewriting for Cloud Run is a refactor.",
+    "refs": [
+      {
+        "title": "Google Cloud VMware Engine overview",
+        "url": "https://docs.cloud.google.com/vmware-engine/docs/overview"
+      }
+    ]
   },
   {
     "id": 11,
@@ -272,7 +334,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Migration Center provides rightsizing and cost estimates."
+    "explanation": "Migration Center discovers on-premises assets, estimates TCO and rightsizing, and helps plan migration waves. Asset Inventory covers resources already in Google Cloud.",
+    "refs": [
+      {
+        "title": "Migration Center overview",
+        "url": "https://docs.cloud.google.com/migration-center/docs/migration-center-overview"
+      }
+    ]
   },
   {
     "id": 12,
@@ -297,7 +365,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Agent Search (formerly Vertex AI Search) provides retrieval for grounding."
+    "explanation": "Agent Studio and Agent Search (formerly Vertex AI Search) on the Gemini Enterprise Agent Platform provide grounded retrieval over company documents with minimal code. Training from scratch or SQL full-text search is far more work."
   },
   {
     "id": 13,
@@ -322,7 +390,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "It also includes sustainability and AI/ML perspectives."
+    "explanation": "The Google Cloud Well-Architected Framework gives best practices across operational excellence, security, reliability, cost and performance, plus sustainability and AI/ML perspectives. ITIL is an unrelated service-management framework.",
+    "refs": [
+      {
+        "title": "Google Cloud Well-Architected Framework",
+        "url": "https://docs.cloud.google.com/architecture/framework"
+      }
+    ]
   },
   {
     "id": 14,
@@ -347,7 +421,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Event-driven designs improve resilience and scalability."
+    "explanation": "Asynchronous messaging with Pub/Sub decouples services so a slow consumer doesn't block producers, improving resilience and scalability. Synchronous chained calls and shared databases couple them tightly.",
+    "refs": [
+      {
+        "title": "What is Pub/Sub?",
+        "url": "https://docs.cloud.google.com/pubsub/docs/overview"
+      }
+    ]
   },
   {
     "id": 15,
@@ -372,7 +452,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "TPUs are Google's custom AI accelerators."
+    "explanation": "AI Hypercomputer provides GPU or TPU clusters with high-speed interconnects for large-model training; TPUs are Google's custom AI accelerators. Cloud Run or single Spot GPUs don't give that scale."
   },
   {
     "id": 16,
@@ -397,7 +477,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Regional managed instance groups distribute VMs across zones."
+    "explanation": "A regional managed instance group spreads VMs across zones, so a zone failure doesn't take the app down, with low added complexity. One large VM or a single zone is a single point of failure.",
+    "refs": [
+      {
+        "title": "About regional MIGs | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/instance-groups/regional-migs"
+      }
+    ]
   },
   {
     "id": 17,
@@ -422,7 +508,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sovereign cloud offerings add further controls."
+    "explanation": "Data residency in Germany needs deployment in a German region and an organization policy (resource locations) that enforces it. CMEK alone doesn't constrain location, and multi-region US buckets violate it.",
+    "refs": [
+      {
+        "title": "Organization Policy overview",
+        "url": "https://docs.cloud.google.com/resource-manager/docs/organization-policy/overview"
+      }
+    ]
   },
   {
     "id": 18,
@@ -447,7 +539,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Apigee also supports API monetization and developer portals."
+    "explanation": "Apigee is the API management platform for exposing backend services securely to partners, with quotas, analytics, monetization and developer portals. Cloud NAT and DNS aren't API managers.",
+    "refs": [
+      {
+        "title": "What is Apigee?",
+        "url": "https://docs.cloud.google.com/apigee/docs/api-platform/get-started/what-apigee"
+      }
+    ]
   },
   {
     "id": 19,
@@ -472,7 +570,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Design jobs to restart from checkpoints after preemption."
+    "explanation": "Spot VMs with checkpointing cut cost for interruption-tolerant batch analytics, since jobs restart from checkpoints after preemption. Three-year commitments and sole-tenant nodes cost more.",
+    "refs": [
+      {
+        "title": "Spot VMs | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/instances/spot"
+      }
+    ]
   },
   {
     "id": 20,
@@ -497,7 +601,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Autopilot bills per pod resource requests."
+    "explanation": "GKE Autopilot is fully managed Kubernetes where Google manages nodes and hardening and bills per pod resource requests. Self-managed Kubernetes and Standard node pools leave management to you.",
+    "refs": [
+      {
+        "title": "GKE Autopilot overview",
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview"
+      }
+    ]
   },
   {
     "id": 21,
@@ -522,7 +632,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Filestore and NetApp Volumes serve general NFS/SMB workloads."
+    "explanation": "Google Cloud Managed Lustre provides high-performance managed file shares for HPC. Filestore and NetApp Volumes serve general NFS/SMB workloads, and Cloud Storage isn't a POSIX file system.",
+    "refs": [
+      {
+        "title": "Filestore overview",
+        "url": "https://docs.cloud.google.com/filestore/docs/overview"
+      }
+    ]
   },
   {
     "id": 22,
@@ -547,7 +663,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "FinOps practices align spending with business value."
+    "explanation": "Autoscaling and pay-per-use managed services match spend to variable demand. Provisioning for peak or committing for peak capacity wastes money; FinOps practices align cost with value.",
+    "refs": [
+      {
+        "title": "Resource-based committed use discounts",
+        "url": "https://docs.cloud.google.com/compute/docs/instances/signing-up-committed-use-discounts"
+      }
+    ]
   },
   {
     "id": 23,
@@ -572,7 +694,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Network admins manage the host project; teams deploy in service projects."
+    "explanation": "Shared VPC lets a central network team own subnets and firewall policy in a host project while teams deploy in service projects. Separate auto mode VPCs or pairwise peering fragment control.",
+    "refs": [
+      {
+        "title": "Shared VPC | Virtual Private Cloud",
+        "url": "https://docs.cloud.google.com/vpc/docs/shared-vpc"
+      }
+    ]
   },
   {
     "id": 24,
@@ -597,7 +725,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Partner Interconnect suits lower bandwidth or locations without colocation."
+    "explanation": "Dedicated Interconnect gives a dedicated private connection (10 Gbps or 100 Gbps) from a data center to Google Cloud. Partner Interconnect suits lower bandwidth or no colocation, and HA VPN runs over the internet.",
+    "refs": [
+      {
+        "title": "Dedicated Interconnect overview",
+        "url": "https://docs.cloud.google.com/network-connectivity/docs/interconnect/concepts/dedicated-overview"
+      }
+    ]
   },
   {
     "id": 25,
@@ -622,7 +756,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "PSC uses endpoints with internal IP addresses."
+    "explanation": "Private Service Connect uses endpoints with internal IP addresses to privately reach managed services in another VPC, with no peering needed. Cloud NAT and public IPs expose or route differently.",
+    "refs": [
+      {
+        "title": "Private Service Connect | Virtual Private Cloud",
+        "url": "https://docs.cloud.google.com/vpc/docs/private-service-connect"
+      }
+    ]
   },
   {
     "id": 26,
@@ -647,7 +787,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Private Service Connect endpoints are another option for Google APIs."
+    "explanation": "Enabling Private Google Access on the subnet lets VMs without external IPs reach Google APIs privately; Private Service Connect endpoints are another option. Public IPs or a VPN aren't needed.",
+    "refs": [
+      {
+        "title": "Private Google Access | Virtual Private Cloud",
+        "url": "https://docs.cloud.google.com/vpc/docs/private-google-access"
+      },
+      {
+        "title": "Private Service Connect | Virtual Private Cloud",
+        "url": "https://docs.cloud.google.com/vpc/docs/private-service-connect"
+      }
+    ]
   },
   {
     "id": 27,
@@ -672,7 +822,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Store IaC in version control and deploy through CI/CD."
+    "explanation": "Terraform (directly or through Infrastructure Manager) provisions infrastructure consistently across environments from version-controlled code. Manual console steps and wiki notes aren't repeatable.",
+    "refs": [
+      {
+        "title": "Infrastructure Manager overview",
+        "url": "https://docs.cloud.google.com/infrastructure-manager/docs/overview"
+      }
+    ]
   },
   {
     "id": 28,
@@ -697,7 +853,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Platform engineering provides golden paths for developers."
+    "explanation": "Platform engineering provides golden paths such as Application Design Center templates or IaC modules, so developers self-serve standard approved environments. Granting Owner everywhere or emailing requests defeats governance.",
+    "refs": [
+      {
+        "title": "Infrastructure Manager overview",
+        "url": "https://docs.cloud.google.com/infrastructure-manager/docs/overview"
+      }
+    ]
   },
   {
     "id": 29,
@@ -722,7 +884,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "GKE Dataplane V2 enforces network policies with eBPF."
+    "explanation": "Kubernetes network policies control which pods may talk to each other; GKE Dataplane V2 enforces them with eBPF. Separate node pools and node VM firewall rules don't govern pod-to-pod traffic.",
+    "refs": [
+      {
+        "title": "Control communication between Pods and Services using network policies | GKE",
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/how-to/network-policy"
+      }
+    ]
   },
   {
     "id": 30,
@@ -747,7 +915,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Regional disks replicate synchronously across two zones."
+    "explanation": "A regional Persistent Disk (or Hyperdisk Balanced HA) replicates synchronously across two zones, giving a stateful GKE workload a replicated block volume. Local SSD and emptyDir are ephemeral.",
+    "refs": [
+      {
+        "title": "Create and manage regional disks | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/disks/regional-persistent-disk"
+      }
+    ]
   },
   {
     "id": 31,
@@ -772,7 +946,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Image families point to the latest image for consistent deployments."
+    "explanation": "Custom images in an image family give consistent boot disks across many VMs, and the family always points to the latest image. Installing each VM by hand or using unknown community images is error-prone.",
+    "refs": [
+      {
+        "title": "Image families best practices | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/images/image-families-best-practices"
+      }
+    ]
   },
   {
     "id": 32,
@@ -797,7 +977,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Outbound forwarding zones resolve on-premises names from Google Cloud."
+    "explanation": "A Cloud DNS inbound server policy (forwarding) lets on-premises systems resolve private Google Cloud names, while outbound forwarding zones resolve on-premises names from Google Cloud. Public zones shouldn't hold private IPs.",
+    "refs": [
+      {
+        "title": "Configure DNS server policies",
+        "url": "https://docs.cloud.google.com/dns/docs/policies"
+      }
+    ]
   },
   {
     "id": 33,
@@ -822,7 +1008,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "This configuration supports a 99.99% SLA."
+    "explanation": "HA VPN with two tunnels, Cloud Router and BGP gives the 99.99% SLA. One tunnel with static routes or Classic VPN doesn't meet that availability.",
+    "refs": [
+      {
+        "title": "Cloud VPN overview",
+        "url": "https://docs.cloud.google.com/network-connectivity/docs/vpn/concepts/overview"
+      }
+    ]
   },
   {
     "id": 34,
@@ -847,7 +1039,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Direct VPC egress avoids managing connector instances."
+    "explanation": "Direct VPC egress (or a Serverless VPC Access connector) lets serverless containers such as Cloud Run reach VPC resources; direct egress avoids managing connector instances. Private Google Access and Cloud NAT don't provide that path.",
+    "refs": [
+      {
+        "title": "Deploy container images to Cloud Run services",
+        "url": "https://docs.cloud.google.com/run/docs/deploying"
+      }
+    ]
   },
   {
     "id": 35,
@@ -872,7 +1070,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud Deploy supports canary and blue/green strategies."
+    "explanation": "Blue/green on GKE deploys the new version alongside the old and shifts traffic through the load balancer or Gateway API, and Cloud Deploy supports canary and blue/green strategies. In-place updates of everything at once are riskier.",
+    "refs": [
+      {
+        "title": "Overview of Cloud Deploy",
+        "url": "https://docs.cloud.google.com/deploy/docs/overview"
+      }
+    ]
   },
   {
     "id": 36,
@@ -897,7 +1101,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Approvals can gate production promotion."
+    "explanation": "Cloud Deploy manages releases to GKE and Cloud Run with promotion between environments, and approvals can gate production. Scheduler, Logging and DNS aren't delivery tools.",
+    "refs": [
+      {
+        "title": "Overview of Cloud Deploy",
+        "url": "https://docs.cloud.google.com/deploy/docs/overview"
+      }
+    ]
   },
   {
     "id": 37,
@@ -922,7 +1132,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Network Connectivity Center also supports SD-WAN integrations."
+    "explanation": "Network Connectivity Center provides a hub-and-spoke model to connect many VPCs and on-premises sites, including SD-WAN integrations. Full-mesh peering or tunnels between every pair doesn't scale.",
+    "refs": [
+      {
+        "title": "NCC overview | Network Connectivity Center",
+        "url": "https://docs.cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/overview"
+      }
+    ]
   },
   {
     "id": 38,
@@ -947,7 +1163,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Choose machine families by workload profile."
+    "explanation": "Memory-optimized (M-series) machines suit memory-intensive databases like SAP HANA. E2 shared-core and compute-optimized families have too little memory per vCPU, and A3 is for accelerators.",
+    "refs": [
+      {
+        "title": "Machine families resource and comparison guide | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/machine-resource"
+      }
+    ]
   },
   {
     "id": 39,
@@ -972,7 +1194,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Combine with IAM and organization policies for defense in depth."
+    "explanation": "VPC Service Controls creates a perimeter around BigQuery and other services to stop data being copied to projects outside it; combine with IAM and organization policies for defense in depth. Cloud Armor and firewall rules don't govern API data movement.",
+    "refs": [
+      {
+        "title": "Overview of VPC Service Controls",
+        "url": "https://docs.cloud.google.com/vpc-service-controls/docs/overview"
+      }
+    ]
   },
   {
     "id": 40,
@@ -997,7 +1225,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Federation exchanges external credentials for short-lived tokens."
+    "explanation": "Workload Identity Federation lets AWS workloads exchange their credentials for short-lived Google tokens, so there are no long-lived keys to store. Keys kept in AWS are still long-lived secrets.",
+    "refs": [
+      {
+        "title": "Workload Identity Federation | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/workload-identity-federation"
+      }
+    ]
   },
   {
     "id": 41,
@@ -1022,7 +1256,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Access decisions use identity and device context."
+    "explanation": "Identity-Aware Proxy with Chrome Enterprise Premium context-aware access grants access based on identity and device context, a zero-trust approach with no VPN. Open internet access or IP allowlists aren't identity-aware.",
+    "refs": [
+      {
+        "title": "Identity-Aware Proxy overview",
+        "url": "https://docs.cloud.google.com/iap/docs/concepts-overview"
+      }
+    ]
   },
   {
     "id": 42,
@@ -1047,7 +1287,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud HSM provides FIPS 140-2 Level 3 hardware keys inside Google Cloud."
+    "explanation": "Cloud External Key Manager (EKM) keeps encryption keys outside Google Cloud, with a third-party key manager. Cloud HSM keeps hardware keys inside Google Cloud, and software KMS keys are in Google.",
+    "refs": [
+      {
+        "title": "Customer-managed encryption keys (CMEK) | Cloud KMS",
+        "url": "https://docs.cloud.google.com/kms/docs/cmek"
+      }
+    ]
   },
   {
     "id": 43,
@@ -1072,7 +1318,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Techniques include masking, tokenization and format-preserving encryption."
+    "explanation": "Sensitive Data Protection discovers and de-identifies sensitive data such as national IDs across storage and BigQuery, using masking, tokenization or format-preserving encryption. Cloud KMS only manages keys.",
+    "refs": [
+      {
+        "title": "Sensitive Data Protection overview",
+        "url": "https://docs.cloud.google.com/sensitive-data-protection/docs/sensitive-data-protection-overview"
+      }
+    ]
   },
   {
     "id": 44,
@@ -1097,7 +1349,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "New organizations have this constraint enforced by default."
+    "explanation": "The organization policy constraint iam.disableServiceAccountKeyCreation blocks service account key creation across the organization, and it's enforced by default on new organizations. A per-project IAM deny doesn't scale.",
+    "refs": [
+      {
+        "title": "Restrict IAM service account usage | Organization Policy",
+        "url": "https://docs.cloud.google.com/resource-manager/docs/organization-policy/restricting-service-accounts"
+      }
+    ]
   },
   {
     "id": 45,
@@ -1122,7 +1380,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Model Armor screens prompts and responses."
+    "explanation": "Model Armor screens prompts and responses to protect generative AI apps from prompt injection and sensitive data leaks. Cloud Armor is a WAF for web apps and Sensitive Data Protection finds data.",
+    "refs": [
+      {
+        "title": "Model Armor overview",
+        "url": "https://docs.cloud.google.com/model-armor/overview"
+      }
+    ]
   },
   {
     "id": 46,
@@ -1147,7 +1411,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Attestations prove images passed required checks."
+    "explanation": "Binary Authorization allows only signed, trusted container images to deploy to GKE or Cloud Run, using attestations that images passed required checks. Cloud Deploy approvals gate releases, not image trust.",
+    "refs": [
+      {
+        "title": "Binary Authorization overview",
+        "url": "https://docs.cloud.google.com/binary-authorization/docs/overview"
+      }
+    ]
   },
   {
     "id": 47,
@@ -1172,7 +1442,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Just-in-time access reduces standing privileges."
+    "explanation": "Privileged Access Manager provides time-bound elevated access with approval (just-in-time), reducing standing privileges. Permanent Owner grants or shared admin accounts do the opposite.",
+    "refs": [
+      {
+        "title": "Overview of IAM Conditions",
+        "url": "https://docs.cloud.google.com/iam/docs/conditions-overview"
+      }
+    ]
   },
   {
     "id": 48,
@@ -1197,7 +1473,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Premium and Enterprise tiers add threat detection and attack path simulation."
+    "explanation": "Security Command Center gives a central view of security posture, threats and vulnerabilities across the organization; Premium and Enterprise add threat detection and attack path simulation.",
+    "refs": [
+      {
+        "title": "Security Command Center overview",
+        "url": "https://docs.cloud.google.com/security-command-center/docs/security-command-center-overview"
+      }
+    ]
   },
   {
     "id": 49,
@@ -1222,7 +1504,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Assured Workloads enforces data residency and personnel access controls."
+    "explanation": "Assured Workloads helps meet regulatory frameworks by enforcing data residency and personnel access controls for a region and framework. Organization policy and VPC-SC alone don't cover personnel controls.",
+    "refs": [
+      {
+        "title": "Overview of Assured Workloads",
+        "url": "https://docs.cloud.google.com/assured-workloads/docs/overview"
+      }
+    ]
   },
   {
     "id": 50,
@@ -1247,7 +1535,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Access Approval lets customers approve such access first."
+    "explanation": "Access Transparency logs record Google personnel's access to customer content, and Access Approval lets customers approve it first. Admin Activity logs record customer-side admin actions.",
+    "refs": [
+      {
+        "title": "Overview of Access Transparency",
+        "url": "https://docs.cloud.google.com/assured-workloads/access-transparency/docs/overview"
+      }
+    ]
   },
   {
     "id": 51,
@@ -1272,7 +1566,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use IAM Recommender to remove unused permissions."
+    "explanation": "Use one service account per workload with only the roles it needs (least privilege), and use IAM Recommender to remove unused permissions. A shared Editor account or basic roles on the organization is too broad.",
+    "refs": [
+      {
+        "title": "Use IAM securely",
+        "url": "https://docs.cloud.google.com/iam/docs/using-iam-securely"
+      },
+      {
+        "title": "Attach service accounts to resources | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/attach-service-accounts"
+      }
+    ]
   },
   {
     "id": 52,
@@ -1297,7 +1601,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Adaptive Protection uses ML to detect Layer 7 attacks."
+    "explanation": "Cloud Armor protects public web apps at the edge against OWASP Top 10 attacks and DDoS, and Adaptive Protection uses ML to detect Layer 7 attacks. Cloud NAT and NGFW aren't edge WAFs.",
+    "refs": [
+      {
+        "title": "Cloud Armor overview",
+        "url": "https://docs.cloud.google.com/armor/docs/cloud-armor-overview"
+      }
+    ]
   },
   {
     "id": 53,
@@ -1322,7 +1632,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Rotate secrets and pin versions in apps."
+    "explanation": "Secret Manager with IAM-controlled access is the secure place for database passwords and API keys; rotate secrets and pin versions. Source control, metadata and environment variables leak easily.",
+    "refs": [
+      {
+        "title": "Secret Manager overview",
+        "url": "https://docs.cloud.google.com/secret-manager/docs/overview"
+      }
+    ]
   },
   {
     "id": 54,
@@ -1347,7 +1663,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Active Assist recommenders identify idle VMs, disks and IPs."
+    "explanation": "Start cost reduction with Active Assist rightsizing and idle-resource recommendations (idle VMs, disks, IPs). Shutting down production or deleting monitoring harms the business.",
+    "refs": [
+      {
+        "title": "What is Active Assist | Recommender",
+        "url": "https://docs.cloud.google.com/recommender/docs/whatis-activeassist"
+      }
+    ]
   },
   {
     "id": 55,
@@ -1372,7 +1694,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Flexible (spend-based) commitments apply across machine families."
+    "explanation": "Committed use discounts reduce cost predictably for steady 24/7 usage, and flexible spend-based commitments apply across machine families. Spot VMs would risk interruption for the whole fleet.",
+    "refs": [
+      {
+        "title": "Resource-based committed use discounts",
+        "url": "https://docs.cloud.google.com/compute/docs/instances/signing-up-committed-use-discounts"
+      }
+    ]
   },
   {
     "id": 56,
@@ -1397,7 +1725,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use labels, budgets and billing exports to show teams their costs."
+    "explanation": "FinOps aligns cloud spend with business value through shared responsibility for costs, supported by labels, budgets and billing exports that show teams their costs.",
+    "refs": [
+      {
+        "title": "Export Cloud Billing data to BigQuery",
+        "url": "https://docs.cloud.google.com/billing/docs/how-to/export-data-bigquery"
+      },
+      {
+        "title": "Create and update labels for projects | Resource Manager",
+        "url": "https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels"
+      }
+    ]
   },
   {
     "id": 57,
@@ -1422,7 +1760,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "High-impact AI decisions benefit from human oversight."
+    "explanation": "Requiring a person to approve AI-generated claim decisions is human-in-the-loop review. High-impact AI decisions benefit from human oversight; full automation removes that safeguard."
   },
   {
     "id": 58,
@@ -1447,7 +1785,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Change management is as important as technology."
+    "explanation": "Successful adoption pairs technology with training, a cloud center of excellence and clear ownership. Change management matters as much as tooling."
   },
   {
     "id": 59,
@@ -1472,7 +1810,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "DORA metrics also include change failure rate and time to restore."
+    "explanation": "DORA metrics such as deployment frequency and lead time for changes (plus change failure rate and time to restore) measure developer velocity. VM counts, invoices and IAM role counts don't."
   },
   {
     "id": 60,
@@ -1497,7 +1835,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "BigQuery continuous queries can also process streams with SQL."
+    "explanation": "Pub/Sub to Dataflow to BigQuery (with ML models) handles near real-time ingestion, processing and analysis for personalization. Weekly exports or nightly batches are too slow.",
+    "refs": [
+      {
+        "title": "What is Pub/Sub?",
+        "url": "https://docs.cloud.google.com/pubsub/docs/overview"
+      },
+      {
+        "title": "Batch load data | BigQuery",
+        "url": "https://docs.cloud.google.com/bigquery/docs/batch-loading-data"
+      }
+    ]
   },
   {
     "id": 61,
@@ -1522,7 +1870,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Define rollback plans and success criteria."
+    "explanation": "Reduce migration risk by piloting with a subset, measuring, then rolling out gradually, with rollback plans and success criteria. A big-bang switch on a Friday without testing is the opposite."
   },
   {
     "id": 62,
@@ -1547,7 +1895,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Consider business value, complexity, dependencies and licensing."
+    "explanation": "An application portfolio assessment weighs business value, complexity, dependencies and licensing to choose rehost, replatform or refactor for each app. Applying one approach to everything ignores those differences.",
+    "refs": [
+      {
+        "title": "Migration Center overview",
+        "url": "https://docs.cloud.google.com/migration-center/docs/migration-center-overview"
+      }
+    ]
   },
   {
     "id": 63,
@@ -1572,7 +1926,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Migration Center provides TCO estimates for migrations."
+    "explanation": "The Google Cloud Pricing Calculator estimates the cost of a new architecture before you build it; Migration Center provides TCO estimates for migrations. Last month's invoice and budgets reflect existing spend."
   },
   {
     "id": 64,
@@ -1597,7 +1951,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "When the error budget is spent, focus shifts to reliability work."
+    "explanation": "Error budgets balance release velocity with reliability by defining allowed unreliability; when it's spent, focus shifts to reliability work. Change freezes forever or unlimited releases ignore the balance."
   },
   {
     "id": 65,
@@ -1622,7 +1976,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sole-tenant nodes help with some BYOL requirements."
+    "explanation": "Windows Server and SQL Server migrations need a licensing decision: bring your own license (sole-tenant nodes help with some BYOL rules) or use pay-as-you-go images. Licenses do matter in the cloud and don't transfer automatically."
   },
   {
     "id": 66,
@@ -1647,7 +2001,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Prototype quickly, then evaluate quality, cost and safety."
+    "explanation": "To prototype generative AI quickly, use Gemini models through the Gemini Enterprise Agent Platform APIs, then evaluate quality, cost and safety. Training or fine-tuning a model first delays learning."
   },
   {
     "id": 67,
@@ -1672,7 +2026,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud Workstations runs IDEs in managed containers inside your VPC."
+    "explanation": "Cloud Workstations provides managed cloud development environments that run in containers inside your VPC with access to private resources. Personal laptops with shared keys are neither managed nor secure.",
+    "refs": [
+      {
+        "title": "Cloud Workstations overview",
+        "url": "https://docs.cloud.google.com/workstations/docs/overview"
+      }
+    ]
   },
   {
     "id": 68,
@@ -1697,7 +2057,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Emulators speed up development without cloud costs."
+    "explanation": "Cloud SDK emulators (for example Pub/Sub and Firestore) let developers test locally without cloud costs. Pointing tests at production databases is risky."
   },
   {
     "id": 69,
@@ -1722,7 +2082,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud Build can push images to Artifact Registry."
+    "explanation": "Cloud Build builds containers and runs tests on each commit, and can push images to Artifact Registry. Cloud Deploy handles delivery rather than building.",
+    "refs": [
+      {
+        "title": "Overview of Cloud Build",
+        "url": "https://docs.cloud.google.com/build/docs/overview"
+      }
+    ]
   },
   {
     "id": 70,
@@ -1747,7 +2113,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "REST remains common for public APIs."
+    "explanation": "gRPC suits high-performance service-to-service communication with strict contracts; REST remains common for public APIs. FTP, SMTP and Telnet aren't API styles for this."
   },
   {
     "id": 71,
@@ -1772,7 +2138,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Monitor error rates before increasing traffic."
+    "explanation": "A canary deployment sends a small percentage of real users to the new version while you monitor error rates before increasing traffic. Big-bang releases expose everyone at once.",
+    "refs": [
+      {
+        "title": "Overview of Cloud Deploy",
+        "url": "https://docs.cloud.google.com/deploy/docs/overview"
+      }
+    ]
   },
   {
     "id": 72,
@@ -1797,7 +2169,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Gemini CLI provides AI assistance in the terminal."
+    "explanation": "Gemini Code Assist helps developers write and understand code with AI in their IDE, and Gemini CLI offers assistance in the terminal. Gemini Cloud Assist is for operating cloud resources."
   },
   {
     "id": 73,
@@ -1822,7 +2194,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Storage Transfer Service suits online transfers when bandwidth allows."
+    "explanation": "Transfer Appliance suits moving hundreds of terabytes when bandwidth is limited; Storage Transfer Service suits online transfers when bandwidth allows. A small VPN would take far too long.",
+    "refs": [
+      {
+        "title": "Transfer Appliance",
+        "url": "https://docs.cloud.google.com/transfer-appliance/docs/4.0/overview"
+      }
+    ]
   },
   {
     "id": 74,
@@ -1847,7 +2225,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Apigee and API Gateway help manage versions."
+    "explanation": "Version APIs and avoid breaking changes to keep them backward compatible; Apigee and API Gateway help manage versions. Silent format changes or removing endpoints without notice break clients.",
+    "refs": [
+      {
+        "title": "What is Apigee?",
+        "url": "https://docs.cloud.google.com/apigee/docs/api-platform/get-started/what-apigee"
+      }
+    ]
   },
   {
     "id": 75,
@@ -1872,7 +2256,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "GitOps applies the same principle to Kubernetes."
+    "explanation": "Pull requests for IaC with automated plan checks make infrastructure changes reviewable and auditable; GitOps applies the same idea to Kubernetes. Console changes leave no review trail.",
+    "refs": [
+      {
+        "title": "Infrastructure Manager overview",
+        "url": "https://docs.cloud.google.com/infrastructure-manager/docs/overview"
+      }
+    ]
   },
   {
     "id": 76,
@@ -1897,7 +2287,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Gemini can help convert code during heterogeneous migrations."
+    "explanation": "Database Migration Service migrates databases, including heterogeneous moves such as Oracle to PostgreSQL-compatible targets; Gemini can help convert code. Datastream replicates change data and Storage Transfer moves files.",
+    "refs": [
+      {
+        "title": "Database Migration Service overview",
+        "url": "https://docs.cloud.google.com/database-migration/docs/overview"
+      }
+    ]
   },
   {
     "id": 77,
@@ -1922,7 +2318,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Chaos testing checks resilience to failures."
+    "explanation": "Load testing verifies the system handles expected peak traffic before launch; chaos testing checks resilience to failures. Unit tests alone don't exercise capacity."
   },
   {
     "id": 78,
@@ -1947,7 +2343,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Alert on SLO burn rate rather than every metric."
+    "explanation": "SLIs are measured against SLOs to define user-facing reliability targets. VM CPU or commit counts don't express user-facing reliability, and alerts should key on SLO burn rate rather than every metric.",
+    "refs": [
+      {
+        "title": "Cloud Monitoring overview",
+        "url": "https://docs.cloud.google.com/monitoring/docs/monitoring-overview"
+      }
+    ]
   },
   {
     "id": 79,
@@ -1972,7 +2374,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Multi-window burn rate alerts balance speed and precision."
+    "explanation": "Alerting on SLO burn rate catches real user impact while cutting noise; multi-window burn-rate alerts balance speed and precision. Alerting on every warning log creates alert fatigue.",
+    "refs": [
+      {
+        "title": "Cloud Monitoring overview",
+        "url": "https://docs.cloud.google.com/monitoring/docs/monitoring-overview"
+      }
+    ]
   },
   {
     "id": 80,
@@ -1997,7 +2405,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Profiler runs continuously with low overhead."
+    "explanation": "Cloud Profiler runs continuously with low overhead to show which functions use the most CPU in production code. Trace shows request latency, and Logging shows events.",
+    "refs": [
+      {
+        "title": "Cloud Profiler overview",
+        "url": "https://docs.cloud.google.com/profiler/docs/about-profiler"
+      }
+    ]
   },
   {
     "id": 81,
@@ -2022,7 +2436,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Track action items to completion."
+    "explanation": "Blameless postmortems with tracked action items improve learning after incidents. Blaming individuals or deleting records discourages reporting and hides lessons."
   },
   {
     "id": 82,
@@ -2047,7 +2461,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Google Cloud Observability includes Monitoring, Logging, Trace and Profiler."
+    "explanation": "Cloud Monitoring is the single place for alerts, dashboards and uptime checks, within Google Cloud Observability alongside Logging, Trace and Profiler. Cloud Build and Artifact Registry are delivery tools.",
+    "refs": [
+      {
+        "title": "Cloud Monitoring overview",
+        "url": "https://docs.cloud.google.com/monitoring/docs/monitoring-overview"
+      }
+    ]
   },
   {
     "id": 83,
@@ -2072,7 +2492,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Pod disruption budgets protect availability during maintenance."
+    "explanation": "Regional GKE clusters with pods spread across zones survive a zone outage; pod disruption budgets protect availability during maintenance. A single node or emptyDir state doesn't.",
+    "refs": [
+      {
+        "title": "About GKE cluster autoscaling",
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler"
+      }
+    ]
   },
   {
     "id": 84,
@@ -2097,7 +2523,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Measure actual RTO and RPO during drills."
+    "explanation": "Regular DR drills and restore tests prove the plan works and let you measure actual RTO and RPO. An untested plan or assumed backups is a common failure."
   },
   {
     "id": 85,
@@ -2122,7 +2548,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Integrate alerts with your incident management tools."
+    "explanation": "Personalized Service Health sends notifications about Google Cloud incidents affecting your own projects and integrates with incident tools. The public status page shows general status.",
+    "refs": [
+      {
+        "title": "Personalized Service Health overview",
+        "url": "https://docs.cloud.google.com/service-health/docs/overview"
+      }
+    ]
   },
   {
     "id": 86,
@@ -2147,7 +2579,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Automation reduces toil, a key SRE goal."
+    "explanation": "Automating runbooks with Cloud Run functions or Workflows handles common operational issues and reduces toil, a key SRE goal. Manual fixes every time or disabling noisy alerts doesn't."
   },
   {
     "id": 87,
@@ -2172,7 +2604,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "It can help with troubleshooting and optimization recommendations."
+    "explanation": "Gemini Cloud Assist helps operators investigate issues and summarize logs in the console, with troubleshooting and optimization recommendations. Gemini Code Assist is for coding."
   },
   {
     "id": 88,
@@ -2197,6 +2629,6 @@
       }
     ],
     "answer": 0,
-    "explanation": "Circuit breakers and retries with backoff also help."
+    "explanation": "Load shedding and rate limiting let a service degrade gracefully under overload; circuit breakers and retries with backoff also help. Accepting every request until it crashes does not."
   }
 ]
