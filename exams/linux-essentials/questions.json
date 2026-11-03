@@ -22,7 +22,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Linus Torvalds released the Linux kernel in 1991. Distributions bundle the kernel with GNU tools, a package manager, and software."
+    "explanation": "Linux is the kernel: the core that manages hardware and processes. A distribution adds GNU tools, libraries, a package manager and applications to make a usable operating system. No single company makes 'Linux', and it isn't a desktop or a language."
   },
   {
     "id": 2,
@@ -47,7 +47,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Debian family: Debian, Ubuntu, Linux Mint, Raspberry Pi OS. Red Hat family: RHEL, Fedora, CentOS Stream, Rocky, AlmaLinux. SUSE: openSUSE, SLES."
+    "explanation": "Ubuntu and Linux Mint are Debian-family distributions that use .deb packages and apt. Fedora and RHEL (also Rocky and AlmaLinux) are the Red Hat family using .rpm and dnf, and openSUSE/SLES use RPM with zypper."
   },
   {
     "id": 3,
@@ -72,7 +72,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Fedora feeds new technology into CentOS Stream, which tracks just ahead of the next RHEL minor release."
+    "explanation": "Fedora is upstream of RHEL: new technology lands in Fedora, then CentOS Stream, which tracks just ahead of the next RHEL minor release. Rocky and AlmaLinux are downstream rebuilds, not upstream."
   },
   {
     "id": 4,
@@ -97,7 +97,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Enterprise distributions offer certified hardware, support contracts, and long life cycles. Ubuntu LTS also has paid support through Canonical."
+    "explanation": "Servers that need paid vendor support and long update lifetimes call for an enterprise distribution such as RHEL or SUSE Linux Enterprise Server (Ubuntu LTS with Canonical support also fits). Rolling-release hobbyist distributions change constantly."
   },
   {
     "id": 5,
@@ -122,7 +122,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Ubuntu LTS releases come every two years with five years of standard support (longer with Ubuntu Pro)."
+    "explanation": "LTS means long-term support: Ubuntu LTS releases arrive every two years and get five years of standard security and maintenance updates, longer with Ubuntu Pro. It is not a test snapshot or server-only.",
+    "refs": [
+      {
+        "title": "Ubuntu release cycle",
+        "url": "https://ubuntu.com/about/release-cycle"
+      }
+    ]
   },
   {
     "id": 6,
@@ -147,7 +153,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "LibreOffice Writer, Calc, and Impress handle documents, spreadsheets, and presentations."
+    "explanation": "LibreOffice is the open source office suite: Writer (documents), Calc (spreadsheets) and Impress (presentations). GIMP edits images, Thunderbird is email and Blender is 3D."
   },
   {
     "id": 7,
@@ -172,7 +178,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Common open source server software: Apache and NGINX (web), MariaDB/MySQL and PostgreSQL (databases), Postfix (mail), Samba (SMB file sharing), OpenSSH (remote access)."
+    "explanation": "Apache HTTP Server (httpd) and NGINX are the common open source web servers. MariaDB is a database, Samba shares files with Windows, and Postfix is a mail server."
   },
   {
     "id": 8,
@@ -197,7 +203,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Samba implements the SMB/CIFS protocol and can act as an Active Directory domain controller."
+    "explanation": "Samba implements the SMB/CIFS protocol so Linux can share files and printers with Windows clients, and can even act as an Active Directory domain controller. NFS is the Unix-native file sharing protocol and CUPS handles printing."
   },
   {
     "id": 9,
@@ -222,7 +228,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Permissive licenses (MIT, BSD, Apache 2.0) let derivatives be closed source. Copyleft (GPL, AGPL) requires derivatives to stay open."
+    "explanation": "A copyleft license such as the GPL requires that distributed modified versions stay under the same license with source available. Copyleft software can still be sold and used commercially. Permissive licenses don't impose that rule.",
+    "refs": [
+      {
+        "title": "The Open Source Definition - Open Source Initiative",
+        "url": "https://opensource.org/osd"
+      }
+    ]
   },
   {
     "id": 10,
@@ -247,7 +259,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Permissive licenses include MIT, BSD, and Apache 2.0. They require attribution but don't require sharing modified source."
+    "explanation": "The MIT License is permissive: it requires attribution but lets derivatives be closed source. GPL, AGPL and LGPL are copyleft to varying degrees.",
+    "refs": [
+      {
+        "title": "The Open Source Definition - Open Source Initiative",
+        "url": "https://opensource.org/osd"
+      }
+    ]
   },
   {
     "id": 11,
@@ -272,7 +290,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "The FSF's four freedoms: run the program for any purpose, study and change it, redistribute copies, and distribute modified versions."
+    "explanation": "In free software, 'free' means freedom (as in speech): to run, study and change, redistribute and distribute modified copies. It isn't about price, bug-free code or copyright status.",
+    "refs": [
+      {
+        "title": "The Open Source Definition - Open Source Initiative",
+        "url": "https://opensource.org/osd"
+      }
+    ]
   },
   {
     "id": 12,
@@ -297,7 +321,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "The Open Source Initiative maintains the Open Source Definition and reviews licenses against it. OSI-approved licenses include GPL, MIT, Apache 2.0, BSD, and MPL."
+    "explanation": "The Open Source Initiative maintains the Open Source Definition and approves licenses that meet it (GPL, MIT, Apache 2.0, BSD, MPL). The FSF defines free software separately, and the Linux Foundation is a different organization.",
+    "refs": [
+      {
+        "title": "The Open Source Definition - Open Source Initiative",
+        "url": "https://opensource.org/osd"
+      }
+    ]
   },
   {
     "id": 13,
@@ -322,7 +352,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Red Hat, SUSE, and Canonical sell subscriptions for support and certified updates. Many companies offer open-core or cloud-hosted versions."
+    "explanation": "Open source companies typically sell support subscriptions, certified updates, training, services and hosted versions (Red Hat, SUSE, Canonical). They can't charge for source code or hide it under copyleft terms."
   },
   {
     "id": 14,
@@ -347,7 +377,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud providers offer images from Ubuntu, RHEL, Debian, SUSE, and others. cloud-init sets hostname, users, and SSH keys at first boot."
+    "explanation": "Most cloud Linux instances start from a provider-supplied image of Ubuntu, RHEL, Debian or SUSE, and cloud-init configures hostname, users and SSH keys at first boot. There is no installer DVD or per-instance physical server.",
+    "refs": [
+      {
+        "title": "cloud-init documentation",
+        "url": "https://docs.cloud-init.io/en/latest/"
+      }
+    ]
   },
   {
     "id": 15,
@@ -372,7 +408,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Containers are lighter and start faster than VMs. Tools include Podman and Docker. A VM emulates hardware and runs its own kernel."
+    "explanation": "A container is an isolated set of processes sharing the host kernel with its own filesystem image, so it is lighter and faster to start than a VM. A virtual machine runs a complete guest OS and kernel on a hypervisor. Podman and Docker are container tools.",
+    "refs": [
+      {
+        "title": "What is Podman? - Podman documentation",
+        "url": "https://docs.podman.io/en/latest/"
+      }
+    ]
   },
   {
     "id": 16,
@@ -397,7 +439,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "WSL 2 runs a real Linux kernel in a lightweight VM so you can use Bash and Linux tools on a Windows PC."
+    "explanation": "WSL lets you run Linux distributions and command-line tools directly on Windows; WSL 2 uses a real Linux kernel in a lightweight VM. It isn't an emulator, a Linux desktop or a file system.",
+    "refs": [
+      {
+        "title": "What is the Windows Subsystem for Linux?",
+        "url": "https://learn.microsoft.com/en-us/windows/wsl/about"
+      }
+    ]
   },
   {
     "id": 17,
@@ -422,7 +470,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Desktop environments include GNOME, KDE Plasma, Xfce, and Cinnamon. They run on a display server such as Wayland or X11."
+    "explanation": "KDE Plasma is a desktop environment, as are GNOME, Xfce and Cinnamon; they sit on top of a display server such as Wayland or X11. Firefox, VLC and Inkscape are applications that run inside it."
   },
   {
     "id": 18,
@@ -447,7 +495,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Shell scripts automate tasks with Bash. Python is popular for automation and tools. C remains the language of the kernel."
+    "explanation": "Bash for shell scripts, Python for automation and tools, and Perl are all common on Linux, while C remains the kernel's language. Linux isn't tied to a single scripting language."
   },
   {
     "id": 19,
@@ -472,7 +520,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Linux Essentials 2.0 also covers password managers, multi-factor authentication, and passkeys."
+    "explanation": "Use a long, unique passphrase per account, keep them in a password manager and add multi-factor authentication where possible. Reusing a password everywhere means one breach exposes everything."
   },
   {
     "id": 20,
@@ -497,7 +545,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Avoid plaintext protocols like Telnet and FTP. Use SSH, SFTP/SCP, and HTTPS."
+    "explanation": "Use encrypted protocols (SSH, SFTP/SCP, HTTPS) whenever credentials or private data cross a network, including internal LANs. Telnet and FTP send everything, including passwords, in plaintext.",
+    "refs": [
+      {
+        "title": "ssh(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ssh.1.html"
+      }
+    ]
   },
   {
     "id": 21,
@@ -522,7 +576,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "pwd prints the working directory, for example /home/alex/projects."
+    "explanation": "pwd prints the full path of the current working directory, for example /home/alex/projects. cd changes directory, ls lists, and whoami prints your user name."
   },
   {
     "id": 22,
@@ -547,7 +601,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "~ expands to the home directory, such as /home/alex. cd with no argument does the same."
+    "explanation": "The tilde (~) expands to your home directory, so cd ~ takes you there; plain cd with no argument does too. The root directory is /, and cd - returns to the previous directory.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 23,
@@ -572,7 +632,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Absolute paths start at the root (/). Relative paths start from the working directory; . is the current directory and .. is the parent."
+    "explanation": "An absolute path starts at the root (/), so /etc/ssh/sshd_config is absolute. Relative paths start from the working directory, where . is the current directory and .. is its parent.",
+    "refs": [
+      {
+        "title": "hier(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/hier.7.html"
+      }
+    ]
   },
   {
     "id": 24,
@@ -597,7 +663,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Hidden files start with a dot (.bashrc). -a shows them and -l shows permissions, owner, size, and date."
+    "explanation": "ls -la combines -a (include hidden files whose names start with a dot) and -l (long format with permissions, owner, size and date). -h only makes sizes human-readable and -R recurses.",
+    "refs": [
+      {
+        "title": "ls(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ls.1.html"
+      }
+    ]
   },
   {
     "id": 25,
@@ -622,7 +694,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use man for manual pages, info for GNU info documents, command --help for a summary, and help for shell builtins like cd."
+    "explanation": "man ls opens the manual page for ls. info shows GNU info documents, command --help gives a short summary, and help covers shell builtins like cd. There is no ls --manual.",
+    "refs": [
+      {
+        "title": "man(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/man.1.html"
+      }
+    ]
   },
   {
     "id": 26,
@@ -647,7 +725,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "man 5 passwd shows the /etc/passwd format; man 1 passwd shows the passwd command. Search pages with man -k keyword (apropos)."
+    "explanation": "Section 5 of the manual covers file formats and configuration files, so man 5 passwd describes /etc/passwd, while man 1 passwd documents the command. Section 8 is system administration commands.",
+    "refs": [
+      {
+        "title": "man(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/man.1.html"
+      },
+      {
+        "title": "passwd(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/passwd.5.html"
+      }
+    ]
   },
   {
     "id": 27,
@@ -672,7 +760,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "apropos and man -k search names and short descriptions of all manual pages."
+    "explanation": "apropos (the same as man -k) searches the names and short descriptions of all manual pages for a keyword. which and locate find files and executables, not documentation.",
+    "refs": [
+      {
+        "title": "man(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/man.1.html"
+      }
+    ]
   },
   {
     "id": 28,
@@ -697,7 +791,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "which searches the directories in $PATH. type also shows whether a name is a builtin, alias, or file."
+    "explanation": "which python3 searches the directories in $PATH and shows the executable that would run. type is similar but also reports whether a name is a builtin, alias or file.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 29,
@@ -722,7 +822,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "echo $PATH shows it, for example /usr/local/bin:/usr/bin:/bin. Add a directory with export PATH=\"$PATH:$HOME/bin\"."
+    "explanation": "PATH is a colon-separated list of directories the shell searches for commands, for example /usr/local/bin:/usr/bin:/bin. Add one with export PATH=\"$PATH:$HOME/bin\". It isn't the current directory.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 30,
@@ -747,7 +853,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "NAME=value creates a shell variable; export makes it an environment variable for child processes. Read it with $NAME."
+    "explanation": "VAR=value creates a shell variable, and export VAR=value (or export VAR afterwards) makes it an environment variable that child processes inherit. Spaces around = break the assignment.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 31,
@@ -772,7 +884,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "echo \"$HOME\" prints /home/alex; echo '$HOME' prints $HOME. A backslash escapes one character."
+    "explanation": "Double quotes allow variable and command expansion, while single quotes keep everything literal. echo \"$HOME\" prints /home/alex but echo '$HOME' prints $HOME. Both can contain spaces.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 32,
@@ -797,7 +915,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "-p creates missing parents and doesn't complain if the directory exists."
+    "explanation": "mkdir -p creates all missing parent directories in one command and doesn't complain if the directory already exists. Without -p, mkdir fails when a parent is missing.",
+    "refs": [
+      {
+        "title": "mkdir(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/mkdir.1.html"
+      }
+    ]
   },
   {
     "id": 33,
@@ -822,7 +946,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use -r (or -R) to copy recursively; -a also preserves permissions, ownership, and timestamps."
+    "explanation": "cp -r (or -R) copies a directory and its contents recursively; without it cp refuses to copy a directory. -a also preserves permissions, ownership and timestamps.",
+    "refs": [
+      {
+        "title": "cp(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/cp.1.html"
+      }
+    ]
   },
   {
     "id": 34,
@@ -847,7 +977,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "mv moves or renames files and directories."
+    "explanation": "mv moves or renames, so mv report.txt report-old.txt renames the file. cp would leave the original in place, and rn is not a standard command.",
+    "refs": [
+      {
+        "title": "mv(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/mv.1.html"
+      }
+    ]
   },
   {
     "id": 35,
@@ -872,7 +1008,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "rmdir removes only empty directories. rm -r removes a directory and its contents; be careful."
+    "explanation": "rmdir removes only empty directories. rm old fails on a directory, while rm -r removes a directory and everything in it, so be careful.",
+    "refs": [
+      {
+        "title": "rm(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/rm.1.html"
+      }
+    ]
   },
   {
     "id": 36,
@@ -897,7 +1039,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "* matches any characters, ? matches one character, and [abc] matches one character from a set. The shell expands globs before running the command."
+    "explanation": "* matches any characters, so ls *.log lists every non-hidden file ending in .log in the current directory only. The shell expands the glob before ls runs, and * does not match leading dots or descend into subdirectories.",
+    "refs": [
+      {
+        "title": "glob(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/glob.7.html"
+      }
+    ]
   },
   {
     "id": 37,
@@ -922,7 +1070,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "? matches exactly one character. [1-3] would also work: file[1-3].txt."
+    "explanation": "? matches exactly one character, so file?.txt matches file1.txt through file3.txt but not file10.txt, which has two characters. file*.txt would match file10.txt too.",
+    "refs": [
+      {
+        "title": "glob(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/glob.7.html"
+      }
+    ]
   },
   {
     "id": 38,
@@ -947,7 +1101,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Bash stores history in ~/.bash_history. !! reruns the last command; Ctrl+R searches history."
+    "explanation": "history lists your previous commands (stored in ~/.bash_history), and tail -5 keeps the last five lines of that output. !! reruns the last command and Ctrl+R searches history.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 39,
@@ -972,7 +1132,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Press Tab once to complete or twice to list options."
+    "explanation": "Tab completes a partially typed command or file name; press it twice to list the possibilities. Ctrl+C interrupts and Ctrl+D ends input.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 40,
@@ -997,7 +1163,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Delete the original and a hard link still works; a symlink breaks. Create them with ln file link and ln -s target link."
+    "explanation": "A hard link is another directory entry for the same inode, so it survives deletion of the original name. A symbolic link stores a path and breaks if the target is removed. Hard links can't span file systems; symlinks can.",
+    "refs": [
+      {
+        "title": "ln(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ln.1.html"
+      }
+    ]
   },
   {
     "id": 41,
@@ -1022,7 +1194,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "The Filesystem Hierarchy Standard (FHS) defines /etc for configuration, /var for changing data, /home for users, /tmp for temporary files."
+    "explanation": "/etc holds system configuration files under the Filesystem Hierarchy Standard. /var is for changing data, /usr/bin for programs and /boot for boot files.",
+    "refs": [
+      {
+        "title": "hier(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/hier.7.html"
+      }
+    ]
   },
   {
     "id": 42,
@@ -1047,7 +1225,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "/var holds variable data: logs, mail spools, caches, and package data. systemd also keeps a binary journal (journalctl)."
+    "explanation": "Log files normally live in /var/log, because /var holds variable data such as logs, spools and caches. systemd also stores a binary journal that you read with journalctl.",
+    "refs": [
+      {
+        "title": "hier(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/hier.7.html"
+      },
+      {
+        "title": "journalctl - Query the systemd journal",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html"
+      }
+    ]
   },
   {
     "id": 43,
@@ -1072,7 +1260,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Linux doesn't rely on file extensions; file inspects the content."
+    "explanation": "file inspects a file's content and reports its type, such as ASCII text or PNG image. Linux does not rely on file extensions, and type is a shell command for command names.",
+    "refs": [
+      {
+        "title": "file(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/file.1.html"
+      }
+    ]
   },
   {
     "id": 44,
@@ -1097,7 +1291,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "find walks the tree in real time. locate uses a prebuilt database (updatedb), so it's faster but may be out of date."
+    "explanation": "find ~ -name notes.txt walks the tree in real time and finds files by name. locate searches a prebuilt database (updated by updatedb), so it is faster but can be out of date; grep searches file contents.",
+    "refs": [
+      {
+        "title": "find(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/find.1.html"
+      }
+    ]
   },
   {
     "id": 45,
@@ -1122,7 +1322,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "tar options: -c create, -x extract, -t list, -f file, -z gzip, -j bzip2, -J xz, -v verbose."
+    "explanation": "tar -czf creates (c) a gzip-compressed (z) archive file (f) from the named directory. -x extracts and -t lists, so tar -xzf would try to extract instead.",
+    "refs": [
+      {
+        "title": "tar(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/tar.1.html"
+      }
+    ]
   },
   {
     "id": 46,
@@ -1147,7 +1353,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Extract it with tar -xzf backup.tar.gz, optionally -C /target/dir."
+    "explanation": "tar -tzf lists the contents of a gzip-compressed archive without extracting it. -x extracts, optionally into a directory with -C, and -c creates.",
+    "refs": [
+      {
+        "title": "tar(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/tar.1.html"
+      }
+    ]
   },
   {
     "id": 47,
@@ -1172,7 +1384,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "xz usually compresses the most but is the slowest; gzip is fastest, and bzip2 sits in between. Extensions: .gz (gzip), .bz2 (bzip2), .xz (xz). Decompress with gunzip, bunzip2, unxz."
+    "explanation": "xz usually produces the smallest files but is the slowest, gzip is fastest and bzip2 is in between. tar itself only bundles and does not compress.",
+    "refs": [
+      {
+        "title": "tar(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/tar.1.html"
+      }
+    ]
   },
   {
     "id": 48,
@@ -1197,7 +1415,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "tar = tape archive. Compression is a separate layer."
+    "explanation": "By itself, tar bundles files into one archive (tape archive) without compressing. Compression is added with -z (gzip), -j (bzip2) or -J (xz), or by running a separate compressor.",
+    "refs": [
+      {
+        "title": "tar(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/tar.1.html"
+      }
+    ]
   },
   {
     "id": 49,
@@ -1222,7 +1446,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "> overwrites, >> appends, < reads standard input from a file, 2> redirects errors."
+    "explanation": "> redirects standard output to a file and replaces its contents; >> appends, < supplies standard input from a file and 2> redirects errors. So ls /etc > list.txt overwrites list.txt.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 50,
@@ -1247,7 +1477,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "File descriptors: 0 stdin, 1 stdout, 2 stderr. &> or > file 2>&1 sends both to the same place."
+    "explanation": "File descriptor 2 is standard error, so command 2> /dev/null discards error messages while normal output stays on screen. > /dev/null would discard stdout instead.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 51,
@@ -1272,7 +1508,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Example: ps aux | grep sshd. Pipes let small tools work together."
+    "explanation": "A pipe connects one command's standard output to the next command's standard input, as in ps aux | grep sshd. It doesn't run things in the background or write to a file.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 52,
@@ -1297,7 +1539,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "wc counts lines (-l), words (-w), and bytes (-c)."
+    "explanation": "wc -l counts lines (-w words, -c bytes). There is no count or lines command, and cat -n only numbers lines.",
+    "refs": [
+      {
+        "title": "wc(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/wc.1.html"
+      }
+    ]
   },
   {
     "id": 53,
@@ -1322,7 +1570,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Useful grep options: -i ignore case, -v invert, -c count, -r recursive, -n line numbers, -E extended regex."
+    "explanation": "grep -i error app.log prints lines containing 'error' regardless of case. -v inverts the match, -c prints a count, and find does not search file contents.",
+    "refs": [
+      {
+        "title": "grep(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/grep.1.html"
+      }
+    ]
   },
   {
     "id": 54,
@@ -1347,7 +1601,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Anchors: ^ start, $ end. . matches one character, * repeats the previous item, [0-9] is a character class."
+    "explanation": "The ^ anchor matches the start of a line, so ^root matches 'root' only at the beginning. $ anchors the end, . matches one character and * repeats the previous item.",
+    "refs": [
+      {
+        "title": "regex(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/regex.7.html"
+      }
+    ]
   },
   {
     "id": 55,
@@ -1372,7 +1632,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "grep -v '^$' file removes blank lines."
+    "explanation": "^$ matches a line where the start is immediately followed by the end, i.e. an empty line. grep -v '^$' removes blank lines. $^ is backwards and ^.*$ matches every line.",
+    "refs": [
+      {
+        "title": "regex(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/regex.7.html"
+      },
+      {
+        "title": "grep(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/grep.1.html"
+      }
+    ]
   },
   {
     "id": 56,
@@ -1397,7 +1667,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "uniq only merges adjacent duplicates, so sort first. -c adds counts."
+    "explanation": "cut -d: -f7 extracts the shell field from /etc/passwd, sort groups identical values, and uniq -c counts them. uniq only merges adjacent duplicates, so sorting first is essential.",
+    "refs": [
+      {
+        "title": "uniq(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/uniq.1.html"
+      },
+      {
+        "title": "sort(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/sort.1.html"
+      }
+    ]
   },
   {
     "id": 57,
@@ -1422,7 +1702,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "tail -f follows a file as it grows, useful for logs."
+    "explanation": "head -n 20 prints the first 20 lines. tail prints the last lines, and tail -f follows a file as it grows, which is handy for logs.",
+    "refs": [
+      {
+        "title": "head(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/head.1.html"
+      },
+      {
+        "title": "tail(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/tail.1.html"
+      }
+    ]
   },
   {
     "id": 58,
@@ -1447,7 +1737,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "In less: Space pages down, b pages up, /text searches, n repeats, q quits."
+    "explanation": "less lets you scroll a file one page at a time and search with /; Space pages down, b pages up, n repeats the search and q quits. cat just dumps the whole file.",
+    "refs": [
+      {
+        "title": "less(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/less.1.html"
+      }
+    ]
   },
   {
     "id": 59,
@@ -1472,7 +1768,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "sed -i edits the file in place. The g flag replaces every match on each line."
+    "explanation": "sed 's/http:/https:/g' links.txt substitutes every 'http:' with 'https:' and prints the result; without the g flag only the first match per line changes. -i edits the file in place.",
+    "refs": [
+      {
+        "title": "sed(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/sed.1.html"
+      }
+    ]
   },
   {
     "id": 60,
@@ -1497,7 +1799,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "It tells the kernel which interpreter runs the script, such as /bin/bash or /usr/bin/env python3."
+    "explanation": "The first line #!/bin/bash is the shebang: it tells the kernel which interpreter runs the script, such as /bin/bash or /usr/bin/env python3. It is not an ignored comment.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 61,
@@ -1522,7 +1830,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "./ runs it from the current directory, since . usually isn't in PATH. bash backup.sh works without +x."
+    "explanation": "Give the script a shebang and make it executable with chmod +x backup.sh, then run ./backup.sh (the ./ is needed because . usually isn't in PATH). bash backup.sh works without the execute bit.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 62,
@@ -1547,7 +1861,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "$@ is all arguments, $# their count, $? the last exit status, $$ the script's PID."
+    "explanation": "$1 is the first argument passed to the script. $@ holds all arguments, $# their count, $? the last exit status and $$ the script's PID.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 63,
@@ -1572,7 +1892,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check it with echo $?. Scripts set it with exit N. && runs the next command only on success."
+    "explanation": "Exit status 0 means success, and any nonzero value indicates a failure. Check it with echo $?, and && runs the next command only if the previous one succeeded.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 64,
@@ -1597,7 +1923,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "-f regular file exists, -d directory, -e any type, -r readable, -x executable. Close the block with fi."
+    "explanation": "[ -f /etc/app.conf ] tests that a regular file exists. -d tests for a directory, -e any type, -r readable and -x executable, and the if block closes with fi. There is no 'exists' test.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 65,
@@ -1622,7 +1954,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use = or == for strings, -eq/-ne/-lt/-gt for numbers. Quote variables to handle empty values and spaces."
+    "explanation": "Use = (or ==) for string comparison and -eq, -ne, -lt, -gt for numbers. Quote variables, as in [ \"$name\" = \"admin\" ], so empty values and spaces don't break the test.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 66,
@@ -1647,7 +1985,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "for loops iterate over words, file globs (for f in *.log), or command output."
+    "explanation": "The for loop iterates over the words 1, 2 and 3, and \"Item $n\" expands the variable each time, so three lines print. It can also loop over globs or command output.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 67,
@@ -1672,7 +2016,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Command substitution $(...) runs the command and inserts its output. Backticks are the older form."
+    "explanation": "Command substitution $(date +%F) runs the command and inserts its output, so today=$(date +%F) stores the date. today=date stores the literal text, and spaces around = are not allowed.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 68,
@@ -1697,7 +2047,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "diff -u shows a unified diff, the format used for patches."
+    "explanation": "diff compares two files line by line and shows the differences; diff -u gives the unified format used for patches. cmp compares byte by byte and comm compares sorted files.",
+    "refs": [
+      {
+        "title": "diff(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/diff.1.html"
+      }
+    ]
   },
   {
     "id": 69,
@@ -1722,7 +2078,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "ps aux lists every process for all users (a), including those without a terminal (x), with the owner (u) shown. top and htop show processes interactively, sorted by CPU usage."
+    "explanation": "ps aux lists every process for all users (a), including those without a terminal (x), with the owner shown (u). top and htop show processes interactively.",
+    "refs": [
+      {
+        "title": "ps(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ps.1.html"
+      },
+      {
+        "title": "top(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/top.1.html"
+      }
+    ]
   },
   {
     "id": 70,
@@ -1747,7 +2113,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "kill sends SIGTERM (15) by default. pkill and killall select processes by name."
+    "explanation": "kill 4321 sends SIGTERM (15), which asks the process to terminate gracefully. kill -9 sends SIGKILL, which cannot be caught and gives the process no cleanup, so try plain kill first.",
+    "refs": [
+      {
+        "title": "kill(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/kill.1.html"
+      }
+    ]
   },
   {
     "id": 71,
@@ -1772,7 +2144,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "-h prints human-readable units. top and vmstat also show memory."
+    "explanation": "free -h shows total, used and free memory plus swap in human-readable units. df and du report disk space, not memory.",
+    "refs": [
+      {
+        "title": "free(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/free.1.html"
+      }
+    ]
   },
   {
     "id": 72,
@@ -1797,7 +2175,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "df reports used and free space per mounted file system; -h shows sizes in K, M and G. Use du -sh dir to find what's using space."
+    "explanation": "df -h reports used and free space on each mounted file system in human-readable units. du -sh dir shows how much space a directory uses.",
+    "refs": [
+      {
+        "title": "df(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/df.1.html"
+      }
+    ]
   },
   {
     "id": 73,
@@ -1822,7 +2206,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "lsblk shows disks and their partitions as a tree, with sizes and mount points. Disk names include /dev/sda (SATA/SCSI/USB), /dev/nvme0n1 (NVMe), and /dev/vda (virtual)."
+    "explanation": "lsblk lists block devices such as disks and partitions as a tree with sizes and mount points. Disk names include /dev/sda (SATA/SCSI/USB), /dev/nvme0n1 (NVMe) and /dev/vda (virtual). lspci and lsusb list other hardware.",
+    "refs": [
+      {
+        "title": "lsblk(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/lsblk.8.html"
+      }
+    ]
   },
   {
     "id": 74,
@@ -1847,7 +2237,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "dmesg reads the kernel ring buffer. journalctl -k shows kernel messages from the systemd journal."
+    "explanation": "dmesg reads the kernel ring buffer, and journalctl -k shows kernel messages from the systemd journal, so either shows a USB drive being detected. history and uname don't.",
+    "refs": [
+      {
+        "title": "dmesg(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/dmesg.1.html"
+      },
+      {
+        "title": "journalctl - Query the systemd journal",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html"
+      }
+    ]
   },
   {
     "id": 75,
@@ -1872,7 +2272,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Add -f to follow, -b for this boot, --since \"1 hour ago\" to filter."
+    "explanation": "journalctl -u sshd shows journal entries for the sshd unit. Add -f to follow, -b for this boot and --since to filter by time.",
+    "refs": [
+      {
+        "title": "journalctl - Query the systemd journal",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html"
+      }
+    ]
   },
   {
     "id": 76,
@@ -1897,7 +2303,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "systemctl start/stop/restart controls services; enable/disable sets start at boot."
+    "explanation": "systemctl status nginx shows whether the service is active and its recent log lines. start, stop and restart control it, and enable sets it to start at boot.",
+    "refs": [
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      }
+    ]
   },
   {
     "id": 77,
@@ -1922,7 +2334,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "systemctl enable --now does both."
+    "explanation": "systemctl enable cups makes the service start at boot, while start only starts it now. enable --now does both.",
+    "refs": [
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      }
+    ]
   },
   {
     "id": 78,
@@ -1947,7 +2365,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Linux Essentials 2.0 uses iproute2: ip addr, ip route for routes, ss for sockets. ifconfig, route, and netstat are older net-tools."
+    "explanation": "ip addr (or ip a) shows IP addresses and is part of iproute2, the modern toolset. ifconfig, route and netstat belong to the older net-tools package.",
+    "refs": [
+      {
+        "title": "ip(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ip.8.html"
+      }
+    ]
   },
   {
     "id": 79,
@@ -1972,7 +2396,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Look for the line starting with default via, for example default via 192.168.1.1 dev eth0."
+    "explanation": "ip route shows the routing table; the line starting 'default via' is the default gateway, for example default via 192.168.1.1 dev eth0. ip addr shows addresses instead.",
+    "refs": [
+      {
+        "title": "ip(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ip.8.html"
+      }
+    ]
   },
   {
     "id": 80,
@@ -1997,7 +2427,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "ss: -t TCP, -u UDP, -l listening, -n numeric, -p process. Older systems use netstat -tlnp."
+    "explanation": "ss -tlnp lists listening (l) TCP (t) sockets numerically (n) with the owning process (p). Older systems use netstat -tlnp.",
+    "refs": [
+      {
+        "title": "ss(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ss.8.html"
+      }
+    ]
   },
   {
     "id": 81,
@@ -2022,7 +2458,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "/etc/hosts entries are checked before DNS by default (set in /etc/nsswitch.conf)."
+    "explanation": "/etc/resolv.conf lists the DNS servers the resolver uses. /etc/hosts is checked before DNS by default, as set in /etc/nsswitch.conf, and /etc/hostname holds the machine's name.",
+    "refs": [
+      {
+        "title": "resolv.conf(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/resolv.conf.5.html"
+      }
+    ]
   },
   {
     "id": 82,
@@ -2047,7 +2489,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "dig and host query DNS directly. getent hosts name uses the system's full lookup order."
+    "explanation": "dig (or host) queries DNS directly and shows the answer from the server. getent hosts name follows the system's full lookup order, including /etc/hosts. ping only tests connectivity."
   },
   {
     "id": 83,
@@ -2072,7 +2514,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Boot order: firmware (BIOS/UEFI) → bootloader (GRUB) → kernel + initramfs → systemd (PID 1) → services and login."
+    "explanation": "The bootloader, such as GRUB 2, loads the kernel. The boot order is firmware (BIOS/UEFI), bootloader, kernel with initramfs, systemd as PID 1, then services and login."
   },
   {
     "id": 84,
@@ -2097,7 +2539,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "systemd (or another init) is the first user-space process and parent of orphaned processes."
+    "explanation": "systemd is PID 1, the first user-space process, and it becomes the parent of orphaned processes. The PID is 1 on every boot of a systemd system, not random."
   },
   {
     "id": 85,
@@ -2122,7 +2564,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "/dev holds device files. /proc and /sys are virtual file systems exposing kernel and hardware information."
+    "explanation": "A device file such as /dev/sda represents hardware so programs can access it like a file. /proc and /sys are virtual file systems exposing kernel and hardware information.",
+    "refs": [
+      {
+        "title": "hier(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/hier.7.html"
+      }
+    ]
   },
   {
     "id": 86,
@@ -2147,7 +2595,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "/proc/cpuinfo and /proc/meminfo come from the kernel."
+    "explanation": "lscpu shows CPU details such as model and cores, as does /proc/cpuinfo. lsblk lists disks and free shows memory.",
+    "refs": [
+      {
+        "title": "lscpu(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/lscpu.1.html"
+      }
+    ]
   },
   {
     "id": 87,
@@ -2172,7 +2626,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "On-premises installs use an ISO installer or automated methods; virtual machines and clouds use images and cloud-init."
+    "explanation": "Cloud instances start from prebuilt images, and you choose a size, network and SSH key instead of running an ISO installer. Configuration at first boot is handled by cloud-init.",
+    "refs": [
+      {
+        "title": "cloud-init documentation",
+        "url": "https://docs.cloud-init.io/en/latest/"
+      }
+    ]
   },
   {
     "id": 88,
@@ -2197,7 +2657,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Debian/Ubuntu: apt. Fedora/RHEL: dnf. openSUSE: zypper. Install from repositories rather than random downloads."
+    "explanation": "sudo apt install tree uses apt, the package manager of Debian and Ubuntu. Fedora and RHEL use dnf, and openSUSE uses zypper; rpm -i doesn't resolve dependencies."
   },
   {
     "id": 89,
@@ -2222,7 +2682,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A package manager downloads from trusted repositories, installs dependencies automatically, and records every installed file so it can update or remove it cleanly. Repositories are signed, so packages come from trusted sources."
+    "explanation": "A package manager resolves dependencies, verifies signed packages from trusted repositories and records every installed file, so it can update and remove software cleanly. Manual downloads give none of that."
   },
   {
     "id": 90,
@@ -2247,7 +2707,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "uname -r shows only the kernel release. hostnamectl shows hostname and OS details on systemd systems."
+    "explanation": "uname -a prints the kernel name, hostname, kernel release and architecture; uname -r shows only the kernel release. hostnamectl shows hostname and OS details on systemd systems.",
+    "refs": [
+      {
+        "title": "uname(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/uname.1.html"
+      }
+    ]
   },
   {
     "id": 91,
@@ -2272,7 +2738,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Permission groups: owner (rw-), group (r--), others (---)."
+    "explanation": "The mode -rw-r----- gives the owner read/write, the group read only and others nothing, so alice and members of the finance group can read it. Everyone else cannot.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 92,
@@ -2297,7 +2769,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "r=4, w=2, x=1. rwx=7, r-x=5, ---=0."
+    "explanation": "Octal permissions add r=4, w=2, x=1: rwx is 7, r-x is 5 and --- is 0, so owner rwx, group r-x and others none is 750. 755 would let others read and execute.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 93,
@@ -2322,7 +2800,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Symbolic chmod: u user, g group, o others, a all; + add, - remove, = set."
+    "explanation": "chmod u+x adds execute for the owner (user) only. a+x gives everyone execute, chown changes ownership, and 444 removes write and execute.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 94,
@@ -2347,7 +2831,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Only root can give a file away. chgrp changes just the group."
+    "explanation": "chown bob:sales report.pdf sets both owner and group, and needs root to give a file away. chgrp changes only the group, and chmod changes permissions, not ownership.",
+    "refs": [
+      {
+        "title": "chown(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chown.1.html"
+      }
+    ]
   },
   {
     "id": 95,
@@ -2372,7 +2862,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Directory r = list names, w = create/delete entries, x = enter and traverse."
+    "explanation": "On a directory, execute means you can enter it and access files inside by name. Read lets you list names, and write lets you create or delete entries. It doesn't let you run every file.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 96,
@@ -2397,7 +2893,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Special bits: SUID (s in user execute), SGID (s in group execute), sticky (t in other execute)."
+    "explanation": "/tmp is drwxrwxrwt: everyone can create files, but the sticky bit (t) lets users delete or rename only their own files. It's intentional, not a mistake.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 97,
@@ -2422,7 +2924,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "SUID files show s in the owner execute position: -rwsr-xr-x. Audit SUID programs because they run with elevated rights."
+    "explanation": "With SUID set, /usr/bin/passwd runs with its owner's (root's) privileges, so ordinary users can update /etc/shadow. SUID files show an s in the owner execute position and should be audited.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 98,
@@ -2447,7 +2955,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "chmod g+s /srv/project or chmod 2770 /srv/project. Combine it with a shared group for team folders."
+    "explanation": "SGID on a directory makes new files inherit the directory's group, which suits shared team folders (chmod g+s or 2770). It does not make files run as root or read-only.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 99,
@@ -2472,7 +2986,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "/etc/passwd is world-readable but no longer stores password hashes; those are in /etc/shadow, readable only by root."
+    "explanation": "/etc/passwd stores account names, UIDs, GIDs, home directories and shells. It is world-readable but no longer holds password hashes; those are in /etc/shadow, readable only by root.",
+    "refs": [
+      {
+        "title": "passwd(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/passwd.5.html"
+      }
+    ]
   },
   {
     "id": 100,
@@ -2497,7 +3017,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Regular users usually start at 1000; system accounts use lower UIDs and often have nologin shells."
+    "explanation": "root has UID 0. Regular users usually start at 1000, and system accounts use lower UIDs, often with nologin shells.",
+    "refs": [
+      {
+        "title": "passwd(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/passwd.5.html"
+      },
+      {
+        "title": "id(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/id.1.html"
+      }
+    ]
   },
   {
     "id": 101,
@@ -2522,7 +3052,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Then set a password with sudo passwd maria. Debian's adduser is an interactive wrapper."
+    "explanation": "useradd -m maria creates the user and a home directory; then set a password with passwd maria. Debian's adduser is an interactive wrapper around useradd.",
+    "refs": [
+      {
+        "title": "useradd(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/useradd.8.html"
+      }
+    ]
   },
   {
     "id": 102,
@@ -2547,7 +3083,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "She must log in again for the new group to apply. Check with id maria."
+    "explanation": "usermod -aG developers maria appends the group without removing her others. Without -a, -G replaces her supplementary groups. She must log in again for it to apply.",
+    "refs": [
+      {
+        "title": "usermod(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/usermod.8.html"
+      }
+    ]
   },
   {
     "id": 103,
@@ -2572,7 +3114,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Delete with groupdel; list memberships with getent group auditors."
+    "explanation": "groupadd auditors creates a new group, groupdel removes it, and getent group auditors shows its members.",
+    "refs": [
+      {
+        "title": "groupadd(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/groupadd.8.html"
+      }
+    ]
   },
   {
     "id": 104,
@@ -2597,7 +3145,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Users get sudo rights through the sudo or wheel group or /etc/sudoers. su - switches to another user, usually root, with that user's password."
+    "explanation": "sudo grants administrative rights per command, logs who did what and avoids sharing the root password. Access comes from the sudo or wheel group or /etc/sudoers. su - switches users with that user's password.",
+    "refs": [
+      {
+        "title": "Sudo Manual: Execute commands as another user",
+        "url": "https://www.sudo.ws/docs/man/sudo.man/"
+      }
+    ]
   },
   {
     "id": 105,
@@ -2622,7 +3176,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "who lists users logged in now; w adds what each one is running. last shows login history; lastlog shows each user's most recent login."
+    "explanation": "who lists the users logged in now, and w adds what each is running. last shows login history and lastlog each user's most recent login. whoami shows only your own name.",
+    "refs": [
+      {
+        "title": "who(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/who.1.html"
+      }
+    ]
   },
   {
     "id": 106,
@@ -2647,7 +3207,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "SSH listens on TCP 22 and encrypts the session, including the password."
+    "explanation": "ssh admin@server1 opens an encrypted session, listening on TCP 22. Telnet, FTP and rsh send data including passwords in cleartext.",
+    "refs": [
+      {
+        "title": "ssh(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ssh.1.html"
+      }
+    ]
   },
   {
     "id": 107,
@@ -2672,7 +3238,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "sftp and rsync -e ssh also transfer files securely."
+    "explanation": "scp copies files over SSH, as in scp report.pdf admin@server1:/tmp/. sftp and rsync -e ssh also transfer securely; plain cp only works locally.",
+    "refs": [
+      {
+        "title": "scp(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/scp.1.html"
+      }
+    ]
   },
   {
     "id": 108,
@@ -2697,7 +3269,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The public key goes in ~/.ssh/authorized_keys on the server; the private key stays on your computer, ideally with a passphrase."
+    "explanation": "Run ssh-keygen to create a key pair and ssh-copy-id to add the public key to the server's ~/.ssh/authorized_keys. The private key stays on your computer, ideally protected by a passphrase.",
+    "refs": [
+      {
+        "title": "ssh-keygen(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ssh-keygen.1.html"
+      },
+      {
+        "title": "ssh-copy-id(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ssh-copy-id.1.html"
+      }
+    ]
   },
   {
     "id": 109,
@@ -2722,7 +3304,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Permissions on a symbolic link itself are ignored; the system checks the permissions of the file it points to. ls -l shows links as name -> target."
+    "explanation": "Symbolic link permissions (lrwxrwxrwx) are ignored; access is decided by the permissions of the target file. ls -l displays links as name -> target.",
+    "refs": [
+      {
+        "title": "ln(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ln.1.html"
+      }
+    ]
   },
   {
     "id": 110,
@@ -2747,6 +3335,12 @@
       }
     ],
     "answer": 0,
-    "explanation": "/tmp may be cleared at boot; /var/tmp survives reboots longer."
+    "explanation": "/tmp and /var/tmp are world-writable directories for temporary files. /tmp may be cleared at boot while /var/tmp survives reboots longer; /etc and /usr aren't writable by ordinary users.",
+    "refs": [
+      {
+        "title": "hier(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/hier.7.html"
+      }
+    ]
   }
 ]
