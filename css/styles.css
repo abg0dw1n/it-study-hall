@@ -1645,3 +1645,5 @@ a.icon-btn { display: inline-flex; align-items: center; justify-content: center;
 .wn-changed { color: var(--warn-text); background: var(--warn-soft); }
 .wn-fixed { color: var(--bad-text); background: var(--bad-soft); }
 @media (max-width: 560px) { .wn-items li { flex-direction: column; gap: 4px; } .wn-tag { min-width: 0; } }
+.home-hero-copy { min-width: 0; }
+.wn-pill { max-width: 100%; box-sizing: border-box; }
