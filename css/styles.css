@@ -1565,3 +1565,7 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
 .bg-heading { margin: 22px 0 0; font: 700 1rem var(--font-head); }
 .bg-grid .theme-opt { gap: 2px; }
 .bg-grid .theme-name small { margin-top: 2px; }
+
+a.icon-btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; color: inherit; }
+.icon-btn[aria-current="page"] { border-color: var(--azure); }
+.appearance-link { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; }

@@ -1638,6 +1638,26 @@ function wireAppearance() {
   sync();
 }
 
+const appearanceLink = () => `<div class="panel card-pad appearance appearance-link">
+    <div><h2 class="section-title" style="border:0;padding:0">Appearance</h2>
+      <p class="muted small" style="margin-top:4px">Choose a color theme and an animated background.</p></div>
+    <a class="btn btn-ghost btn-sm" href="/appearance">${icon('palette')}<span>Themes and backgrounds</span></a>
+  </div>`;
+
+// ── Appearance page (/appearance): theme and background pickers ──────────────
+function renderAppearancePage() {
+  document.body.classList.add('home', 'account-page');
+  document.title = 'Appearance · The IT Study Hall';
+  $('navigator').hidden = true;
+  $('appearance-link')?.setAttribute('aria-current', 'page');
+  $('main').innerHTML = `<section class="stack">
+    <div class="stack" style="gap:6px"><h2 class="home-title">Appearance</h2>
+      <p class="muted">Pick a color theme and a background. Your choices are saved on this device.</p></div>
+    ${appearancePanel()}
+  </section>`;
+  wireAppearance();
+}
+
 // ── Account page (/account): profile, sign out, and admin tools ──────────────
 async function renderAccountPage() {
   document.body.classList.add('home', 'account-page');
@@ -1657,9 +1677,8 @@ async function renderAccountPage() {
           <button class="btn btn-ghost btn-sm" data-guest-exit="exit">Exit guest mode</button>
           <button class="btn btn-primary btn-sm" data-guest-exit="signin">Sign in to save progress</button></div>
       </div>
-      ${appearancePanel()}
+      ${appearanceLink()}
     </section>`;
-    wireAppearance();
     return;
   }
   $('main').innerHTML = `<section class="stack">
@@ -1672,12 +1691,11 @@ async function renderAccountPage() {
         <div class="account-actions"><a class="btn btn-ghost btn-sm" href="/privacy">Privacy policy</a>
           ${user ? '<button id="btn-signout" class="btn btn-ghost btn-sm">Sign out</button>' : ''}</div>
       </div>
-      ${appearancePanel()}
+      ${appearanceLink()}
       <div id="requests" class="stack"></div>
       <div id="features" class="stack"></div>
       <div id="invites" class="stack"></div>
     </section>`;
-  wireAppearance();
   if (user) isAdmin().then((admin) => { if (admin) $('account-admin-chip')?.removeAttribute('hidden'); });
   $('btn-signout')?.addEventListener('click', confirmSignOut);
   renderInvites();
@@ -1926,10 +1944,11 @@ async function syncFromCloud() {
 async function init() {
   const initialSlug = currentSlug();
   const initialMode = new URLSearchParams(location.search).get('mode');
-  const PAGES = ['account', 'learning-paths'];
+  const PAGES = ['account', 'learning-paths', 'appearance'];
   const loadingMessage = initialSlug === 'account'
     ? 'Loading your account…'
     : initialSlug === 'learning-paths' ? 'Loading learning paths…'
+    : initialSlug === 'appearance' ? 'Loading appearance settings…'
     : initialSlug
       ? initialMode === 'learn' ? 'Loading learning materials…' : 'Loading course…'
       : 'Loading the learning and practice library…';
@@ -1960,6 +1979,7 @@ async function init() {
   const slug = currentSlug();
   if (!slug) return renderHome();
   if (slug === 'account') return renderAccountPage();
+  if (slug === 'appearance') return renderAppearancePage();
   if (slug === 'learning-paths') return renderLearningPathsPage();
   try {
     await loadBank(slug, slug === initialSlug ? bankFiles : undefined);
