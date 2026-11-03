@@ -22,7 +22,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Examples include PostgreSQL, MySQL and SQL Server."
+    "explanation": "Relational databases store data in tables linked by primary and foreign keys and are queried with SQL, for example PostgreSQL, MySQL and SQL Server. NoSQL stores (document, key-value) don't require fixed table schemas."
   },
   {
     "id": 2,
@@ -47,7 +47,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Dimension tables hold descriptive attributes used for filtering and grouping."
+    "explanation": "The fact table holds numeric measures such as sales amount and quantity, with foreign keys to dimension tables. Dimensions hold descriptive attributes (product, date, customer) used for filtering and grouping."
   },
   {
     "id": 3,
@@ -72,7 +72,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Star schemas are simpler and often faster for reporting."
+    "explanation": "A snowflake schema normalizes dimension tables into further sub-tables, saving space but needing more joins. A star schema keeps denormalized dimensions, which is simpler and usually faster for reporting."
   },
   {
     "id": 4,
@@ -97,7 +97,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "OLAP systems are optimized for complex read queries across history."
+    "explanation": "OLTP handles many small, fast inserts and updates, such as checkout transactions, with normalized tables. OLAP is optimized for complex read queries and aggregations over history."
   },
   {
     "id": 5,
@@ -122,7 +122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A lakehouse adds warehouse-style management to lake storage."
+    "explanation": "A data lake stores large volumes of raw data in its original format (structured, semi-structured, unstructured) for later use. A warehouse holds cleaned, modeled data, and a lakehouse combines both."
   },
   {
     "id": 6,
@@ -147,7 +147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "XML is also semi-structured."
+    "explanation": "JSON with nested objects and varying fields is semi-structured: it has tags or keys but no rigid table schema. XML is also semi-structured, structured data fits tables, and unstructured data includes images or free text."
   },
   {
     "id": 7,
@@ -172,7 +172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Nominal examples: color, city. Ordinal examples: ratings, sizes."
+    "explanation": "Ordinal data has categories with a meaningful order (Low, Medium, High) but unequal spacing. Nominal categories (color, city) have no order, and interval or ratio data are numeric."
   },
   {
     "id": 8,
@@ -197,7 +197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Discrete data is counted; continuous data is measured."
+    "explanation": "Continuous data is measured and can take any value in a range, like temperature or weight. Discrete data is counted in whole numbers, such as the number of orders."
   },
   {
     "id": 9,
@@ -222,7 +222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Columnar formats read only the needed columns."
+    "explanation": "Parquet is a columnar format that reads only the needed columns and compresses well, so it's efficient for analytics. CSV and JSON are row-oriented text and slower at scale."
   },
   {
     "id": 10,
@@ -247,7 +247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "REST APIs often return JSON over HTTPS."
+    "explanation": "REST APIs commonly return JSON over HTTPS, which the app parses into fields. XML is also possible but less common now. APIs don't normally return a database file."
   },
   {
     "id": 11,
@@ -272,7 +272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Libraries like pandas and dplyr help clean and analyze data."
+    "explanation": "Python (pandas) and R (dplyr, ggplot2) are the main scripting languages for statistical analysis and data science. SQL queries data, and Excel is a spreadsheet rather than a scripting environment."
   },
   {
     "id": 12,
@@ -297,7 +297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Example: a sales data mart for the sales team."
+    "explanation": "A data mart is a subject-focused subset of a warehouse, such as sales or finance, built for one team's needs. A data warehouse covers the whole organization."
   },
   {
     "id": 13,
@@ -322,7 +322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Type 2 rows often include effective dates and a current flag."
+    "explanation": "A Type 2 slowly changing dimension keeps history by adding a new row for each change, usually with effective dates and a current flag. Type 1 overwrites the old value and loses history."
   },
   {
     "id": 14,
@@ -347,7 +347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Notebooks combine code, results and narrative."
+    "explanation": "A Jupyter notebook combines code, output, charts and narrative in one document, which suits exploratory analysis and sharing. A plain script has no inline notes and visuals."
   },
   {
     "id": 15,
@@ -372,7 +372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Examples of BI tools: Power BI, Tableau, Looker."
+    "explanation": "BI tools such as Power BI, Tableau and Looker usually connect to a warehouse or a governed semantic model, not directly to operational systems. This keeps metrics consistent and protects production performance."
   },
   {
     "id": 16,
@@ -397,7 +397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Generative AI can also help write queries and summaries, but outputs must be checked."
+    "explanation": "AI and machine learning find patterns and make predictions from data, and generative AI helps write queries and summaries. Outputs can be wrong, so validate them."
   },
   {
     "id": 17,
@@ -422,7 +422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Examples: column names, data types, creation dates and owners."
+    "explanation": "Metadata is data about data, such as column names, data types, owners and creation dates. It helps people find and understand datasets."
   },
   {
     "id": 18,
@@ -447,7 +447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A composite primary key uses more than one column."
+    "explanation": "A primary key uniquely identifies each row and can't be null or duplicated. A foreign key references another table's key, and a composite key uses multiple columns."
   },
   {
     "id": 19,
@@ -472,7 +472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Examples include BigQuery, Snowflake, Redshift and Fabric Warehouse."
+    "explanation": "Managed or serverless cloud data warehouses (BigQuery, Snowflake, Redshift, Fabric Warehouse) let you query data without managing servers, and scale automatically. An on-premises database requires you to provision hardware."
   },
   {
     "id": 20,
@@ -497,7 +497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "ELT loads raw data first and transforms it in the target system."
+    "explanation": "ETL means extract, transform, load: data is transformed before loading into the target. In ELT, raw data is loaded first and transformed inside the target system, which suits cloud warehouses."
   },
   {
     "id": 21,
@@ -522,7 +522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Fuzzy matching and standardization help find near-duplicates."
+    "explanation": "Slightly different spellings of the same customer create duplicate records, which inflate counts and distort analysis. Use standardization and fuzzy matching to find and merge them."
   },
   {
     "id": 22,
@@ -547,7 +547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Imputation can bias results; document the choice."
+    "explanation": "Mean imputation fills missing numeric values with the column average. It's simple but reduces variance and can bias results, so document the choice. Median is safer with outliers."
   },
   {
     "id": 23,
@@ -572,7 +572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Other dimensions: accuracy, consistency, integrity."
+    "explanation": "Validity checks that values follow the expected format or rule, such as a valid email address. Accuracy is about correct values, consistency is about agreement across sources, and completeness is about missing data."
   },
   {
     "id": 24,
@@ -597,7 +597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Consistent values make grouping and joining accurate."
+    "explanation": "Standardize inconsistent labels like OH, Ohio and ohio into one format, so grouping and joins work correctly. Left alone, they split into separate categories."
   },
   {
     "id": 25,
@@ -622,7 +622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Choose join types based on whether unmatched rows matter."
+    "explanation": "INNER JOIN returns only rows with matching keys in both tables. LEFT JOIN keeps all left rows, and FULL OUTER keeps all rows from both. Choose by whether unmatched rows matter."
   },
   {
     "id": 26,
@@ -647,7 +647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "UNION ALL is faster when duplicates don't matter."
+    "explanation": "UNION stacks the results of two queries with matching columns and removes duplicates. UNION ALL keeps duplicates and is faster. JOIN adds columns rather than stacking rows."
   },
   {
     "id": 27,
@@ -672,7 +672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Unmatched right columns appear as NULL."
+    "explanation": "A LEFT JOIN returns every row from the left table plus matching rows from the right, with NULLs for unmatched right columns. It's useful for finding records with no match."
   },
   {
     "id": 28,
@@ -697,7 +697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Each category gets its own indicator column."
+    "explanation": "One-hot encoding turns a category into separate 0/1 indicator columns, which most models need since they can't use text labels directly. Label encoding implies an order that isn't real."
   },
   {
     "id": 29,
@@ -722,7 +722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Binning simplifies continuous data for reporting."
+    "explanation": "Binning groups continuous values like ages into ranges (18-24, 25-34), which simplifies reporting and reduces noise. It loses some detail."
   },
   {
     "id": 30,
@@ -747,7 +747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Text functions like SPLIT, LEFT and RIGHT help parse fields."
+    "explanation": "Parsing splits a combined field like Full Name into First and Last using text functions such as SPLIT, LEFT, RIGHT or regular expressions. Concatenation does the opposite."
   },
   {
     "id": 31,
@@ -772,7 +772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check terms of use and privacy rules before scraping."
+    "explanation": "Web scraping extracts data from web pages automatically. Check the site's terms of use and privacy rules first, since some prohibit it. An API is the sanctioned way when available."
   },
   {
     "id": 32,
@@ -797,7 +797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Random sampling helps make results representative."
+    "explanation": "Surveying only website visitors misses everyone else, creating sampling bias, so results don't represent the population. Random sampling helps make samples representative."
   },
   {
     "id": 33,
@@ -822,7 +822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Secondary data was collected by someone else for another purpose."
+    "explanation": "Primary data is collected directly by your team for the purpose, such as your own survey. Secondary data was collected by someone else for another reason, such as government statistics."
   },
   {
     "id": 34,
@@ -847,7 +847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Change data capture (CDC) tracks changed records."
+    "explanation": "Incremental (delta) loading brings in only new or changed records since the last run, which cuts load time. Change data capture (CDC) tracks changes. A full load reloads everything."
   },
   {
     "id": 35,
@@ -872,7 +872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Replace placeholders with NULLs or documented values."
+    "explanation": "A value like 9999-12-31 in a date column is a sentinel or placeholder meaning 'no end date', not real data. Replace it with NULL or a documented value so it doesn't distort calculations."
   },
   {
     "id": 36,
@@ -897,7 +897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Standardization (z-scores) is another scaling method."
+    "explanation": "Min-max normalization rescales values to a common range such as 0 to 1. Standardization (z-scores) centers on the mean with unit standard deviation. Both help compare variables with different scales."
   },
   {
     "id": 37,
@@ -922,7 +922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Unpivot is useful when data arrives in wide format."
+    "explanation": "Pivot turns row values (months) into columns for a summary table. Unpivot does the reverse, which helps when data arrives in wide format."
   },
   {
     "id": 38,
@@ -947,7 +947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cast or convert the column to a numeric type."
+    "explanation": "A number stored as text blocks math and sorting, which is a data type mismatch. Cast or convert the column to a numeric type, after removing symbols like currency characters."
   },
   {
     "id": 39,
@@ -972,7 +972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Profiling reveals nulls, ranges, distinct counts and anomalies."
+    "explanation": "Profiling examines the data's structure, quality and distributions before analysis, revealing nulls, ranges, distinct counts and anomalies. It prevents surprises later."
   },
   {
     "id": 40,
@@ -997,7 +997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Master data management keeps a single customer record."
+    "explanation": "When systems use different customer IDs, build a mapping (crosswalk) table linking them. Master data management maintains a single golden record. Joining on unmatched IDs gives wrong results."
   },
   {
     "id": 41,
@@ -1022,7 +1022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The median is the middle value when sorted; it resists outliers."
+    "explanation": "The median is the middle value of the sorted data, so for 2, 3, 3, 5, 12 it is 3. It resists the outlier 12, unlike the mean."
   },
   {
     "id": 42,
@@ -1047,7 +1047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Mean = sum ÷ count = 25 ÷ 5 = 5."
+    "explanation": "Mean is the sum divided by the count: (2+3+3+5+12) / 5 = 25 / 5 = 5. The outlier 12 pulls the mean above the median of 3."
   },
   {
     "id": 43,
@@ -1072,7 +1072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Data can have more than one mode."
+    "explanation": "The mode is the most frequent value; here 3. A dataset may have more than one mode, or none."
   },
   {
     "id": 44,
@@ -1097,7 +1097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Variance is the square of the standard deviation."
+    "explanation": "Standard deviation measures how far values spread from the mean. Variance is its square. A larger value means more variability."
   },
   {
     "id": 45,
@@ -1122,7 +1122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "This is the empirical (68-95-99.7) rule."
+    "explanation": "In a normal distribution about 68% of values lie within one standard deviation of the mean, 95% within two and 99.7% within three (the empirical rule)."
   },
   {
     "id": 46,
@@ -1147,7 +1147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Correlation ranges from −1 to +1 and doesn't prove causation."
+    "explanation": "A correlation of -0.9 shows a strong negative linear relationship: as one variable rises, the other falls. Correlation ranges from -1 to +1 and doesn't prove causation."
   },
   {
     "id": 47,
@@ -1172,7 +1172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A small p-value means the result is unlikely if the null hypothesis were true."
+    "explanation": "A p-value (0.02) below the significance level (0.05) means the result is unlikely if the null hypothesis were true, so reject the null. Failing to reject isn't proof the null is true."
   },
   {
     "id": 48,
@@ -1197,7 +1197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Diagnostic analysis explains why something happened."
+    "explanation": "Descriptive analysis summarizes what happened, such as last quarter's sales. Diagnostic explains why, predictive forecasts what will happen, and prescriptive recommends actions."
   },
   {
     "id": 49,
@@ -1222,7 +1222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Regression and time series models are common predictive tools."
+    "explanation": "Predictive analysis forecasts future values, such as next month's demand, using regression, time series or machine learning. Descriptive only summarizes the past."
   },
   {
     "id": 50,
@@ -1247,7 +1247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Prescriptive analysis often uses optimization and simulation."
+    "explanation": "Prescriptive analysis recommends the best action, such as optimal pricing, using optimization and simulation. Predictive only estimates what will happen."
   },
   {
     "id": 51,
@@ -1272,7 +1272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The IQR rule flags values beyond 1.5 × IQR from the quartiles."
+    "explanation": "98 is far from the rest (12-15), so it's a likely outlier. The IQR rule flags values beyond 1.5 times the IQR from the quartiles."
   },
   {
     "id": 52,
@@ -1297,7 +1297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use WHERE for row filters and HAVING for aggregate filters."
+    "explanation": "HAVING filters groups after aggregation, for example regions whose total sales exceed $1M. WHERE filters individual rows before grouping."
   },
   {
     "id": 53,
@@ -1322,7 +1322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "DISTINCT removes duplicates before counting."
+    "explanation": "COUNT(DISTINCT customer_id) counts unique customers. Plain COUNT would count every row, including repeat purchases."
   },
   {
     "id": 54,
@@ -1347,7 +1347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Percent change = (new − old) ÷ old × 100."
+    "explanation": "Percent change = (new - old) / old x 100 = (250 - 200) / 200 = 25% increase. Dividing by the new value gives the wrong answer."
   },
   {
     "id": 55,
@@ -1372,7 +1372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "For proportions, a z-test for proportions is also common."
+    "explanation": "A t-test compares the means of two groups, and A/B test analysis uses it or a z-test for proportions. Chi-square is for categorical association."
   },
   {
     "id": 56,
@@ -1397,7 +1397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Chi-square compares observed and expected frequencies."
+    "explanation": "Chi-square tests whether two categorical variables are related by comparing observed and expected frequencies. A t-test is for comparing means."
   },
   {
     "id": 57,
@@ -1422,7 +1422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Seasonality and trend can be separated with decomposition."
+    "explanation": "A moving average smooths short-term fluctuations so the trend is clearer. Decomposition can separate trend, seasonality and noise."
   },
   {
     "id": 58,
@@ -1447,7 +1447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Window functions calculate across rows without collapsing them."
+    "explanation": "A window function with PARTITION BY and ORDER BY ranks rows within each region by sales, and unlike GROUP BY it doesn't collapse rows. ROW_NUMBER gives unique ranks."
   },
   {
     "id": 59,
@@ -1472,7 +1472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A hidden third variable (temperature) drives both."
+    "explanation": "Assuming ice cream causes drownings confuses correlation with causation: a hidden third variable (hot weather) drives both. Correlation alone doesn't prove one causes the other."
   },
   {
     "id": 60,
@@ -1497,7 +1497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Larger samples give narrower intervals."
+    "explanation": "A 95% confidence interval means the method captures the true mean in 95% of repeated samples. It doesn't mean there is a 95% chance this one interval is right, and larger samples narrow it."
   },
   {
     "id": 61,
@@ -1522,7 +1522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Validate outputs against known totals."
+    "explanation": "When a chatbot writes SQL, review and test the query and check results against known totals before trusting it. AI can produce plausible but wrong joins and filters."
   },
   {
     "id": 62,
@@ -1547,7 +1547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Medians are robust to skewed distributions."
+    "explanation": "The median is best for typical home prices when a few mansions skew the data, since it resists outliers. The mean would be pulled upward."
   },
   {
     "id": 63,
@@ -1572,7 +1572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Box plots display the IQR as the box."
+    "explanation": "The IQR is the spread between the 25th and 75th percentiles (the middle 50%). It is shown as the box in a box plot and used for outlier rules."
   },
   {
     "id": 64,
@@ -1597,7 +1597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Time usually goes on the x-axis."
+    "explanation": "A line chart shows trends over time, with time on the x-axis. Bar charts compare categories, and pie charts show parts of a whole."
   },
   {
     "id": 65,
@@ -1622,7 +1622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sort bars to make comparisons easier."
+    "explanation": "A bar chart compares values across categories like 8 products, and sorting the bars makes comparisons easier. A pie chart with 8 slices is hard to read."
   },
   {
     "id": 66,
@@ -1647,7 +1647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Box plots also show distribution and outliers."
+    "explanation": "A histogram shows the distribution of one numeric variable by binning values. Box plots also show distribution and outliers. A bar chart is for categories."
   },
   {
     "id": 67,
@@ -1672,7 +1672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Add a trend line to show correlation."
+    "explanation": "A scatter plot shows the relationship between two numeric variables, such as ad spend and sales, and a trend line highlights correlation. A line chart implies time order."
   },
   {
     "id": 68,
@@ -1697,7 +1697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Limit pie charts to a handful of slices."
+    "explanation": "Pie charts suit a few parts of a whole that add to 100%, ideally five or fewer slices. With many slices or non-additive data, use a bar chart."
   },
   {
     "id": 69,
@@ -1722,7 +1722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Include the target and trend for context."
+    "explanation": "A KPI card or gauge shows a single metric against its target, ideally with a trend for context. A table or large chart is too much for one number."
   },
   {
     "id": 70,
@@ -1747,7 +1747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "People usually scan from the top left."
+    "explanation": "Executives scan from the top left, so place the most important metrics there and keep the dashboard simple. Burying KPIs or cramming visuals reduces usability."
   },
   {
     "id": 71,
@@ -1772,7 +1772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Truncated axes exaggerate differences in bar charts."
+    "explanation": "Starting a bar chart's axis at 90 instead of 0 exaggerates small differences, a misleading truncated axis. Bars should start at zero."
   },
   {
     "id": 72,
@@ -1797,7 +1797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Add text labels or patterns as well as color."
+    "explanation": "Use color-blind-safe palettes and add labels or patterns so color isn't the only cue. Red and green alone are hard for many viewers."
   },
   {
     "id": 73,
@@ -1822,7 +1822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Ad hoc reports answer one-off questions."
+    "explanation": "A recurring (scheduled) report is delivered automatically on a schedule, such as a weekly sales email. Ad hoc reports answer one-off questions."
   },
   {
     "id": 74,
@@ -1847,7 +1847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Strategic dashboards track longer-term goals."
+    "explanation": "A real-time (operational) dashboard updates continuously, for example a live call-center queue. Strategic dashboards track longer-term goals and refresh less often."
   },
   {
     "id": 75,
@@ -1872,7 +1872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Drill-downs let users move from summary to detail."
+    "explanation": "Filters and slicers let viewers explore by region or date, and drill-downs move from summary to detail. They make dashboards interactive."
   },
   {
     "id": 76,
@@ -1897,7 +1897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Document metric definitions consistently."
+    "explanation": "Reports should state data sources, refresh date and metric definitions so readers can trust them. Inconsistent definitions cause disputes."
   },
   {
     "id": 77,
@@ -1922,7 +1922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Tailor detail and format to the audience."
+    "explanation": "Detailed methodology belongs in a report for analysts and technical stakeholders. Executives want key insights, so tailor detail to the audience."
   },
   {
     "id": 78,
@@ -1947,7 +1947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "100% stacked bars show proportions."
+    "explanation": "A stacked bar chart shows how parts contribute to a total across categories, such as sales by region per year. A 100% stacked bar shows proportions instead of totals."
   },
   {
     "id": 79,
@@ -1972,7 +1972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Normalize by population when comparing regions."
+    "explanation": "A choropleth (filled) map shades regions by value to show geographic patterns such as sales by state. Normalize by population to avoid misleading comparisons."
   },
   {
     "id": 80,
@@ -1997,7 +1997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Data storytelling connects insights to decisions."
+    "explanation": "For an executive asking why sales dropped, lead with the key insight and recommendation, then show supporting visuals. Data storytelling ties insights to decisions."
   },
   {
     "id": 81,
@@ -2022,7 +2022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Governed semantic models keep metrics consistent."
+    "explanation": "A shared style guide and certified, governed datasets keep metrics and look consistent across many dashboards. Everyone defining their own measures leads to conflicting numbers."
   },
   {
     "id": 82,
@@ -2047,7 +2047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Extracts or materialized views can speed dashboards."
+    "explanation": "Slow dashboards improve by pre-aggregating data (extracts or materialized views) and reducing visuals and queries. Adding more filters or visuals slows it further."
   },
   {
     "id": 83,
@@ -2072,7 +2072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Protect PII with access controls, masking and encryption."
+    "explanation": "A name combined with a home address identifies a person, so it's PII. Protect PII with access controls, masking and encryption. Aggregate data without identifiers isn't PII."
   },
   {
     "id": 84,
@@ -2097,7 +2097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "CCPA/CPRA covers California residents."
+    "explanation": "GDPR governs personal data of people in the EU. CCPA/CPRA covers California residents, and HIPAA covers US health data."
   },
   {
     "id": 85,
@@ -2122,7 +2122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Masking supports least-privilege access to sensitive fields."
+    "explanation": "Data masking hides part of a value, such as showing only the last four digits of a card number. It supports least-privilege access to sensitive fields."
   },
   {
     "id": 86,
@@ -2147,7 +2147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Pseudonymization replaces identifiers with tokens that can be reversed by authorized parties."
+    "explanation": "Anonymization removes identifiers so data can't be linked back to individuals. Pseudonymization replaces them with tokens that can be reversed with a key, so it's still personal data under GDPR."
   },
   {
     "id": 87,
@@ -2172,7 +2172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Data owners are accountable; stewards manage day-to-day quality."
+    "explanation": "A data steward manages day-to-day data quality and definitions for a domain. The data owner is accountable for the data, and custodians run the systems."
   },
   {
     "id": 88,
@@ -2197,7 +2197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Data dictionaries help analysts use data consistently."
+    "explanation": "A data dictionary documents fields, definitions, types and allowed values, helping analysts use data consistently. Lineage tracks flow, and metadata is broader."
   },
   {
     "id": 89,
@@ -2222,7 +2222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Lineage supports impact analysis and audits."
+    "explanation": "Data lineage shows where data came from and how it was transformed, supporting impact analysis, troubleshooting and audits. A data dictionary describes fields instead."
   },
   {
     "id": 90,
@@ -2247,7 +2247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Row-level security can further limit which rows users see."
+    "explanation": "Role-based access control with least privilege gives analysts only the data they need, and row-level security can limit which rows they see. Shared admin accounts break this."
   },
   {
     "id": 91,
@@ -2272,7 +2272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Retention balances legal requirements and storage costs."
+    "explanation": "A retention policy states how long data is kept and when it's deleted, balancing legal requirements and storage cost. Keeping everything forever raises risk."
   },
   {
     "id": 92,
@@ -2297,7 +2297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "MDM creates a golden record."
+    "explanation": "Master data management creates a single golden record for entities like customers across systems. Without it, duplicates and conflicting values appear."
   },
   {
     "id": 93,
@@ -2322,7 +2322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Reconcile row counts and key totals after each load."
+    "explanation": "Reconciliation compares report totals and row counts against the source system after each load to confirm nothing was lost or duplicated. Profiling examines quality in general."
   },
   {
     "id": 94,
@@ -2347,7 +2347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud region choice affects sovereignty."
+    "explanation": "Data sovereignty means data is subject to the laws of the country where it is stored. Choosing a cloud region affects which laws apply."
   },
   {
     "id": 95,
@@ -2372,6 +2372,6 @@
       }
     ],
     "answer": 0,
-    "explanation": "Version control and change approval reduce errors."
+    "explanation": "Test dashboard changes in a development or test environment, using version control and change approval, before releasing to users. Editing production directly risks breaking reports."
   }
 ]

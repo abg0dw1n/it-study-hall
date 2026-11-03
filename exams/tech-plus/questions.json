@@ -22,7 +22,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Storage is measured in bytes (KB, MB, GB, TB); network speeds in bits per second (Kbps, Mbps, Gbps)."
+    "explanation": "One byte is 8 bits. Storage is measured in bytes (KB, MB, GB, TB), while network speeds are measured in bits per second, so mixing them up is a common trap."
   },
   {
     "id": 2,
@@ -47,7 +47,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Order: bit, byte, KB, MB, GB, TB, PB."
+    "explanation": "A terabyte is 1,000 (or 1,024) times larger than a gigabyte. The order of size is bit, byte, KB, MB, GB, TB, PB."
   },
   {
     "id": 3,
@@ -72,7 +72,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Divide by 8 to estimate megabytes per second: 500 Mbps is about 62.5 MB/s."
+    "explanation": "Mbps means megabits per second, a measure of data transfer speed. Divide by 8 to get megabytes per second: 500 Mbps is about 62.5 MB/s. Storage uses bytes, which is the trap."
   },
   {
     "id": 4,
@@ -97,7 +97,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Binary place values are 8, 4, 2, 1: 8 + 2 = 10."
+    "explanation": "Binary place values are 8, 4, 2, 1, so 1010 = 8 + 2 = 10. Read from the left, adding the places that hold a 1."
   },
   {
     "id": 5,
@@ -122,7 +122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Hex is used for MAC addresses, IPv6 addresses and colors like #FF0000."
+    "explanation": "Hexadecimal uses 16 symbols, 0-9 and A-F. It is used in MAC addresses, IPv6 addresses and color codes like #FF0000. Binary uses only 0 and 1, and decimal uses 0-9."
   },
   {
     "id": 6,
@@ -147,7 +147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "For example, typing (input), calculating (processing), displaying (output) and saving (storage)."
+    "explanation": "The computing cycle is input, processing, output and storage, for example typing, calculating, displaying and saving. Each device or step fits one of those four."
   },
   {
     "id": 7,
@@ -172,7 +172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Identify, theorize, test, plan, implement, verify, then document."
+    "explanation": "The first troubleshooting step is to identify the problem by gathering information and symptoms. Then come a theory, testing, a plan, implementation, verification and documentation."
   },
   {
     "id": 8,
@@ -197,7 +197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Also implement preventive measures if applicable."
+    "explanation": "After fixing the problem, verify full system functionality and apply preventive measures, then document the findings and actions. Documentation comes last."
   },
   {
     "id": 9,
@@ -222,7 +222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Data can be monetized, analyzed for trends and used to improve products."
+    "explanation": "Data supports better decisions and can create competitive advantage through trend analysis and product improvement. Its value comes from using it, not just storing it."
   },
   {
     "id": 10,
@@ -247,7 +247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Copyright, patents, trademarks and trade secrets protect different things."
+    "explanation": "A trademark protects brand names, logos and slogans. Copyright protects creative works, patents protect inventions, and trade secrets protect confidential business information."
   },
   {
     "id": 11,
@@ -272,7 +272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "AI output can be wrong (hallucinations), so verify important answers."
+    "explanation": "AI chatbots use a large language model trained on large amounts of text to generate human-like replies. They can make mistakes or invent facts (hallucinations), so verify important answers."
   },
   {
     "id": 12,
@@ -297,7 +297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Strictly, 1,024 bytes is a kibibyte (KiB); drive makers often use 1,000."
+    "explanation": "Using the binary definition, 1 kilobyte is 1,024 bytes. Strictly that's a kibibyte (KiB), and drive makers often use 1,000, so advertised capacity looks larger than what the OS reports."
   },
   {
     "id": 13,
@@ -322,7 +322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The CPU executes instructions; speed is measured in GHz and cores."
+    "explanation": "The CPU is the brain of the computer, executing instructions. Its speed is measured in GHz, and more cores allow more work at once. RAM holds active data and the GPU handles graphics."
   },
   {
     "id": 14,
@@ -347,7 +347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RAM is volatile; storage drives are non-volatile."
+    "explanation": "RAM temporarily holds data the CPU is actively using and is volatile, so it empties when power is off. Storage drives keep data without power."
   },
   {
     "id": 15,
@@ -372,7 +372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "NVMe SSDs connect through PCIe for even higher speed."
+    "explanation": "An SSD has no moving parts and is much faster and quieter than an HDD. NVMe SSDs use PCIe for even higher speeds."
   },
   {
     "id": 16,
@@ -397,7 +397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "PSUs are rated in watts."
+    "explanation": "The power supply unit converts AC wall power to the low-voltage DC that components use, and is rated in watts. A UPS provides battery backup rather than conversion."
   },
   {
     "id": 17,
@@ -422,7 +422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "GPUs can be integrated into the CPU or on a separate card."
+    "explanation": "The GPU processes images and video and is important for gaming and AI workloads. It may be integrated in the CPU or on a separate card."
   },
   {
     "id": 18,
@@ -447,7 +447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "UEFI replaced the legacy BIOS and supports Secure Boot."
+    "explanation": "UEFI firmware initializes hardware and starts the boot process on modern PCs. It replaced legacy BIOS and adds Secure Boot and large disk support."
   },
   {
     "id": 19,
@@ -472,7 +472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "USB-C can carry data, video and power (Thunderbolt uses the same connector)."
+    "explanation": "USB-C is the reversible connector that can carry data, video and power on one cable. Thunderbolt uses the same connector, but not every USB-C port supports every feature."
   },
   {
     "id": 20,
@@ -497,7 +497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Twisted-pair cables like Cat 6 use RJ45 connectors."
+    "explanation": "RJ45 is the connector on wired Ethernet cables such as Cat 6. RJ11 is the smaller telephone connector, which is the common trap."
   },
   {
     "id": 21,
@@ -522,7 +522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Home routers often include a switch, Wi-Fi access point and DHCP server."
+    "explanation": "A router connects the home network to the internet and often provides DHCP, a switch and Wi-Fi. A modem only connects to the ISP line."
   },
   {
     "id": 22,
@@ -547,7 +547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Switches forward frames using MAC addresses."
+    "explanation": "A switch connects wired devices on the same local network and forwards frames by MAC address. A hub repeats traffic to all ports, and a router connects networks."
   },
   {
     "id": 23,
@@ -572,7 +572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "DNS works like a phone book for the internet."
+    "explanation": "DNS translates names such as example.com into IP addresses, like a phone book. DHCP assigns addresses instead."
   },
   {
     "id": 24,
@@ -597,7 +597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "DHCP also provides the subnet mask, gateway and DNS server."
+    "explanation": "DHCP automatically assigns IP addresses, along with the subnet mask, gateway and DNS server. Without it, devices need manual static addresses."
   },
   {
     "id": 25,
@@ -622,7 +622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "IPv4 addresses have four numbers from 0 to 255."
+    "explanation": "A valid IPv4 address has four numbers from 0 to 255 separated by dots, such as 192.168.1.25. A number like 300 or a fifth octet is invalid."
   },
   {
     "id": 26,
@@ -647,7 +647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Wi-Fi 6E adds the 6 GHz band; Wi-Fi 7 is 802.11be."
+    "explanation": "Wi-Fi 6 is 802.11ax. Wi-Fi 6E adds the 6 GHz band, Wi-Fi 5 is 802.11ac and Wi-Fi 7 is 802.11be."
   },
   {
     "id": 27,
@@ -672,7 +672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "NFC is even shorter range, used for tap-to-pay."
+    "explanation": "Bluetooth is the short-range wireless technology for headphones and keyboards. NFC has an even shorter range, used for tap-to-pay, and Wi-Fi is for networks."
   },
   {
     "id": 28,
@@ -697,7 +697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cable internet uses coaxial cable; DSL uses phone lines."
+    "explanation": "Fiber carries light through glass strands for very high speeds. Cable internet uses coaxial cable and DSL uses telephone lines, both slower."
   },
   {
     "id": 29,
@@ -722,7 +722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud storage also enables sharing and automatic backup."
+    "explanation": "Cloud storage lets you access files from any device with internet and share them, often with automatic backup. Files are not tied to one computer."
   },
   {
     "id": 30,
@@ -747,7 +747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Microsoft 365 and Gmail are SaaS examples."
+    "explanation": "SaaS delivers ready-to-use software through a browser, like Gmail or Microsoft 365. IaaS provides infrastructure and PaaS provides a platform for developers."
   },
   {
     "id": 31,
@@ -772,7 +772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A hypervisor shares hardware among VMs."
+    "explanation": "Virtualization runs multiple virtual machines on one physical computer, with a hypervisor sharing the hardware. Each VM acts like a separate computer."
   },
   {
     "id": 32,
@@ -797,7 +797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "IoT devices include smart speakers, cameras and sensors."
+    "explanation": "A smart thermostat is an IoT device: a network-connected everyday object. Other examples are smart speakers, cameras and sensors. A laptop isn't called IoT."
   },
   {
     "id": 33,
@@ -822,7 +822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A NAS is a dedicated file server for a home or office."
+    "explanation": "A NAS is a dedicated file server on the network that lets many users store and access files. An external drive attached to one PC is not shared this way."
   },
   {
     "id": 34,
@@ -847,7 +847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "More memory reduces the need to swap data to disk."
+    "explanation": "More RAM helps most when many browser tabs slow a laptop, because it reduces swapping to disk. A bigger HDD adds space but not speed."
   },
   {
     "id": 35,
@@ -872,7 +872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Many ISP-provided gateways combine both."
+    "explanation": "A modem connects to the ISP's line, while a router directs traffic between local devices and the internet. Many ISP gateways combine both."
   },
   {
     "id": 36,
@@ -897,7 +897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Examples: Windows, macOS, Linux, Android, iOS, ChromeOS."
+    "explanation": "The operating system manages hardware and provides a platform for applications. Examples: Windows, macOS, Linux, Android, iOS and ChromeOS."
   },
   {
     "id": 37,
@@ -922,7 +922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Outdated or missing drivers often cause hardware problems."
+    "explanation": "A driver lets the operating system communicate with a specific piece of hardware, such as a printer. Missing or outdated drivers often cause hardware problems."
   },
   {
     "id": 38,
@@ -947,7 +947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "NTFS supports permissions, encryption and large files."
+    "explanation": "NTFS is the default Windows system drive file system and supports permissions, encryption and large files. FAT32 and exFAT are used for removable media."
   },
   {
     "id": 39,
@@ -972,7 +972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Other archive formats include .7z, .rar and .tar.gz."
+    "explanation": "A .zip file is a compressed archive that can hold several files. Other archive formats include .7z, .rar and .tar.gz."
   },
   {
     "id": 40,
@@ -997,7 +997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Excel and Google Sheets are spreadsheet apps."
+    "explanation": "Spreadsheet software such as Excel or Google Sheets is built for budgets and calculations with formulas. A word processor isn't suited to calculation."
   },
   {
     "id": 41,
@@ -1022,7 +1022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Examples: Linux, Firefox, LibreOffice."
+    "explanation": "Open source software lets anyone view, modify and share the source code, for example Linux and Firefox. Proprietary software restricts this."
   },
   {
     "id": 42,
@@ -1047,7 +1047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Microsoft 365 and Adobe Creative Cloud are subscriptions."
+    "explanation": "A subscription license charges a recurring fee for continued use, as with Microsoft 365 and Adobe Creative Cloud. A perpetual license is paid once."
   },
   {
     "id": 43,
@@ -1072,7 +1072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Disabling unneeded startup apps speeds up boot time."
+    "explanation": "Task Manager's Startup apps tab shows what launches with Windows, and disabling unneeded entries speeds boot. It doesn't uninstall them."
   },
   {
     "id": 44,
@@ -1097,7 +1097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Private browsing doesn't hide your activity from your network or ISP."
+    "explanation": "Private or incognito browsing doesn't save history and cookies after the session. It doesn't hide activity from your network, employer or ISP."
   },
   {
     "id": 45,
@@ -1122,7 +1122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Install only trusted extensions and review their permissions."
+    "explanation": "Extensions from unknown sources can track activity or inject ads, and may steal data. Install only trusted extensions and review their permissions."
   },
   {
     "id": 46,
@@ -1147,7 +1147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Local apps can work offline but need updates on each device."
+    "explanation": "A locally installed application runs on your computer, can often work offline, and needs updates on each device. A web app runs in the browser."
   },
   {
     "id": 47,
@@ -1172,7 +1172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Many updates patch vulnerabilities attackers could exploit."
+    "explanation": "OS updates fix security flaws and bugs, so installing them regularly closes holes attackers could exploit. Skipping updates leaves known vulnerabilities."
   },
   {
     "id": 48,
@@ -1197,7 +1197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Version history lets you restore earlier versions."
+    "explanation": "Real-time collaboration in cloud apps lets several people edit the same document simultaneously, with version history to restore earlier versions."
   },
   {
     "id": 49,
@@ -1222,7 +1222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Right-click a file and choose Open with to change it for one file type."
+    "explanation": "The Default apps settings let you choose which app opens each file type, such as PDFs. Open with changes it for a single file."
   },
   {
     "id": 50,
@@ -1247,7 +1247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Windows includes Microsoft Defender Antivirus."
+    "explanation": "Antivirus or anti-malware software scans for and removes malicious programs. Windows includes Microsoft Defender Antivirus, and a firewall is a different tool."
   },
   {
     "id": 51,
@@ -1272,7 +1272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A password manager means you only remember one strong master password."
+    "explanation": "A password manager securely stores and generates unique passwords, so you remember only one strong master password. Reusing passwords is the risk it avoids."
   },
   {
     "id": 52,
@@ -1297,7 +1297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Zoom, Slack and Google Meet are other examples."
+    "explanation": "Microsoft Teams is a collaboration tool for chat and video meetings. Zoom, Slack and Google Meet are similar. Excel and Word aren't collaboration tools in this sense."
   },
   {
     "id": 53,
@@ -1322,7 +1322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "C and C++ are compiled; Python and JavaScript are usually interpreted."
+    "explanation": "A compiled language is translated into machine code before running, as with C and C++. Python and JavaScript are usually interpreted line by line at run time."
   },
   {
     "id": 54,
@@ -1347,7 +1347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "CSS styles pages; JavaScript adds behavior."
+    "explanation": "HTML is the markup language that structures web pages. CSS styles them and JavaScript adds behavior. Python and SQL aren't markup languages."
   },
   {
     "id": 55,
@@ -1372,7 +1372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Variables have data types like integer, string and Boolean."
+    "explanation": "A variable is a named place to store a value, with a data type such as integer, string or Boolean. Its value can change as the program runs."
   },
   {
     "id": 56,
@@ -1397,7 +1397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Booleans are used in conditions like if statements."
+    "explanation": "A Boolean stores only true or false and is used in conditions like if statements. A string stores text and an integer stores whole numbers."
   },
   {
     "id": 57,
@@ -1422,7 +1422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Char stores a single character."
+    "explanation": "A string stores text such as \"Hello\". A char stores a single character, and an integer stores a number."
   },
   {
     "id": 58,
@@ -1447,7 +1447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Common loops include for and while."
+    "explanation": "A loop repeats a block of code while a condition is true or for a set count, using for or while. An if statement runs once."
   },
   {
     "id": 59,
@@ -1472,7 +1472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Branching lets programs make decisions."
+    "explanation": "An if/else statement (branching) chooses between actions based on a condition, letting programs make decisions. Loops repeat instead."
   },
   {
     "id": 60,
@@ -1497,7 +1497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Functions can take parameters and return values."
+    "explanation": "A function is a reusable block of code that performs a task, can take parameters and may return a value. It avoids repeating the same code."
   },
   {
     "id": 61,
@@ -1522,7 +1522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Pseudocode is another way to plan logic before coding."
+    "explanation": "A flowchart shows steps and decisions in a process visually. Pseudocode describes the same logic in plain language before coding."
   },
   {
     "id": 62,
@@ -1547,7 +1547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Pseudocode isn't run; it helps plan."
+    "explanation": "Pseudocode is plain-language steps describing program logic. It isn't run by a computer; it helps plan before writing code."
   },
   {
     "id": 63,
@@ -1572,7 +1572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Indexes often start at 0."
+    "explanation": "An array stores an ordered list of items accessed by index, which usually starts at 0. A variable holds a single value."
   },
   {
     "id": 64,
@@ -1597,7 +1597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A class is a blueprint; objects are created from it."
+    "explanation": "An object is an instance of a class with properties and methods. A class is the blueprint and objects are created from it."
   },
   {
     "id": 65,
@@ -1622,7 +1622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Relational databases use SQL; examples include MySQL and SQL Server."
+    "explanation": "Relational databases organize data into tables of rows and columns, are queried with SQL, and include MySQL and SQL Server. NoSQL databases use other models."
   },
   {
     "id": 66,
@@ -1647,7 +1647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Each row is one record, like one customer."
+    "explanation": "A row in a database table is one record, such as a single customer. Each column holds one field of information about every record."
   },
   {
     "id": 67,
@@ -1672,7 +1672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "For example, a Customers table might have Name and Email fields."
+    "explanation": "A column is a field or attribute, such as Name or Email in a Customers table. Rows are records, which is the common mix-up."
   },
   {
     "id": 68,
@@ -1697,7 +1697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "SELECT retrieves data; INSERT, UPDATE and DELETE change it."
+    "explanation": "SQL queries and manages relational databases. SELECT retrieves data, and INSERT, UPDATE and DELETE change it. HTML and Python are not query languages."
   },
   {
     "id": 69,
@@ -1722,7 +1722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A foreign key links to a primary key in another table."
+    "explanation": "A primary key uniquely identifies each record in a table. A foreign key in another table links to it, which is how tables relate."
   },
   {
     "id": 70,
@@ -1747,7 +1747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "NoSQL includes document, key-value, column-family and graph databases."
+    "explanation": "A document database (such as MongoDB) is a NoSQL type. NoSQL also includes key-value, column-family and graph databases, while MySQL is relational."
   },
   {
     "id": 71,
@@ -1772,7 +1772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Databases add concurrency, integrity rules and security."
+    "explanation": "A database supports many users and large data with concurrency control, integrity rules and security. A spreadsheet becomes error-prone and slow at that scale."
   },
   {
     "id": 72,
@@ -1797,7 +1797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Test restores regularly to make sure backups work."
+    "explanation": "A database backup is a copy of data used to restore after loss or failure. Test restores regularly, because an untested backup may not work."
   },
   {
     "id": 73,
@@ -1822,7 +1822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "CSV files open in spreadsheets and import into databases."
+    "explanation": "CSV stores data as comma-separated values in plain text, opens in spreadsheets and imports into databases. XLSX is a spreadsheet format with formatting."
   },
   {
     "id": 74,
@@ -1847,7 +1847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Emails and social posts are often semi-structured or unstructured."
+    "explanation": "Structured data follows a defined format, like table columns. Emails and social posts are semi-structured or unstructured."
   },
   {
     "id": 75,
@@ -1872,7 +1872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Always back up before bulk deletions."
+    "explanation": "DELETE removes matching records. Back up before bulk deletions, and use a WHERE clause since without it every row is removed."
   },
   {
     "id": 76,
@@ -1897,7 +1897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Examples include Power BI, Tableau and spreadsheet charts."
+    "explanation": "Data visualization software such as Power BI or Tableau turns data into charts and dashboards to find trends. A relational database stores data but doesn't chart it."
   },
   {
     "id": 77,
@@ -1922,7 +1922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Encryption and access controls support confidentiality."
+    "explanation": "Confidentiality keeps data private from unauthorized people, and encryption and access controls support it. Integrity keeps data accurate and availability keeps it accessible."
   },
   {
     "id": 78,
@@ -1947,7 +1947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Length matters most; use unique passwords for each site."
+    "explanation": "A long passphrase is strongest because length matters most. Use unique passwords for each site, since short, common or reused passwords are easy to crack."
   },
   {
     "id": 79,
@@ -1972,7 +1972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Factors: something you know, have and are."
+    "explanation": "MFA combines different factor types: a password (know) plus an authenticator app code (have). Two passwords are the same factor."
   },
   {
     "id": 80,
@@ -1997,7 +1997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check the sender, hover over links and go to the site directly instead."
+    "explanation": "A fake bank email asking you to click a link and confirm your password is phishing. Check the sender, hover over links, and go to the site directly instead."
   },
   {
     "id": 81,
@@ -2022,7 +2022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Regular offline backups are the best protection."
+    "explanation": "Ransomware encrypts files and demands payment for the key. Regular offline backups are the best protection."
   },
   {
     "id": 82,
@@ -2047,7 +2047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Windows and macOS include host-based firewalls."
+    "explanation": "A firewall filters network traffic based on rules. Windows and macOS include host-based firewalls, and routers include network firewalls."
   },
   {
     "id": 83,
@@ -2072,7 +2072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Also change the router's default admin password."
+    "explanation": "WPA3 is the most secure Wi-Fi setting. Also change the router's default admin password, since WEP and open networks offer little protection."
   },
   {
     "id": 84,
@@ -2097,7 +2097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "HTTPS uses TLS; still check the domain name carefully."
+    "explanation": "https:// means traffic between you and the site is encrypted with TLS. It doesn't prove the site is trustworthy, so check the domain name carefully."
   },
   {
     "id": 85,
@@ -2122,7 +2122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Never hold secure doors for people you don't know."
+    "explanation": "Following someone through a locked door without badging in is tailgating. Never hold secure doors for people you don't know."
   },
   {
     "id": 86,
@@ -2147,7 +2147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Least privilege limits damage from mistakes and attacks."
+    "explanation": "Least privilege gives users only the access they need, limiting damage from mistakes and attacks. Giving everyone admin rights breaks it."
   },
   {
     "id": 87,
@@ -2172,7 +2172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The 3-2-1 rule: 3 copies, 2 media types, 1 offsite."
+    "explanation": "An offline or immutable backup copy protects against ransomware because malware can't encrypt it. The 3-2-1 rule: three copies, two media types, one offsite."
   },
   {
     "id": 88,
@@ -2197,7 +2197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Face and iris recognition are also biometric."
+    "explanation": "A fingerprint scan is biometric authentication (something you are). Face and iris recognition are also biometric, while a PIN or password is not."
   },
   {
     "id": 89,
@@ -2222,7 +2222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use overwriting tools or a certified destruction service."
+    "explanation": "Before discarding a hard drive, securely wipe it with overwriting tools or physically destroy it through a certified service. Deleting files or formatting leaves data recoverable."
   },
   {
     "id": 90,
@@ -2247,7 +2247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "BitLocker and FileVault encrypt drives at rest."
+    "explanation": "Encryption at rest protects stored data, such as a laptop drive, using tools like BitLocker or FileVault. Encryption in transit protects data on the network."
   },
   {
     "id": 91,
@@ -2272,7 +2272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Windows + L locks a Windows PC quickly."
+    "explanation": "Lock your computer when stepping away so others can't use your signed-in session. On Windows press the Windows key + L."
   },
   {
     "id": 92,
@@ -2297,7 +2297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Phishing, vishing, pretexting and tailgating are social engineering."
+    "explanation": "Social engineering tricks people into revealing information or granting access, through phishing, vishing, pretexting or tailgating. It targets people rather than software."
   },
   {
     "id": 93,
@@ -2322,6 +2322,6 @@
       }
     ],
     "answer": 0,
-    "explanation": "Attackers can set up fake hotspots (evil twins) on public networks."
+    "explanation": "Avoid banking on public coffee shop Wi-Fi without a VPN, because attackers can run fake hotspots (evil twins) and intercept traffic. Use your cellular data or a VPN."
   }
 ]
