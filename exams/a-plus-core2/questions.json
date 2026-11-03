@@ -22,7 +22,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Pro adds BitLocker, domain join, Group Policy Editor and Remote Desktop host."
+    "explanation": "Windows 11 Pro is the minimum edition with BitLocker, domain join, Group Policy and Remote Desktop host. Home lacks domain join and BitLocker's full management. Enterprise and Education add more but aren't the minimum."
   },
   {
     "id": 2,
@@ -47,7 +47,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Windows 11 also needs a supported 64-bit CPU, 4 GB RAM and 64 GB storage."
+    "explanation": "Windows 11 requires TPM 2.0 and UEFI with Secure Boot, plus a supported 64-bit CPU, 4 GB RAM and 64 GB storage. A legacy BIOS PC or one with TPM 1.2 fails the check."
   },
   {
     "id": 3,
@@ -72,7 +72,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "ipconfig /release and /renew get a new DHCP lease; /flushdns clears the DNS cache."
+    "explanation": "ipconfig /all shows the IP address, mask, gateway, DNS servers, DHCP details and MAC address. Plain ipconfig shows only the basics, while /release, /renew and /flushdns change lease or cache rather than display."
   },
   {
     "id": 4,
@@ -97,7 +97,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "On Linux and macOS the command is traceroute."
+    "explanation": "tracert lists each router hop on the path and the latency to it, which helps find where traffic stops. Ping tests only end-to-end reachability. Linux and macOS use traceroute."
   },
   {
     "id": 5,
@@ -122,7 +122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "nslookup queries a DNS server for records."
+    "explanation": "nslookup queries a DNS server directly for records, so it tests name resolution separately from connectivity. Ping to a name also resolves, but it mixes DNS with reachability."
   },
   {
     "id": 6,
@@ -147,7 +147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "System File Checker replaces damaged protected files. DISM can repair the component store it uses."
+    "explanation": "sfc /scannow scans protected system files and replaces damaged ones from the cached copy. If SFC can't repair, run DISM /Online /Cleanup-Image /RestoreHealth to fix the component store first."
   },
   {
     "id": 7,
@@ -172,7 +172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "/f fixes errors; /r also locates bad sectors and recovers readable data."
+    "explanation": "chkdsk /r finds file system errors and locates bad sectors, recovering readable data. /f only fixes file system errors without scanning for bad sectors, so /r is the thorough option."
   },
   {
     "id": 8,
@@ -197,7 +197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "gpresult shows which policies were applied to the user and computer."
+    "explanation": "gpupdate /force reapplies all Group Policy settings immediately instead of waiting for the refresh cycle. gpresult shows what was applied, but doesn't apply anything."
   },
   {
     "id": 9,
@@ -222,7 +222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Robust File Copy supports mirroring, resume and logging."
+    "explanation": "robocopy is the robust copy tool with mirroring (/mir), retries, resume and logging, ideal for large copies. xcopy and copy are simpler and lack those features."
   },
   {
     "id": 10,
@@ -247,7 +247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Task Manager also manages startup apps and shows performance."
+    "explanation": "Task Manager shows processes, CPU, memory, disk and network use, and lets you end unresponsive tasks and manage startup apps. Resource Monitor gives deeper detail but Task Manager is the first stop."
   },
   {
     "id": 11,
@@ -272,7 +272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Look for errors and warnings around the time of the problem."
+    "explanation": "Event Viewer shows application, system and security logs. Look for errors and warnings at the time of the problem and use the event ID to search for causes."
   },
   {
     "id": 12,
@@ -297,7 +297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Update, roll back or reinstall the driver."
+    "explanation": "A yellow exclamation mark in Device Manager means the device has a driver or resource problem. Update, roll back or reinstall the driver, or check the device status. A down arrow means disabled."
   },
   {
     "id": 13,
@@ -322,7 +322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "diskpart is the command-line equivalent."
+    "explanation": "Disk Management is the GUI for initializing disks, creating, deleting and formatting partitions and assigning drive letters. Diskpart does the same from the command line."
   },
   {
     "id": 14,
@@ -347,7 +347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Startup types include Automatic, Automatic (Delayed), Manual and Disabled."
+    "explanation": "services.msc lists services and lets you start, stop and set the startup type: Automatic, Automatic (Delayed Start), Manual or Disabled. Task Manager only shows service status."
   },
   {
     "id": 15,
@@ -372,7 +372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Startup programs are managed in Task Manager in modern Windows."
+    "explanation": "msconfig offers diagnostic or selective startup and controls boot options such as Safe Boot. In current Windows, startup apps are managed from Task Manager, not msconfig."
   },
   {
     "id": 16,
@@ -397,7 +397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "exFAT is designed for flash media across platforms."
+    "explanation": "exFAT has no 4 GB file limit and works on both Windows and macOS, which suits flash drives. FAT32 caps files at 4 GB, and NTFS is read-only on macOS by default."
   },
   {
     "id": 17,
@@ -422,7 +422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "NTFS also supports compression, quotas and journaling."
+    "explanation": "NTFS supports file and folder permissions, EFS encryption, compression, quotas and journaling. FAT32 and exFAT have none of the permission features."
   },
   {
     "id": 18,
@@ -447,7 +447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "GUID Partition Table supports many partitions and very large disks."
+    "explanation": "GPT supports disks over 2 TB and many partitions, and is required for UEFI boot in Windows 11. MBR is limited to 2 TB and four primary partitions."
   },
   {
     "id": 19,
@@ -472,7 +472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A clean install starts fresh; back up data first."
+    "explanation": "An in-place upgrade moves to a newer Windows version and keeps files, apps and settings. A clean install erases the drive, so back up first."
   },
   {
     "id": 20,
@@ -497,7 +497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Time Machine keeps hourly, daily and weekly backups."
+    "explanation": "Time Machine automatically backs up a Mac to an external drive, keeping hourly, daily and weekly versions. iCloud syncs files but is not a full backup."
   },
   {
     "id": 21,
@@ -522,7 +522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "FileVault is similar to BitLocker on Windows."
+    "explanation": "FileVault encrypts the macOS startup disk, like BitLocker on Windows. Keychain stores passwords and Gatekeeper checks app signatures."
   },
   {
     "id": 22,
@@ -547,7 +547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "iCloud Keychain can sync passwords across Apple devices."
+    "explanation": "Keychain Access stores passwords, certificates and secure notes on macOS, and iCloud Keychain syncs them across Apple devices. Time Machine is for backups."
   },
   {
     "id": 23,
@@ -572,7 +572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Other basics: ls, cd, cp, mv, rm, mkdir, cat, nano."
+    "explanation": "pwd prints the working directory. The other basics are ls (list), cd (change), cp (copy), mv (move or rename), rm (remove), mkdir (create folder) and cat (display file)."
   },
   {
     "id": 24,
@@ -597,7 +597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Example: chmod 755 script.sh gives the owner full rights and others read and execute."
+    "explanation": "chmod changes file permissions, for example chmod 755 gives the owner read, write and execute, and others read and execute. chown changes the owner."
   },
   {
     "id": 25,
@@ -622,7 +622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "sudo uses your own password and logs the command."
+    "explanation": "sudo runs one command as root after you enter your own password, and logs it. su switches to another user, and chmod and chown change permissions and ownership."
   },
   {
     "id": 26,
@@ -647,7 +647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Package managers download and install software from repositories."
+    "explanation": "apt install installs packages from repositories on Debian and Ubuntu. Red Hat-based systems use yum or dnf, and macOS commonly uses Homebrew."
   },
   {
     "id": 27,
@@ -672,7 +672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Example: grep error /var/log/syslog."
+    "explanation": "grep searches text for a pattern, for example grep error /var/log/syslog. find locates files by name or attribute, and cat only displays content."
   },
   {
     "id": 28,
@@ -697,7 +697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Local Group Policy Editor isn't available in Home editions."
+    "explanation": "gpedit.msc opens the Local Group Policy Editor, available in Pro, Enterprise and Education but not Home. Domain-wide policy is managed from Active Directory."
   },
   {
     "id": 29,
@@ -722,7 +722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Settings > Apps > Default apps controls file associations."
+    "explanation": "Default apps in Settings controls which program opens each file type or protocol. Assigning the wrong default is why a document opens in an unexpected program."
   },
   {
     "id": 30,
@@ -747,7 +747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Tasks can run on schedules or triggers like logon or events."
+    "explanation": "Task Scheduler runs programs or scripts on a schedule or in response to triggers such as logon or an event. Services run continuously and don't schedule at specific times."
   },
   {
     "id": 31,
@@ -772,7 +772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "dxdiag shows DirectX and display information."
+    "explanation": "msinfo32 (System Information) lists hardware, drivers and system components. dxdiag focuses on DirectX, display and sound."
   },
   {
     "id": 32,
@@ -797,7 +797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Power plans control sleep, hibernate and lid close actions."
+    "explanation": "Power settings (the power plan) control sleep, hibernate, display timeout and lid actions, separately for plugged in and battery. Set Sleep to Never for plugged in."
   },
   {
     "id": 33,
@@ -822,7 +822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sideloading apps from unknown sources increases malware risk."
+    "explanation": "Android allows sideloading apps from unknown sources with a setting, while iOS restricts to the App Store by default. Sideloading raises malware risk, so allow it only when needed."
   },
   {
     "id": 34,
@@ -847,7 +847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "/r restarts, /s shuts down, /t sets a delay in seconds."
+    "explanation": "shutdown /r /t 0 restarts immediately: /r restarts, /s shuts down, /t sets a delay in seconds. Use /a to abort a pending shutdown."
   },
   {
     "id": 35,
@@ -872,7 +872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Example: net use Z: \\\\server\\share."
+    "explanation": "net use maps a network share to a drive letter, for example net use Z: \\\\server\\share. Add /persistent:yes to keep it after restart."
   },
   {
     "id": 36,
@@ -897,7 +897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Vishing uses phone calls; smishing uses text messages; whaling targets executives."
+    "explanation": "Phishing uses fraudulent email to steal credentials. Related attacks: vishing (voice calls), smishing (text messages), whaling (executives) and spear phishing (targeted)."
   },
   {
     "id": 37,
@@ -922,7 +922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Access control vestibules and security awareness training help prevent tailgating."
+    "explanation": "Following someone through a secure door is tailgating. Access control vestibules, badge readers and training reduce it. Piggybacking is similar, with consent."
   },
   {
     "id": 38,
@@ -947,7 +947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Privacy screen filters help prevent it."
+    "explanation": "Watching someone enter a PIN or password is shoulder surfing. Privacy screen filters and awareness reduce the risk."
   },
   {
     "id": 39,
@@ -972,7 +972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use VPNs and verify networks before connecting."
+    "explanation": "An evil twin is a rogue access point that mimics a legitimate Wi-Fi name to intercept traffic. Use a VPN, verify the network and avoid sensitive logins on public Wi-Fi."
   },
   {
     "id": 40,
@@ -997,7 +997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Offline backups are the best protection."
+    "explanation": "Ransomware encrypts files and demands payment. Offline, tested backups are the best protection, and paying doesn't guarantee recovery."
   },
   {
     "id": 41,
@@ -1022,7 +1022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Rootkits may require boot-time scans or reinstalling the OS."
+    "explanation": "A rootkit hides deep in the OS or firmware and conceals itself, so it may need a boot-time scan or an OS reinstall. A virus or worm doesn't hide this way."
   },
   {
     "id": 42,
@@ -1047,7 +1047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Keyloggers steal passwords and other sensitive data."
+    "explanation": "A keylogger records keystrokes to steal passwords and sensitive data. Spyware gathers information more broadly, and ransomware encrypts."
   },
   {
     "id": 43,
@@ -1072,7 +1072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Trojans pretend to be legitimate software."
+    "explanation": "A Trojan disguises itself as legitimate software, such as a free game, while opening a backdoor. A worm self-replicates over the network without user action."
   },
   {
     "id": 44,
@@ -1097,7 +1097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cryptominers use system resources to mine cryptocurrency."
+    "explanation": "Constant 100% CPU use and a loud fan with nothing visible suggests a cryptominer using resources to mine coins. Check Task Manager for unfamiliar processes."
   },
   {
     "id": 45,
@@ -1122,7 +1122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Steps: verify symptoms; quarantine; disable System Restore; remediate; schedule scans and updates; enable System Restore and create a restore point; educate the user."
+    "explanation": "Malware removal begins with identifying and verifying the symptoms. Then quarantine the system, disable System Restore, remediate, schedule scans, re-enable System Restore and educate the user."
   },
   {
     "id": 46,
@@ -1147,7 +1147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "After cleaning, re-enable it and create a new clean restore point."
+    "explanation": "Restore points can contain copies of the malware, which could reinfect the PC if restored. Disable System Restore during cleaning, then re-enable it and create a new clean point."
   },
   {
     "id": 47,
@@ -1172,7 +1172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Disconnect it to prevent spreading."
+    "explanation": "Quarantine the infected PC by disconnecting it from the network (unplug Ethernet, disable Wi-Fi) so malware can't spread. Then clean it."
   },
   {
     "id": 48,
@@ -1197,7 +1197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "WPA3 and WPA2 use AES; avoid WEP and TKIP."
+    "explanation": "WPA3 with AES is the most secure setting. WPA2-AES is acceptable, while WEP and WPA/TKIP are weak and should not be used."
   },
   {
     "id": 49,
@@ -1222,7 +1222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Enterprise mode uses 802.1X with a RADIUS server."
+    "explanation": "WPA3-Enterprise (or WPA2-Enterprise) uses 802.1X authentication with a RADIUS server so each user logs in with their own credentials. Personal mode uses one shared passphrase."
   },
   {
     "id": 50,
@@ -1247,7 +1247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Factors: something you know, something you have, something you are."
+    "explanation": "MFA combines different factor types: something you know (password), have (token, phone) or are (fingerprint). Two passwords or a password and a PIN are the same factor."
   },
   {
     "id": 51,
@@ -1272,7 +1272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use standard accounts for daily work and admin rights only when needed."
+    "explanation": "Least privilege gives users only the permissions needed for their job. Use standard accounts for daily work and elevate to admin only when needed."
   },
   {
     "id": 52,
@@ -1297,7 +1297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "UAC helps stop malware from silently making system changes."
+    "explanation": "User Account Control prompts before changes that need admin rights, so malware can't silently modify the system. Turning it off is a security risk."
   },
   {
     "id": 53,
@@ -1322,7 +1322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "BitLocker To Go encrypts removable drives."
+    "explanation": "BitLocker encrypts an entire drive and uses the TPM, and BitLocker To Go covers removable drives. EFS encrypts individual files and folders instead."
   },
   {
     "id": 54,
@@ -1347,7 +1347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "When share and NTFS permissions combine, the most restrictive applies."
+    "explanation": "When share and NTFS permissions combine over the network, the most restrictive applies, so Read share permission limits the user to Read. Local access uses NTFS only."
   },
   {
     "id": 55,
@@ -1372,7 +1372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Keep definitions updated and run scans regularly."
+    "explanation": "Microsoft Defender is the built-in antivirus and anti-malware in Windows. Keep definitions updated and scan regularly."
   },
   {
     "id": 56,
@@ -1397,7 +1397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Vestibules (formerly called mantraps) prevent tailgating."
+    "explanation": "An access control vestibule (formerly mantrap) uses two interlocked doors so only one person enters at a time, preventing tailgating. A turnstile or guard provides different controls."
   },
   {
     "id": 57,
@@ -1422,7 +1422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Degaussing works on magnetic drives, not SSDs. Get a certificate of destruction from vendors."
+    "explanation": "Physical destruction, such as shredding or drilling, is best for drives that must never be read again. Degaussing works on magnetic drives but not SSDs, and a standard format leaves data recoverable."
   },
   {
     "id": 58,
@@ -1447,7 +1447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Overwriting (wiping) or the drive's secure erase command make data unrecoverable while keeping the drive."
+    "explanation": "Overwriting (wiping) or the drive's secure erase command makes data unrecoverable while keeping the drive reusable. A quick format only removes pointers to data."
   },
   {
     "id": 59,
@@ -1472,7 +1472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Invalid or expired certificates can indicate interception or a fake site."
+    "explanation": "A certificate warning can mean interception, expiry or a fake site, so don't enter data and report it. Clicking through the warning exposes you."
   },
   {
     "id": 60,
@@ -1497,7 +1497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Keep browsers updated and use a password manager."
+    "explanation": "Install only trusted extensions, keep the browser updated and use a password manager. Saving passwords in plain text or disabling updates weakens security."
   },
   {
     "id": 61,
@@ -1522,7 +1522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Locator apps can help find it, but protect the data first."
+    "explanation": "For a lost company phone, remotely lock or wipe it with MDM to protect the data first. Locating it comes second."
   },
   {
     "id": 62,
@@ -1547,7 +1547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Combine screen locks with full-device encryption and remote wipe."
+    "explanation": "A strong screen lock (long PIN or biometric) with device encryption protects a stolen phone. Swipe-to-unlock offers no protection."
   },
   {
     "id": 63,
@@ -1572,7 +1572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use admin accounts only for administrative tasks."
+    "explanation": "Use a standard user account for daily work and an administrator account only for admin tasks. This limits damage if malware runs."
   },
   {
     "id": 64,
@@ -1597,7 +1597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Account lockout policies and long passwords defend against brute force."
+    "explanation": "Brute force tries every possible password until one works. Account lockout and long passwords defend against it, and a dictionary attack tries common words instead."
   },
   {
     "id": 65,
@@ -1622,7 +1622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Windows Hello is a passwordless sign-in option."
+    "explanation": "Windows Hello supports passwordless sign-in with face, fingerprint or a device-bound PIN. The credential stays on the device with the TPM."
   },
   {
     "id": 66,
@@ -1647,7 +1647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Kerberos issues tickets so users don't send passwords repeatedly."
+    "explanation": "Kerberos authenticates users in Active Directory domains using tickets, so passwords aren't sent repeatedly. It needs synchronized clocks and works with TCP/UDP 88."
   },
   {
     "id": 67,
@@ -1672,7 +1672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Defense in depth and fast patching reduce the risk."
+    "explanation": "A zero-day is a flaw exploited before the vendor has a patch. Defense in depth, segmentation and rapid patching reduce the risk, since no signature exists."
   },
   {
     "id": 68,
@@ -1697,7 +1697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "IT staff should never ask for passwords."
+    "explanation": "A phone call asking for a password is vishing (voice phishing). Real IT staff should never ask for your password, so hang up and report it."
   },
   {
     "id": 69,
@@ -1722,7 +1722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Lockout slows brute-force attacks."
+    "explanation": "An account lockout policy locks an account after a number of failed attempts, slowing brute-force attacks. A password expiration policy forces changes instead."
   },
   {
     "id": 70,
@@ -1747,7 +1747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Smart cards and authenticator apps on phones are also possession factors."
+    "explanation": "A security key is something you have (possession). Smart cards and authenticator apps are possession factors too. A PIN is something you know, and a fingerprint is something you are."
   },
   {
     "id": 71,
@@ -1772,7 +1772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Safe Mode loads minimal drivers so you can remove the faulty one."
+    "explanation": "If a new driver causes a BSOD, boot into Safe Mode, which loads minimal drivers, and roll back or remove the driver. Reinstalling Windows is unnecessary."
   },
   {
     "id": 72,
@@ -1797,7 +1797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check for memory-hungry processes or malware."
+    "explanation": "Memory near 100% slows Windows because it pages to disk. Close unneeded apps or add RAM, and look for leaking processes or malware."
   },
   {
     "id": 73,
@@ -1822,7 +1822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Disabling startup apps speeds boot and login."
+    "explanation": "Startup apps in Task Manager can be disabled to reduce boot and sign-in time. Removing them doesn't uninstall them."
   },
   {
     "id": 74,
@@ -1847,7 +1847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check Event Viewer for errors; try repair, update or reinstall."
+    "explanation": "For an app that crashes on launch, check Event Viewer, then repair, update or reinstall the app. Reinstalling Windows is excessive."
   },
   {
     "id": 75,
@@ -1872,7 +1872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check the startup type, dependencies and logon account."
+    "explanation": "If a service won't start at boot, check services.msc for startup type, dependencies and the logon account, and Event Viewer for errors."
   },
   {
     "id": 76,
@@ -1897,7 +1897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Kerberos requires clocks to be closely synchronized."
+    "explanation": "Kerberos fails if clocks differ by more than about five minutes. Check time sync settings and the CMOS battery, and make sure the PC syncs with the domain controller."
   },
   {
     "id": 77,
@@ -1922,7 +1922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "System Restore reverts system files, drivers and settings to an earlier point."
+    "explanation": "System Restore returns system files, drivers and settings to an earlier restore point without touching personal documents. A reset or reinstall is more drastic."
   },
   {
     "id": 78,
@@ -1947,7 +1947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Apps are removed, so reinstall them afterward."
+    "explanation": "Reset this PC with Keep my files reinstalls Windows, removes apps and settings, and keeps personal files. The Remove everything option wipes the user data."
   },
   {
     "id": 79,
@@ -1972,7 +1972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Corrupt profiles can be fixed by creating a new profile and migrating data."
+    "explanation": "Slow sign-in can come from a corrupt user profile. Create a new profile and migrate the data, or repair the existing one."
   },
   {
     "id": 80,
@@ -1997,7 +1997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Remove unknown extensions, reset the browser and scan for malware."
+    "explanation": "Unwanted redirects and pop-ups usually come from a malicious extension or hijacked settings. Remove unknown extensions, reset the browser and scan for malware."
   },
   {
     "id": 81,
@@ -2022,7 +2022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "This is a common scam; follow the malware removal process."
+    "explanation": "Rogue antivirus is a scam that shows fake security alerts to extort payment. Don't pay or click, and follow the malware removal process."
   },
   {
     "id": 82,
@@ -2047,7 +2047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Isolate the device immediately and restore from clean backups."
+    "explanation": "Renamed files with odd extensions that can't open indicate ransomware. Isolate the device immediately and restore from clean backups."
   },
   {
     "id": 83,
@@ -2072,7 +2072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check app permissions and data usage, and remove suspicious apps."
+    "explanation": "Fast battery drain with unusual data use suggests a malicious background app. Check app permissions and data usage and remove suspicious apps."
   },
   {
     "id": 84,
@@ -2097,7 +2097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Then clear the app cache, reinstall or restart the device."
+    "explanation": "If a mobile app crashes, force close it and update it, then clear the cache, reinstall or restart the device. Resetting the phone is a last resort."
   },
   {
     "id": 85,
@@ -2122,7 +2122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Rooted devices can run unapproved code and may lose updates and warranty support."
+    "explanation": "Rooting or jailbreaking bypasses built-in security protections, allowing unapproved code and often blocking updates and warranty support. It raises malware risk."
   },
   {
     "id": 86,
@@ -2147,7 +2147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Storage Sense can also clear temporary files automatically."
+    "explanation": "Disk Cleanup (or Storage Sense) removes temporary files and other clutter first. Then uninstall unused apps or move data before adding storage."
   },
   {
     "id": 87,
@@ -2172,7 +2172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check startup items, scheduled tasks and services, and run a full scan."
+    "explanation": "Software that reinstalls itself after removal indicates malware with persistence. Check startup items, scheduled tasks and services, and run a full scan."
   },
   {
     "id": 88,
@@ -2197,7 +2197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "File associations map extensions to apps."
+    "explanation": "A file with no associated app needs a default app set or the right program installed. File associations map extensions to programs."
   },
   {
     "id": 89,
@@ -2222,7 +2222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Some apps need a special cleanup tool; check Event Viewer for errors."
+    "explanation": "Some apps won't uninstall normally and need the vendor's removal tool, which clears leftover files and registry entries. Check Event Viewer for errors too."
   },
   {
     "id": 90,
@@ -2247,7 +2247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Also check Device Manager for errors or power management settings."
+    "explanation": "For an unrecognized USB device, try another port, update or reinstall the driver, and check Device Manager. Power management can also turn off ports."
   },
   {
     "id": 91,
@@ -2272,7 +2272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Credential Manager may store old passwords."
+    "explanation": "If email keeps prompting after a password change, update the saved password in the client or Credential Manager, which may hold the old one."
   },
   {
     "id": 92,
@@ -2297,7 +2297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Reinstalling restores the app's required files."
+    "explanation": "A missing DLL error is usually fixed by repairing or reinstalling the application, which restores required files. Downloading DLLs from random sites risks malware."
   },
   {
     "id": 93,
@@ -2322,7 +2322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Active hours tell Windows when not to restart."
+    "explanation": "Active hours or scheduled restarts stop Windows from rebooting during work for updates. Disabling updates entirely leaves the PC unpatched."
   },
   {
     "id": 94,
@@ -2347,7 +2347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "User education is the final step of malware removal."
+    "explanation": "User education is the final step in malware removal and reduces reinfection. Teach safe browsing, phishing awareness and not running unknown files."
   },
   {
     "id": 95,
@@ -2372,7 +2372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Excessive permissions are a warning sign."
+    "explanation": "A flashlight app asking for contacts, location and SMS is requesting excess permissions, a sign of malware. Deny them or uninstall the app."
   },
   {
     "id": 96,
@@ -2397,7 +2397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Disconnect from the network and investigate immediately."
+    "explanation": "A cursor that moves on its own and files that open by themselves suggest a remote access trojan or an unauthorized remote session. Disconnect from the network and investigate."
   },
   {
     "id": 97,
@@ -2422,7 +2422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Also check the time zone and time sync settings."
+    "explanation": "A clock that resets after restarts can mean a failing CMOS battery. Also check the time zone and time sync settings."
   },
   {
     "id": 98,
@@ -2447,7 +2447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Safe Mode with Networking also loads network drivers."
+    "explanation": "Safe Mode starts Windows with minimal drivers and services to troubleshoot. Safe Mode with Networking also loads network drivers."
   },
   {
     "id": 99,
@@ -2472,7 +2472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Balance security with usability by scheduling scans."
+    "explanation": "Reschedule scans to off-hours if they slow users. This balances security and usability without disabling protection."
   },
   {
     "id": 100,
@@ -2497,7 +2497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use ESD mats and bags, and handle boards by the edges."
+    "explanation": "Wear an ESD strap connected to ground when working on boards, and use mats and anti-static bags. Handle boards by the edges."
   },
   {
     "id": 101,
@@ -2522,7 +2522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Disconnect power if it's safe to do so."
+    "explanation": "A CO2 extinguisher (or Class C) is safe for electrical fires, since it leaves no residue and doesn't conduct. Water is dangerous on electrical fires. Remove power if safe."
   },
   {
     "id": 102,
@@ -2547,7 +2547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "SDS documents describe hazards, handling, first aid and disposal."
+    "explanation": "The Safety Data Sheet (SDS) explains hazards, handling, first aid and disposal for chemicals like toner. It is provided by the manufacturer."
   },
   {
     "id": 103,
@@ -2572,7 +2572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Follow local regulations for batteries, CRTs and toner."
+    "explanation": "Lithium-ion batteries must go to approved recycling or hazardous waste collection, never regular trash, because they can burn and leak toxic materials."
   },
   {
     "id": 104,
@@ -2597,7 +2597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "UPS units also condition power."
+    "explanation": "A UPS provides battery power during an outage so servers can shut down safely, and it also conditions power. A surge protector doesn't supply power."
   },
   {
     "id": 105,
@@ -2622,7 +2622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Get help or use a cart for heavy equipment."
+    "explanation": "Lift with your legs and a straight back, get help for heavy equipment or use a cart. Bending at the waist risks injury."
   },
   {
     "id": 106,
@@ -2647,7 +2647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Incremental backups are fast but restores need the full backup plus every incremental."
+    "explanation": "Incremental backups copy only files changed since the last backup of any type, so they are fast but restores need the full backup plus every incremental."
   },
   {
     "id": 107,
@@ -2672,7 +2672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Restores need the last full backup plus the latest differential."
+    "explanation": "Differential backups copy everything changed since the last full backup, so a restore needs only the full backup and the latest differential. Incremental needs the whole chain."
   },
   {
     "id": 108,
@@ -2697,7 +2697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Testing restores regularly is just as important."
+    "explanation": "The 3-2-1 rule means three copies, on two types of media, with one offsite. Test restores regularly because untested backups may fail."
   },
   {
     "id": 109,
@@ -2722,7 +2722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Change management includes purpose, scope, risk analysis, approval (often a change advisory board), testing and rollback."
+    "explanation": "Major changes to production need a documented change request with scope, risk analysis, a rollback plan and approval. Making changes without approval risks outages."
   },
   {
     "id": 110,
@@ -2747,7 +2747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Always know how to return to the previous working state."
+    "explanation": "A rollback plan gives the steps to undo a change if it fails and return to the previous working state. Always have one before changing production."
   },
   {
     "id": 111,
@@ -2772,7 +2772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Tickets capture the user, device, problem, steps taken, resolution and time spent."
+    "explanation": "A ticket in the ticketing system records the user, device, problem, steps taken, resolution and time spent. It gives an audit trail and helps with trends."
   },
   {
     "id": 112,
@@ -2797,7 +2797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Clarify the issue, set expectations and follow up."
+    "explanation": "With a frustrated customer, listen actively, stay calm, avoid arguing or being defensive, clarify the issue, set expectations and follow up."
   },
   {
     "id": 113,
@@ -2822,7 +2822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Respect customer privacy and confidentiality at all times."
+    "explanation": "Respect customer privacy and confidentiality: don't read, copy or discuss what you see. Mention nothing about the contents to others."
   },
   {
     "id": 114,
@@ -2847,7 +2847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Protected health information (PHI) and payment card data (PCI DSS) have extra rules."
+    "explanation": "PII is data that can identify a person, such as name, SSN or address. PHI and payment card data have extra rules (HIPAA, PCI DSS)."
   },
   {
     "id": 115,
@@ -2872,7 +2872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Maintain chain of custody and report to the appropriate person."
+    "explanation": "If illegal content is found, stop, don't investigate further, and follow the incident policy, preserving evidence and reporting to management or legal. Deleting it destroys evidence."
   },
   {
     "id": 116,
@@ -2897,7 +2897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "It ensures evidence can be trusted later."
+    "explanation": "Chain of custody documents who handled evidence, when and how, so it can be trusted in an investigation or court. Gaps can make evidence inadmissible."
   },
   {
     "id": 117,
@@ -2922,7 +2922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Follow the license terms, such as attribution or sharing changes."
+    "explanation": "An open-source license lets anyone view, modify and share the code, subject to terms like attribution or sharing changes. Proprietary software licenses restrict this."
   },
   {
     "id": 118,
@@ -2947,7 +2947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Installing beyond the license is a violation."
+    "explanation": "Check the license terms (EULA) before installing one license on ten PCs. Installing beyond the license count violates it."
   },
   {
     "id": 119,
@@ -2972,7 +2972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Others: .bat (batch), .vbs (VBScript), .js (JavaScript), .sh (bash), .py (Python)."
+    "explanation": "PowerShell scripts use .ps1. Others: .bat (batch), .vbs (VBScript), .js (JavaScript), .sh (shell) and .py (Python)."
   },
   {
     "id": 120,
@@ -2997,7 +2997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Scripts can automate backups, updates, restarts and gathering information."
+    "explanation": "Scripting suits repetitive help desk tasks such as mapping drives, backups, restarts and gathering information. Test scripts before wide use."
   },
   {
     "id": 121,
@@ -3022,7 +3022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Review scripts before running them and test in a safe environment."
+    "explanation": "Scripts from untrusted sources may contain malware, so review them and test in a safe environment first. Running them as admin raises the risk."
   },
   {
     "id": 122,
@@ -3047,7 +3047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Other options include VNC, SSH, RMM tools, screen-sharing and VPNs."
+    "explanation": "Remote Desktop Connection (RDP) is built into Windows Pro and above to control a PC remotely. Other options: VNC, SSH, RMM tools and screen sharing, usually over a VPN."
   },
   {
     "id": 123,
@@ -3072,7 +3072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RMM tools patch, monitor and remotely support devices."
+    "explanation": "An RMM tool lets a managed service provider patch, monitor and support many clients' devices from one console. PSA tools handle ticketing and billing instead."
   },
   {
     "id": 124,
@@ -3097,7 +3097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Follow company policy; use approved AI tools and avoid sharing sensitive data."
+    "explanation": "Pasting customer records into a public AI tool risks exposing private data, because inputs may be stored or used for training. Follow company policy and use approved tools."
   },
   {
     "id": 125,
@@ -3122,7 +3122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Verify AI output before using it, especially commands that change systems."
+    "explanation": "An AI giving a confident but made-up answer is a hallucination. Verify AI output before using it, especially commands that change systems."
   },
   {
     "id": 126,
@@ -3147,7 +3147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Low humidity increases ESD; high humidity causes condensation."
+    "explanation": "Server rooms need controlled temperature and humidity. Low humidity raises ESD risk and high humidity causes condensation and corrosion."
   },
   {
     "id": 127,
@@ -3172,6 +3172,6 @@
       }
     ],
     "answer": 0,
-    "explanation": "Good cable management improves safety and airflow."
+    "explanation": "Cable ties and covers prevent trips and cable damage, and improve airflow. Cable management is a safety matter, not just tidiness."
   }
 ]

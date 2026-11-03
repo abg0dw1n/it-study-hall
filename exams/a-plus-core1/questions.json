@@ -22,7 +22,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Swollen lithium-ion batteries can catch fire. Power down, remove carefully and dispose of it according to local regulations."
+    "explanation": "A bulging battery means the lithium-ion cells are swelling from gas build-up, which is a fire and chemical hazard. Stop using and charging it, power down, remove it carefully and recycle it as hazardous waste. Don't puncture it, and don't keep using it because it still works."
   },
   {
     "id": 2,
@@ -47,7 +47,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Small outline DIMMs are shorter than desktop DIMMs."
+    "explanation": "SODIMM (small outline DIMM) is the compact memory module used in laptops, mini PCs and some all-in-ones. Desktop DIMMs are physically longer and don't fit laptop slots, and DDR generations are keyed differently."
   },
   {
     "id": 3,
@@ -72,7 +72,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Near-field communication works at a few centimeters for payments and pairing."
+    "explanation": "NFC works over only a few centimeters, which suits contactless payments and tap-to-pair. Bluetooth has a range of about 10 meters and needs pairing, and Wi-Fi is far longer range, so neither fits a tap-to-pay terminal."
   },
   {
     "id": 4,
@@ -97,7 +97,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Pair the devices, then enter a PIN or confirm the code if prompted."
+    "explanation": "Bluetooth is the short-range wireless standard for earbuds, headsets and keyboards. Put the earbuds in pairing mode, select them on the phone, and confirm the code if asked. NFC can start a pairing but doesn't carry the audio."
   },
   {
     "id": 5,
@@ -122,7 +122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A faint image means the LCD works but isn't lit. LED backlights or older CCFL inverters can fail."
+    "explanation": "If a flashlight shows a faint image, the LCD panel and video signal are working and only the light source has failed. That means the backlight (LED strip, or an inverter on older CCFL screens), not the GPU or the cable. A completely black screen with no faint image would suggest other causes."
   },
   {
     "id": 6,
@@ -147,7 +147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "If calibration doesn't help, the digitizer may need replacement."
+    "explanation": "Misaligned touches are usually a calibration problem, so recalibrate the digitizer in the OS settings before replacing hardware. Replace the digitizer only if calibration, a restart and driver updates don't help. A screen protector or dirt can also cause drift."
   },
   {
     "id": 7,
@@ -172,7 +172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Hotspots share data over Wi-Fi, USB or Bluetooth and may use the data plan quickly."
+    "explanation": "A mobile hotspot (tethering) shares a phone's cellular connection over Wi-Fi, USB or Bluetooth. It uses the data plan quickly and drains the battery, and carriers may limit it. It differs from VPN or roaming, which don't share the connection."
   },
   {
     "id": 8,
@@ -197,7 +197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "MDM enforces policies; mobile application management (MAM) can manage just company apps on personal devices."
+    "explanation": "Mobile device management (MDM) enforces policies, pushes apps, requires passcodes and can remotely lock or wipe devices. The trap is MAM, which controls only specific apps and company data on personal devices, so it can't enforce passcodes or wipe the whole phone."
   },
   {
     "id": 9,
@@ -222,7 +222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "USB-C can carry data, power (USB PD), video and Thunderbolt on supported devices."
+    "explanation": "USB-C is the small reversible connector used on modern phones and laptops. It can carry data, power delivery, video (DisplayPort alt mode) and Thunderbolt, depending on the device. Micro-USB and Lightning aren't reversible USB-C ports."
   },
   {
     "id": 10,
@@ -247,7 +247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Docks and port replicators extend a laptop's ports."
+    "explanation": "A USB-C or Thunderbolt dock turns one cable into power, multiple displays, Ethernet and USB peripherals. A simple port replicator does something similar for a specific laptop model. A hub without video or network support wouldn't cover all the needs."
   },
   {
     "id": 11,
@@ -272,7 +272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Clean vents with compressed air and check that the fan spins."
+    "explanation": "Overheating and shutdowns under load point to restricted airflow or a failing cooling fan, since gaming raises CPU and GPU heat. Clean the vents with compressed air, check that the fan spins, and consider a cooling pad. Reapplying thermal paste can also help if the cooling still struggles."
   },
   {
     "id": 12,
@@ -297,7 +297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Laptop Wi-Fi antennas usually run through the display bezel."
+    "explanation": "Laptop Wi-Fi antenna wires run up through the hinges and around the display bezel. After a screen swap, a disconnected or pinched antenna cable gives weak signal even though the card still works. Reseat the cables to the Wi-Fi card."
   },
   {
     "id": 13,
@@ -322,7 +322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Rogue apps or background activity can drain batteries; malware is also possible."
+    "explanation": "Check the battery usage list in settings first to see which app consumes the most. A new app with heavy background activity, location use or malware is the usual cause. Replace the battery only after software causes are ruled out."
   },
   {
     "id": 14,
@@ -347,7 +347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cellular networks connect phones to carrier data networks."
+    "explanation": "Cellular data (LTE/5G) lets a phone connect through the carrier network where there's no Wi-Fi. Bluetooth and NFC are short-range links to devices, not to the internet."
   },
   {
     "id": 15,
@@ -372,7 +372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sync uses accounts like Microsoft 365, Google or iCloud."
+    "explanation": "Account synchronization with a Microsoft 365, Google or iCloud account keeps email, contacts and calendars matched across devices. Sign in with the same account on both and enable the sync categories. Manual copying or one-time exports won't stay current."
   },
   {
     "id": 16,
@@ -397,7 +397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "First check for debris, drivers or liquid damage; otherwise replace the keyboard."
+    "explanation": "When several keys are dead, first check for debris or liquid and test with an external keyboard, since the key matrix or ribbon cable may be affected. If the fault is in the keyboard itself, replace the keyboard assembly, which is usually a single FRU. A bad driver is unlikely when some keys work."
   },
   {
     "id": 17,
@@ -422,7 +422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Many laptops have a function key or switch that disables wireless radios."
+    "explanation": "Airplane mode (or a Wi-Fi function key or switch) disables all wireless radios and is the quickest thing to check. Look at the adapter status in Device Manager and the Wi-Fi toggle before replacing the card. Always start with the simplest cause."
   },
   {
     "id": 18,
@@ -447,7 +447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Common ports: 20/21 FTP, 22 SSH, 23 Telnet, 25 SMTP, 53 DNS, 80 HTTP, 443 HTTPS, 3389 RDP."
+    "explanation": "HTTPS uses TCP 443. HTTP is 80, FTP is 20/21, SSH is 22, Telnet is 23, SMTP is 25, DNS is 53 and RDP is 3389. Learn these well-known ports because the exam asks for them directly."
   },
   {
     "id": 19,
@@ -472,7 +472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RDP lets users control a Windows computer remotely."
+    "explanation": "RDP uses TCP (and UDP) port 3389 to give a graphical remote session to a Windows machine. The trap is SSH (22) or VNC (5900), which are different remote access tools."
   },
   {
     "id": 20,
@@ -497,7 +497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use SSH instead of Telnet because Telnet sends everything in clear text."
+    "explanation": "SSH on TCP 22 encrypts the whole session including credentials, replacing Telnet (port 23), which sends everything in plain text. Use SSH for remote command-line administration of Linux servers and network devices."
   },
   {
     "id": 21,
@@ -522,7 +522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "DNS uses UDP 53 for most queries and TCP 53 for larger responses and zone transfers."
+    "explanation": "DNS resolves names to IP addresses on port 53. It uses UDP for ordinary queries and TCP for large responses and zone transfers. The trap is DHCP (67/68), which assigns addresses rather than resolving names."
   },
   {
     "id": 22,
@@ -547,7 +547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "DHCP uses UDP ports 67 (server) and 68 (client)."
+    "explanation": "DHCP automatically leases IP address, mask, gateway and DNS settings to clients, using UDP 67 on the server and 68 on the client. DNS resolves names, and NAT translates addresses, so neither assigns addresses."
   },
   {
     "id": 23,
@@ -572,7 +572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "SMTP uses port 25 between servers; clients often submit mail on 587."
+    "explanation": "SMTP sends and relays email between mail servers, usually on port 25, and clients submit on 587. IMAP and POP3 retrieve mail rather than send it between servers."
   },
   {
     "id": 24,
@@ -597,7 +597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "IMAP uses port 143 (993 for IMAPS)."
+    "explanation": "IMAP keeps mail and folders on the server so all devices see the same state (port 143, or 993 with TLS). POP3 downloads messages and usually removes them from the server, so devices diverge. SMTP only sends."
   },
   {
     "id": 25,
@@ -622,7 +622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Server Message Block shares files and printers on Windows networks."
+    "explanation": "SMB on TCP 445 provides Windows file and printer sharing. NetBIOS (137-139) was the older transport. Don't confuse it with FTP (21) or NFS, which is used on Unix and Linux."
   },
   {
     "id": 26,
@@ -647,7 +647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "APIPA addresses (169.254.0.0/16) are self-assigned when DHCP fails."
+    "explanation": "A 169.254.x.x address is an APIPA link-local address that Windows assigns itself when DHCP isn't reachable. It only allows talking to other APIPA hosts, so check the cable, the DHCP server and the switch."
   },
   {
     "id": 27,
@@ -672,7 +672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Private ranges: 10.0.0.0/8, 172.16.0.0/12 (172.16–172.31) and 192.168.0.0/16."
+    "explanation": "Private (RFC 1918) IPv4 ranges are 10.0.0.0/8, 172.16.0.0/12 (172.16-172.31) and 192.168.0.0/16. The trap is addresses like 172.32.x.x, which sit outside the private range and are public."
   },
   {
     "id": 28,
@@ -697,7 +697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The default gateway is usually the router's IP address on the local network."
+    "explanation": "The default gateway is the router address a host uses to reach other networks, including the internet. Without a correct gateway, a host can reach only its own subnet."
   },
   {
     "id": 29,
@@ -722,7 +722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Switches learn which MAC addresses are on which ports."
+    "explanation": "A switch learns the MAC addresses on each port and forwards frames only to the right port, unlike a hub, which repeats to all ports. A router connects different networks using IP addresses."
   },
   {
     "id": 30,
@@ -747,7 +747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Many home devices combine a modem, router, switch and access point."
+    "explanation": "A modem converts the ISP's signal (cable, DSL or fiber ONT) into Ethernet for your router. Home gateways often combine modem, router, switch and access point in one box, which is the trap when the question asks about the specific function."
   },
   {
     "id": 31,
@@ -772,7 +772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "APs bridge wireless clients to the wired LAN."
+    "explanation": "A wireless access point provides Wi-Fi and bridges clients to the wired LAN. A router connects different networks, and a switch only connects wired devices."
   },
   {
     "id": 32,
@@ -797,7 +797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cat6 supports 10 Gbps only up to about 55 meters."
+    "explanation": "Cat6a supports 10 Gbps for the full 100 meters. Cat6 supports 10 Gbps only up to about 55 meters, and Cat5e tops out at 1 Gbps."
   },
   {
     "id": 33,
@@ -822,7 +822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RJ45 is an 8-pin modular connector."
+    "explanation": "RJ45 is the 8-pin modular connector used on Ethernet twisted-pair. RJ11 is the smaller 4/6-pin connector used for telephone lines and DSL, which is the usual trap."
   },
   {
     "id": 34,
@@ -847,7 +847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Plenum jackets produce less toxic smoke and meet fire codes for air-handling spaces."
+    "explanation": "Plenum-rated cable has a fire-retardant jacket that gives off little toxic smoke, so building codes require it in air-handling spaces such as above drop ceilings. Ordinary PVC (riser) cable isn't allowed there."
   },
   {
     "id": 35,
@@ -872,7 +872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Fiber carries light; single-mode reaches farther than multimode."
+    "explanation": "Fiber carries light, so it is immune to EMI and reaches far greater distances than copper. Single-mode fiber goes farthest and multimode goes shorter distances inside buildings. Copper twisted pair is limited to 100 meters."
   },
   {
     "id": 36,
@@ -897,7 +897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RG6 cable with F-type connectors is common for cable internet."
+    "explanation": "F-type connectors terminate coaxial cable (RG6) for cable TV and cable modems. BNC and RJ45 are different connectors for other cable types."
   },
   {
     "id": 37,
@@ -922,7 +922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Wi-Fi 7 is 802.11be."
+    "explanation": "Wi-Fi 6 is 802.11ax and uses 2.4 and 5 GHz, with Wi-Fi 6E adding 6 GHz. Wi-Fi 5 is 802.11ac (5 GHz only), Wi-Fi 4 is 802.11n, and Wi-Fi 7 is 802.11be."
   },
   {
     "id": 38,
@@ -947,7 +947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Higher frequencies are absorbed more by walls."
+    "explanation": "5 GHz has more non-overlapping channels and higher speeds, but its higher frequency is absorbed more by walls, so range is shorter. 2.4 GHz travels farther but is crowded and slower."
   },
   {
     "id": 39,
@@ -972,7 +972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "WPA3-Personal uses SAE to resist offline password guessing."
+    "explanation": "WPA3 is the newest and strongest standard, and WPA3-Personal uses SAE to resist offline password guessing. WPA2 with AES is acceptable, but WEP and TKIP are insecure and obsolete."
   },
   {
     "id": 40,
@@ -997,7 +997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "TXT records hold text such as SPF, DKIM and DMARC email settings."
+    "explanation": "An A record maps a hostname to an IPv4 address and AAAA maps to IPv6. CNAME gives an alias, MX names mail servers, and TXT holds text such as SPF."
   },
   {
     "id": 41,
@@ -1022,7 +1022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "SPF, DKIM and DMARC help prevent email spoofing."
+    "explanation": "TXT records store SPF, DKIM and DMARC policies that help receivers reject spoofed email. MX records only say where mail is delivered."
   },
   {
     "id": 42,
@@ -1047,7 +1047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A WAN connects LANs over long distances."
+    "explanation": "A LAN covers a limited area such as a building or campus. A WAN spans cities or countries, a MAN covers a metropolitan area, and a PAN is a person's own devices."
   },
   {
     "id": 43,
@@ -1072,7 +1072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Small office/home office routers combine many network functions."
+    "explanation": "A SOHO router combines routing, switching, firewall, NAT, DHCP and Wi-Fi in one device, which suits a small office. Separate enterprise devices would cost more and add management."
   },
   {
     "id": 44,
@@ -1097,7 +1097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "SNMP uses ports 161 and 162."
+    "explanation": "SNMP monitors and manages network devices such as switches, routers and printers, using UDP 161 for polling and 162 for traps. Prefer SNMPv3 because v1 and v2c send community strings in clear text."
   },
   {
     "id": 45,
@@ -1122,7 +1122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Network address translation maps private addresses to the router's public address."
+    "explanation": "NAT translates private addresses to the router's public address so many devices share one public IP, and it also hides internal addresses from the internet. It does not assign addresses (DHCP) or resolve names (DNS)."
   },
   {
     "id": 46,
@@ -1147,7 +1147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Link-local addresses work only on the local network segment."
+    "explanation": "Link-local IPv6 addresses (fe80::/10) are configured automatically on each interface and work only on the local link. Global unicast addresses begin with 2000::/3, and unique local addresses (fc00::/7) are the private-style addresses."
   },
   {
     "id": 47,
@@ -1172,7 +1172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Punchdown tools seat wires into 110 or Krone blocks."
+    "explanation": "A punchdown tool seats wires into 110 or Krone blocks on a patch panel and trims the excess. A crimper attaches connectors to cable ends, which is the common confusion."
   },
   {
     "id": 48,
@@ -1197,7 +1197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Follow the T568A or T568B pinout consistently."
+    "explanation": "A crimper attaches an RJ45 connector to the end of a cable, following the T568A or T568B pinout. Both ends must use the same standard for a straight-through cable."
   },
   {
     "id": 49,
@@ -1222,7 +1222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RAM is volatile; storage drives keep data when power is off."
+    "explanation": "RAM is volatile: its contents vanish when power is removed. SSDs, HDDs and ROM keep data without power, so RAM is only for active programs and data."
   },
   {
     "id": 50,
@@ -1247,7 +1247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "DDR4 and DDR5 DIMMs both have 288 pins but are keyed differently, so they aren't interchangeable."
+    "explanation": "DDR4 and DDR5 DIMMs both have 288 pins, but the notch is in a different place so they can't be swapped. Laptop SODIMMs have fewer pins (260 for DDR4, 262 for DDR5)."
   },
   {
     "id": 51,
@@ -1272,7 +1272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Dual channel increases memory bandwidth; check the motherboard manual for the right slots."
+    "explanation": "Matching modules in the correct paired slots give dual-channel operation, which doubles the memory bandwidth. Use identical size and speed modules and check the board manual for which slots to fill."
   },
   {
     "id": 52,
@@ -1297,7 +1297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The motherboard and CPU must support ECC."
+    "explanation": "ECC memory detects and corrects single-bit errors, which suits servers and workstations that need reliability. It needs CPU and motherboard support, and non-ECC consumer boards can't use it properly."
   },
   {
     "id": 53,
@@ -1322,7 +1322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "M.2 slots can support SATA or NVMe; check which the motherboard and drive use."
+    "explanation": "NVMe drives use PCIe lanes and are much faster than SATA SSDs. M.2 is only the slot shape, and M.2 slots can be SATA or NVMe, so check what the board supports."
   },
   {
     "id": 54,
@@ -1347,7 +1347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "If any disk in RAID 0 fails, all data is lost."
+    "explanation": "RAID 0 stripes data across disks for speed and capacity, but with no redundancy, so one failure destroys all data. RAID 1 mirrors, RAID 5 uses parity, and RAID 10 mirrors and stripes."
   },
   {
     "id": 55,
@@ -1372,7 +1372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RAID 1 survives one disk failure."
+    "explanation": "RAID 1 mirrors data on two disks, so it survives one disk failure at the cost of half the capacity. It doesn't replace backups, which also protect against deletion and corruption."
   },
   {
     "id": 56,
@@ -1397,7 +1397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RAID 5 stripes data with distributed parity and survives one disk failure."
+    "explanation": "RAID 5 needs at least three disks and spreads parity across them, surviving one disk failure. Usable capacity is the total minus one disk. RAID 6 needs four disks and survives two failures."
   },
   {
     "id": 57,
@@ -1422,7 +1422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RAID 10 offers good performance and redundancy."
+    "explanation": "RAID 10 (1+0) mirrors pairs and stripes across them, needing at least four disks. It gives good speed and redundancy at the cost of half the capacity."
   },
   {
     "id": 58,
@@ -1447,7 +1447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "CPUs get extra power from a 4- or 8-pin EPS connector."
+    "explanation": "The 24-pin ATX connector supplies the main board power. The separate 4/8-pin EPS (CPU) connector feeds the processor, and PCIe connectors feed GPUs, so don't confuse them."
   },
   {
     "id": 59,
@@ -1472,7 +1472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The 12 V rail powers the CPU and GPU through regulators."
+    "explanation": "ATX power supplies provide 3.3, 5 and 12 V DC. Most of the load, including CPU and GPU, runs from 12 V rails, and the 3.3 and 5 V rails serve logic and drives."
   },
   {
     "id": 60,
@@ -1497,7 +1497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check the GPU's recommended PSU wattage and required PCIe power connectors."
+    "explanation": "A GPU that exceeds what the PSU can deliver causes crashes or no boot, so install a PSU with enough wattage and the right PCIe power connectors. Lowering settings doesn't fix an under-sized supply."
   },
   {
     "id": 61,
@@ -1522,7 +1522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Thermal compound fills microscopic gaps for better heat transfer."
+    "explanation": "Thermal paste fills tiny air gaps between the CPU and heat sink so heat moves into the cooler. Use a small pea-sized amount. Too much or none causes overheating."
   },
   {
     "id": 62,
@@ -1547,7 +1547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "UEFI supports Secure Boot, GPT partitions and faster startup."
+    "explanation": "UEFI replaces legacy BIOS and supports Secure Boot, GPT disks over 2 TB, a graphical menu and faster boot. Legacy BIOS uses MBR and has a 2 TB limit."
   },
   {
     "id": 63,
@@ -1572,7 +1572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The coin-cell battery keeps firmware settings and the clock when power is off."
+    "explanation": "The CMOS coin-cell battery keeps the clock and firmware settings while the PC is unplugged. If the date resets on every power loss, replace the CR2032."
   },
   {
     "id": 64,
@@ -1597,7 +1597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Windows 11 requires TPM 2.0."
+    "explanation": "The TPM is a hardware chip that stores keys and supports BitLocker, Windows Hello and measured boot. Windows 11 requires TPM 2.0, and the UEFI Secure Boot setting is separate."
   },
   {
     "id": 65,
@@ -1622,7 +1622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "DisplayPort also carries audio and video and is common on PCs and monitors."
+    "explanation": "HDMI carries digital video and audio in one cable and is standard on TVs. DisplayPort also carries both and is common on PCs, but VGA and DVI-D do not carry audio."
   },
   {
     "id": 66,
@@ -1647,7 +1647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Thunderbolt 3, 4 and 5 use the USB-C connector."
+    "explanation": "Thunderbolt over USB-C carries display, data and power in one cable at very high speeds (40 Gbps on Thunderbolt 3 and 4). A plain USB-C port may not support all of that."
   },
   {
     "id": 67,
@@ -1672,7 +1672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Direct thermal printers need heat-sensitive paper."
+    "explanation": "Thermal printers heat special paper to form the image, which is fast and cheap for receipts and labels. Direct thermal uses no ink or toner, and faded prints come from heat and light exposure."
   },
   {
     "id": 68,
@@ -1697,7 +1697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Impact printers strike a ribbon hard enough to print on multiple layers."
+    "explanation": "Impact printers (dot matrix) strike a ribbon against the paper, so they can print through carbon copies and multipart forms. Laser, inkjet and thermal printers can't make carbon copies."
   },
   {
     "id": 69,
@@ -1722,7 +1722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Steps: processing, charging, exposing, developing, transferring, fusing, cleaning."
+    "explanation": "Fusing is the last printing step, where heat and pressure melt toner onto the paper. The sequence is processing, charging, exposing, developing, transferring, fusing, then cleaning."
   },
   {
     "id": 70,
@@ -1747,7 +1747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The fuser uses heat and pressure to bond toner to paper."
+    "explanation": "The fuser reaches high temperatures to melt toner, so let it cool before servicing to avoid burns. Also unplug the printer, and don't touch the drum surface."
   },
   {
     "id": 71,
@@ -1772,7 +1772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "PCIe x1 slots are used for smaller cards like some NICs and sound cards."
+    "explanation": "PCIe x16 is the slot used for graphics cards. Smaller x1 and x4 slots take NICs, sound cards and storage adapters. PCI and AGP are legacy."
   },
   {
     "id": 72,
@@ -1797,7 +1797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Expansion cards add ports or functions."
+    "explanation": "A PCIe expansion card can add USB ports, Ethernet and other functions that the motherboard lacks. Use a slot of enough lanes for the card."
   },
   {
     "id": 73,
@@ -1822,7 +1822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Touchscreens also use digitizers."
+    "explanation": "A graphics tablet (digitizer) with a stylus converts handwriting and drawings into digital input. A scanner captures printed pages and doesn't act as an input pointer."
   },
   {
     "id": 74,
@@ -1847,7 +1847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "KVM stands for keyboard, video and mouse."
+    "explanation": "A KVM switch lets one keyboard, monitor and mouse control several computers, which is common in server rooms. A docking station or hub connects peripherals to one computer."
   },
   {
     "id": 75,
@@ -1872,7 +1872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "HDD speeds are often 5,400 or 7,200 RPM."
+    "explanation": "An HDD stores data on spinning platters read by moving heads, typically at 5,400 or 7,200 RPM. SSDs have no moving parts and are faster and quieter, while HDDs are cheaper per terabyte."
   },
   {
     "id": 76,
@@ -1897,7 +1897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use an ESD strap and mat, and handle components by their edges."
+    "explanation": "An ESD wrist strap clipped to bare chassis metal (or a grounded mat) prevents static discharge from damaging components. Also handle parts by their edges and keep them in anti-static bags. Don't wear it when working inside a PSU or on high voltage."
   },
   {
     "id": 77,
@@ -1922,7 +1922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Simultaneous multithreading improves throughput for multithreaded workloads."
+    "explanation": "Hyper-threading (SMT) lets one physical core run two threads, improving throughput for multithreaded work. It does not double performance, and cores are separate from threads."
   },
   {
     "id": 78,
@@ -1947,7 +1947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Hypervisors rely on hardware virtualization extensions."
+    "explanation": "CPU virtualization extensions (Intel VT-x or AMD-V) must be enabled in UEFI for hypervisors to run VMs efficiently. If they are off, VMs may refuse to start or run very slowly."
   },
   {
     "id": 79,
@@ -1972,7 +1972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Network printers can be shared directly; USB printers can be shared through a computer."
+    "explanation": "A network printer, connected through Ethernet or Wi-Fi with its own IP address, lets everyone print directly. A USB printer shared from one PC works, but depends on that PC being on."
   },
   {
     "id": 80,
@@ -1997,7 +1997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Examples: VMware ESXi and Microsoft Hyper-V. Type 2 examples: VirtualBox and VMware Workstation."
+    "explanation": "A Type 1 (bare-metal) hypervisor runs directly on hardware and suits servers, for example ESXi or Hyper-V. Type 2 runs on a host OS, for example VirtualBox, VMware Workstation."
   },
   {
     "id": 81,
@@ -2022,7 +2022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Type 2 hypervisors such as VirtualBox run on top of the existing OS."
+    "explanation": "Type 2 hypervisors such as VirtualBox or VMware Workstation install as applications on an existing OS, which suits a developer testing on a laptop. Type 1 would replace the host OS."
   },
   {
     "id": 82,
@@ -2047,7 +2047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "VMs also run legacy software and consolidate servers."
+    "explanation": "VMs give an isolated sandbox for testing software, running legacy apps or consolidating servers. A snapshot lets you revert if a test breaks the guest."
   },
   {
     "id": 83,
@@ -2072,7 +2072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Software as a service: the provider manages everything except users and data."
+    "explanation": "SaaS delivers a ready-to-use application, such as webmail or Microsoft 365, and the provider manages everything below the user's data. PaaS offers a platform for developers, and IaaS offers raw infrastructure."
   },
   {
     "id": 84,
@@ -2097,7 +2097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Infrastructure as a service gives the most control."
+    "explanation": "IaaS provides virtual machines, storage and networking, and the customer manages the OS and applications, so it gives the most control. PaaS manages the OS for you, and SaaS manages the whole application."
   },
   {
     "id": 85,
@@ -2122,7 +2122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Platform as a service handles the OS, runtime and scaling."
+    "explanation": "PaaS gives developers a managed runtime and OS, so they deploy code without patching servers. IaaS would require managing the OS, and SaaS is a finished application."
   },
   {
     "id": 86,
@@ -2147,7 +2147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Community clouds share costs among organizations with common concerns."
+    "explanation": "A community cloud is shared by several organizations with common needs, such as compliance rules among hospitals. Public clouds are open to everyone, private is for one organization, and hybrid mixes models."
   },
   {
     "id": 87,
@@ -2172,7 +2172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Elasticity helps handle traffic spikes without overpaying."
+    "explanation": "Rapid elasticity means resources scale up and down automatically with demand. Scalability is the ability to grow, and elasticity adds the automatic shrink, which avoids paying for unused capacity."
   },
   {
     "id": 88,
@@ -2197,7 +2197,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Usage is measured and billed, like a utility."
+    "explanation": "Metered (measured) service means usage is tracked and billed like a utility, so customers pay for what they use. It differs from fixed licensing or a flat subscription."
   },
   {
     "id": 89,
@@ -2222,7 +2222,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Providers isolate tenants logically while sharing physical resources."
+    "explanation": "Multitenancy means many customers share the same physical infrastructure while the provider logically isolates their data and workloads. It is what makes public cloud cost-efficient."
   },
   {
     "id": 90,
@@ -2247,7 +2247,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud VDI is sometimes called desktop as a service (DaaS)."
+    "explanation": "VDI hosts desktops centrally, and in the cloud it's called DaaS, so users reach a Windows desktop from any device. It differs from a normal remote session on a single server, and data stays in the data center."
   },
   {
     "id": 91,
@@ -2272,7 +2272,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Containers package an app with its dependencies and share the host OS kernel."
+    "explanation": "Containers share the host kernel, so they start in seconds and use fewer resources than VMs, which each run a full guest OS. The trade-off is weaker isolation than a VM."
   },
   {
     "id": 92,
@@ -2297,7 +2297,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Services like OneDrive keep files synced across devices."
+    "explanation": "File synchronization (OneDrive, Google Drive, iCloud) automatically keeps local and cloud copies matched. A one-time backup doesn't sync changes, and sync can also propagate deletions."
   },
   {
     "id": 93,
@@ -2322,7 +2322,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Each VM consumes host CPU, memory, storage and network resources."
+    "explanation": "A VM host needs enough CPU cores, RAM and storage for all guests plus overhead, since each VM consumes a share of each. Under-provisioned memory is the most common bottleneck."
   },
   {
     "id": 94,
@@ -2347,7 +2347,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Steps: identify the problem; establish a theory; test it; plan and implement; verify and add preventive measures; document."
+    "explanation": "The troubleshooting methodology starts with identifying the problem: gather information, question users, identify symptoms, determine recent changes and duplicate the issue. Then: theory, test, plan and implement, verify, document."
   },
   {
     "id": 95,
@@ -2372,7 +2372,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Make sure everything works and help prevent the issue from happening again."
+    "explanation": "After implementing the fix, verify full system functionality and implement preventive measures. Documenting findings, actions and outcomes is the last step, and it comes after verification."
   },
   {
     "id": 96,
@@ -2397,7 +2397,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "If a theory isn't confirmed, form a new one or escalate."
+    "explanation": "If testing disproves the theory, establish a new theory or escalate to someone with more expertise. Don't implement a fix based on an unconfirmed theory."
   },
   {
     "id": 97,
@@ -2422,7 +2422,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Simple causes like an unplugged cable are common."
+    "explanation": "When establishing a theory, question the obvious and start with simple causes such as power, cables and settings, then consider multiple approaches. Avoid assuming complex failures first."
   },
   {
     "id": 98,
@@ -2447,7 +2447,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Beep codes vary by firmware vendor; look them up for the motherboard."
+    "explanation": "Beeps at startup are POST (power-on self-test) error codes that signal a hardware problem, such as RAM or video. The patterns differ by firmware vendor, so look them up in the motherboard manual."
   },
   {
     "id": 99,
@@ -2472,7 +2472,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "No power at all points to the outlet, cable, PSU or front power switch connection."
+    "explanation": "With no lights and no fans, check the simplest power points first: the power cable, outlet or surge protector and the PSU switch. Then suspect the PSU, front-panel power connector or motherboard."
   },
   {
     "id": 100,
@@ -2497,7 +2497,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Clean dust, check fans and reapply thermal paste if needed."
+    "explanation": "Random shutdowns with a hot case point to overheating, where thermal protection turns the PC off. Clean dust, verify fans work, check airflow and reapply thermal paste if needed."
   },
   {
     "id": 101,
@@ -2522,7 +2522,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Back up data immediately and replace the drive."
+    "explanation": "Grinding, clicking or repeated spin-up noises are signs of mechanical failure in an HDD. Back up immediately and replace the drive, since further use risks data loss. Running chkdsk won't fix hardware wear."
   },
   {
     "id": 102,
@@ -2547,7 +2547,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Never open a PSU; capacitors can hold a dangerous charge."
+    "explanation": "A burning smell near the PSU means the unit is failing. Power off and unplug, and replace the PSU. Never open one, because capacitors can hold a dangerous charge even when unplugged."
   },
   {
     "id": 103,
@@ -2572,7 +2572,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Swollen capacitors cause instability and random shutdowns."
+    "explanation": "Bulging or leaking capacitors mean the board is failing, causing instability and random shutdowns. The reliable fix is replacing the motherboard, since component-level repair is rarely practical."
   },
   {
     "id": 104,
@@ -2597,7 +2597,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check the drive appears in UEFI, the cables are seated and the boot order is correct."
+    "explanation": "For a no-boot-device error, check that the drive appears in UEFI, the SATA or power cables are seated, and the boot order is correct. Also remove stray bootable USB drives."
   },
   {
     "id": 105,
@@ -2622,7 +2622,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cable testers detect opens, shorts and miswired pairs."
+    "explanation": "A cable tester checks each wire in a cable for opens, shorts, crossed or split pairs. A toner probe traces cables, and a loopback plug tests ports."
   },
   {
     "id": 106,
@@ -2647,7 +2647,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A tone generator puts a signal on the cable, and the probe detects it."
+    "explanation": "A tone generator and probe (toner probe) identifies which wall jack connects to which patch panel port by tracing a signal along the cable. A cable tester only checks continuity."
   },
   {
     "id": 107,
@@ -2672,7 +2672,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A loopback plug sends the transmit signal back to the receive pins."
+    "explanation": "A loopback plug redirects transmit pins to receive pins so you can test whether a NIC or switch port works. A cable tester checks the cable and not the port."
   },
   {
     "id": 108,
@@ -2697,7 +2697,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Multimeters measure voltage, resistance and continuity."
+    "explanation": "A multimeter measures voltage, resistance and continuity, so it can verify PSU rails and outlet wiring. A PSU tester gives a quick pass/fail on a power supply."
   },
   {
     "id": 109,
@@ -2722,7 +2722,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Analyzers show signal strength and channel usage."
+    "explanation": "A Wi-Fi analyzer shows nearby networks, signal strength and channel overlap, so you can choose a cleaner channel. A cable tester or tone probe can't see wireless interference."
   },
   {
     "id": 110,
@@ -2747,7 +2747,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Often caused by a static IP inside the DHCP scope. Fix the static address or DHCP reservations."
+    "explanation": "An IP address conflict means two devices have the same address, often from a static IP inside the DHCP scope. Fix by using a DHCP reservation or an address outside the scope."
   },
   {
     "id": 111,
@@ -2772,7 +2772,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check DNS server settings with ipconfig /all and test with nslookup."
+    "explanation": "If pinging an IP address works but names fail, name resolution is broken, so check the DNS server settings with ipconfig /all and test with nslookup. The gateway and cabling work in this case."
   },
   {
     "id": 112,
@@ -2797,7 +2797,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Without a correct gateway, traffic can't leave the local subnet."
+    "explanation": "A host that can reach the LAN but not the internet probably has a wrong or missing default gateway, because traffic to other networks needs a router. Check ipconfig for the gateway and ping it."
   },
   {
     "id": 113,
@@ -2822,7 +2822,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Reroute the cable, use shielded cable or switch to fiber."
+    "explanation": "Intermittent drops near fluorescent lights and motors indicate electromagnetic interference. Reroute the cable away, use shielded (STP) cable, or switch to fiber, which is immune to EMI."
   },
   {
     "id": 114,
@@ -2847,7 +2847,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use non-overlapping channels 1, 6 or 11 on 2.4 GHz."
+    "explanation": "Crowded 2.4 GHz channels cause co-channel interference, so move to a less busy channel (1, 6 or 11 don't overlap) or use 5 GHz. A Wi-Fi analyzer shows which channels are busiest."
   },
   {
     "id": 115,
@@ -2872,7 +2872,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Replace the imaging drum or fuser as indicated."
+    "explanation": "Ghosting is a faint repeat of earlier content that appears when the imaging drum fails to clean or discharge properly. Replace the drum or toner cartridge, and check the fuser if needed."
   },
   {
     "id": 116,
@@ -2897,7 +2897,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The fuser melts toner onto the paper."
+    "explanation": "Smearing toner means it wasn't bonded to the paper, so the fuser (heat and pressure) is failing. The drum causes ghosting and repeating marks, which is the usual trap."
   },
   {
     "id": 117,
@@ -2922,7 +2922,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Clogged nozzles are common; then check ink levels."
+    "explanation": "Streaks or missing lines in inkjet output come from clogged nozzles, so run the head cleaning utility and an alignment first. Then check ink levels, and replace the cartridge if it persists."
   },
   {
     "id": 118,
@@ -2947,7 +2947,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Reinstall the correct driver for the printer model."
+    "explanation": "Garbled characters on every page usually indicate a wrong or corrupt driver. Reinstall the correct driver for that printer model, and check the page description language (PCL or PostScript)."
   },
   {
     "id": 119,
@@ -2972,7 +2972,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Worn rollers or damp, wrong-size paper often cause jams."
+    "explanation": "Frequent paper jams are usually caused by damp or wrong-size paper, misadjusted tray guides or worn pickup rollers. Clear the path and replace worn rollers or use a maintenance kit."
   },
   {
     "id": 120,
@@ -2997,7 +2997,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check that the monitor is on the right input and cables are seated."
+    "explanation": "With a running PC and a blank monitor, check the monitor's power and input source and that the video cable is seated. Then try another cable or port, or test the display with another device."
   },
   {
     "id": 121,
@@ -3022,7 +3022,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Replace the failed drive promptly so the array can rebuild."
+    "explanation": "A degraded RAID 5 array has lost one disk but still serves data from parity, though performance is lower and a second failure would lose everything. Replace the failed drive promptly and let it rebuild."
   },
   {
     "id": 122,
@@ -3047,7 +3047,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Reseat RAM, check slots and confirm module compatibility."
+    "explanation": "If Windows reports less RAM than installed, reseat the modules and check they're compatible and in the right slots. A 32-bit OS can also use only about 4 GB, and integrated graphics reserves some memory."
   },
   {
     "id": 123,
@@ -3072,7 +3072,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "New drives need partitions and a file system before use."
+    "explanation": "A new disk shown as unallocated in Disk Management needs to be initialized (GPT or MBR), then given a partition and formatted with a file system. File Explorer shows only drives that have a volume."
   },
   {
     "id": 124,
@@ -3097,7 +3097,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The display cable runs through the hinge and can wear."
+    "explanation": "A display that flickers when the lid moves points to a worn or loose display cable running through the hinge. Reseat or replace the cable, and the panel and GPU are usually fine."
   },
   {
     "id": 125,
@@ -3122,7 +3122,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Many motherboards also have built-in debug LEDs or code displays."
+    "explanation": "A POST card plugs into the motherboard and displays hex codes that identify what failed at startup. Many boards have built-in debug LEDs or code displays that serve the same purpose."
   },
   {
     "id": 126,
@@ -3147,7 +3147,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Isolate the problem by swapping one component at a time."
+    "explanation": "Swapping the cable and seeing the problem follow it isolates the fault to the original cable, since the phone and charger work with another. Change one variable at a time to find the failed part."
   },
   {
     "id": 127,
@@ -3172,7 +3172,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Look for what the affected devices have in common."
+    "explanation": "When several users on the same switch lose connectivity together, look for what they have in common: the switch or its uplink. One user's problem would be a cable or NIC."
   },
   {
     "id": 128,
@@ -3197,6 +3197,6 @@
       }
     ],
     "answer": 0,
-    "explanation": "Plan for possible effects, such as backups or change approvals, before implementing."
+    "explanation": "After confirming the theory, plan the fix and implement it, considering effects such as backups, change approval and downtime. Verification and documentation come after implementation."
   }
 ]
