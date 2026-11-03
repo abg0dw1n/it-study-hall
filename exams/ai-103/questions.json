@@ -22,7 +22,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Small language models are cheaper and faster per request. They fit narrow, high-volume tasks where the largest models' extra quality isn't needed."
+    "explanation": "A small language model is cheaper and faster per request, which fits a narrow, high-volume task where the largest models' extra quality isn't needed. Millions of FAQ-style requests a day with modest quality needs is exactly that. Training a custom model from scratch is far costlier.",
+    "refs": [
+      {
+        "title": "Select, deploy, and evaluate Microsoft Foundry models: Select models using benchmarks",
+        "url": "https://learn.microsoft.com/en-us/training/modules/model-catalog-evaluate/3-select-models-benchmarks"
+      },
+      {
+        "title": "Get started with generative AI and agents in Azure: Generative AI models",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-generative-ai-and-agents/2-generative-ai-models"
+      }
+    ]
   },
   {
     "id": 2,
@@ -47,7 +57,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Multimodal models accept images alongside text prompts and can describe what they see."
+    "explanation": "A multimodal model accepts images alongside text prompts and can describe what it sees, so it can read a photo of a damaged part and describe the damage. A text-only model, embeddings model or speech-to-text model can't take the image.",
+    "refs": [
+      {
+        "title": "Develop a vision-enabled generative AI application: Use a vision-capable model in the Microsoft Foundry portal",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-generative-ai-vision-apps/2-deploy-multimodal-model"
+      },
+      {
+        "title": "Get started with computer vision in Azure: Multimodal models for image analysis",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-vision-azure/2-vision-enabled-models"
+      }
+    ]
   },
   {
     "id": 3,
@@ -72,7 +92,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Embedding models turn text into vectors. Vector search then finds content whose vectors are closest in meaning to the question's vector."
+    "explanation": "To find documents by meaning rather than keywords, generate vector embeddings for both the documents and the question. Vector search then returns content whose vectors are closest in meaning to the question's vector. Synonym maps, OCR and captions still depend on words.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Prepare data for retrieval",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/3-prepare-data"
+      },
+      {
+        "title": "Implement advanced RAG pipelines with Azure AI Search and Microsoft Foundry: Design hybrid search architectures",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-advanced-rag-azure-ai-search/2-design-hybrid-search-architectures"
+      }
+    ]
   },
   {
     "id": 4,
@@ -97,7 +127,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Hybrid search runs keyword (BM25) and vector queries together and merges the results. It catches exact terms and meaning."
+    "explanation": "Hybrid search runs keyword (BM25) and vector queries together and merges the results, so it catches exact terms like part numbers as well as meaning-based descriptions. Vector-only can miss exact identifiers and keyword-only misses meaning.",
+    "refs": [
+      {
+        "title": "Implement advanced RAG pipelines with Azure AI Search and Microsoft Foundry: Design hybrid search architectures",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-advanced-rag-azure-ai-search/2-design-hybrid-search-architectures"
+      },
+      {
+        "title": "Hybrid search overview - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview"
+      }
+    ]
   },
   {
     "id": 5,
@@ -122,7 +162,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Azure AI Search indexes your content for keyword, vector, hybrid and semantic retrieval. Foundry agents can use it as a knowledge tool."
+    "explanation": "Azure AI Search indexes your content for keyword, vector, hybrid and semantic retrieval, and Foundry agents can use it as a knowledge tool to ground answers on your documents. Monitor, Key Vault and Front Door don't build search indexes.",
+    "refs": [
+      {
+        "title": "Build knowledge-enhanced AI agents with Foundry IQ: Explore Foundry IQ",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-foundry-iq/3-foundry-iq"
+      },
+      {
+        "title": "Introduction to Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search"
+      }
+    ]
   },
   {
     "id": 6,
@@ -147,7 +197,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Conversation history ends with the thread. Remembering facts across sessions needs a memory store that the agent reads and writes."
+    "explanation": "A thread's history ends with the conversation, so remembering a customer's preferences next week needs long-term memory: a store outside the thread that the agent reads and writes. A bigger context window, higher temperature or content filter doesn't persist anything.",
+    "refs": [
+      {
+        "title": "Design and implement agent memory stores in Azure Cosmos DB: Understand agent memory architectures",
+        "url": "https://learn.microsoft.com/en-us/training/modules/design-implement-agent-memory-azure-cosmos-db/2-understand-agent-memory-architectures"
+      },
+      {
+        "title": "Design and implement agent memory stores in Azure Cosmos DB: Implement semantic memory with vector storage",
+        "url": "https://learn.microsoft.com/en-us/training/modules/design-implement-agent-memory-azure-cosmos-db/4-implement-semantic-memory"
+      }
+    ]
   },
   {
     "id": 7,
@@ -172,7 +232,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Provisioned throughput reserves model capacity. You get predictable latency and pay for the capacity rather than per token."
+    "explanation": "Provisioned throughput reserves model capacity, giving predictable latency and a cost based on the reserved capacity instead of per token. That suits steady, high traffic to one model. Standard is pay-per-token with variable latency, and batch is for asynchronous jobs.",
+    "refs": [
+      {
+        "title": "Provisioned throughput for Foundry Models",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/provisioned-throughput"
+      },
+      {
+        "title": "Select, deploy, and evaluate Microsoft Foundry models: Deploy models to endpoints",
+        "url": "https://learn.microsoft.com/en-us/training/modules/model-catalog-evaluate/4-deploy-models"
+      }
+    ]
   },
   {
     "id": 8,
@@ -197,7 +267,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Batch deployments process large asynchronous jobs at a lower price, with results returned within a target window such as 24 hours."
+    "explanation": "A batch deployment processes large asynchronous jobs at a lower price, returning results within a target window such as 24 hours. That fits scoring 2 million archived tickets where cost matters most. Provisioned or real-time endpoints cost more and aren't needed.",
+    "refs": [
+      {
+        "title": "Select, deploy, and evaluate Microsoft Foundry models: Deploy models to endpoints",
+        "url": "https://learn.microsoft.com/en-us/training/modules/model-catalog-evaluate/4-deploy-models"
+      },
+      {
+        "title": "Use global batch processing with Azure OpenAI",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/batch"
+      }
+    ]
   },
   {
     "id": 9,
@@ -222,7 +302,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Data zone deployments route traffic across regions within a defined zone such as the EU, adding capacity while keeping processing inside it."
+    "explanation": "Data zone deployments route traffic across regions inside a defined zone, such as the EU, giving more capacity than a single region while keeping processing inside the zone. Global standard can process anywhere, and a US single-region deployment breaks the EU requirement.",
+    "refs": [
+      {
+        "title": "Select, deploy, and evaluate Microsoft Foundry models: Deploy models to endpoints",
+        "url": "https://learn.microsoft.com/en-us/training/modules/model-catalog-evaluate/4-deploy-models"
+      },
+      {
+        "title": "Provisioned throughput for Foundry Models",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/provisioned-throughput"
+      }
+    ]
   },
   {
     "id": 10,
@@ -247,7 +337,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "429 means too many requests. Raise the deployment's quota, spread traffic across deployments or regions, or retry with backoff."
+    "explanation": "HTTP 429 means too many requests: the deployment's tokens-per-minute or requests-per-minute quota was exceeded. Raise the quota, spread traffic across deployments or regions, or retry with backoff. An expired key gives 401 and harmful content is blocked by filters.",
+    "refs": [
+      {
+        "title": "Azure OpenAI in Microsoft Foundry Models quotas and limits",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/quotas-limits"
+      },
+      {
+        "title": "Optimize multi-agent performance and cost in Microsoft Foundry: Balance quality, cost, and latency tradeoffs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-optimize-multi-agent-performance-cost-azure/5-balance-quality-cost-latency-tradeoffs"
+      }
+    ]
   },
   {
     "id": 11,
@@ -272,7 +372,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Throttling is temporary. Waiting the suggested time and backing off between retries lets requests succeed without overloading the deployment."
+    "explanation": "Throttling is temporary, so retry with exponential backoff and honor the retry-after header. Tight retry loops make the overload worse, and switching models or disabling content filtering doesn't address throttling.",
+    "refs": [
+      {
+        "title": "Azure OpenAI in Microsoft Foundry Models quotas and limits",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/quotas-limits"
+      },
+      {
+        "title": "Optimize multi-agent performance and cost in Microsoft Foundry: Balance quality, cost, and latency tradeoffs",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-optimize-multi-agent-performance-cost-azure/5-balance-quality-cost-latency-tradeoffs"
+      }
+    ]
   },
   {
     "id": 12,
@@ -297,7 +407,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Keyless authentication uses Microsoft Entra ID. The app's managed identity gets a role such as Cognitive Services OpenAI User or Azure AI User and requests tokens instead of using keys."
+    "explanation": "Keyless authentication uses Microsoft Entra ID: give the App Service a managed identity and grant it an RBAC role, such as Azure AI User or Cognitive Services OpenAI User, on the Foundry resource. The app requests tokens instead of keeping keys in settings or code.",
+    "refs": [
+      {
+        "title": "Role-based access control for Microsoft Foundry",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/rbac-azure-ai-foundry"
+      },
+      {
+        "title": "Implement security controls for Azure AI-ready infrastructure: Configure Microsoft Entra ID security principals",
+        "url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-azure-ai-ready-infrastructure/2-configure-microsoft-entra-id-security-principals"
+      }
+    ]
   },
   {
     "id": 13,
@@ -322,7 +442,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "A private endpoint gives the resource a private IP in your virtual network. Turning off public access forces all traffic through it."
+    "explanation": "A private endpoint gives the resource a private IP address in your virtual network, and disabling public network access forces all traffic through it, so nothing crosses the public internet. Content filters, stronger keys and diagnostics don't change the network path.",
+    "refs": [
+      {
+        "title": "What is a private endpoint?",
+        "url": "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview"
+      },
+      {
+        "title": "Configure AI-ready infrastructure with Microsoft Foundry: Understand Microsoft Foundry architecture components",
+        "url": "https://learn.microsoft.com/en-us/training/modules/configure-ai-ready-infrastructure-microsoft-foundry/2-understand-microsoft-foundry-architecture-components"
+      }
+    ]
   },
   {
     "id": 14,
@@ -347,7 +477,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Scope the narrowest built-in role that allows the work. Azure AI User covers building and using models and agents in a project without managing the resource."
+    "explanation": "Least privilege means scoping the narrowest built-in role that allows the work. Azure AI User scoped to the project lets a developer build and use models and agents without managing the resource. Owner, Contributor or a shared admin key give far more than needed.",
+    "refs": [
+      {
+        "title": "Role-based access control for Microsoft Foundry",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/rbac-azure-ai-foundry"
+      },
+      {
+        "title": "Implement security controls for Azure AI-ready infrastructure: Configure Microsoft Entra ID security principals",
+        "url": "https://learn.microsoft.com/en-us/training/modules/implement-security-controls-azure-ai-ready-infrastructure/2-configure-microsoft-entra-id-security-principals"
+      }
+    ]
   },
   {
     "id": 15,
@@ -372,7 +512,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Keeping agent definitions and deployment configuration in source control and deploying them through a pipeline (GitHub Actions or Azure DevOps) makes changes repeatable and reviewable."
+    "explanation": "Keeping agent definitions and deployment configuration in source control and deploying them through a CI/CD pipeline (GitHub Actions or Azure DevOps) makes changes repeatable, tested and reviewable, like application code. Manual portal edits and backups don't.",
+    "refs": [
+      {
+        "title": "Implement CI/CD pipelines for multi-agent systems with GitHub Actions: Design multi-agent deployment pipelines",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-cicd-multi-agent-systems-github-actions/2-design-multi-agent-deployment-pipelines"
+      },
+      {
+        "title": "Automate AI evaluations with Microsoft Foundry and GitHub Actions: Integrate evaluations into GitHub Actions",
+        "url": "https://learn.microsoft.com/en-us/training/modules/automated-evaluation-genaiops/6-github-actions-workflow"
+      }
+    ]
   },
   {
     "id": 16,
@@ -397,7 +547,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "When content changes, stale or failing ingestion degrades retrieval. Monitoring retrieval relevance, groundedness and index freshness shows where quality slipped."
+    "explanation": "When the underlying documents change weekly and quality drops with no code change, the cause is usually stale or failing ingestion. Monitor retrieval relevance, groundedness and index freshness. Web server CPU, API key counts and page load time don't explain answer accuracy.",
+    "refs": [
+      {
+        "title": "Monitor your generative AI application: Understand key metrics to monitor",
+        "url": "https://learn.microsoft.com/en-us/training/modules/monitor-generative-ai-app/3-what-to-monitor"
+      },
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Evaluate a RAG solution",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/5-evaluate-rag"
+      }
+    ]
   },
   {
     "id": 17,
@@ -422,7 +582,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Groundedness evaluators check whether each claim in the response is supported by the provided context."
+    "explanation": "Groundedness measures whether the claims in a response are supported by the retrieved context rather than invented. Fluency is about language quality, and latency and token count are operational metrics.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Evaluate a RAG solution",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/5-evaluate-rag"
+      },
+      {
+        "title": "Automate AI evaluations with Microsoft Foundry and GitHub Actions: Align evaluators with human criteria",
+        "url": "https://learn.microsoft.com/en-us/training/modules/automated-evaluation-genaiops/3-align-evaluators-human-criteria"
+      }
+    ]
   },
   {
     "id": 18,
@@ -447,7 +617,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Indexer execution history and document counts show ingestion health. Failures or gaps mean the index no longer reflects the source."
+    "explanation": "Indexer execution history and document counts show ingestion health. Failed runs, or a count that doesn't match the source, mean the index no longer reflects the documents. Temperature, token usage and prompt length say nothing about index freshness.",
+    "refs": [
+      {
+        "title": "Monitor indexer status and results - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/search-howto-monitor-indexers"
+      },
+      {
+        "title": "Monitor your generative AI application: Understand key metrics to monitor",
+        "url": "https://learn.microsoft.com/en-us/training/modules/monitor-generative-ai-app/3-what-to-monitor"
+      }
+    ]
   },
   {
     "id": 19,
@@ -472,7 +652,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Prompt Shields detect jailbreak attempts in user prompts and indirect attacks hidden in documents or tool results."
+    "explanation": "Prompt Shields detect jailbreak attempts in user prompts and indirect attacks hidden in documents or tool results. Protected material detection and groundedness detection solve different problems.",
+    "refs": [
+      {
+        "title": "Prompt Shields in Azure AI Content Safety",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection"
+      },
+      {
+        "title": "Secure Azure OpenAI with content safety controls: Understand Azure AI content safety architecture",
+        "url": "https://learn.microsoft.com/en-us/training/modules/secure-azure-openai-content-safety-controls/2-understand-azure-ai-content-safety-architecture"
+      }
+    ]
   },
   {
     "id": 20,
@@ -497,7 +687,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "A threshold blocks content at that severity and above. Low blocks the most; High blocks only the most severe content."
+    "explanation": "A content filter threshold blocks content at that severity and above, so a Low threshold blocks low, medium and high severity content, making it the strictest setting. High blocks only the most severe. A Low threshold doesn't turn filtering off.",
+    "refs": [
+      {
+        "title": "Secure Azure OpenAI with content safety controls: Configure content filters and custom blocklists",
+        "url": "https://learn.microsoft.com/en-us/training/modules/secure-azure-openai-content-safety-controls/3-configure-content-filters-custom-block-lists"
+      },
+      {
+        "title": "Use AI responsibly with Microsoft Foundry Content Safety: How does Microsoft Foundry Content Safety work?",
+        "url": "https://learn.microsoft.com/en-us/training/modules/responsible-content-safety/3-how-content-safety-works"
+      }
+    ]
   },
   {
     "id": 21,
@@ -522,7 +722,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Foundry safety evaluations generate adversarial prompts and score responses for harmful content categories and jailbreak success."
+    "explanation": "Foundry safety evaluations use an adversarial simulator to generate attack prompts and score responses for harmful content categories and jailbreak success, before release. Load tests, UI tests and cost analyses don't measure harm.",
+    "refs": [
+      {
+        "title": "Implement a responsible generative AI solution in Microsoft Foundry: Measure potential harms",
+        "url": "https://learn.microsoft.com/en-us/training/modules/responsible-ai-studio/4-measure-harms"
+      },
+      {
+        "title": "Automate AI evaluations with Microsoft Foundry and GitHub Actions: Understand why automated evaluations matter",
+        "url": "https://learn.microsoft.com/en-us/training/modules/automated-evaluation-genaiops/2-why-automated-evaluations"
+      }
+    ]
   },
   {
     "id": 22,
@@ -547,7 +757,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Provenance metadata and traces make each response explainable after the fact: what was retrieved, which model ran and when."
+    "explanation": "Auditors need to know what was retrieved, which model ran and when. Record trace logs with provenance metadata such as source IDs, model deployment and timestamps. The final answer text alone can't explain how an answer was produced.",
+    "refs": [
+      {
+        "title": "Analyze and debug your generative AI app with tracing: Identify what to trace in generative AI applications",
+        "url": "https://learn.microsoft.com/en-us/training/modules/tracing-generative-ai-app/3-what-to-trace"
+      },
+      {
+        "title": "Implement distributed observability for multi-agent solutions with OpenTelemetry: Implement structured logging for agent decisions",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-distributed-observability-multi-agent-opentelemetry/3-implement-structured-log-agent-decisions"
+      }
+    ]
   },
   {
     "id": 23,
@@ -572,7 +792,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "High-impact actions should be gated by an approval workflow that pauses the agent until a person approves or rejects."
+    "explanation": "High-impact actions should be gated by a human-in-the-loop approval step that pauses the agent until a person approves or rejects, such as refunds over a limit. Temperature, a longer system prompt or removing logs doesn't enforce the policy.",
+    "refs": [
+      {
+        "title": "Secure multi-agent systems with Azure zero-trust architecture: Introduction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-secure-multi-agent-systems-azure-zero-trust/1-introduction"
+      },
+      {
+        "title": "Build and extend AI agents with Microsoft Foundry: Connect an agent to MCP servers",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-extend-ai-agents/5-connect-agents-to-mcp"
+      }
+    ]
   },
   {
     "id": 24,
@@ -597,7 +827,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Least-privilege tool access caps the impact of a successful injection. The agent can only misuse what it has been given."
+    "explanation": "Least-privilege tool access caps the impact of a successful injection: the agent can only misuse the tools and permissions it has, so give it only what it needs, read-only where possible. Admin access, hiding prompts or using a larger model don't limit the blast radius.",
+    "refs": [
+      {
+        "title": "Secure multi-agent systems with Azure zero-trust architecture: Introduction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-secure-multi-agent-systems-azure-zero-trust/1-introduction"
+      },
+      {
+        "title": "Integrate custom tools into your agent: How to integrate custom tools",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-agent-with-custom-tools/4-how-use-custom-tools"
+      }
+    ]
   },
   {
     "id": 25,
@@ -622,7 +862,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Model routing and output limits cut token spend. Trimming history and caching repeated prompts help further."
+    "explanation": "Routing simple requests to a smaller model and capping max output tokens cuts token spend without hurting quality. Trimming conversation history and caching repeated prompts help further. Raising temperature, sending full history forever or disabling caching raise or don't reduce cost.",
+    "refs": [
+      {
+        "title": "Optimize multi-agent performance and cost in Microsoft Foundry: Design model routing for agent ecosystems",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-optimize-multi-agent-performance-cost-azure/2-design-model-route-agent-ecosystems"
+      },
+      {
+        "title": "Optimize multi-agent performance and cost in Microsoft Foundry: Optimize token usage and context management",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-optimize-multi-agent-performance-cost-azure/4-optimize-token-usage-context-management"
+      }
+    ]
   },
   {
     "id": 26,
@@ -647,7 +897,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Model deployments emit metrics such as tokens, requests and latency to Azure Monitor, and Foundry surfaces them in its monitoring views."
+    "explanation": "Model deployments emit metrics such as tokens, requests and latency to Azure Monitor, and Foundry surfaces them in its monitoring views. Advisor, model cards and Entra sign-in logs don't show deployment usage.",
+    "refs": [
+      {
+        "title": "Monitor your generative AI application: Explore how to monitor with Azure",
+        "url": "https://learn.microsoft.com/en-us/training/modules/monitor-generative-ai-app/4-how-to-monitor"
+      },
+      {
+        "title": "Monitor Azure OpenAI in Foundry Models",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/monitor-openai"
+      }
+    ]
   },
   {
     "id": 27,
@@ -672,7 +932,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Foundry tracing uses OpenTelemetry and stores traces in Application Insights connected to the project."
+    "explanation": "Foundry tracing uses OpenTelemetry and stores traces in an Application Insights resource connected to the project, giving full request traces for debugging and evaluation. Backup, DNS and a static website don't collect traces.",
+    "refs": [
+      {
+        "title": "Analyze and debug your generative AI app with tracing: Implement tracing in generative AI applications",
+        "url": "https://learn.microsoft.com/en-us/training/modules/tracing-generative-ai-app/4-how-to-trace"
+      },
+      {
+        "title": "Analyze and debug your generative AI app with tracing: Why do you need to use tracing?",
+        "url": "https://learn.microsoft.com/en-us/training/modules/tracing-generative-ai-app/2-why-tracing"
+      }
+    ]
   },
   {
     "id": 28,
@@ -697,7 +967,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "RAG retrieves relevant policy passages at question time and puts them in the prompt so the model answers from your content."
+    "explanation": "Retrieval-augmented generation retrieves relevant policy passages at question time and puts them in the prompt, so the model answers from your content. Temperature, general web fine-tuning or lower max tokens don't add internal HR knowledge.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Understand retrieval-augmented generation",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/2-understand-rag"
+      },
+      {
+        "title": "Optimize generative AI model performance with Microsoft Foundry: Ground your model with Retrieval Augmented Generation",
+        "url": "https://learn.microsoft.com/en-us/training/modules/optimize-generative-ai-model-performance/3-retrieval-augmented-generation"
+      }
+    ]
   },
   {
     "id": 29,
@@ -722,7 +1002,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "RAG retrieves the most relevant chunks first, then builds a grounded prompt from the question plus those chunks."
+    "explanation": "After the question arrives, RAG retrieves the most relevant chunks from the index, then builds a grounded prompt from the question plus those chunks and calls the model. Fine-tuning on each question, or pasting the whole library, isn't how RAG works.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Retrieve information and generate a response",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/4-retrieve-generate"
+      },
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Understand retrieval-augmented generation",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/2-understand-rag"
+      }
+    ]
   },
   {
     "id": 30,
@@ -747,7 +1037,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Smaller, overlapping chunks give more precise matches and let several relevant passages fit in the prompt."
+    "explanation": "Long documents are split into chunks so retrieval returns focused passages that fit in the model's context. Smaller, overlapping chunks give more precise matches and let several relevant passages fit in the prompt. Search can index long files, and embeddings aren't limited to words.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Prepare data for retrieval",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/3-prepare-data"
+      },
+      {
+        "title": "Implement advanced RAG pipelines with Azure AI Search and Microsoft Foundry: Optimize chunking and embedding strategies",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-advanced-rag-azure-ai-search/5-optimize-chunk-embed-strategies"
+      }
+    ]
   },
   {
     "id": 31,
@@ -772,7 +1072,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Telling the model to admit missing information keeps answers grounded and reduces fabrication."
+    "explanation": "Tell the model to say it doesn't know when the retrieved content lacks the answer. That keeps responses grounded and reduces fabrication. Answering from general knowledge or making up a plausible answer defeats grounding.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Retrieve information and generate a response",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/4-retrieve-generate"
+      },
+      {
+        "title": "Optimize generative AI model performance with Microsoft Foundry: Ground your model with Retrieval Augmented Generation",
+        "url": "https://learn.microsoft.com/en-us/training/modules/optimize-generative-ai-model-performance/3-retrieval-augmented-generation"
+      }
+    ]
   },
   {
     "id": 32,
@@ -797,7 +1107,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Groundedness scores how well claims are supported by the context, so it catches fabricated content."
+    "explanation": "Groundedness scores how well a response's claims are supported by the supplied context, so it catches content the model made up. Fluency, coherence and similarity don't check support from sources.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Evaluate a RAG solution",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/5-evaluate-rag"
+      },
+      {
+        "title": "Automate AI evaluations with Microsoft Foundry and GitHub Actions: Align evaluators with human criteria",
+        "url": "https://learn.microsoft.com/en-us/training/modules/automated-evaluation-genaiops/3-align-evaluators-human-criteria"
+      }
+    ]
   },
   {
     "id": 33,
@@ -822,7 +1142,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Relevance scores how well the response answers the query."
+    "explanation": "Relevance scores how well a response addresses the user's question. Groundedness checks support from sources, fluency checks language quality, and violence is a safety metric.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Evaluate a RAG solution",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/5-evaluate-rag"
+      },
+      {
+        "title": "Evaluate and optimize AI agents through structured experiments: Apply evaluation rubrics for consistent scoring",
+        "url": "https://learn.microsoft.com/en-us/training/modules/evaluate-optimize-agents/4-evaluate-agent-responses"
+      }
+    ]
   },
   {
     "id": 34,
@@ -847,7 +1177,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Reference-based evaluators such as similarity, F1 or BLEU compare responses to ground truth."
+    "explanation": "When you have a test set with known correct answers, use reference-based evaluators such as similarity, F1 or BLEU that compare the app's answers to ground truth. Groundedness, latency and Prompt Shields don't compare to expected answers.",
+    "refs": [
+      {
+        "title": "Automate AI evaluations with Microsoft Foundry and GitHub Actions: Create evaluation datasets",
+        "url": "https://learn.microsoft.com/en-us/training/modules/automated-evaluation-genaiops/4-create-evaluation-data"
+      },
+      {
+        "title": "Automate AI evaluations with Microsoft Foundry and GitHub Actions: Implement batch evaluations with Python",
+        "url": "https://learn.microsoft.com/en-us/training/modules/automated-evaluation-genaiops/5-batch-evaluations-python"
+      }
+    ]
   },
   {
     "id": 35,
@@ -872,7 +1212,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The Foundry SDK's project client takes the project endpoint and a credential. DefaultAzureCredential supports keyless sign-in locally and with managed identity in Azure."
+    "explanation": "The Foundry SDK's project client takes the project endpoint and a credential. DefaultAzureCredential gives keyless sign-in both locally and with a managed identity in Azure. Hard-coded passwords, direct storage connections and SSH keys aren't how you connect.",
+    "refs": [
+      {
+        "title": "Develop a generative AI chat app with Microsoft Foundry: Choose an endpoint and SDK",
+        "url": "https://learn.microsoft.com/en-us/training/modules/foundry-sdk/03-microsoft-foundry-sdk"
+      },
+      {
+        "title": "Develop your first agent with Microsoft Foundry: Develop an AI agent in Visual Studio Code",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-first-agent/4-developer-tools"
+      }
+    ]
   },
   {
     "id": 36,
@@ -897,7 +1247,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Instructions define who the agent is, what it should achieve and the rules it follows."
+    "explanation": "The agent's instructions (its system prompt) set who the agent is, what it should achieve and the rules it follows. Temperature, a thread ID and a vector index don't define role or goals.",
+    "refs": [
+      {
+        "title": "Develop your first agent with Microsoft Foundry: Create an AI agent in the Microsoft Foundry portal",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-first-agent/3b-foundry-agent"
+      },
+      {
+        "title": "Get started with AI agent development on Azure: Options for agent development",
+        "url": "https://learn.microsoft.com/en-us/training/modules/ai-agent-fundamentals/3-agent-development"
+      }
+    ]
   },
   {
     "id": 37,
@@ -922,7 +1282,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The thread stores the conversation's messages; runs process the thread and add the agent's replies."
+    "explanation": "A thread (conversation) holds the messages of one exchange between a user and an agent. A run processes the thread with the agent and adds replies. Tools and deployments are separate concepts.",
+    "refs": [
+      {
+        "title": "Get started with AI agent development on Azure: Options for agent development",
+        "url": "https://learn.microsoft.com/en-us/training/modules/ai-agent-fundamentals/3-agent-development"
+      },
+      {
+        "title": "Develop your first agent with Microsoft Foundry: Develop a client app for an AI agent",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-first-agent/4b-agent-client"
+      }
+    ]
   },
   {
     "id": 38,
@@ -947,7 +1317,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The OpenAPI tool lets the agent call REST operations described in the spec, with the authentication you configure."
+    "explanation": "The OpenAPI tool lets an agent call REST operations described by an OpenAPI 3 spec, with the authentication you configure, so it can call the order-status API. Code interpreter, file search and Bing grounding don't call your own endpoints.",
+    "refs": [
+      {
+        "title": "Integrate custom tools into your agent: Options for implementing custom tools",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-agent-with-custom-tools/3-custom-tool-options"
+      },
+      {
+        "title": "Build and extend AI agents with Microsoft Foundry: Extend an agent with custom tools",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-extend-ai-agents/4-extend-agents-with-tools"
+      }
+    ]
   },
   {
     "id": 39,
@@ -972,7 +1352,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Function calling is a request: the model picks a function and arguments, your app executes it, and the result goes back to the model to finish the answer."
+    "explanation": "With function calling the model returns the function name and JSON arguments, not a result. Your code runs the function and sends the result back so the model can finish the answer. The model never executes your code itself.",
+    "refs": [
+      {
+        "title": "Develop generative AI apps that use tools: Use the function tool",
+        "url": "https://learn.microsoft.com/en-us/training/modules/use-generative-ai-tools/06-function"
+      },
+      {
+        "title": "Integrate custom tools into your agent: How to integrate custom tools",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-agent-with-custom-tools/4-how-use-custom-tools"
+      }
+    ]
   },
   {
     "id": 40,
@@ -997,7 +1387,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The model only sees the schema. Clear names, descriptions and types lead to correct tool selection and arguments."
+    "explanation": "The model only sees the function schema, so clear names, descriptions and parameter types are how it decides when to call a function and how to fill the arguments. Descriptions have nothing to do with billing, encryption or speed.",
+    "refs": [
+      {
+        "title": "Develop generative AI apps that use tools: Use the function tool",
+        "url": "https://learn.microsoft.com/en-us/training/modules/use-generative-ai-tools/06-function"
+      },
+      {
+        "title": "Integrate custom tools into your agent: How to integrate custom tools",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-agent-with-custom-tools/4-how-use-custom-tools"
+      }
+    ]
   },
   {
     "id": 41,
@@ -1022,7 +1422,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Code interpreter runs Python in a sandbox, so the agent can read files, calculate and produce charts."
+    "explanation": "Code interpreter runs Python in a sandbox, so the agent can read an uploaded CSV, calculate statistics and draw charts. File search retrieves passages, Bing grounding fetches web results and AI Search queries an index.",
+    "refs": [
+      {
+        "title": "Develop generative AI apps that use tools: Use the code_interpreter tool",
+        "url": "https://learn.microsoft.com/en-us/training/modules/use-generative-ai-tools/03-code-interpreter"
+      },
+      {
+        "title": "Build and extend AI agents with Microsoft Foundry: Extend an agent with custom tools",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-extend-ai-agents/4-extend-agents-with-tools"
+      }
+    ]
   },
   {
     "id": 42,
@@ -1047,7 +1457,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "File search chunks and embeds uploaded files into a vector store and retrieves relevant passages for the agent."
+    "explanation": "File search chunks and embeds uploaded files into a vector store and retrieves relevant passages for the agent, which is the simplest tool for PDFs users upload mid-conversation. Code interpreter isn't a retrieval tool and OpenAPI calls APIs.",
+    "refs": [
+      {
+        "title": "Develop generative AI apps that use tools: Use the file_search tool",
+        "url": "https://learn.microsoft.com/en-us/training/modules/use-generative-ai-tools/05-file-search"
+      },
+      {
+        "title": "Build and extend AI agents with Microsoft Foundry: Extend an agent with custom tools",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-extend-ai-agents/4-extend-agents-with-tools"
+      }
+    ]
   },
   {
     "id": 43,
@@ -1072,7 +1492,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Grounding with Bing Search retrieves current web results for the agent and includes citations."
+    "explanation": "Grounding with Bing Search retrieves current web results for the agent and includes citations, which suits current events. File search covers your own files, and a fine-tuned model is static.",
+    "refs": [
+      {
+        "title": "Develop generative AI apps that use tools: Use the web_search tool",
+        "url": "https://learn.microsoft.com/en-us/training/modules/use-generative-ai-tools/04-web-search"
+      },
+      {
+        "title": "Build and extend AI agents with Microsoft Foundry: Extend an agent with custom tools",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-extend-ai-agents/4-extend-agents-with-tools"
+      }
+    ]
   },
   {
     "id": 44,
@@ -1097,7 +1527,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "In multi-agent orchestration, a coordinating agent routes subtasks to specialized agents and combines their results."
+    "explanation": "Multi-agent orchestration has a coordinating agent that routes subtasks to specialized agents and combines their results. A planner delegating to flight and hotel agents is exactly that. RAG, fine-tuning and batch inference are different patterns.",
+    "refs": [
+      {
+        "title": "Implement advanced multi-agent orchestration patterns in Microsoft Foundry: Differentiate agentic AI from multi-agent AI architectures",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-multi-agent-orchestration-azure-ai-foundry/2-differentiate-agentic-multi-agent-architectures"
+      },
+      {
+        "title": "Orchestrate a multi-agent solution using the Microsoft Agent Framework: Understand agent orchestration",
+        "url": "https://learn.microsoft.com/en-us/training/modules/orchestrate-semantic-kernel-multi-agent-solution/3-understand-agent-orchestration"
+      }
+    ]
   },
   {
     "id": 45,
@@ -1122,7 +1562,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Focused agents choose tools more accurately and are easier to test, at the cost of coordination overhead."
+    "explanation": "Specialized agents each have a smaller, focused set of instructions and tools, so they pick tools more accurately and are easier to test, at the cost of coordination overhead. Splitting doesn't remove the need for evaluation, always lower cost or prevent prompt injection.",
+    "refs": [
+      {
+        "title": "Implement advanced multi-agent orchestration patterns in Microsoft Foundry: Differentiate agentic AI from multi-agent AI architectures",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-multi-agent-orchestration-azure-ai-foundry/2-differentiate-agentic-multi-agent-architectures"
+      },
+      {
+        "title": "Apply task decomposition and agent collaboration strategies in Microsoft Foundry: Introduction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-apply-task-decomposition-multi-agent-azure/1-introduction"
+      }
+    ]
   },
   {
     "id": 46,
@@ -1147,7 +1597,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "MCP tools in Foundry can require approval, so the run pauses until the app approves or rejects each tool call."
+    "explanation": "MCP tools in Foundry can require approval, so the run pauses until your app approves or rejects each tool call. That's how a person confirms every call to an MCP server that can change data. Temperature or model size doesn't gate actions.",
+    "refs": [
+      {
+        "title": "Integrate MCP Tools with Azure AI Agents: Use Azure AI agents with MCP servers",
+        "url": "https://learn.microsoft.com/en-us/training/modules/connect-agent-to-mcp-tools/4-use-azure-ai-agents-with-mcp"
+      },
+      {
+        "title": "Build and extend AI agents with Microsoft Foundry: Connect an agent to MCP servers",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-extend-ai-agents/5-connect-agents-to-mcp"
+      }
+    ]
   },
   {
     "id": 47,
@@ -1172,7 +1632,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "MCP standardizes how tools and resources are described and called, so an agent can use any compliant server."
+    "explanation": "The Model Context Protocol standardizes how tools and resources are described and called, giving agents a standard way to connect to external tools and data sources, so an agent can use any compliant server. It isn't a training format, filter setting or billing plan.",
+    "refs": [
+      {
+        "title": "Integrate MCP Tools with Azure AI Agents: Understand MCP tool discovery",
+        "url": "https://learn.microsoft.com/en-us/training/modules/connect-agent-to-mcp-tools/2-understand-mcp-tool-discovery"
+      },
+      {
+        "title": "Build and extend AI agents with Microsoft Foundry: Connect an agent to MCP servers",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-extend-ai-agents/5-connect-agents-to-mcp"
+      }
+    ]
   },
   {
     "id": 48,
@@ -1197,7 +1667,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Autonomous workflows need guardrails: scoped permissions, thresholds that trigger human approval, and traces for review."
+    "explanation": "Autonomous workflows need guardrails: scoped permissions, limits and approval checkpoints for actions above set thresholds, and full logging for review. Unlimited retries without logs, self-modifying instructions or admin rights everywhere create risk.",
+    "refs": [
+      {
+        "title": "Govern the enterprise agent lifecycle in Microsoft Foundry: Introduction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-govern-enterprise-agent-lifecycle-azure/1-introduction"
+      },
+      {
+        "title": "Secure multi-agent systems with Azure zero-trust architecture: Introduction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-secure-multi-agent-systems-azure-zero-trust/1-introduction"
+      }
+    ]
   },
   {
     "id": 49,
@@ -1222,7 +1702,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Traces break each run into steps, so you can see the failing tool call or reasoning step and analyze the error."
+    "explanation": "Run traces break each run into steps, showing each tool call, input, output and error, so you can see which step failed and why. The final message, a model card or the invoice can't show that.",
+    "refs": [
+      {
+        "title": "Analyze and debug your generative AI app with tracing: Make informed decisions with trace data analysis",
+        "url": "https://learn.microsoft.com/en-us/training/modules/tracing-generative-ai-app/6-analyze-trace-data"
+      },
+      {
+        "title": "Debug and respond to production multi-agent incidents in Azure: Introduction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-debug-production-multi-agent-incidents-azure/1-introduction"
+      }
+    ]
   },
   {
     "id": 50,
@@ -1247,7 +1737,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Agent evaluators such as tool call accuracy, intent resolution and task adherence measure agent behavior, not just text quality."
+    "explanation": "Agent evaluators such as tool call accuracy, intent resolution and task adherence measure agent behavior, not just text quality. Tool call accuracy checks that the agent picked the right tools with the right arguments. Fluency, latency and coherence don't.",
+    "refs": [
+      {
+        "title": "Evaluate and optimize AI agents through structured experiments: Apply evaluation rubrics for consistent scoring",
+        "url": "https://learn.microsoft.com/en-us/training/modules/evaluate-optimize-agents/4-evaluate-agent-responses"
+      },
+      {
+        "title": "Evaluate and optimize AI agents through structured experiments: Design evaluation experiments",
+        "url": "https://learn.microsoft.com/en-us/training/modules/evaluate-optimize-agents/2-design-evaluation-experiments"
+      }
+    ]
   },
   {
     "id": 51,
@@ -1272,7 +1772,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Structured outputs constrain the response to a supplied JSON schema, so it always parses."
+    "explanation": "Structured outputs constrain the response to a supplied JSON schema, so it always parses. Asking nicely for JSON in the prompt isn't guaranteed, and temperature or max tokens don't enforce structure.",
+    "refs": [
+      {
+        "title": "Use structured outputs with Azure OpenAI",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/structured-outputs"
+      },
+      {
+        "title": "Introduction to generative AI and agents: Prompts",
+        "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-generative-ai/6-writing-prompts"
+      }
+    ]
   },
   {
     "id": 52,
@@ -1297,7 +1807,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Lower temperature makes the model choose more likely tokens, so outputs become more deterministic."
+    "explanation": "Lowering the temperature makes the model choose more likely tokens, so outputs become more deterministic and consistent between runs. Raising it, max tokens or a presence penalty increases variation or doesn't address it.",
+    "refs": [
+      {
+        "title": "Optimize generative AI model performance with Microsoft Foundry: Optimize model output with prompt engineering",
+        "url": "https://learn.microsoft.com/en-us/training/modules/optimize-generative-ai-model-performance/2-prompt-engineering"
+      },
+      {
+        "title": "Develop a generative AI chat app with Microsoft Foundry: Explore with the model playground",
+        "url": "https://learn.microsoft.com/en-us/training/modules/foundry-sdk/02-chat-playground"
+      }
+    ]
   },
   {
     "id": 53,
@@ -1322,7 +1842,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Few-shot examples demonstrate the task inside the prompt, which often improves format and accuracy without training."
+    "explanation": "Including a few input-output examples in the prompt is few-shot prompting. It demonstrates the expected format and style inside the prompt, often improving accuracy without any training. It doesn't fine-tune the model or change the context window.",
+    "refs": [
+      {
+        "title": "Optimize generative AI model performance with Microsoft Foundry: Optimize model output with prompt engineering",
+        "url": "https://learn.microsoft.com/en-us/training/modules/optimize-generative-ai-model-performance/2-prompt-engineering"
+      },
+      {
+        "title": "Introduction to generative AI and agents: Prompts",
+        "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-generative-ai/6-writing-prompts"
+      }
+    ]
   },
   {
     "id": 54,
@@ -1347,7 +1877,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Reflection asks the model to critique and revise its output. It often improves accuracy at the cost of extra calls."
+    "explanation": "Having the model review its own draft against the sources and correct errors is a self-critique (reflection) loop. It often improves accuracy at the cost of extra model calls. Batch inference, tokenization and keyword search aren't self-review.",
+    "refs": [
+      {
+        "title": "Design stateful agentic loops with Microsoft Foundry agent service: Introduction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-design-agentic-loops-azure-ai-agent-service/1-introduction"
+      },
+      {
+        "title": "Design advanced prompting strategies for production AI agents: Introduction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-design-advanced-prompt-production-agents/1-introduction"
+      }
+    ]
   },
   {
     "id": 55,
@@ -1372,7 +1912,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Reasoning models spend extra compute thinking through steps before answering, which helps with complex problems."
+    "explanation": "Reasoning models spend extra compute thinking through steps before answering, which helps on complex multi-step math and planning. Embeddings and text-to-speech models don't reason, and the smallest model is the weakest choice for hard problems.",
+    "refs": [
+      {
+        "title": "Select, deploy, and evaluate Microsoft Foundry models: Select models using benchmarks",
+        "url": "https://learn.microsoft.com/en-us/training/modules/model-catalog-evaluate/3-select-models-benchmarks"
+      },
+      {
+        "title": "Get started with generative AI and agents in Azure: Generative AI models",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-with-generative-ai-and-agents/2-generative-ai-models"
+      }
+    ]
   },
   {
     "id": 56,
@@ -1397,7 +1947,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Tracing records each step as a span with timings and token counts, so you can find slow or expensive steps."
+    "explanation": "OpenTelemetry tracing records each step as a span with timings and token counts, so you can find slow or expensive steps in a multi-step flow. A single end-of-flow log line and content filters can't break down per-step usage.",
+    "refs": [
+      {
+        "title": "Analyze and debug your generative AI app with tracing: Debug complex workflows with advanced tracing patterns",
+        "url": "https://learn.microsoft.com/en-us/training/modules/tracing-generative-ai-app/5-advanced-tracing"
+      },
+      {
+        "title": "Implement distributed observability for multi-agent solutions with OpenTelemetry: Design distributed tracing for multi-agent solutions",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-distributed-observability-multi-agent-opentelemetry/2-design-distributed-trace-multi-agent-systems"
+      }
+    ]
   },
   {
     "id": 57,
@@ -1422,7 +1982,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Routing by complexity and combining LLMs with deterministic rules balances cost, quality and predictability."
+    "explanation": "Routing by complexity, with a fast model classifying requests, a stronger model for complex ones and a rules engine for refunds, is orchestrating multiple models with a hybrid LLM and rules approach. It balances cost, quality and predictability.",
+    "refs": [
+      {
+        "title": "Optimize multi-agent performance and cost in Microsoft Foundry: Design model routing for agent ecosystems",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-optimize-multi-agent-performance-cost-azure/2-design-model-route-agent-ecosystems"
+      },
+      {
+        "title": "Build enterprise-grade tool ecosystems with MCP and Microsoft Foundry: Implement tool selection and routing logic",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-build-enterprise-tool-ecosystems-mcp-azure/4-implement-tool-selection-route-logic"
+      }
+    ]
   },
   {
     "id": 58,
@@ -1447,7 +2017,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The Foundry project and agents client libraries create agents, threads, messages and runs from code."
+    "explanation": "The Foundry project and agents client libraries (the Azure AI Projects / Agents SDK) create agents, threads, messages and runs from code. The Storage, Key Vault and Monitor SDKs don't manage agents.",
+    "refs": [
+      {
+        "title": "Develop your first agent with Microsoft Foundry: Develop an AI agent in Visual Studio Code",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-first-agent/4-developer-tools"
+      },
+      {
+        "title": "Get started with AI agent development on Azure: Microsoft Foundry Agent Service",
+        "url": "https://learn.microsoft.com/en-us/training/modules/ai-agent-fundamentals/4-azure-ai-agent-service"
+      }
+    ]
   },
   {
     "id": 59,
@@ -1472,7 +2052,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Agents follow instructions about when to use tools. Explicitly requiring retrieval and citations improves grounding."
+    "explanation": "Agents follow their instructions about when to use tools, so update the instructions to require using the knowledge tool and citing it. Raising temperature, deleting the index or adding Bing grounding doesn't make the agent use the tool.",
+    "refs": [
+      {
+        "title": "Get started with Microsoft Foundry IQ: Connect an agent to Foundry IQ",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-foundry-iq/4-connect-agents"
+      },
+      {
+        "title": "Build and extend AI agents with Microsoft Foundry: Extend an agent with custom tools",
+        "url": "https://learn.microsoft.com/en-us/training/modules/build-extend-ai-agents/4-extend-agents-with-tools"
+      }
+    ]
   },
   {
     "id": 60,
@@ -1497,7 +2087,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Chain-of-thought prompting asks for step-by-step reasoning, which helps on multi-step problems. You can evaluate these steps too."
+    "explanation": "Chain-of-thought prompting asks the model to work through intermediate steps before giving the final answer, which helps on multi-step problems. Stop sequences and zero-temperature sampling don't elicit reasoning steps.",
+    "refs": [
+      {
+        "title": "Design advanced prompting strategies for production AI agents: Introduction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-design-advanced-prompt-production-agents/1-introduction"
+      },
+      {
+        "title": "Optimize generative AI model performance with Microsoft Foundry: Optimize model output with prompt engineering",
+        "url": "https://learn.microsoft.com/en-us/training/modules/optimize-generative-ai-model-performance/2-prompt-engineering"
+      }
+    ]
   },
   {
     "id": 61,
@@ -1522,7 +2122,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Image-generation models create images from text prompts and can use reference images."
+    "explanation": "An image-generation model such as gpt-image-1 creates images from text descriptions, and can use reference images. Embeddings, speech and text-only chat models can't produce images.",
+    "refs": [
+      {
+        "title": "Get started with computer vision in Azure: Image generation models",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-vision-azure/3-image-generation"
+      },
+      {
+        "title": "Introduction to computer vision concepts: Image generation",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-computer-vision/5a-generate-images"
+      }
+    ]
   },
   {
     "id": 62,
@@ -1547,7 +2157,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Mask-based editing (inpainting) regenerates only the masked area according to the prompt."
+    "explanation": "Inpainting with a mask regenerates only the masked area according to the prompt, so you can replace the sky and keep the rest of the photo unchanged. Generating a new image from text would change everything.",
+    "refs": [
+      {
+        "title": "Get started with computer vision in Azure: Image generation models",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-vision-azure/3-image-generation"
+      },
+      {
+        "title": "Introduction to computer vision concepts: Image generation",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-computer-vision/5a-generate-images"
+      }
+    ]
   },
   {
     "id": 63,
@@ -1572,7 +2192,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sora in Foundry generates video from text and reference media."
+    "explanation": "Sora in Foundry generates short video clips from text prompts and reference media. Whisper is speech recognition, text-embedding-3 produces embeddings and Phi is a family of small language models.",
+    "refs": [
+      {
+        "title": "Generate videos with Microsoft Foundry: Deploy a video generating model",
+        "url": "https://learn.microsoft.com/en-us/training/modules/generate-video-with-foundry/2-deploy-video-model"
+      },
+      {
+        "title": "Get started with computer vision in Azure: Video generation models",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-vision-azure/4-video-generation"
+      }
+    ]
   },
   {
     "id": 64,
@@ -1597,7 +2227,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Multimodal models can caption images; prompting for concise, purpose-focused descriptions produces usable alt text."
+    "explanation": "A multimodal model workflow can caption images, and prompting for concise, purpose-focused descriptions produces usable alt text for thousands of product photos. OCR only reads text in images and image generation creates, not describes.",
+    "refs": [
+      {
+        "title": "Develop a vision-enabled generative AI application: Develop a vision-based chat app",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-generative-ai-vision-apps/3-develop-visual-chat-app"
+      },
+      {
+        "title": "Get started with computer vision in Azure: Multimodal models for image analysis",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-vision-azure/2-vision-enabled-models"
+      }
+    ]
   },
   {
     "id": 65,
@@ -1622,7 +2262,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Visual question answering grounds the answer in the image the user supplied."
+    "explanation": "Asking a question about an image the user supplied is visual question answering, done with a multimodal model that grounds the answer in the image. Text-to-speech, image generation and translation don't answer questions about photos.",
+    "refs": [
+      {
+        "title": "Develop a vision-enabled generative AI application: Develop a vision-based chat app",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-generative-ai-vision-apps/3-develop-visual-chat-app"
+      },
+      {
+        "title": "Get started with computer vision in Azure: Multimodal models for image analysis",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-vision-azure/2-vision-enabled-models"
+      }
+    ]
   },
   {
     "id": 66,
@@ -1647,7 +2297,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Content Understanding analyzers extract defined fields from images, documents, audio and video into consistent structured output."
+    "explanation": "Azure Content Understanding analyzers extract defined fields from images, documents, audio and video into consistent structured output, so an image analyzer returns scene type, objects and logos in a repeatable schema. Translator, Monitor and text-to-speech don't.",
+    "refs": [
+      {
+        "title": "Analyze images with Content Understanding: Analyze images with Content Understanding",
+        "url": "https://learn.microsoft.com/en-us/training/modules/analyze-images-with-content-understanding/3-analyze-images-with-content-understanding"
+      },
+      {
+        "title": "What is Azure Content Understanding in Foundry Tools?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview"
+      }
+    ]
   },
   {
     "id": 67,
@@ -1672,7 +2332,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Video analysis in Content Understanding segments video and extracts descriptions and fields per segment."
+    "explanation": "Video analysis in Content Understanding segments video and extracts descriptions and fields per segment, which fits turning hours of footage into described segments. Image generation, speech translation and file-name indexes don't analyze video content.",
+    "refs": [
+      {
+        "title": "What is Azure Content Understanding in Foundry Tools?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview"
+      },
+      {
+        "title": "Introduction to AI concepts: Information extraction",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-ai-fundamentals/6-extract-insights"
+      }
+    ]
   },
   {
     "id": 68,
@@ -1697,7 +2367,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Pro mode adds multi-step reasoning across inputs and reference knowledge; standard mode suits single-task extraction."
+    "explanation": "Pro mode in Content Understanding adds multi-step reasoning across multiple inputs and reference knowledge, for harder tasks. Standard mode suits single-task extraction.",
+    "refs": [
+      {
+        "title": "What is Azure Content Understanding in Foundry Tools?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview"
+      },
+      {
+        "title": "Analyze images with Content Understanding: What is Content Understanding?",
+        "url": "https://learn.microsoft.com/en-us/training/modules/analyze-images-with-content-understanding/2-what-is-content-understanding"
+      }
+    ]
   },
   {
     "id": 69,
@@ -1722,7 +2402,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Detection returns each object's label and its region in the image."
+    "explanation": "Object detection returns each object's label and its region (a bounding box) in the image, which tells you where each damaged component is. A caption or classification can't locate anything.",
+    "refs": [
+      {
+        "title": "Introduction to computer vision concepts: Convolutional neural networks",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-computer-vision/4-computer-vision-models"
+      },
+      {
+        "title": "Introduction to AI concepts: Computer vision",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-ai-fundamentals/3-computer-vision"
+      }
+    ]
   },
   {
     "id": 70,
@@ -1747,7 +2437,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Content Safety classifies images by harm category and severity, so unsafe uploads can be blocked."
+    "explanation": "Content Safety classifies images by harm category (violence, sexual, hate, self-harm) and severity, so unsafe uploads can be blocked before the model responds. Translator, speech-to-text and keyword search don't assess images for harm.",
+    "refs": [
+      {
+        "title": "Use AI responsibly with Microsoft Foundry Content Safety: How does Microsoft Foundry Content Safety work?",
+        "url": "https://learn.microsoft.com/en-us/training/modules/responsible-content-safety/3-how-content-safety-works"
+      },
+      {
+        "title": "Secure Azure OpenAI with content safety controls: Understand Azure AI content safety architecture",
+        "url": "https://learn.microsoft.com/en-us/training/modules/secure-azure-openai-content-safety-controls/2-understand-azure-ai-content-safety-architecture"
+      }
+    ]
   },
   {
     "id": 71,
@@ -1772,7 +2472,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Text inside images can carry instructions the model reads. Prompt Shields and treating extracted text as untrusted mitigate it."
+    "explanation": "Text embedded in an image that tells the model to ignore its instructions is an indirect prompt injection. Prompt Shields and treating extracted text as untrusted input mitigate it. It isn't denial of service, a residency violation or a rate-limit error.",
+    "refs": [
+      {
+        "title": "Prompt Shields in Azure AI Content Safety",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection"
+      },
+      {
+        "title": "Use AI responsibly with Microsoft Foundry Content Safety: What is Content Safety",
+        "url": "https://learn.microsoft.com/en-us/training/modules/responsible-content-safety/2-what-is-content-safety"
+      }
+    ]
   },
   {
     "id": 72,
@@ -1797,7 +2507,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Watermarks and C2PA content credentials record that an image was AI-generated."
+    "explanation": "Watermarking and content credentials (C2PA provenance metadata) record that an image was AI-generated, which satisfies a brand policy of labeling it. Higher resolution, file names or lower temperature don't label images.",
+    "refs": [
+      {
+        "title": "Get started with computer vision in Azure: Image generation models",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-vision-azure/3-image-generation"
+      },
+      {
+        "title": "Embrace responsible AI principles and practices: Identify guiding principles for responsible AI",
+        "url": "https://learn.microsoft.com/en-us/training/modules/embrace-responsible-ai-principles-practices/3-identify-guiding-principles-responsible-ai"
+      }
+    ]
   },
   {
     "id": 73,
@@ -1822,7 +2542,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Generation controls such as size, quality and style shape the output to the use case."
+    "explanation": "The size, quality and style parameters of the generation request shape the output to the use case, such as matching a product page layout. The search index name, voice and thread ID are unrelated to image output.",
+    "refs": [
+      {
+        "title": "Get started with computer vision in Azure: Image generation models",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-vision-azure/3-image-generation"
+      },
+      {
+        "title": "Introduction to computer vision concepts: Image generation",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-computer-vision/5a-generate-images"
+      }
+    ]
   },
   {
     "id": 74,
@@ -1847,7 +2577,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Generative extraction with a JSON schema returns the entities in a fixed structure your code can load."
+    "explanation": "Prompting a language model with structured outputs that define the fields (company, date, amount) returns the entities as JSON your code can load straight into a database. Speech-to-text and image generation don't extract fields from text.",
+    "refs": [
+      {
+        "title": "Use structured outputs with Azure OpenAI",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/structured-outputs"
+      },
+      {
+        "title": "Analyze text with Azure Language in Foundry Tools: Extract entities",
+        "url": "https://learn.microsoft.com/en-us/training/modules/analyze-text-ai-language/6-extract-entities"
+      }
+    ]
   },
   {
     "id": 75,
@@ -1872,7 +2612,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sentiment analysis classifies the opinion expressed. It can use Foundry Tools' language features or an LLM prompt."
+    "explanation": "Sentiment analysis classifies the opinion expressed in text as positive, neutral or negative. It can use Azure Language features or an LLM prompt. Translation and summarization don't label opinion.",
+    "refs": [
+      {
+        "title": "Get started with text analysis in Azure: Understand text analysis in Foundry",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-text-analysis-azure/2-azure-language"
+      },
+      {
+        "title": "What is sentiment analysis and opinion mining in Azure Language?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/overview"
+      }
+    ]
   },
   {
     "id": 76,
@@ -1897,7 +2647,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "PII detection identifies personal data categories and returns redacted text."
+    "explanation": "PII detection identifies personal data categories such as phone numbers and ID numbers and returns redacted text, which is what you need before storing chat logs. Sentiment and key phrase extraction don't mask data.",
+    "refs": [
+      {
+        "title": "Analyze text with Azure Language in Foundry Tools: Extract personally identifiable information (PII)",
+        "url": "https://learn.microsoft.com/en-us/training/modules/analyze-text-ai-language/7-extract-personal-information"
+      },
+      {
+        "title": "Get started with text analysis in Azure: Understand text analysis in Foundry",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-text-analysis-azure/2-azure-language"
+      }
+    ]
   },
   {
     "id": 77,
@@ -1922,7 +2682,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Azure Translator translates text and documents and supports custom glossaries and custom models."
+    "explanation": "Azure Translator translates text and documents into many languages and supports custom glossaries and custom models, which gives control over product terms. AI Search, Content Safety and Monitor don't translate.",
+    "refs": [
+      {
+        "title": "Translate text and speech with Microsoft Foundry Tools: Translate text",
+        "url": "https://learn.microsoft.com/en-us/training/modules/translate-text-speech/3-azure-translator"
+      },
+      {
+        "title": "Translate text and speech with Microsoft Foundry Tools: Translation in Microsoft Foundry",
+        "url": "https://learn.microsoft.com/en-us/training/modules/translate-text-speech/2-translation-foundry"
+      }
+    ]
   },
   {
     "id": 78,
@@ -1947,7 +2717,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "LLMs can rewrite for audience and tone while translating. Dedicated translation APIs are cheaper and more predictable for bulk work."
+    "explanation": "An LLM-based translation flow is better when you need to adapt tone, style or domain terminology in context. Dedicated translation APIs are cheaper and more predictable for bulk work.",
+    "refs": [
+      {
+        "title": "Translate text and speech with Microsoft Foundry Tools: Translation in Microsoft Foundry",
+        "url": "https://learn.microsoft.com/en-us/training/modules/translate-text-speech/2-translation-foundry"
+      },
+      {
+        "title": "Translate text and speech with Microsoft Foundry Tools: Translate text",
+        "url": "https://learn.microsoft.com/en-us/training/modules/translate-text-speech/3-azure-translator"
+      }
+    ]
   },
   {
     "id": 79,
@@ -1972,7 +2752,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Instructions plus examples and terminology customize the model's summaries for the domain."
+    "explanation": "Summaries in the company's own terms come from prompting a model with instructions, examples of good summaries and the glossary. Sentiment analysis, speech-to-text and object detection don't summarize.",
+    "refs": [
+      {
+        "title": "Optimize generative AI model performance with Microsoft Foundry: Optimize model output with prompt engineering",
+        "url": "https://learn.microsoft.com/en-us/training/modules/optimize-generative-ai-model-performance/2-prompt-engineering"
+      },
+      {
+        "title": "Introduction to generative AI and agents: Prompts",
+        "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-generative-ai/6-writing-prompts"
+      }
+    ]
   },
   {
     "id": 80,
@@ -1997,7 +2787,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Speech-to-text turns the caller's audio into text for the model, and text-to-speech speaks the reply."
+    "explanation": "A voice agent needs speech-to-text to turn the caller's audio into text for the model, and text-to-speech to speak the reply. Translation, OCR, image generation and indexing aren't needed for a spoken conversation.",
+    "refs": [
+      {
+        "title": "Develop an Azure Speech Voice Live Agent in Microsoft Foundry: Explore the Azure Voice Live API",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-voice-live-agent/2-voice-live-api"
+      },
+      {
+        "title": "Get started with speech in Azure: Speech recognition",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-speech-azure/2-speech-recognition"
+      }
+    ]
   },
   {
     "id": 81,
@@ -2022,7 +2822,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Custom speech adapts recognition to domain vocabulary and acoustic conditions."
+    "explanation": "When standard transcription gets industry-specific product names wrong, train a custom speech model with your vocabulary and sample audio to adapt recognition to your domain. A larger LLM, lower temperature or content filter doesn't change recognition accuracy.",
+    "refs": [
+      {
+        "title": "Custom speech overview",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/custom-speech-overview"
+      },
+      {
+        "title": "Get started with speech in Azure: Speech recognition",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-speech-azure/2-speech-recognition"
+      }
+    ]
   },
   {
     "id": 82,
@@ -2047,7 +2857,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Speech translation recognizes speech and outputs translated text or synthesized speech in the target language."
+    "explanation": "Speech translation recognizes speech and outputs translated text or synthesized speech in the target language, which handles live English-to-Spanish conversation. Text translation alone needs a transcript first.",
+    "refs": [
+      {
+        "title": "Translate text and speech with Microsoft Foundry Tools: Translate speech",
+        "url": "https://learn.microsoft.com/en-us/training/modules/translate-text-speech/4-speech-translation"
+      },
+      {
+        "title": "Introduction to AI speech concepts: Speech-enabled solutions",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-ai-speech/2-speech-solutions"
+      }
+    ]
   },
   {
     "id": 83,
@@ -2072,7 +2892,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Audio-capable multimodal models take audio directly, so they can use cues a plain transcript loses."
+    "explanation": "A multimodal model that accepts audio input can reason over the recording itself, including cues like tone of voice that a plain transcript loses. Translator, OCR and keyword indexes don't process audio.",
+    "refs": [
+      {
+        "title": "Develop a speech-capable generative AI application: Transcribe speech",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-generative-ai-audio-apps/3-develop-audio-chat-app"
+      },
+      {
+        "title": "Develop a speech-capable generative AI application: Choose a speech-capable model",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-generative-ai-audio-apps/2-deploy-multimodal-model"
+      }
+    ]
   },
   {
     "id": 84,
@@ -2097,7 +2927,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Content Safety detects harm categories and severity; a classification prompt can label tone for routing."
+    "explanation": "Content Safety text analysis detects harm categories and severity such as self-harm risk, and a classification prompt can label tone for routing. Image generation, higher max tokens or speech synthesis don't classify messages.",
+    "refs": [
+      {
+        "title": "Use AI responsibly with Microsoft Foundry Content Safety: How does Microsoft Foundry Content Safety work?",
+        "url": "https://learn.microsoft.com/en-us/training/modules/responsible-content-safety/3-how-content-safety-works"
+      },
+      {
+        "title": "Secure Azure OpenAI with content safety controls: Understand Azure AI content safety architecture",
+        "url": "https://learn.microsoft.com/en-us/training/modules/secure-azure-openai-content-safety-controls/2-understand-azure-ai-content-safety-architecture"
+      }
+    ]
   },
   {
     "id": 85,
@@ -2122,7 +2962,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "A schema-bound JSON output can be validated and loaded directly."
+    "explanation": "JSON matching a defined schema can be validated and loaded directly by downstream code. Free-text paragraphs, images of tables and audio clips have to be parsed first.",
+    "refs": [
+      {
+        "title": "Use structured outputs with Azure OpenAI",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/structured-outputs"
+      },
+      {
+        "title": "Introduction to generative AI and agents: Prompts",
+        "url": "https://learn.microsoft.com/en-us/training/modules/fundamentals-generative-ai/6-writing-prompts"
+      }
+    ]
   },
   {
     "id": 86,
@@ -2147,7 +2997,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Real-time speech APIs stream audio in and out for natural, interruptible voice conversations."
+    "explanation": "The Voice Live API provides low-latency, real-time speech-to-speech conversation with a model, streaming audio in and out so users can interrupt naturally, which suits voice agents. Batch transcription, document translation and AI Search aren't real-time voice.",
+    "refs": [
+      {
+        "title": "Develop an Azure Speech Voice Live Agent in Microsoft Foundry: Explore the Azure Voice Live API",
+        "url": "https://learn.microsoft.com/en-us/training/modules/develop-voice-live-agent/2-voice-live-api"
+      },
+      {
+        "title": "Get started with speech in Azure: Creating a speech-capable agent",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-speech-azure/4-voice-live"
+      }
+    ]
   },
   {
     "id": 87,
@@ -2172,7 +3032,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Ingestion extracts text (with OCR and transcription where needed), chunks it, embeds it and loads it into the index."
+    "explanation": "Ingestion comes first: an indexer pipeline extracts text (with OCR and transcription where needed), chunks it, embeds it and loads it into the index. Fine-tuning or pasting files into the system prompt doesn't make content searchable at scale.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Prepare data for retrieval",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/3-prepare-data"
+      },
+      {
+        "title": "Indexer overview - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/search-indexer-overview"
+      }
+    ]
   },
   {
     "id": 88,
@@ -2197,7 +3067,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The semantic ranker re-scores the top results with a language model and can return captions and answers."
+    "explanation": "The semantic ranker re-scores the top results with a language model to put the most relevant first, and can return captions and answers. Synonym maps, scoring profiles and facets don't use language understanding to re-rank.",
+    "refs": [
+      {
+        "title": "Implement advanced RAG pipelines with Azure AI Search and Microsoft Foundry: Implement reranking and context ranking",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-advanced-rag-azure-ai-search/3-implement-rerank-context-rank"
+      },
+      {
+        "title": "Semantic ranking overview - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/semantic-search-overview"
+      }
+    ]
   },
   {
     "id": 89,
@@ -2222,7 +3102,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "OCR extracts the printed text from images so it can be chunked, embedded and searched."
+    "explanation": "Scanned invoices are images, so the pipeline must run OCR during enrichment to extract the text before it can be chunked, embedded and searched. Captions, filters and compression don't read text.",
+    "refs": [
+      {
+        "title": "OCR skill - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-ocr"
+      },
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Prepare data for retrieval",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/3-prepare-data"
+      }
+    ]
   },
   {
     "id": 90,
@@ -2247,7 +3137,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Skillsets hold built-in and custom skills that enrich content during indexing."
+    "explanation": "A skillset attaches enrichment steps, such as OCR, layout analysis and embedding, to an indexer. It holds built-in and custom skills that enrich content during indexing. Synonym maps, data sources and aliases don't enrich.",
+    "refs": [
+      {
+        "title": "Skillset concepts - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/cognitive-search-working-with-skillsets"
+      },
+      {
+        "title": "Create a skillset - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/cognitive-search-defining-skillset"
+      }
+    ]
   },
   {
     "id": 91,
@@ -2272,7 +3172,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Custom skills call your endpoint during enrichment and add its output to the indexed document."
+    "explanation": "A custom skill (web API) in the skillset calls your own endpoint during enrichment and adds its output to the indexed document, so you can tag documents by product category with your Python code. Scoring profiles, aliases and semantic configurations don't run code.",
+    "refs": [
+      {
+        "title": "Custom Web API skill - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-web-api"
+      },
+      {
+        "title": "Skillset concepts - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/cognitive-search-working-with-skillsets"
+      }
+    ]
   },
   {
     "id": 92,
@@ -2297,7 +3207,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The k value sets how many of the closest vectors are returned to feed the prompt."
+    "explanation": "In vector search the k value sets how many nearest neighbors are returned, which feeds the prompt. Temperature and top_p are model sampling parameters and facet count affects facets.",
+    "refs": [
+      {
+        "title": "Vector search overview - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/vector-search-overview"
+      },
+      {
+        "title": "Implement advanced RAG pipelines with Azure AI Search and Microsoft Foundry: Design hybrid search architectures",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-advanced-rag-azure-ai-search/2-design-hybrid-search-architectures"
+      }
+    ]
   },
   {
     "id": 93,
@@ -2322,7 +3242,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Connecting the index as a tool lets the agent query it when needed and cite the results."
+    "explanation": "Connect the Azure AI Search index to the agent as a knowledge tool so it can query the index when needed and cite results. The agent doesn't download the index into its instructions, fine-tune on it or read Monitor logs.",
+    "refs": [
+      {
+        "title": "Get started with Microsoft Foundry IQ: Connect an agent to Foundry IQ",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-foundry-iq/4-connect-agents"
+      },
+      {
+        "title": "Build knowledge-enhanced AI agents with Foundry IQ: Explore Foundry IQ",
+        "url": "https://learn.microsoft.com/en-us/training/modules/introduction-foundry-iq/3-foundry-iq"
+      }
+    ]
   },
   {
     "id": 94,
@@ -2347,7 +3277,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Layout analysis detects tables, headings and reading order and can emit markdown that preserves structure for chunking."
+    "explanation": "Layout analysis detects tables, headings and reading order and can emit markdown that preserves structure, so a RAG pipeline keeps table structure when chunking. Plain OCR flattens it, and captioning or sentiment analysis doesn't extract layout.",
+    "refs": [
+      {
+        "title": "Extract data with Azure Document Intelligence: What is Azure Document Intelligence?",
+        "url": "https://learn.microsoft.com/en-us/training/modules/extract-data-with-document-intelligence/2-what-is-document-intelligence"
+      },
+      {
+        "title": "Document Layout skill - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-document-intelligence-layout"
+      }
+    ]
   },
   {
     "id": 95,
@@ -2372,7 +3312,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Content Understanding analyzers turn documents into structured fields or markdown with grounding to source locations."
+    "explanation": "Azure Content Understanding analyzers turn documents into structured fields or markdown with grounding to source locations, ready for agents and RAG. Translator, Key Vault and Front Door don't produce structured document output.",
+    "refs": [
+      {
+        "title": "What is Azure Content Understanding in Foundry Tools?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview"
+      },
+      {
+        "title": "Analyze images with Content Understanding: What is Content Understanding?",
+        "url": "https://learn.microsoft.com/en-us/training/modules/analyze-images-with-content-understanding/2-what-is-content-understanding"
+      }
+    ]
   },
   {
     "id": 96,
@@ -2397,7 +3347,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Field extraction analyzers return the defined values regardless of layout, with confidence and source locations."
+    "explanation": "A Content Understanding analyzer with a field schema extracts the defined values (claim number, date of loss, amount) regardless of layout, returning confidence and source locations. Synonym maps, text-to-speech and image generation don't extract fields.",
+    "refs": [
+      {
+        "title": "What is Azure Content Understanding in Foundry Tools?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview"
+      },
+      {
+        "title": "Analyze images with Content Understanding: Analyze images with Content Understanding",
+        "url": "https://learn.microsoft.com/en-us/training/modules/analyze-images-with-content-understanding/3-analyze-images-with-content-understanding"
+      }
+    ]
   },
   {
     "id": 97,
@@ -2422,7 +3382,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Grounding each value to its page and region lets reviewers verify extraction and supports citations."
+    "explanation": "Grounding each extracted value to its page and region lets reviewers trace and verify extraction against the original document, and supports citations. It has nothing to do with token cost, encryption or indexing speed.",
+    "refs": [
+      {
+        "title": "What is Azure Content Understanding in Foundry Tools?",
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview"
+      },
+      {
+        "title": "Extract data with Azure Document Intelligence: Use prebuilt models",
+        "url": "https://learn.microsoft.com/en-us/training/modules/extract-data-with-document-intelligence/4-use-prebuilt-models"
+      }
+    ]
   },
   {
     "id": 98,
@@ -2447,7 +3417,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Filtering queries by a security field (or using document-level access control) keeps retrieval to what each user may see."
+    "explanation": "Security filtering on the index, using a field such as group or department (or document-level access control), keeps retrieval limited to what each user may see, so HR users only retrieve HR content. Temperature, a longer system prompt or a larger k don't restrict access.",
+    "refs": [
+      {
+        "title": "Security filter pattern - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/search-security-trimming-for-azure-search"
+      },
+      {
+        "title": "Implement advanced RAG pipelines with Azure AI Search and Microsoft Foundry: Design dynamic knowledge source routing",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-advanced-rag-azure-ai-search/4-design-dynamic-knowledge-source-route"
+      }
+    ]
   },
   {
     "id": 99,
@@ -2472,7 +3452,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Transcribing audio produces text that can be chunked, embedded and indexed like documents."
+    "explanation": "Meeting recordings become searchable by adding speech transcription to ingestion, so the audio becomes text that can be chunked, embedded and indexed like documents. OCR, captioning and translation alone don't capture what was said.",
+    "refs": [
+      {
+        "title": "Introduction to retrieval-augmented generation concepts: Prepare data for retrieval",
+        "url": "https://learn.microsoft.com/en-us/training/modules/rag-fundamentals/3-prepare-data"
+      },
+      {
+        "title": "Get started with speech in Azure: Speech recognition",
+        "url": "https://learn.microsoft.com/en-us/training/modules/get-started-speech-azure/2-speech-recognition"
+      }
+    ]
   },
   {
     "id": 100,
@@ -2497,6 +3487,16 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sensible chunk sizes with overlap keep ideas intact across boundaries, which improves retrieval and grounding."
+    "explanation": "Sensible chunk sizes with overlap between chunks keep ideas intact across boundaries, improving retrieval and grounding when chunks are cut mid-sentence. Raising temperature, removing the semantic ranker or lowering k to 1 doesn't fix chunking.",
+    "refs": [
+      {
+        "title": "Implement advanced RAG pipelines with Azure AI Search and Microsoft Foundry: Optimize chunking and embedding strategies",
+        "url": "https://learn.microsoft.com/en-us/training/modules/aaai-implement-advanced-rag-azure-ai-search/5-optimize-chunk-embed-strategies"
+      },
+      {
+        "title": "Chunk documents - Azure AI Search",
+        "url": "https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-chunk-documents"
+      }
+    ]
   }
 ]

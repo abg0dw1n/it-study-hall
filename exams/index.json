@@ -58,7 +58,7 @@
     "name": "Microsoft Azure AI Fundamentals",
     "vendor": "Microsoft",
     "level": "beginner",
-    "updated": "2026-10-29",
+    "updated": "2026-11-02",
     "questions": 100,
     "learning": true,
     "learningDescription": "Learn AI concepts and responsible AI, then build generative apps, agents, speech, vision, and information extraction with Microsoft Foundry.",
