@@ -1594,48 +1594,82 @@ function leaveGuest() {
   location.assign('/');
 }
 
-// ── Appearance (theme picker), saved per device by js/theme.js ───────────────
+// ── Appearance (theme + background pickers), saved per device by js/theme.js and js/background.js ──
+const THEME_FILTERS = [['all', 'All'], ['dark', 'Dark'], ['light', 'Light'], ['ise', 'PowerShell ISE']];
+const readableOn = (hex) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.4 ? '#14131a' : '#ffffff';
+};
+const themeFor = (id) => (window.Theme?.list || []).find((t) => t.id === id);
+const themeVars = (t) => `--pv-bg:${t.bg};--pv-panel:${t.panel};--pv-accent:${t.accent};--pv-text:${t.text};--pv-on:${readableOn(t.accent)}`;
+const previewHtml = (t, label) => `<div class="pv-screen" style="${themeVars(t)}">
+    <div class="pv-bar"><span class="pv-logo"></span><b>The IT Study Hall</b><span class="pv-nav"><i></i><i></i></span></div>
+    <div class="pv-card">
+      <small>LEARNING PATH</small>
+      <b>Networking in Practice</b>
+      <span>4 modules · 4 labs</span>
+      <div class="pv-prog"><i></i></div>
+      <em class="pv-btn">Start learning</em>
+    </div>
+  </div><p class="pv-name">${escapeHtml(label)}</p>`;
+
 const appearancePanel = () => {
-  const opts = [{ id: 'system', name: 'System', scheme: 'auto' }, ...(window.Theme?.list || [])];
-  return `<div class="panel card-pad appearance">
-    <div><h2 class="section-title" style="border:0;padding:0">Appearance</h2>
-      <p class="muted small" style="margin-top:4px">Pick a color theme. System follows your device's light or dark setting. Saved on this device.</p></div>
-    <div class="theme-grid" role="radiogroup" aria-label="Theme">
-      ${opts.filter((t) => t.group !== 'ise').map((t) => `<button type="button" class="theme-opt" role="radio" data-theme-pref="${t.id}" aria-checked="false">
-        <span class="theme-swatch" style="${t.id === 'system' ? 'background:linear-gradient(135deg,#221f22 50%,#faf4f2 50%)' : `background:${t.bg}`}">
-          ${t.id === 'system' ? '' : `<i style="background:${t.accent}"></i><i style="background:${t.text}"></i>`}</span>
-        <span class="theme-name">${t.name}<small>${t.scheme === 'auto' ? 'Matches your device' : t.scheme === 'light' ? 'Light' : 'Dark'}</small></span>
-      </button>`).join('')}
+  const bgs = window.Background?.list || [];
+  return `<div class="appearance-layout">
+    <div class="panel card-pad ap-main">
+      <div class="ap-head"><h2 class="section-title" style="border:0;padding:0">Theme</h2>
+        <div class="segmented" role="tablist" aria-label="Filter themes">${THEME_FILTERS.map(([k, l]) => `<button type="button" role="tab" data-theme-filter="${k}">${l}</button>`).join('')}</div></div>
+      <div class="theme-list" role="radiogroup" aria-label="Theme" id="theme-list"></div>
+      <div class="ap-head" style="margin-top:22px"><h2 class="section-title" style="border:0;padding:0">Background</h2></div>
+      <div class="bg-pills" role="radiogroup" aria-label="Background">${bgs.map((b) => `<button type="button" class="pill" role="radio" data-bg-pref="${b.id}" aria-checked="false" title="${escapeHtml(b.blurb)}">${b.name}</button>`).join('')}</div>
+      <p class="muted small" id="bg-blurb" style="margin-top:8px"></p>
     </div>
-    <h3 class="bg-heading">PowerShell ISE themes</h3>
-    <p class="muted small" style="margin-top:4px">Editor color schemes from the PowerShell ISE theme collection.</p>
-    <div class="theme-grid" role="radiogroup" aria-label="PowerShell ISE themes">
-      ${opts.filter((t) => t.group === 'ise').map((t) => `<button type="button" class="theme-opt" role="radio" data-theme-pref="${t.id}" aria-checked="false">
-        <span class="theme-swatch" style="${t.id === 'system' ? 'background:linear-gradient(135deg,#221f22 50%,#faf4f2 50%)' : `background:${t.bg}`}">
-          ${t.id === 'system' ? '' : `<i style="background:${t.accent}"></i><i style="background:${t.text}"></i>`}</span>
-        <span class="theme-name">${t.name}<small>${t.scheme === 'auto' ? 'Matches your device' : t.scheme === 'light' ? 'Light' : 'Dark'}</small></span>
-      </button>`).join('')}
-    </div>
-    <h3 class="bg-heading">Background</h3>
-    <p class="muted small" style="margin-top:4px">Animated backdrop behind the pages, drawn in your theme's colors.</p>
-    <div class="theme-grid bg-grid" role="radiogroup" aria-label="Background">
-      ${(window.Background?.list || []).map((b) => `<button type="button" class="theme-opt" role="radio" data-bg-pref="${b.id}" aria-checked="false">
-        <span class="theme-name">${b.name}<small>${b.blurb}</small></span></button>`).join('')}
-    </div>
+    <aside class="panel card-pad ap-preview" aria-label="Preview"><h2 class="section-title" style="border:0;padding:0">Preview</h2><div id="theme-preview"></div>
+      <p class="muted small">Hover or focus a theme to preview it. Click to apply. Saved on this device.</p></aside>
   </div>`;
 };
 
 function wireAppearance() {
-  const syncBg = () => document.querySelectorAll('[data-bg-pref]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.bgPref === window.Background?.pref())));
-  document.querySelectorAll('[data-bg-pref]').forEach((b) => b.addEventListener('click', () => window.Background?.set(b.dataset.bgPref)));
-  document.addEventListener('bgchange', syncBg);
-  syncBg();
-  const sync = () => document.querySelectorAll('[data-theme-pref]').forEach((b) => {
-    b.setAttribute('aria-checked', String(b.dataset.themePref === window.Theme?.pref()));
+  const list = $('theme-list'), prev = $('theme-preview');
+  let filter = 'all';
+  const all = [{ id: 'system', name: 'System', scheme: 'auto', blurb: "Follows your device's light or dark setting" }, ...(window.Theme?.list || [])];
+  const systemTheme = () => themeFor(matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  const showPreview = (id) => {
+    const t = id === 'system' ? systemTheme() : themeFor(id);
+    if (t) prev.innerHTML = previewHtml(t, id === 'system' ? `System (${t.name})` : t.name);
+  };
+  const shown = () => all.filter((t) => filter === 'all' || t.id === 'system' || (filter === 'ise' ? t.group === 'ise' : t.scheme === filter));
+  const renderList = () => {
+    list.innerHTML = shown().map((t) => {
+      const sw = t.id === 'system' ? '<span class="dots dots-sys"></span>'
+        : `<span class="dots"><i style="background:${t.bg}"></i><i style="background:${t.panel}"></i><i style="background:${t.accent}"></i><i style="background:${t.text}"></i></span>`;
+      return `<button type="button" class="theme-row" role="radio" data-theme-pref="${t.id}" aria-checked="false">${sw}<span class="tn">${escapeHtml(t.name)}</span><span class="tm">${t.scheme === 'auto' ? 'Auto' : t.scheme === 'light' ? 'Light' : 'Dark'}</span></button>`;
+    }).join('');
+    syncTheme();
+    list.querySelectorAll('[data-theme-pref]').forEach((b) => {
+      b.addEventListener('click', () => window.Theme?.set(b.dataset.themePref));
+      ['mouseenter', 'focus'].forEach((ev) => b.addEventListener(ev, () => showPreview(b.dataset.themePref)));
+      ['mouseleave', 'blur'].forEach((ev) => b.addEventListener(ev, () => showPreview(window.Theme?.pref())));
+    });
+  };
+  const syncTheme = () => {
+    list.querySelectorAll('[data-theme-pref]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.themePref === window.Theme?.pref())));
+    showPreview(window.Theme?.pref());
+  };
+  document.querySelectorAll('[data-theme-filter]').forEach((b) => {
+    b.addEventListener('click', () => { filter = b.dataset.themeFilter; document.querySelectorAll('[data-theme-filter]').forEach((x) => x.setAttribute('aria-selected', String(x === b))); renderList(); });
   });
-  document.querySelectorAll('[data-theme-pref]').forEach((b) => b.addEventListener('click', () => window.Theme?.set(b.dataset.themePref)));
-  document.addEventListener('themechange', sync);
-  sync();
+  document.querySelector('[data-theme-filter="all"]')?.setAttribute('aria-selected', 'true');
+  const syncBg = () => {
+    const cur = window.Background?.pref();
+    document.querySelectorAll('[data-bg-pref]').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.bgPref === cur)));
+    const info = (window.Background?.list || []).find((b) => b.id === cur);
+    if ($('bg-blurb')) $('bg-blurb').textContent = info ? info.blurb : '';
+  };
+  document.querySelectorAll('[data-bg-pref]').forEach((b) => b.addEventListener('click', () => window.Background?.set(b.dataset.bgPref)));
+  document.addEventListener('themechange', syncTheme);
+  document.addEventListener('bgchange', syncBg);
+  renderList(); syncBg();
 }
 
 const appearanceLink = () => `<div class="panel card-pad appearance appearance-link">
