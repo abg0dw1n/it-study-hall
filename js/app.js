@@ -305,7 +305,7 @@ function renderOverview(main) {
   const correct = answered.filter((id) => isCorrect(BY_ID.get(id), state.practice.answers[id])).length;
   const mastered = QUESTIONS.filter((q) => (state.mastery?.[q.id]?.box || 0) >= 3).length;
   const acc = pct(correct, answered.length);
-  tiles.push({ mode: 'practice', ic: 'book', title: 'Practice', blurb: 'Answer at your own pace with an explanation after every question.',
+  tiles.push({ mode: 'practice', ic: 'book', title: 'Practice exams', featured: true, blurb: 'Work through the full question bank at your own pace, with a clear explanation after every answer. The fastest way to find what to study next.',
     stat: `${answered.length}<small> / ${QUESTIONS.length}</small>`,
     sub: answered.length ? `${acc}% correct · ${mastered} mastered` : 'No questions answered yet',
     bar: bar(pct(answered.length, QUESTIONS.length)), cta: answered.length ? 'Continue practice' : 'Start practicing' });
@@ -314,7 +314,7 @@ function renderOverview(main) {
   const running = state.exam && !state.exam.result;
   const best = hist.reduce((m, h) => Math.max(m, h.score), 0);
   const passMark = EXAM.scoring?.pass;
-  tiles.push({ mode: 'exam', ic: 'clock', title: 'Timed exam', blurb: `A scored, timed run that mirrors the real ${escapeHtml(EXAM.code)} exam.`,
+  tiles.push({ mode: 'exam', ic: 'clock', title: 'Timed mock exam', blurb: `A scored, timed run that mirrors the real ${escapeHtml(EXAM.code)} exam.`,
     stat: running ? '<span class="ov-live">In progress</span>' : hist.length ? `${hist[0].score}` : '—',
     sub: running ? 'Your exam is still running' : hist.length
       ? `Last score${passMark ? ` (pass ${passMark})` : ''} · best ${best} · ${hist.length} attempt${hist.length === 1 ? '' : 's'}`
@@ -335,11 +335,11 @@ function renderOverview(main) {
     <header class="ov-head">
       <span class="learning-path-eyebrow">${escapeHtml(EXAM.vendor)} · ${escapeHtml(EXAM.code)}</span>
       <h2 class="home-title">${escapeHtml(EXAM.name)}</h2>
-      <p class="muted">Choose where to pick up. ${last ? `You were last in <b>${last}</b>.` : ''}</p>
+      <p class="muted">Learn the material, practice it, then prove it. Choose where to pick up. ${last ? `You were last in <b>${last}</b>.` : ''}</p>
     </header>
     <div class="ov-grid">${tiles.map((t) => `
-      <button type="button" class="panel ov-tile${t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review') ? ' last' : ''}" data-action="overview-go" data-go="${t.mode}">
-        <span class="ov-top"><span class="ov-icon">${icon(t.ic)}</span><span class="ov-title">${t.title}</span></span>
+      <button type="button" class="panel ov-tile${t.featured ? ' featured' : ''}${t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review') ? ' last' : ''}" data-action="overview-go" data-go="${t.mode}">
+        <span class="ov-top"><span class="ov-icon">${icon(t.ic)}</span><span class="ov-title">${t.title}</span>${t.featured ? '<span class="ov-flag">Core feature</span>' : ''}</span>
         <span class="ov-blurb">${t.blurb}</span>
         <span class="ov-stat ${t.cls || ''}"><b>${t.stat}</b><span>${t.sub}</span>${t.bar || ''}</span>
         <span class="learning-path-action">${escapeHtml(t.cta)} ${icon('right')}</span>
@@ -1318,14 +1318,14 @@ async function renderHome() {
         <h2>Learn the concepts.<br><span>Practice with confidence.</span></h2>
         <p>Start with a guided learning path, sharpen your skills with practice questions, and see how ready you are for exam day.</p>
         <div class="home-hero-actions">
-          <a class="btn btn-primary" href="/learning-paths">${icon('learn')}Browse learning paths</a>
-          <a class="btn btn-ghost" href="#practice">Browse practice exams</a>
+          <a class="btn btn-primary" href="#practice">${icon('book')}Browse practice exams</a>
+          <a class="btn btn-ghost" href="/learning-paths">${icon('learn')}Browse learning paths</a>
         </div>
       </div>
       <div class="home-hero-steps" aria-label="A flexible path to exam readiness">
         <div><span class="hero-step-icon">01</span><span><b>Learn</b><small>Guides, slides, and lessons</small></span></div>
-        <div><span class="hero-step-icon">02</span><span><b>Practice</b><small>Questions with explanations</small></span></div>
-        <div><span class="hero-step-icon">03</span><span><b>Get exam-ready</b><small>Timed tests and progress</small></span></div>
+        <div><span class="hero-step-icon">02</span><span><b>Practice exams</b><small>Questions with full explanations</small></span></div>
+        <div><span class="hero-step-icon">03</span><span><b>Get exam-ready</b><small>Timed mocks, labs and progress tracking</small></span></div>
       </div>
     </section>
     <section class="learning-section" id="recents" aria-labelledby="recents-title">
@@ -1338,15 +1338,15 @@ async function renderHome() {
     </section>
     <section class="practice-section" id="practice" aria-labelledby="practice-title">
     <div class="catalog-heading">
-      <div class="stack" style="gap:6px"><span class="eyebrow">CERTIFICATION LIBRARY</span><h2 class="home-title" id="practice-title">Choose a certification to practice</h2>
-        <p class="muted">Work through question banks at your pace or take a timed exam.</p></div>
+      <div class="stack" style="gap:6px"><span class="eyebrow">PRACTICE EXAMS</span><h2 class="home-title" id="practice-title">Choose a certification to practice</h2>
+        <p class="muted">Work through question banks at your own pace, then test yourself with a timed mock exam.</p></div>
       <div class="catalog-summary"><strong>${exams.length}</strong> exams <span>·</span> <strong>${providers.length}</strong> providers</div>
     </div>
     <div class="catalog-tools">
       <label class="catalog-search"><span class="sr-only">Search certifications</span><input id="exam-search" type="search" placeholder="Search exams or codes" autocomplete="off"></label>
       <div class="provider-filters" role="group" aria-label="Filter exams by provider">${providerControls}</div>
     </div>
-    <div class="catalog-results-head"><div><h3>All practice exams</h3><p class="muted small">Search by certification or filter by provider to find your next practice session.</p></div><span id="exam-result-count" class="muted small">${exams.length} exams</span></div>
+    <div class="catalog-results-head"><div><h3>All certifications</h3><p class="muted small">Search by certification or filter by provider to find your next practice session.</p></div><span id="exam-result-count" class="muted small">${exams.length} exams</span></div>
     <div id="exam-grid" class="folder-list">${examGroups}</div>
     <p id="exam-empty" class="panel catalog-empty" hidden>No certifications match your search. Try a different term or provider.</p>
     </section>
