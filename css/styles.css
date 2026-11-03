@@ -869,7 +869,7 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
 [data-theme="light"] .theme-toggle .i-moon { display: none; }
 [data-theme="light"] .brand p { color: var(--muted); }
 [data-theme="light"] .topbar { box-shadow: 0 6px 18px rgba(41, 36, 42, .08); }
-.appearance { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; }
+.appearance { display: block; }
 .appearance .segmented button { padding: 7px 14px; }
 
 /* Header sign-out button */
@@ -1133,3 +1133,186 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
 .exam-card h3 a.exam-card-link:focus-visible { outline: none; }
 .skill-card-desc { color: var(--text-2); font-size: 13px; line-height: 1.5; }
 [data-vendor="it-skills"]           { --v: #a9dc76; --v-soft: rgba(169,220,118,.15); --v-text: #a9dc76; }
+
+
+/* ── Extra theme palettes (picked under Account → Appearance; see js/theme.js) ── */
+:root[data-palette="powershell"] {
+  /* Theme: PowerShell console */
+  --bg: #001a40;
+  --panel: #012456;
+  --panel-2: #012049;
+  --border: #1c4a8a;
+  --border-strong: #3a6db5;
+  --text: #eeedf0;
+  --text-2: #c8d4ea;
+  --muted: #93a9cc;
+  --azure: #f9f1a5;
+  --azure-hover: #fff8c4;
+  --azure-soft: rgba(249,241,165,.14);
+  --azure-text: #f9f1a5;
+  --on-accent: #012456;
+  --accent-2: #61d6d6;
+  --ok: #16c60c;
+  --ok-soft: rgba(22,198,12,.15);
+  --ok-text: #4ce043;
+  --bad: #e74856;
+  --bad-soft: rgba(231,72,86,.16);
+  --bad-text: #ff7a85;
+  --warn: #f9a825;
+  --warn-soft: rgba(249,168,37,.16);
+  --warn-text: #ffc04d;
+  --code-bg: #000f2b;
+}
+
+:root[data-palette="dracula"] {
+  /* Theme: Dracula */
+  --bg: #1e1f29;
+  --panel: #282a36;
+  --panel-2: #232530;
+  --border: #44475a;
+  --border-strong: #6272a4;
+  --text: #f8f8f2;
+  --text-2: #d6d6d0;
+  --muted: #9aa0bd;
+  --azure: #bd93f9;
+  --azure-hover: #cfaeff;
+  --azure-soft: rgba(189,147,249,.16);
+  --azure-text: #c9a6ff;
+  --on-accent: #21222c;
+  --accent-2: #ff79c6;
+  --ok: #50fa7b;
+  --ok-soft: rgba(80,250,123,.13);
+  --ok-text: #50fa7b;
+  --bad: #ff5555;
+  --bad-soft: rgba(255,85,85,.15);
+  --bad-text: #ff7b7b;
+  --warn: #ffb86c;
+  --warn-soft: rgba(255,184,108,.15);
+  --warn-text: #ffb86c;
+  --code-bg: #191a21;
+}
+
+:root[data-palette="one-dark"] {
+  /* Theme: One Dark */
+  --bg: #1b1f24;
+  --panel: #282c34;
+  --panel-2: #232730;
+  --border: #3e4451;
+  --border-strong: #5c6370;
+  --text: #e6e9ef;
+  --text-2: #abb2bf;
+  --muted: #8b93a1;
+  --azure: #61afef;
+  --azure-hover: #82c0f5;
+  --azure-soft: rgba(97,175,239,.15);
+  --azure-text: #7ec0f6;
+  --on-accent: #1b1f24;
+  --accent-2: #c678dd;
+  --ok: #98c379;
+  --ok-soft: rgba(152,195,121,.14);
+  --ok-text: #98c379;
+  --bad: #e06c75;
+  --bad-soft: rgba(224,108,117,.15);
+  --bad-text: #ef8d95;
+  --warn: #d19a66;
+  --warn-soft: rgba(209,154,102,.15);
+  --warn-text: #e0b080;
+  --code-bg: #16191e;
+}
+
+:root[data-palette="nord"] {
+  /* Theme: Nord */
+  --bg: #272c36;
+  --panel: #2e3440;
+  --panel-2: #2a303b;
+  --border: #434c5e;
+  --border-strong: #5e6a82;
+  --text: #eceff4;
+  --text-2: #d8dee9;
+  --muted: #9aa5ba;
+  --azure: #88c0d0;
+  --azure-hover: #a3d0dd;
+  --azure-soft: rgba(136,192,208,.15);
+  --azure-text: #8fd0e0;
+  --on-accent: #2e3440;
+  --accent-2: #b48ead;
+  --ok: #a3be8c;
+  --ok-soft: rgba(163,190,140,.15);
+  --ok-text: #a3be8c;
+  --bad: #bf616a;
+  --bad-soft: rgba(191,97,106,.18);
+  --bad-text: #e08891;
+  --warn: #d08770;
+  --warn-soft: rgba(208,135,112,.16);
+  --warn-text: #e3a28c;
+  --code-bg: #232831;
+}
+
+:root[data-palette="solarized-dark"] {
+  /* Theme: Solarized Dark */
+  --bg: #00212b;
+  --panel: #002b36;
+  --panel-2: #00252f;
+  --border: #0d4350;
+  --border-strong: #2a6070;
+  --text: #eee8d5;
+  --text-2: #b9c0bd;
+  --muted: #8aa0a2;
+  --azure: #b58900;
+  --azure-hover: #cb9b0a;
+  --azure-soft: rgba(181,137,0,.20);
+  --azure-text: #d9a60f;
+  --on-accent: #00212b;
+  --accent-2: #d33682;
+  --ok: #859900;
+  --ok-soft: rgba(133,153,0,.18);
+  --ok-text: #a1b800;
+  --bad: #dc322f;
+  --bad-soft: rgba(220,50,47,.17);
+  --bad-text: #f06a67;
+  --warn: #cb4b16;
+  --warn-soft: rgba(203,75,22,.18);
+  --warn-text: #ea7447;
+  --code-bg: #001a22;
+}
+
+:root[data-palette="solarized-light"] {
+  /* Theme: Solarized Light */
+  --bg: #eee8d5;
+  --panel: #fdf6e3;
+  --panel-2: #f6efdb;
+  --border: #e0d8c0;
+  --border-strong: #c4bb9f;
+  --text: #073642;
+  --text-2: #2f535b;
+  --muted: #586e75;
+  --azure: #b58900;
+  --azure-hover: #c99a0a;
+  --azure-soft: rgba(181,137,0,.14);
+  --azure-text: #7a5d00;
+  --on-accent: #002b36;
+  --accent-2: #d33682;
+  --ok: #859900;
+  --ok-soft: rgba(133,153,0,.14);
+  --ok-text: #566400;
+  --bad: #dc322f;
+  --bad-soft: rgba(220,50,47,.11);
+  --bad-text: #b3201d;
+  --warn: #cb4b16;
+  --warn-soft: rgba(203,75,22,.12);
+  --warn-text: #a63a0e;
+  --code-bg: #073642;
+  --shadow: 0 1px 2px rgba(7,54,66,.06), 0 6px 20px rgba(7,54,66,.08);
+}
+
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 12px; }
+.theme-opt { display: flex; flex-direction: column; gap: 8px; padding: 10px; text-align: left; font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; }
+.theme-opt:hover { border-color: var(--border-strong); }
+.theme-opt[aria-checked="true"] { border-color: var(--azure); box-shadow: 0 0 0 1px var(--azure); }
+.theme-opt:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+.theme-swatch { display: flex; flex-direction: column; justify-content: space-between; height: 54px; padding: 7px 8px; border-radius: 6px; border: 1px solid rgba(128,128,128,.35); }
+.theme-swatch i { display: block; height: 5px; border-radius: 3px; }
+.theme-swatch i:first-child { width: 55%; }
+.theme-swatch i:last-child { width: 30%; opacity: .85; }
+.theme-name { font-size: .85rem; font-weight: 600; }
+.theme-name small { display: block; font-weight: 400; color: var(--muted); font-size: .72rem; }

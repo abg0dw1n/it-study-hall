@@ -1594,21 +1594,25 @@ function leaveGuest() {
   location.assign('/');
 }
 
-// ── Appearance (light/dark), saved per device by js/theme.js ─────────────────
-const appearancePanel = () => `<div class="panel card-pad appearance">
+// ── Appearance (theme picker), saved per device by js/theme.js ───────────────
+const appearancePanel = () => {
+  const opts = [{ id: 'system', name: 'System', scheme: 'auto' }, ...(window.Theme?.list || [])];
+  return `<div class="panel card-pad appearance">
     <div><h2 class="section-title" style="border:0;padding:0">Appearance</h2>
-      <p class="muted small" style="margin-top:4px">System follows your device's light or dark setting. Saved on this device.</p></div>
-    <div class="segmented" role="radiogroup" aria-label="Theme">
-      ${[['system', 'System'], ['light', 'Light'], ['dark', 'Dark']].map(([k, label]) =>
-        `<button type="button" role="radio" data-theme-pref="${k}" aria-checked="false">${label}</button>`).join('')}
+      <p class="muted small" style="margin-top:4px">Pick a color theme. System follows your device's light or dark setting. Saved on this device.</p></div>
+    <div class="theme-grid" role="radiogroup" aria-label="Theme">
+      ${opts.map((t) => `<button type="button" class="theme-opt" role="radio" data-theme-pref="${t.id}" aria-checked="false">
+        <span class="theme-swatch" style="${t.id === 'system' ? 'background:linear-gradient(135deg,#221f22 50%,#faf4f2 50%)' : `background:${t.bg}`}">
+          ${t.id === 'system' ? '' : `<i style="background:${t.accent}"></i><i style="background:${t.text}"></i>`}</span>
+        <span class="theme-name">${t.name}<small>${t.scheme === 'auto' ? 'Matches your device' : t.scheme === 'light' ? 'Light' : 'Dark'}</small></span>
+      </button>`).join('')}
     </div>
   </div>`;
+};
 
 function wireAppearance() {
   const sync = () => document.querySelectorAll('[data-theme-pref]').forEach((b) => {
-    const on = b.dataset.themePref === window.Theme?.pref();
-    b.setAttribute('aria-checked', String(on));
-    b.setAttribute('aria-selected', String(on)); // reuses the segmented control's selected style
+    b.setAttribute('aria-checked', String(b.dataset.themePref === window.Theme?.pref()));
   });
   document.querySelectorAll('[data-theme-pref]').forEach((b) => b.addEventListener('click', () => window.Theme?.set(b.dataset.themePref)));
   document.addEventListener('themechange', sync);

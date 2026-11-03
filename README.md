@@ -209,6 +209,10 @@ select vault.create_secret('re_your_key_here', 'resend_api_key');
 
 Signed-in users can suggest site features from the home page ("Have an idea for the site?") or the Account page. Requests go to the `feature_requests` table: people see only their own, with its status (Submitted, Planned, In progress, Done, Not planned) and any note from the site owner; admins see everyone's on the Account page and update status/notes there. Limited to 10 requests per person per day.
 
+## Themes
+
+Under **Account → Appearance** users pick System (follows the device) or one of eight palettes: Monokai Pro and Monokai Light (the original pair), PowerShell, Dracula, One Dark, Nord, Solarized Dark and Solarized Light. The choice is saved per device in `localStorage` (`itsh:theme`). To add a palette, add an entry to `LIST` in `js/theme.js` and a `:root[data-palette="<id>"]` block in `css/styles.css` (set every colour token; `scheme` decides whether the light or dark base rules apply).
+
 ## Light and dark mode
 
 The theme is Monokai Pro (dark) with Monokai Pro Light. The sun/moon button in the header switches between them, and the Account page has System / Light / Dark. The choice is saved per device (`itsh:theme` in localStorage, kept on sign-out); by default the site follows the device setting. `js/theme.js` runs in `<head>` so the right theme is applied before the page draws. Colors live in the `:root` and `:root[data-theme="light"]` blocks at the top of `css/styles.css`.
