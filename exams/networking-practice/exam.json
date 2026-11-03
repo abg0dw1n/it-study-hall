@@ -1,0 +1,29 @@
+{
+  "slug": "networking-practice",
+  "code": "IT Skills",
+  "name": "Networking in Practice",
+  "vendor": "IT Skills",
+  "type": "skill",
+  "domains": {
+    "D1": {
+      "name": "How networks fit together",
+      "weight": "",
+      "pct": 25
+    },
+    "D2": {
+      "name": "Subnetting made simple",
+      "weight": "",
+      "pct": 25
+    },
+    "D3": {
+      "name": "DNS, DHCP and ports",
+      "weight": "",
+      "pct": 25
+    },
+    "D4": {
+      "name": "Diagnosing network problems",
+      "weight": "",
+      "pct": 25
+    }
+  }
+}

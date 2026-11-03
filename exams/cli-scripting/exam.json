@@ -1,0 +1,29 @@
+{
+  "slug": "cli-scripting",
+  "code": "IT Skills",
+  "name": "Command Line & Scripting Basics",
+  "vendor": "IT Skills",
+  "type": "skill",
+  "domains": {
+    "D1": {
+      "name": "Shells and navigation",
+      "weight": "",
+      "pct": 25
+    },
+    "D2": {
+      "name": "Files and folders",
+      "weight": "",
+      "pct": 25
+    },
+    "D3": {
+      "name": "Pipes, filters and logs",
+      "weight": "",
+      "pct": 25
+    },
+    "D4": {
+      "name": "Writing and running scripts",
+      "weight": "",
+      "pct": 25
+    }
+  }
+}

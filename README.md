@@ -94,6 +94,14 @@ It is a static site with no build step and no dependencies.
 3. Add the exam to `exams/index.json`, with `"level"` set to `beginner`, `intermediate` or `advanced` (shown as a difficulty meter on its card). The home page groups exams into a folder per `vendor`, easiest first.
 4. Import questions (below), run `node scripts/validate-questions.mjs`, commit and push.
 
+## Add a skill path (no certification)
+
+Skill paths are learning paths and labs with no practice questions or exam. They appear in the **Skills & Topics** section under the certification library.
+
+1. Create `exams/<slug>/` with `exam.json` (`"type": "skill"`, `"code"`/`"vendor"` of `IT Skills`, four `domains` with empty `weight`), `questions.json` containing `[]`, `learn.json` and `labs.json`.
+2. Add an entry to `exams/index.json` with `"type": "skill"`, `"learning": true` and a `learningDescription`.
+3. Run `node scripts/stamp-updated.mjs` and `node scripts/validate-questions.mjs`, then commit and push.
+
 ## Add training content (Learn tab)
 
 Create `exams/<folder>/learn.json`. The Learn tab appears automatically for that exam.

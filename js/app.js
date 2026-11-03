@@ -44,6 +44,7 @@ const defaultState = () => ({
 let state = null;
 let timerHandle = null;
 let LEARN = null;           // learn.json for this exam, if it has training content
+let SKILL = false;          // true for non-certification skill paths (learning path + labs only)
 let LABS = null;            // labs.json for this exam, if it has hands-on labs
 
 const progressStore = () => (Auth.isGuest() ? sessionStorage : localStorage);
@@ -333,11 +334,11 @@ function renderOverview(main) {
   const last = { learn: 'Learn', labs: 'Labs', exam: 'Timed exam', review: 'Timed exam', practice: 'Practice' }[state.mode];
   main.innerHTML = `<section class="overview stack">
     <header class="ov-head">
-      <span class="learning-path-eyebrow">${escapeHtml(EXAM.vendor)} · ${escapeHtml(EXAM.code)}</span>
+      <span class="learning-path-eyebrow">${SKILL ? 'IT SKILL PATH' : `${escapeHtml(EXAM.vendor)} · ${escapeHtml(EXAM.code)}`}</span>
       <h2 class="home-title">${escapeHtml(EXAM.name)}</h2>
-      <p class="muted">Learn the material, practice it, then prove it. Choose where to pick up. ${last ? `You were last in <b>${last}</b>.` : ''}</p>
+      <p class="muted">${SKILL ? 'Learn the topic, then practice it hands-on in the labs.' : 'Learn the material, practice it, then prove it.'} Choose where to pick up. ${last ? `You were last in <b>${last}</b>.` : ''}</p>
     </header>
-    <div class="ov-grid">${tiles.map((t) => `
+    <div class="ov-grid">${tiles.filter((t) => !SKILL || t.mode === 'learn' || t.mode === 'labs').map((t) => `
       <button type="button" class="panel ov-tile${t.featured ? ' featured' : ''}${t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review') ? ' last' : ''}" data-action="overview-go" data-go="${t.mode}">
         <span class="ov-top"><span class="ov-icon">${icon(t.ic)}</span><span class="ov-title">${t.title}</span>${t.featured ? '<span class="ov-flag">Core feature</span>' : ''}</span>
         <span class="ov-blurb">${t.blurb}</span>
@@ -349,8 +350,8 @@ function renderOverview(main) {
 }
 
 function render() {
-  if (state.mode === 'learn' && !LEARN) state.mode = 'practice';
-  if (state.mode === 'labs' && !LABS) state.mode = 'practice';
+  if (state.mode === 'learn' && !LEARN) state.mode = SKILL && LABS ? 'labs' : 'practice';
+  if (state.mode === 'labs' && !LABS) state.mode = SKILL && LEARN ? 'learn' : 'practice';
   renderModeTabs();
   renderTimer();
 
@@ -1127,6 +1128,7 @@ const TOPICS = {
   linux: { label: 'Linux', words: 'linux unix red hat' },
   support: { label: 'IT support', words: 'support helpdesk hardware a+ desktop technician fundamentals' },
   data: { label: 'Data', words: 'data analytics database sql tableau' },
+  skills: { label: 'IT skills', words: 'skills skill topic practical beginner scripting command line help desk troubleshooting' },
   healthcare: { label: 'Healthcare', words: 'healthcare medical coding billing administrative' },
 };
 const EXAM_TOPICS = {
@@ -1140,9 +1142,28 @@ const EXAM_TOPICS = {
   'dp-900': ['data', 'cloud'], 'data-plus': ['data'], 'tableau-foundations': ['data'],
   cpc: ['healthcare'], cbcs: ['healthcare'], cmaa: ['healthcare'],
 };
-const topicsOf = (e) => (EXAM_TOPICS[e.slug] || []).filter((t) => TOPICS[t]);
+const topicsOf = (e) => [...(e.type === 'skill' ? ['skills'] : []), ...(EXAM_TOPICS[e.slug] || [])].filter((t) => TOPICS[t]);
 const pathSearchText = (e) => [e.name, e.code, e.vendor, e.level, ...topicsOf(e).map((t) => `${TOPICS[t].label} ${TOPICS[t].words}`)]
   .join(' ').toLowerCase();
+
+// Card for a non-certification skill path (learning path + labs, no exam).
+function skillCard(e) {
+  const a = recentActivity(e, readSaved(e.slug, e.legacyStorageKey));
+  const started = a && (a.parts || a.openedModule || a.labsStarted);
+  const total = (e.learningModules || 0) * 3;
+  const meta = [e.learningModules ? `${e.learningModules} modules` : '', e.labs ? `${e.labs} labs` : ''].filter(Boolean).join(' · ');
+  return `<div class="panel exam-card skill-card" data-vendor="${vendorKey(e.vendor)}">
+      <span class="exam-card-code">SKILL PATH</span>
+      <h3><a class="exam-card-link" href="/${e.slug}?mode=learn">${escapeHtml(e.name)}</a></h3>
+      <p class="skill-card-desc">${escapeHtml(e.learningDescription || '')}</p>
+      <span class="exam-card-meta"><span>${meta}</span>${levelMeter(e.level)}</span>
+      ${started && total ? `<span class="exam-card-progress">${a.parts} of ${total} lesson parts${a.labsDone ? ` · ${a.labsDone} lab${a.labsDone === 1 ? '' : 's'} done` : ''}</span>` : ''}
+      <span class="exam-card-actions">
+        <a class="card-btn card-btn-primary" href="/${e.slug}?mode=learn" aria-label="Learn ${escapeHtml(e.name)}">${icon('learn')}Learn</a>
+        ${e.labs ? `<a class="card-btn" href="/${e.slug}?mode=labs" aria-label="Labs for ${escapeHtml(e.name)}">${icon('terminal')}Labs</a>` : ''}
+      </span>
+    </div>`;
+}
 
 function learningPathCard(e) {
   const a = recentActivity(e, readSaved(e.slug, e.legacyStorageKey));
@@ -1261,9 +1282,9 @@ function recentCard({ e, saved, activity: a }) {
       : none('Exam', 'No timed exam taken', '?mode=exam');
   const when = lastStudied(saved?.updatedAt);
   return `<div class="panel learning-path-card recent-card" data-vendor="${vendorKey(e.vendor)}">
-      <span class="recent-head"><span class="learning-path-eyebrow">${escapeHtml(e.code)}</span>${when ? `<span class="recent-when">${when[0].toUpperCase()}${when.slice(1)}</span>` : ''}</span>
-      <h3><a href="/${e.slug}?mode=overview" title="${escapeHtml(`${e.vendor} · ${e.code}`)}">${escapeHtml(e.name)}</a></h3>
-      <span class="recent-stats">${learning}${practice}${labs}${exam}</span>
+      <span class="recent-head"><span class="learning-path-eyebrow">${e.type === 'skill' ? 'SKILL PATH' : escapeHtml(e.code)}</span>${when ? `<span class="recent-when">${when[0].toUpperCase()}${when.slice(1)}</span>` : ''}</span>
+      <h3><a href="/${e.slug}?mode=overview" title="${escapeHtml(e.type === 'skill' ? e.name : `${e.vendor} · ${e.code}`)}">${escapeHtml(e.name)}</a></h3>
+      <span class="recent-stats">${e.type === 'skill' ? `${learning}${labs}` : `${learning}${practice}${labs}${exam}`}</span>
       <span class="learning-path-action">Open course overview ${icon('right', 'icon')}</span>
       <button type="button" class="recent-remove" data-action="remove-recent" data-slug="${escapeHtml(e.slug)}" title="Hide from Recents" aria-label="Hide ${escapeHtml(e.name)} from Recents">${icon('x', 'icon')}</button>
     </div>`;
@@ -1289,7 +1310,10 @@ async function renderHome() {
   $('navigator').hidden = true;
   let exams = [];
   const popularRequest = Auth.currentUser() || Auth.isGuest() ? Auth.popularExams(30, 6).catch(() => []) : Promise.resolve([]);
-  try { exams = await fetchIndex(); } catch { /* offline with nothing cached */ }
+  let everything = [];
+  try { everything = await fetchIndex(); } catch { /* offline with nothing cached */ }
+  exams = everything.filter((e) => e.type !== 'skill');
+  const skills = everything.filter((e) => e.type === 'skill');
   const cards = await Promise.all(exams.map(async (e) => {
     // Counts are kept in index.json by scripts/stamp-updated.mjs; fall back to the bank if missing.
     let count = e.questions ?? 0;
@@ -1314,7 +1338,7 @@ async function renderHome() {
   const cardFor = Object.fromEntries(exams.map((e, i) => [e.slug, cards[i]]));
 
   // ── Recents: exams this person has studied or practiced, most recently opened first.
-  const recents = exams.map((e) => ({ e, saved: readSaved(e.slug, e.legacyStorageKey) }))
+  const recents = everything.map((e) => ({ e, saved: readSaved(e.slug, e.legacyStorageKey) }))
     .map(({ e, saved }) => ({ e, saved, activity: recentActivity(e, saved) }))
     .filter((r) => r.activity)
     .filter((r) => !getHiddenRecents().includes(r.e.slug))
@@ -1410,6 +1434,14 @@ async function renderHome() {
     <div id="exam-grid" class="folder-list">${examGroups}</div>
     <p id="exam-empty" class="panel catalog-empty" hidden>No courses match your search. Try a different term or provider.</p>
     </section>
+    ${skills.length ? `<section class="skills-section" id="skills" aria-labelledby="skills-title">
+      <div class="catalog-heading">
+        <div class="stack" style="gap:6px"><span class="eyebrow">BEYOND CERTIFICATIONS</span><h2 class="home-title" id="skills-title">Skills &amp; Topics</h2>
+          <p class="muted">Practical IT skills with a learning path and hands-on labs. No exam, no pass mark, just the know-how you use on the job.</p></div>
+        <div class="catalog-summary"><strong>${skills.length}</strong> skill path${skills.length === 1 ? '' : 's'}</div>
+      </div>
+      <div class="exam-grid">${skills.map(skillCard).join('')}</div>
+    </section>` : ''}
     <section class="request-section" aria-labelledby="request-title">
       <div class="request-copy">
         <span class="eyebrow">HELP SHAPE WHAT COMES NEXT</span>
@@ -1916,10 +1948,10 @@ async function init() {
     return;
   }
   logView(slug);
-  document.title = `${EXAM.code} · The IT Study Hall`;
+  document.title = `${EXAM.type === 'skill' ? EXAM.name : EXAM.code} · The IT Study Hall`;
   document.body.dataset.vendor = vendorKey(EXAM.vendor);
   $('brand-title').textContent = 'The IT Study Hall';
-  $('brand-sub').textContent = `${EXAM.code} · ${EXAM.name}`;
+  $('brand-sub').textContent = EXAM.type === 'skill' ? `Skill path · ${EXAM.name}` : `${EXAM.code} · ${EXAM.name}`;
   const entry = slug === initialSlug ? null : await fetchIndex().then((list) => list.find((e) => e.slug === slug), () => undefined);
   LEARN = await (slug === initialSlug ? learnFiles : entry && !entry.learning ? null : Learn.loadLearn(slug));
   LABS = await (slug === initialSlug ? labFiles : entry && !entry.labs ? null : Labs.loadLabs(slug));
@@ -1929,10 +1961,15 @@ async function init() {
   if (initialMode === 'exam') state.mode = 'exam';
   if (initialMode === 'overview') overview = true;
   if (initialMode) history.replaceState(null, '', location.pathname); // keep the address tidy after honoring ?mode
+  SKILL = EXAM.type === 'skill';
+  if (SKILL && !['learn', 'labs'].includes(state.mode)) state.mode = LEARN ? 'learn' : 'labs';
+  $('btn-mode-practice').hidden = SKILL;
+  $('btn-mode-exam').hidden = SKILL;
+  $('btn-drawer').hidden = SKILL;
   $('btn-mode-learn').hidden = !LEARN;
   $('btn-mode-labs').hidden = !LABS;
   $('mode-tabs').hidden = false;
-  $('btn-drawer').hidden = false;
+  $('btn-drawer').hidden = SKILL;
   // Counts are shown beside the "Domain" label (updateDomainCount), not in the options.
   $('domain-filter').innerHTML = '<option value="ALL">All domains</option>' +
     Object.entries(DOMAINS).map(([k, d], i) => `<option value="${k}">${i + 1}. ${escapeHtml(d.name)}</option>`).join('');

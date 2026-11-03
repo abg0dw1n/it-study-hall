@@ -1124,3 +1124,12 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
 .ov-tile.featured .ov-title { font-size: 19px; }
 .ov-flag { margin-left: auto; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 650; letter-spacing: .03em; color: var(--azure-text); background: var(--azure-soft); }
 @media (min-width: 700px) { .ov-tile.featured { grid-column: span 2; } }
+
+/* Skills & Topics: non-certification skill paths */
+.skills-section { display: grid; gap: 16px; margin-top: 8px; padding-top: 22px; border-top: 1px solid var(--border); }
+.exam-card h3 { font-size: 17px; font-weight: 650; line-height: 1.35; }
+.exam-card h3 a.exam-card-link { color: inherit; text-decoration: none; }
+.exam-card h3 a.exam-card-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.exam-card h3 a.exam-card-link:focus-visible { outline: none; }
+.skill-card-desc { color: var(--text-2); font-size: 13px; line-height: 1.5; }
+[data-vendor="it-skills"]           { --v: #a9dc76; --v-soft: rgba(169,220,118,.15); --v-text: #a9dc76; }

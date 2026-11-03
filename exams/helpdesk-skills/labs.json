@@ -1,0 +1,568 @@
+{
+  "intro": "Practice the job in your browser: log and prioritise a ticket in a service desk console, triage a queue, diagnose a PC that cannot reach the file server, and handle customer calls safely. Everything is graded for you.",
+  "labs": [
+    {
+      "id": "hd-ticket",
+      "title": "Log and prioritise an incident",
+      "domain": "D1",
+      "kind": "portal",
+      "level": "beginner",
+      "minutes": 10,
+      "summary": "Fill in a ticket in a service desk console: category, impact, urgency, priority and assignment.",
+      "scenario": "<p>A call comes in. <b>Maria Lopez</b> (Finance) says the <b>finance application</b> shows an error and loops back to the login screen. Her whole department of 12 people has the same problem, and <b>month-end close is due today</b>. Nothing was changed by the team. Create the incident: set the right category, impact, urgency, priority and assignment, write a clear summary, then save.</p>",
+      "portal": {
+        "app": "ServiceDesk Console",
+        "address": "New incident",
+        "pages": [
+          {
+            "id": "ticket",
+            "title": "Incident",
+            "sections": [
+              {
+                "title": "Who and what",
+                "fields": [
+                  {
+                    "id": "requester",
+                    "label": "Requester",
+                    "type": "select",
+                    "options": [
+                      "(select)",
+                      "Maria Lopez",
+                      "Sam Patel",
+                      "Ana Costa"
+                    ],
+                    "value": "(select)"
+                  },
+                  {
+                    "id": "category",
+                    "label": "Category",
+                    "type": "select",
+                    "options": [
+                      "(select)",
+                      "Hardware",
+                      "Network",
+                      "Business application",
+                      "Account and access",
+                      "Printing"
+                    ],
+                    "value": "(select)"
+                  },
+                  {
+                    "id": "summary",
+                    "label": "Summary",
+                    "type": "text",
+                    "value": "",
+                    "placeholder": "One clear line"
+                  }
+                ]
+              },
+              {
+                "title": "Priority",
+                "fields": [
+                  {
+                    "id": "impact",
+                    "label": "Impact",
+                    "type": "select",
+                    "options": [
+                      "Single user",
+                      "Department / several users",
+                      "Whole company"
+                    ],
+                    "value": "Single user"
+                  },
+                  {
+                    "id": "urgency",
+                    "label": "Urgency",
+                    "type": "select",
+                    "options": [
+                      "Low",
+                      "Medium",
+                      "High (deadline or business-critical)"
+                    ],
+                    "value": "Low"
+                  },
+                  {
+                    "id": "priority",
+                    "label": "Priority",
+                    "type": "select",
+                    "options": [
+                      "P1 Critical",
+                      "P2 High",
+                      "P3 Medium",
+                      "P4 Low"
+                    ],
+                    "value": "P4 Low"
+                  }
+                ]
+              },
+              {
+                "title": "Routing",
+                "fields": [
+                  {
+                    "id": "group",
+                    "label": "Assign to",
+                    "type": "select",
+                    "options": [
+                      "Service Desk (Tier 1)",
+                      "Application Support (Tier 2)",
+                      "Network Team",
+                      "Security Team"
+                    ],
+                    "value": "Service Desk (Tier 1)"
+                  },
+                  {
+                    "id": "notify",
+                    "label": "Notify the requester that the ticket is open",
+                    "type": "toggle",
+                    "value": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "tasks": [
+        {
+          "text": "The requester is Maria Lopez and the category is Business application",
+          "check": {
+            "all": [
+              {
+                "field": "ticket.requester",
+                "eq": "Maria Lopez"
+              },
+              {
+                "field": "ticket.category",
+                "eq": "Business application"
+              }
+            ]
+          }
+        },
+        {
+          "text": "The summary mentions the finance app and the login problem (for example \"Finance application login loop, 12 users\")",
+          "check": {
+            "all": [
+              {
+                "field": "ticket.summary",
+                "re": "financ"
+              },
+              {
+                "field": "ticket.summary",
+                "re": "login|log in|sign.?in"
+              }
+            ]
+          }
+        },
+        {
+          "text": "Impact is a department and urgency is high",
+          "check": {
+            "all": [
+              {
+                "field": "ticket.impact",
+                "eq": "Department / several users"
+              },
+              {
+                "field": "ticket.urgency",
+                "eq": "High (deadline or business-critical)"
+              }
+            ]
+          }
+        },
+        {
+          "text": "Priority is P2 High",
+          "check": {
+            "field": "ticket.priority",
+            "eq": "P2 High"
+          }
+        },
+        {
+          "text": "Assigned to Application Support, and the requester is notified",
+          "check": {
+            "all": [
+              {
+                "field": "ticket.group",
+                "eq": "Application Support (Tier 2)"
+              },
+              {
+                "field": "ticket.notify",
+                "eq": true
+              }
+            ]
+          }
+        }
+      ],
+      "hints": [
+        "Twelve people are blocked: that is a department, not a single user. The deadline makes it urgent.",
+        "Impact department and urgency high gives P2 High. Only a company-wide outage would be P1.",
+        "A business application fault that Tier 1 cannot fix goes to Application Support (Tier 2)."
+      ],
+      "solution": "<pre>Requester: Maria Lopez\nCategory: Business application\nSummary: Finance application login loop, 12 users, month-end close today\nImpact: Department / several users\nUrgency: High\nPriority: P2 High\nAssign to: Application Support (Tier 2)\nNotify requester: on</pre>",
+      "review": "<p>Priority comes from impact and urgency. A whole department blocked on a deadline is high priority, but not critical unless the entire company is affected. Always route to the team that can fix it and tell the requester the ticket exists.</p>"
+    },
+    {
+      "id": "hd-triage",
+      "title": "Triage the queue",
+      "domain": "D2",
+      "kind": "tasks",
+      "level": "beginner",
+      "minutes": 10,
+      "summary": "Prioritise tickets, put troubleshooting steps in order, and fill in key help desk terms.",
+      "scenario": "<p>Six tickets arrived at the same time. Decide which to handle first, and show that you know the standard troubleshooting order.</p>",
+      "activities": [
+        {
+          "type": "match",
+          "title": "Set the priority",
+          "prompt": "Match each ticket to a priority.",
+          "categories": [
+            "P1 Critical",
+            "P2 High",
+            "P3 Medium",
+            "P4 Low"
+          ],
+          "items": [
+            {
+              "text": "Email is down for the whole company",
+              "cat": 0
+            },
+            {
+              "text": "The sales team cannot reach the CRM during a quarter-end push",
+              "cat": 1
+            },
+            {
+              "text": "One user's laptop will not connect to Wi-Fi",
+              "cat": 2
+            },
+            {
+              "text": "A user asks for a second monitor",
+              "cat": 3
+            },
+            {
+              "text": "The payment system is offline and customers cannot buy",
+              "cat": 0
+            },
+            {
+              "text": "A shared printer on the 3rd floor is out of toner",
+              "cat": 3
+            }
+          ]
+        },
+        {
+          "type": "order",
+          "title": "The troubleshooting steps",
+          "prompt": "Put the troubleshooting steps in order.",
+          "items": [
+            "Identify the problem",
+            "Establish a theory of probable cause",
+            "Test the theory",
+            "Plan and implement the solution",
+            "Verify full functionality",
+            "Document findings and actions"
+          ]
+        },
+        {
+          "type": "fill",
+          "title": "Help desk terms",
+          "prompt": "Complete each answer.",
+          "rows": [
+            {
+              "label": "What does SLA stand for? (three words)",
+              "answer": [
+                "service level agreement"
+              ],
+              "placeholder": "s_ l_ a_"
+            },
+            {
+              "label": "Which tier usually takes the first contact? (number)",
+              "answer": [
+                "1",
+                "tier 1",
+                "l1",
+                "tier1"
+              ],
+              "placeholder": "#"
+            },
+            {
+              "label": "Impact and ___ decide a ticket's priority",
+              "answer": [
+                "urgency"
+              ],
+              "placeholder": "word"
+            }
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "text": "Assign the right priority to each ticket",
+          "check": {
+            "activity": 0
+          }
+        },
+        {
+          "text": "Order the troubleshooting steps",
+          "check": {
+            "activity": 1
+          }
+        },
+        {
+          "text": "Complete the terms",
+          "check": {
+            "activity": 2
+          }
+        }
+      ],
+      "hints": [
+        "Count how many people and how much of the business each issue affects, then how urgent it is.",
+        "It starts with gathering facts and ends with writing it down.",
+        "SLA: how fast you must respond and resolve."
+      ],
+      "review": "<p>Whole-company or revenue-stopping issues are critical. A blocked team on a deadline is high. One user is medium, and convenience requests are low. Then follow the method every time: identify, theory, test, fix, verify, document.</p>"
+    },
+    {
+      "id": "hd-dns",
+      "title": "Diagnose \"I can't open the file server\"",
+      "domain": "D2",
+      "kind": "cli",
+      "level": "beginner",
+      "minutes": 15,
+      "summary": "Use ipconfig, ping and nslookup to separate network from name-resolution problems, then fix the DNS setting.",
+      "scenario": "<p><b>Priya (HR)</b> says she can no longer open <code>FILES01</code>. Web pages by name also fail, but her Wi-Fi shows connected. You are on her PC, <b>HR-PC12</b> (command prompt). Work through the layers, then fix it:</p><ul><li>Check the IP configuration</li><li>Prove the local network works by pinging the gateway <code>10.30.0.1</code></li><li>Test name resolution with <code>nslookup</code></li><li>Correct the DNS server (the company DNS is <code>10.30.0.5</code>) and verify <code>FILES01</code> responds</li></ul>",
+      "devices": [
+        {
+          "name": "HR-PC12",
+          "platform": "windows",
+          "hostname": "HR-PC12",
+          "adapter": {
+            "name": "Ethernet",
+            "dhcp": false,
+            "ip": "10.30.0.57",
+            "mask": "255.255.255.0",
+            "gw": "10.30.0.1",
+            "dns": [
+              "10.30.0.9"
+            ],
+            "mac": "00-1A-2B-3C-4D-5E"
+          },
+          "network": {
+            "subnet": "10.30.0.0",
+            "mask": "255.255.255.0",
+            "gateway": "10.30.0.1",
+            "internet": true,
+            "dnsServers": {
+              "10.30.0.5": true,
+              "10.30.0.9": false
+            },
+            "records": {
+              "files01": "10.30.0.20",
+              "www.example.com": "93.184.216.34"
+            },
+            "hosts": {
+              "10.30.0.20": "FILES01",
+              "10.30.0.5": "DC01"
+            },
+            "remote": {
+              "93.184.216.34": true
+            }
+          }
+        }
+      ],
+      "tasks": [
+        {
+          "text": "Review the configuration with <code>ipconfig /all</code>",
+          "check": {
+            "ran": [
+              "HR-PC12",
+              "^ipconfig\\s+/all"
+            ]
+          }
+        },
+        {
+          "text": "Ping the default gateway <code>10.30.0.1</code>",
+          "check": {
+            "ran": [
+              "HR-PC12",
+              "^ping\\s+10\\.30\\.0\\.1$"
+            ]
+          }
+        },
+        {
+          "text": "Run <code>nslookup</code> for a name",
+          "check": {
+            "ran": [
+              "HR-PC12",
+              "^nslookup\\s"
+            ]
+          }
+        },
+        {
+          "text": "Set the DNS server to <code>10.30.0.5</code>",
+          "check": {
+            "dev": "HR-PC12",
+            "path": "adapter.dns.0",
+            "eq": "10.30.0.5"
+          }
+        },
+        {
+          "text": "<code>ping files01</code> now succeeds",
+          "check": {
+            "all": [
+              {
+                "ping": [
+                  "HR-PC12",
+                  "files01"
+                ]
+              },
+              {
+                "ran": [
+                  "HR-PC12",
+                  "^ping\\s+files01"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "text": "What was the root cause?",
+          "check": {
+            "q": "cause",
+            "eq": 2
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": "cause",
+          "prompt": "Root cause:",
+          "options": [
+            "The network cable is unplugged",
+            "The default gateway is wrong",
+            "The PC points at a DNS server that no longer answers",
+            "The file server is down"
+          ]
+        }
+      ],
+      "hints": [
+        "If pinging the gateway works, the local network is fine, so look higher up.",
+        "<code>nslookup files01</code> times out when the DNS server is unreachable or not answering.",
+        "<code>netsh interface ip set dns name=\"Ethernet\" static 10.30.0.5</code>"
+      ],
+      "solution": "<pre>ipconfig /all\nping 10.30.0.1\nnslookup files01\nnetsh interface ip set dns name=\"Ethernet\" static 10.30.0.5\nnslookup files01\nping files01</pre>",
+      "review": "<p>Work from the bottom up: address, gateway, then names. Gateway pings fine but names fail: it is DNS. Fix the cause, verify the original complaint, then write it up.</p>"
+    },
+    {
+      "id": "hd-people",
+      "title": "Customer scenarios",
+      "domain": "D3",
+      "kind": "tasks",
+      "level": "beginner",
+      "minutes": 10,
+      "summary": "Choose helpful phrases, handle an upset caller in order, and spot a social engineering attempt.",
+      "scenario": "<p>You are on the phones. Show you can talk to people the way a good support technician does.</p>",
+      "activities": [
+        {
+          "type": "match",
+          "title": "What is this phrase doing?",
+          "prompt": "Match each phrase to its purpose.",
+          "categories": [
+            "Empathy",
+            "Setting expectations",
+            "Confirming understanding",
+            "Blaming the user"
+          ],
+          "items": [
+            {
+              "text": "I understand how frustrating this is with a deadline.",
+              "cat": 0
+            },
+            {
+              "text": "I'll call you back by 3 pm with an update.",
+              "cat": 1
+            },
+            {
+              "text": "So the printer shows offline since this morning. Is that right?",
+              "cat": 2
+            },
+            {
+              "text": "You should have read the email we sent.",
+              "cat": 3
+            },
+            {
+              "text": "That sounds stressful, let's get you working again.",
+              "cat": 0
+            }
+          ]
+        },
+        {
+          "type": "order",
+          "title": "An upset caller",
+          "prompt": "Put the steps for handling an upset customer in order.",
+          "items": [
+            "Stay calm and let them explain",
+            "Acknowledge how they feel",
+            "Say what you will do now",
+            "Set expectations and timing",
+            "Follow up and confirm it is fixed"
+          ]
+        },
+        {
+          "type": "fill",
+          "title": "Stay safe",
+          "prompt": "Complete each answer.",
+          "rows": [
+            {
+              "label": "A caller says they are the CEO, in a rush, and demands a password reset without verification. Which social-engineering red flag is this? (one word: pressure or urgency)",
+              "answer": [
+                "urgency",
+                "pressure",
+                "authority"
+              ],
+              "placeholder": "word"
+            },
+            {
+              "label": "Before resetting an account you must first ___ the caller's identity",
+              "answer": [
+                "verify",
+                "confirm",
+                "validate"
+              ],
+              "placeholder": "verb"
+            },
+            {
+              "label": "Should a technician ever ask a user to read out their password? (yes/no)",
+              "answer": [
+                "no"
+              ],
+              "placeholder": "yes/no"
+            }
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "text": "Match the phrases to their purpose",
+          "check": {
+            "activity": 0
+          }
+        },
+        {
+          "text": "Order the steps for an upset caller",
+          "check": {
+            "activity": 1
+          }
+        },
+        {
+          "text": "Answer the security questions",
+          "check": {
+            "activity": 2
+          }
+        }
+      ],
+      "hints": [
+        "Empathy names the feeling; expectations give a time; confirming repeats back; blaming points at the user.",
+        "Calm first, solution last, and a follow-up to close.",
+        "Pressure and urgency are classic tricks."
+      ],
+      "review": "<p>Listen, acknowledge, act, set a time and follow up. And verify before you reset: urgency and authority are exactly how attackers get through a help desk.</p>"
+    }
+  ]
+}

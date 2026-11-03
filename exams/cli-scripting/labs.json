@@ -1,0 +1,1447 @@
+{
+  "intro": "Hands-on practice in a simulated Linux terminal: organize files, answer questions from a log with pipes, write and prepare a backup script, and review how Bash and PowerShell compare. Everything is graded in your browser.",
+  "labs": [
+    {
+      "id": "cli-files",
+      "title": "Set up a project folder",
+      "domain": "D2",
+      "kind": "cli",
+      "level": "beginner",
+      "minutes": 12,
+      "summary": "Create folders, copy and move files, delete a file, and find a hidden one.",
+      "scenario": "<p>You are starting a new website project on <b>ubuntu01</b>. The files you need are scattered in <code>~/downloads</code>. Set things up from the terminal:</p><ul><li>Create <code>~/site/assets/images</code> in one command</li><li><b>Copy</b> <code>index.html</code> and <code>style.css</code> into <code>~/site</code> (keep the originals)</li><li><b>Move</b> <code>logo.png</code> into <code>~/site/assets/images</code> and rename it <code>header.png</code></li><li>Delete the old <code>draft-v1.html</code></li><li>A hidden file in <code>~/downloads</code> holds the staging password hint. Find it and read it</li></ul>",
+      "devices": [
+        {
+          "platform": "linux",
+          "hostname": "ubuntu01",
+          "ip": "10.0.0.21",
+          "name": "ubuntu01",
+          "users": {},
+          "files": {
+            "/home/student/downloads": {
+              "dir": true,
+              "owner": "student"
+            },
+            "/home/student/downloads/index.html": {
+              "content": [
+                "<h1>Welcome</h1>"
+              ],
+              "owner": "student"
+            },
+            "/home/student/downloads/style.css": {
+              "content": [
+                "body { margin: 0; }"
+              ],
+              "owner": "student"
+            },
+            "/home/student/downloads/logo.png": {
+              "content": [
+                ""
+              ],
+              "owner": "student",
+              "size": 48000
+            },
+            "/home/student/downloads/draft-v1.html": {
+              "content": [
+                "<h1>old draft</h1>"
+              ],
+              "owner": "student"
+            },
+            "/home/student/downloads/.staging-note": {
+              "content": [
+                "Staging hint: first pet + year"
+              ],
+              "owner": "student"
+            }
+          }
+        }
+      ],
+      "tasks": [
+        {
+          "text": "Create <code>~/site/assets/images</code>",
+          "check": {
+            "file": [
+              "ubuntu01",
+              "/home/student/site/assets/images"
+            ],
+            "type": "d"
+          }
+        },
+        {
+          "text": "<code>index.html</code> and <code>style.css</code> are copied into <code>~/site</code>, and the originals are still in <code>~/downloads</code>",
+          "check": {
+            "all": [
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/site/index.html"
+                ]
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/site/style.css"
+                ]
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/downloads/index.html"
+                ]
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/downloads/style.css"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "text": "The logo is at <code>~/site/assets/images/header.png</code> and is gone from <code>~/downloads</code>",
+          "check": {
+            "all": [
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/site/assets/images/header.png"
+                ]
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/downloads/logo.png"
+                ],
+                "exists": false
+              }
+            ]
+          }
+        },
+        {
+          "text": "<code>draft-v1.html</code> is deleted",
+          "check": {
+            "file": [
+              "ubuntu01",
+              "/home/student/downloads/draft-v1.html"
+            ],
+            "exists": false
+          }
+        },
+        {
+          "text": "What does the hidden note say?",
+          "check": {
+            "q": "hint",
+            "eq": 1
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": "hint",
+          "prompt": "Staging hint:",
+          "options": [
+            "last four digits of the phone",
+            "first pet + year",
+            "mother's maiden name",
+            "there is no hidden file"
+          ]
+        }
+      ],
+      "hints": [
+        "<code>mkdir -p</code> creates every missing folder in the path.",
+        "<code>cp A B DEST/</code> copies several files at once; <code>mv OLD NEW</code> moves and renames in one step.",
+        "Hidden names start with a dot: <code>ls -a ~/downloads</code>, then <code>cat</code> the file."
+      ],
+      "solution": "<pre>mkdir -p ~/site/assets/images\ncp ~/downloads/index.html ~/downloads/style.css ~/site/\nmv ~/downloads/logo.png ~/site/assets/images/header.png\nrm ~/downloads/draft-v1.html\nls -a ~/downloads\ncat ~/downloads/.staging-note</pre>",
+      "review": "<p>cp keeps the original, mv does not and also renames, mkdir -p builds a whole path, and rm is permanent. Hidden files only show with ls -a.</p>"
+    },
+    {
+      "id": "cli-logs",
+      "title": "Answer questions from a web log",
+      "domain": "D3",
+      "kind": "cli",
+      "level": "beginner",
+      "minutes": 15,
+      "summary": "Use grep, cut, sort, uniq, wc and redirection to answer questions from an access log and save the results.",
+      "scenario": "<p>The shop's website on <b>ubuntu01</b> had a rough morning. The access log is <code>/var/log/webapp/access.log</code>; each line is <code>IP DATE TIME METHOD PATH STATUS</code>. Answer the manager's questions and save the server errors:</p><ul><li><code>~/errors.txt</code>: every line with status <code>500</code> and nothing else</li></ul>",
+      "devices": [
+        {
+          "platform": "linux",
+          "hostname": "ubuntu01",
+          "ip": "10.0.0.21",
+          "name": "ubuntu01",
+          "users": {},
+          "files": {
+            "/var/log/webapp": {
+              "dir": true,
+              "owner": "root"
+            },
+            "/var/log/webapp/access.log": {
+              "content": [
+                "198.51.100.23 2026-11-03 09:00:00 GET /cart 200",
+                "203.0.113.7 2026-11-03 09:00:07 GET /login 200",
+                "203.0.113.7 2026-11-03 09:01:14 GET /api/orders 200",
+                "198.51.100.23 2026-11-03 09:01:21 GET /login 200",
+                "198.51.100.23 2026-11-03 09:02:28 GET /index.html 404",
+                "203.0.113.7 2026-11-03 09:02:35 GET /api/orders 200",
+                "198.51.100.23 2026-11-03 09:03:42 GET /index.html 200",
+                "198.51.100.23 2026-11-03 09:03:49 GET /api/orders 200",
+                "10.0.0.5 2026-11-03 09:04:56 GET /api/orders 200",
+                "198.51.100.23 2026-11-03 09:04:03 GET /api/orders 200",
+                "192.0.2.44 2026-11-03 09:05:10 GET /login 200",
+                "198.51.100.23 2026-11-03 09:05:17 GET /images/logo.png 200",
+                "192.0.2.44 2026-11-03 09:06:24 GET /index.html 200",
+                "198.51.100.23 2026-11-03 09:06:31 GET /checkout 500",
+                "10.0.0.5 2026-11-03 09:07:38 GET /images/logo.png 200",
+                "10.0.0.5 2026-11-03 09:07:45 GET /api/orders 200",
+                "198.51.100.23 2026-11-03 09:08:52 GET /search 404",
+                "192.0.2.44 2026-11-03 09:08:59 GET /api/orders 200",
+                "203.0.113.7 2026-11-03 09:09:06 GET /checkout 500",
+                "203.0.113.99 2026-11-03 09:09:13 GET /checkout 200",
+                "192.0.2.44 2026-11-03 09:10:20 GET /images/logo.png 200",
+                "198.51.100.23 2026-11-03 09:10:27 GET /search 200",
+                "198.51.100.23 2026-11-03 09:11:34 GET /login 500",
+                "198.51.100.23 2026-11-03 09:11:41 GET /login 200",
+                "192.0.2.44 2026-11-03 09:12:48 GET /search 200",
+                "198.51.100.23 2026-11-03 09:12:55 GET /images/logo.png 200",
+                "198.51.100.23 2026-11-03 09:13:02 GET /cart 200",
+                "198.51.100.23 2026-11-03 09:13:09 GET /api/orders 304",
+                "203.0.113.7 2026-11-03 09:14:16 GET /api/orders 200",
+                "10.0.0.5 2026-11-03 09:14:23 GET /search 200",
+                "198.51.100.23 2026-11-03 09:15:30 GET /api/orders 404",
+                "10.0.0.5 2026-11-03 09:15:37 GET /api/orders 200",
+                "203.0.113.99 2026-11-03 09:16:44 GET /checkout 500",
+                "203.0.113.7 2026-11-03 09:16:51 GET /api/orders 200",
+                "203.0.113.7 2026-11-03 09:17:58 GET /cart 200",
+                "203.0.113.7 2026-11-03 09:17:05 GET /checkout 200",
+                "198.51.100.23 2026-11-03 09:18:12 GET /cart 200",
+                "198.51.100.23 2026-11-03 09:18:19 GET /index.html 200",
+                "10.0.0.5 2026-11-03 09:19:26 GET /checkout 500",
+                "198.51.100.23 2026-11-03 09:19:33 GET /checkout 500",
+                "203.0.113.7 2026-11-03 09:20:40 GET /cart 200",
+                "198.51.100.23 2026-11-03 09:20:47 GET /login 200",
+                "203.0.113.7 2026-11-03 09:21:54 GET /login 500",
+                "198.51.100.23 2026-11-03 09:21:01 GET /login 404",
+                "198.51.100.23 2026-11-03 09:22:08 GET /cart 200",
+                "203.0.113.99 2026-11-03 09:22:15 GET /images/logo.png 200",
+                "203.0.113.7 2026-11-03 09:23:22 GET /search 500",
+                "198.51.100.23 2026-11-03 09:23:29 GET /search 200",
+                "203.0.113.7 2026-11-03 09:24:36 GET /images/logo.png 304",
+                "198.51.100.23 2026-11-03 09:24:43 GET /cart 200",
+                "203.0.113.7 2026-11-03 09:25:50 GET /images/logo.png 200",
+                "198.51.100.23 2026-11-03 09:25:57 GET /index.html 304",
+                "198.51.100.23 2026-11-03 09:26:04 GET /login 200",
+                "198.51.100.23 2026-11-03 09:26:11 GET /images/logo.png 404",
+                "198.51.100.23 2026-11-03 09:27:18 GET /api/orders 200",
+                "192.0.2.44 2026-11-03 09:27:25 GET /images/logo.png 200",
+                "198.51.100.23 2026-11-03 09:28:32 GET /api/orders 404",
+                "10.0.0.5 2026-11-03 09:28:39 GET /api/orders 200",
+                "198.51.100.23 2026-11-03 09:29:46 GET /index.html 500",
+                "10.0.0.5 2026-11-03 09:29:53 GET /search 200"
+              ],
+              "owner": "root"
+            }
+          }
+        }
+      ],
+      "tasks": [
+        {
+          "text": "How many requests returned <code>404</code>?",
+          "check": {
+            "q": "n404",
+            "eq": 1
+          }
+        },
+        {
+          "text": "Which IP address made the most requests?",
+          "check": {
+            "q": "ip",
+            "eq": 1
+          }
+        },
+        {
+          "text": "Which path returned the most <code>500</code> errors?",
+          "check": {
+            "q": "path",
+            "eq": 2
+          }
+        },
+        {
+          "text": "Save every <code>500</code> line to <code>~/errors.txt</code>",
+          "check": {
+            "file": [
+              "ubuntu01",
+              "/home/student/errors.txt"
+            ],
+            "equals": "198.51.100.23 2026-11-03 09:06:31 GET /checkout 500\n203.0.113.7 2026-11-03 09:09:06 GET /checkout 500\n198.51.100.23 2026-11-03 09:11:34 GET /login 500\n203.0.113.99 2026-11-03 09:16:44 GET /checkout 500\n10.0.0.5 2026-11-03 09:19:26 GET /checkout 500\n198.51.100.23 2026-11-03 09:19:33 GET /checkout 500\n203.0.113.7 2026-11-03 09:21:54 GET /login 500\n203.0.113.7 2026-11-03 09:23:22 GET /search 500\n198.51.100.23 2026-11-03 09:29:46 GET /index.html 500"
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": "n404",
+          "prompt": "404 responses:",
+          "options": [
+            "9",
+            "6",
+            "4",
+            "15"
+          ]
+        },
+        {
+          "id": "ip",
+          "prompt": "Busiest IP:",
+          "options": [
+            "192.0.2.44",
+            "198.51.100.23",
+            "203.0.113.7",
+            "10.0.0.5"
+          ]
+        },
+        {
+          "id": "path",
+          "prompt": "Path with most 500 errors:",
+          "options": [
+            "/search",
+            "/cart",
+            "/checkout",
+            "/login"
+          ]
+        }
+      ],
+      "hints": [
+        "<code>grep 404 FILE | wc -l</code> counts matching lines (or <code>grep -c</code>).",
+        "The IP is field 1: <code>cut -d\" \" -f1 FILE | sort | uniq -c | sort -rn | head</code>.",
+        "Path is field 5 and status is field 6. Try <code>grep \" 500$\" FILE | cut -d\" \" -f5 | sort | uniq -c | sort -rn</code>.",
+        "<code>&gt;</code> saves output to a file."
+      ],
+      "solution": "<pre>cd /var/log/webapp\ngrep -c \" 404$\" access.log\ncut -d\" \" -f1 access.log | sort | uniq -c | sort -rn | head -3\ngrep \" 500$\" access.log | cut -d\" \" -f5 | sort | uniq -c | sort -rn | head -3\ngrep \" 500$\" access.log &gt; ~/errors.txt</pre>",
+      "review": "<p>Filter, cut a field, sort, count duplicates with uniq -c, rank, and keep the top lines: that one pattern answers most questions about logs.</p>"
+    },
+    {
+      "id": "cli-script",
+      "title": "Write your first backup script",
+      "domain": "D4",
+      "kind": "cli",
+      "level": "beginner",
+      "minutes": 15,
+      "summary": "Create a Bash script with a shebang, a variable and a tar command, then make it executable.",
+      "scenario": "<p>You need a repeatable backup of <code>~/projects</code> on <b>ubuntu01</b>. Create <code>~/backup.sh</code> with <code>nano</code> or <code>vi</code> (or with <code>echo</code> and <code>&gt;&gt;</code>) so that it:</p><ul><li>starts with the line <code>#!/bin/bash</code></li><li>sets a variable (for example <code>DEST=...</code>) for the destination file</li><li>uses <code>tar -czf</code> to compress <code>~/projects</code> into that destination</li></ul><p>Then make the script <b>executable</b> by its owner. (This lab does not run scripts; it checks that they are written and prepared correctly.)</p>",
+      "devices": [
+        {
+          "platform": "linux",
+          "hostname": "ubuntu01",
+          "ip": "10.0.0.21",
+          "name": "ubuntu01",
+          "users": {},
+          "files": {
+            "/home/student/projects": {
+              "dir": true,
+              "owner": "student"
+            },
+            "/home/student/projects/notes.txt": {
+              "content": [
+                "todo: ship v2"
+              ],
+              "owner": "student"
+            },
+            "/home/student/projects/website": {
+              "dir": true,
+              "owner": "student"
+            },
+            "/home/student/projects/website/index.html": {
+              "content": [
+                "<h1>Hello</h1>"
+              ],
+              "owner": "student"
+            }
+          }
+        }
+      ],
+      "tasks": [
+        {
+          "text": "<code>~/backup.sh</code> exists and its first line is <code>#!/bin/bash</code>",
+          "check": {
+            "file": [
+              "ubuntu01",
+              "/home/student/backup.sh"
+            ],
+            "contains": "(?<![\\s\\S])#!/bin/(ba)?sh"
+          }
+        },
+        {
+          "text": "It sets a variable (a line like <code>NAME=value</code>)",
+          "check": {
+            "file": [
+              "ubuntu01",
+              "/home/student/backup.sh"
+            ],
+            "contains": "^[A-Za-z_][A-Za-z0-9_]*="
+          }
+        },
+        {
+          "text": "It runs <code>tar -czf</code>",
+          "check": {
+            "file": [
+              "ubuntu01",
+              "/home/student/backup.sh"
+            ],
+            "contains": "tar\\s+-?[a-z]*c[a-z]*z|tar\\s+-?[a-z]*z[a-z]*c"
+          }
+        },
+        {
+          "text": "The script is executable (<code>chmod +x</code> or a mode such as <code>755</code>)",
+          "check": {
+            "any": [
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "500"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "501"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "502"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "503"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "504"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "505"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "506"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "507"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "510"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "511"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "512"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "513"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "514"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "515"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "516"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "517"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "520"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "521"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "522"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "523"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "524"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "525"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "526"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "527"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "530"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "531"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "532"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "533"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "534"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "535"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "536"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "537"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "540"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "541"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "542"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "543"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "544"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "545"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "546"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "547"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "550"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "551"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "552"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "553"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "554"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "555"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "556"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "557"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "560"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "561"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "562"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "563"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "564"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "565"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "566"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "567"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "570"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "571"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "572"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "573"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "574"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "575"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "576"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "577"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "700"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "701"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "702"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "703"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "704"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "705"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "706"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "707"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "710"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "711"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "712"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "713"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "714"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "715"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "716"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "717"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "720"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "721"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "722"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "723"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "724"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "725"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "726"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "727"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "730"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "731"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "732"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "733"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "734"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "735"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "736"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "737"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "740"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "741"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "742"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "743"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "744"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "745"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "746"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "747"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "750"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "751"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "752"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "753"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "754"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "755"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "756"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "757"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "760"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "761"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "762"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "763"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "764"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "765"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "766"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "767"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "770"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "771"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "772"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "773"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "774"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "775"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "776"
+              },
+              {
+                "file": [
+                  "ubuntu01",
+                  "/home/student/backup.sh"
+                ],
+                "mode": "777"
+              }
+            ]
+          }
+        },
+        {
+          "text": "What does an exit code of <code>0</code> mean?",
+          "check": {
+            "q": "exit",
+            "eq": 2
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": "exit",
+          "prompt": "Exit code 0:",
+          "options": [
+            "The command was not found",
+            "The command was cancelled",
+            "The command succeeded",
+            "The command needs root"
+          ]
+        }
+      ],
+      "hints": [
+        "<code>nano ~/backup.sh</code> opens the editor. Type the lines, then choose Save and close.",
+        "Example: <code>DEST=\"$HOME/backup.tar.gz\"</code> then <code>tar -czf \"$DEST\" ~/projects</code>.",
+        "<code>chmod +x ~/backup.sh</code> adds the execute bit. Check with <code>ls -l ~/backup.sh</code>."
+      ],
+      "solution": "<pre>nano ~/backup.sh     # type the three lines below, then save\n#!/bin/bash\nDEST=\"$HOME/backup.tar.gz\"\ntar -czf \"$DEST\" ~/projects\nchmod +x ~/backup.sh\nls -l ~/backup.sh</pre>",
+      "review": "<p>A script is a text file with a shebang, commands and an execute bit. Variables make it easy to change one value, and exit code 0 means success.</p>"
+    },
+    {
+      "id": "cli-vocab",
+      "title": "Bash, PowerShell and safe habits",
+      "domain": "D1",
+      "kind": "tasks",
+      "level": "beginner",
+      "minutes": 10,
+      "summary": "Match commands across shells, order the steps of a safe script, and fill in the gaps.",
+      "scenario": "<p>You are comfortable in Bash and are now supporting Windows machines too. Show you can translate between shells and follow safe scripting practice.</p>",
+      "activities": [
+        {
+          "type": "match",
+          "title": "Same job, different shell",
+          "prompt": "Match each PowerShell command to its Bash equivalent.",
+          "categories": [
+            "ls",
+            "cd",
+            "cat",
+            "cp",
+            "rm"
+          ],
+          "items": [
+            {
+              "text": "Get-ChildItem",
+              "cat": 0
+            },
+            {
+              "text": "Set-Location",
+              "cat": 1
+            },
+            {
+              "text": "Get-Content",
+              "cat": 2
+            },
+            {
+              "text": "Copy-Item",
+              "cat": 3
+            },
+            {
+              "text": "Remove-Item",
+              "cat": 4
+            }
+          ]
+        },
+        {
+          "type": "order",
+          "title": "Run a new script safely",
+          "prompt": "Put the steps in a sensible order.",
+          "items": [
+            "Write the script and comment what it does",
+            "Test it on a copy or with echo/-WhatIf",
+            "Check the exit code and the output",
+            "Make it executable or allowed to run",
+            "Schedule it with cron or Task Scheduler"
+          ]
+        },
+        {
+          "type": "fill",
+          "title": "Fill in the gap",
+          "prompt": "Complete each answer.",
+          "rows": [
+            {
+              "label": "Redirect that appends to a file (symbol)",
+              "answer": [
+                ">>"
+              ],
+              "placeholder": "symbol"
+            },
+            {
+              "label": "First line of a Bash script (the shebang)",
+              "answer": [
+                "#!/bin/bash",
+                "#!/usr/bin/env bash",
+                "#!/bin/sh"
+              ],
+              "placeholder": "#!..."
+            },
+            {
+              "label": "chmod number for rwxr-xr-x",
+              "answer": [
+                "755"
+              ],
+              "placeholder": "###"
+            },
+            {
+              "label": "PowerShell switch that previews an action without doing it",
+              "answer": [
+                "-WhatIf",
+                "WhatIf"
+              ],
+              "placeholder": "-..."
+            }
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "text": "Match the PowerShell commands to Bash",
+          "check": {
+            "activity": 0
+          }
+        },
+        {
+          "text": "Order the steps of a safe script",
+          "check": {
+            "activity": 1
+          }
+        },
+        {
+          "text": "Complete the fill-in answers",
+          "check": {
+            "activity": 2
+          }
+        }
+      ],
+      "hints": [
+        "Cmdlets are Verb-Noun. Get-ChildItem lists things, so think ls.",
+        "Write, test, check, allow to run, then schedule.",
+        "Two arrows append; r=4, w=2, x=1."
+      ],
+      "review": "<p>The concepts carry over between shells: list, change folder, read, copy and remove. Safe scripting means testing before trusting, and scheduling only after a script is proven.</p>"
+    }
+  ]
+}

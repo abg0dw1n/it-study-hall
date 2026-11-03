@@ -19,7 +19,7 @@
     "name": "CompTIA Network+",
     "vendor": "CompTIA",
     "level": "intermediate",
-    "updated": "2026-10-29",
+    "updated": "2026-11-03",
     "questions": 260,
     "labs": 8
   },
@@ -29,7 +29,7 @@
     "name": "CompTIA Security+",
     "vendor": "CompTIA",
     "level": "intermediate",
-    "updated": "2026-10-29",
+    "updated": "2026-11-03",
     "questions": 195,
     "labs": 6
   },
@@ -39,7 +39,7 @@
     "name": "Cisco Certified Network Associate",
     "vendor": "Cisco",
     "level": "advanced",
-    "updated": "2026-10-29",
+    "updated": "2026-11-03",
     "questions": 200,
     "labs": 8
   },
@@ -49,7 +49,7 @@
     "name": "AWS Certified Solutions Architect – Associate",
     "vendor": "Amazon Web Services",
     "level": "advanced",
-    "updated": "2026-10-27",
+    "updated": "2026-11-03",
     "questions": 197
   },
   {
@@ -79,7 +79,7 @@
     "name": "AWS Certified AI Practitioner",
     "vendor": "Amazon Web Services",
     "level": "beginner",
-    "updated": "2026-10-29",
+    "updated": "2026-11-03",
     "questions": 132,
     "learning": true,
     "learningDescription": "Understand AI, ML, and generative AI on AWS: foundation model apps with Amazon Bedrock, prompt engineering, responsible AI, and security and governance.",
@@ -112,7 +112,7 @@
     "name": "AWS Certified Cloud Practitioner",
     "vendor": "Amazon Web Services",
     "level": "beginner",
-    "updated": "2026-11-02",
+    "updated": "2026-11-03",
     "questions": 130
   },
   {
@@ -165,7 +165,7 @@
     "name": "CompTIA Tech+",
     "vendor": "CompTIA",
     "level": "beginner",
-    "updated": "2026-10-28",
+    "updated": "2026-11-03",
     "questions": 93
   },
   {
@@ -210,7 +210,7 @@
     "name": "AWS Certified Developer – Associate",
     "vendor": "Amazon Web Services",
     "level": "advanced",
-    "updated": "2026-10-28",
+    "updated": "2026-11-03",
     "questions": 93
   },
   {
@@ -264,7 +264,7 @@
     "name": "CompTIA Data+",
     "vendor": "CompTIA",
     "level": "intermediate",
-    "updated": "2026-10-28",
+    "updated": "2026-11-03",
     "questions": 95
   },
   {
@@ -282,7 +282,7 @@
     "name": "AAPC Certified Professional Coder",
     "vendor": "AAPC",
     "level": "intermediate",
-    "updated": "2026-10-29",
+    "updated": "2026-11-03",
     "learning": true,
     "learningDescription": "Code surgery, E/M, anesthesia, radiology, lab, and medicine services; apply ICD-10-CM and HCPCS Level II rules, modifiers, and compliance; and read notes with confident terminology and anatomy.",
     "learningModules": 5,
@@ -294,7 +294,7 @@
     "name": "NHA Certified Billing and Coding Specialist",
     "vendor": "NHA",
     "level": "beginner",
-    "updated": "2026-10-29",
+    "updated": "2026-11-03",
     "learning": true,
     "learningDescription": "Follow the revenue cycle, verify insurance and payer rules, code diagnoses and services, and build, post, and appeal claims for timely, compliant payment.",
     "learningModules": 4,
@@ -306,7 +306,7 @@
     "name": "NHA Certified Medical Administrative Assistant",
     "vendor": "NHA",
     "level": "beginner",
-    "updated": "2026-10-29",
+    "updated": "2026-11-03",
     "learning": true,
     "learningDescription": "Run the front office: communicate professionally, protect patient privacy, schedule and register patients, support billing, and manage records and daily operations.",
     "learningModules": 7,
@@ -322,7 +322,7 @@
     "learningDescription": "Start with Linux: distributions and open source licensing, the command line, files and text processing, simple scripts, processes and networking, users, and permissions.",
     "learningModules": 5,
     "questions": 110,
-    "updated": "2026-11-02",
+    "updated": "2026-11-03",
     "labs": 6
   },
   {
@@ -335,7 +335,7 @@
     "learningDescription": "Administer Linux servers: boot, storage and LVM, networking, systemd, containers, security hardening, automation with scripts, Ansible and Git, and troubleshooting.",
     "learningModules": 5,
     "questions": 148,
-    "updated": "2026-11-02",
+    "updated": "2026-11-03",
     "labs": 7
   },
   {
@@ -348,7 +348,49 @@
     "learningDescription": "Prepare for the hands-on RHEL 10 exam: essential tools, scripting, boot and processes, LVM and file systems, software, networking, users, firewalld and SELinux.",
     "learningModules": 9,
     "questions": 106,
-    "updated": "2026-11-02",
+    "updated": "2026-11-03",
     "labs": 9
+  },
+  {
+    "slug": "cli-scripting",
+    "code": "IT Skills",
+    "name": "Command Line & Scripting Basics",
+    "vendor": "IT Skills",
+    "type": "skill",
+    "level": "beginner",
+    "learning": true,
+    "learningDescription": "Get comfortable at the command line: navigate and manage files, filter logs with pipes, and write simple, safe Bash and PowerShell scripts.",
+    "learningModules": 4,
+    "questions": 0,
+    "updated": "2026-11-03",
+    "labs": 4
+  },
+  {
+    "slug": "helpdesk-skills",
+    "code": "IT Skills",
+    "name": "Help Desk & Troubleshooting Skills",
+    "vendor": "IT Skills",
+    "type": "skill",
+    "level": "beginner",
+    "learning": true,
+    "learningDescription": "Learn how a help desk works: tickets and priorities, a repeatable troubleshooting method, clear communication, and safe handling of everyday issues.",
+    "learningModules": 4,
+    "questions": 0,
+    "updated": "2026-11-03",
+    "labs": 4
+  },
+  {
+    "slug": "networking-practice",
+    "code": "IT Skills",
+    "name": "Networking in Practice",
+    "vendor": "IT Skills",
+    "type": "skill",
+    "level": "beginner",
+    "learning": true,
+    "learningDescription": "See how networks really work: addressing and subnetting, DNS, DHCP and ports, and a bottom-up method for diagnosing problems with everyday commands.",
+    "learningModules": 4,
+    "questions": 0,
+    "updated": "2026-11-03",
+    "labs": 4
   }
 ]

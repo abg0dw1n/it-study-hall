@@ -61,7 +61,15 @@ function open(moduleId, tab = 'guide') {
   window.scrollTo({ top: 0 });
 }
 
+const isSkill = () => ctx?.exam?.type === 'skill';
+
 function studySupport() {
+  if (isSkill()) return `<aside class="learn-study-support" aria-label="Study scope">
+    <div class="learn-study-disclaimer">
+      <span class="learn-support-label">About this path</span>
+      <p>This is a practical introduction to the topic, not a certification course. Work through each module, then practice what you learned in the labs.</p>
+    </div>
+  </aside>`;
   return `<aside class="learn-study-support" aria-label="Study scope">
     <div class="learn-study-disclaimer">
       <span class="learn-support-label">Study scope</span>
@@ -92,7 +100,7 @@ function renderIndex(main) {
     if (isLocked(m)) {
       return `<article class="panel learn-card locked">
       <div class="learn-card-head"><span class="learn-num">${i + 1}</span>
-        <div><h3>${esc(m.title)}</h3>${dom ? `<span class="muted small">${esc(dom.weight)} of the exam</span>` : ''}</div></div>
+        <div><h3>${esc(m.title)}</h3>${dom?.weight && !isSkill() ? `<span class="muted small">${esc(dom.weight)} of the exam</span>` : ''}</div></div>
       <p class="muted">${esc(m.summary)}</p>
       <div class="learn-locked">${icon('lock')}<span>Study guide, ${m.slides.length} slides and a ~${minutesOf(m)} min video lesson. Sign in to unlock.</span></div>
       <button class="btn btn-ghost btn-sm" data-guest-exit="signin">${icon('lock')}Sign in to unlock</button>
@@ -100,7 +108,7 @@ function renderIndex(main) {
     }
     return `<article class="panel learn-card">
       <div class="learn-card-head"><span class="learn-num">${i + 1}</span>
-        <div><h3>${esc(m.title)}</h3>${dom ? `<span class="muted small">${esc(dom.weight)} of the exam</span>` : ''}</div></div>
+        <div><h3>${esc(m.title)}</h3>${dom?.weight && !isSkill() ? `<span class="muted small">${esc(dom.weight)} of the exam</span>` : ''}</div></div>
       <p class="muted">${esc(m.summary)}</p>
       <div class="learn-parts">
         ${part(m.id, 'guide', 'book', 'Study guide', `${Math.max(1, Math.round(words(m.guide.map((s) => sectionHtml(s).replace(/<[^>]+>/g, ' ')).join(' ')) / 200))} min read`, p.guide)}
@@ -111,7 +119,7 @@ function renderIndex(main) {
     </article>`;
   }).join('');
   main.innerHTML = `<section class="stack learn">
-      <div class="stack" style="gap:6px"><h2 class="home-title">Learn ${esc(ctx.exam.code)}</h2>
+      <div class="stack" style="gap:6px"><h2 class="home-title">Learn ${esc(isSkill() ? ctx.exam.name : ctx.exam.code)}</h2>
       <p class="muted">${esc(data.intro || 'Work through each domain: read the study guide, flip through the slides, then watch the video lesson.')}</p></div>
       ${ctx.guest && data.modules.length > 1 ? ctx.guestCta(`Guest preview: module 1 of ${data.modules.length}.`) : studySupport()}
       <div class="learn-grid">${cards}${learningResources()}</div>
@@ -188,7 +196,7 @@ function renderGuide(body, m) {
   body.innerHTML = `<div class="guide-layout">
       <nav class="guide-toc" aria-label="Contents"><b class="small">In this guide</b>
         <ol>${m.guide.map((s, i) => `<li><a href="#${id(i)}" data-toc="${i}">${esc(s.h)}</a></li>`).join('')}
-        ${m.tips?.length ? `<li><a href="#${id('tips')}" data-toc="tips">Exam tips</a></li>` : ''}
+        ${m.tips?.length ? `<li><a href="#${id('tips')}" data-toc="tips">${isSkill() ? 'Pro tips' : 'Exam tips'}</a></li>` : ''}
         ${m.terms?.length ? `<li><a href="#${id('terms')}" data-toc="terms">Key terms</a></li>` : ''}</ol></nav>
       <article class="guide">
         <header class="guide-head">
@@ -197,19 +205,19 @@ function renderGuide(body, m) {
         </header>
         ${m.guide.map((s, i) => `<section class="g-sec" id="${id(i)}" data-sec="${i}">
           <h3><span class="g-num">${i + 1}</span>${esc(s.h)}</h3><div class="g-body">${html(s)}</div></section>`).join('')}
-        ${m.tips?.length ? `<section class="g-sec g-tips" id="${id('tips')}" data-sec="tips"><h3><span class="g-num">${icon('bulb')}</span>Exam tips</h3>
+        ${m.tips?.length ? `<section class="g-sec g-tips" id="${id('tips')}" data-sec="tips"><h3><span class="g-num">${icon('bulb')}</span>${isSkill() ? 'Pro tips' : 'Exam tips'}</h3>
           <ul>${m.tips.map((t) => `<li>${t}</li>`).join('')}</ul></section>` : ''}
         ${m.terms?.length ? `<section class="g-sec" id="${id('terms')}" data-sec="terms"><h3><span class="g-num">${icon('book')}</span>Key terms</h3>
           <dl class="g-terms">${m.terms.map(([t, d]) => `<div><dt>${esc(t)}</dt><dd>${d}</dd></div>`).join('')}</dl></section>` : ''}
         <div class="guide-actions">
           <button class="btn ${p.guide ? 'btn-ghost' : 'btn-primary'}" data-done>${icon('check')}${p.guide ? 'Completed' : 'Mark as complete'}</button>
-          <button class="btn btn-ghost" data-practice>${icon('book')}Practice ${esc(m.short || 'this domain')} questions</button>
+          ${isSkill() ? '' : `<button class="btn btn-ghost" data-practice>${icon('book')}Practice ${esc(m.short || 'this domain')} questions</button>`}
         </div>
       </article></div>`;
   body.querySelector('[data-done]').addEventListener('click', (e) => {
     mark(m.id, 'guide'); e.currentTarget.className = 'btn btn-ghost'; e.currentTarget.innerHTML = `${icon('check')}Completed`;
   });
-  body.querySelector('[data-practice]').addEventListener('click', () => { stopLearn(); ctx.practiceDomain(m.id); });
+  body.querySelector('[data-practice]')?.addEventListener('click', () => { stopLearn(); ctx.practiceDomain(m.id); });
   const links = [...body.querySelectorAll('.guide-toc a')];
   links.forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });

@@ -1,0 +1,833 @@
+{
+  "intro": "Four short modules take you from your first commands to writing and running your own scripts. Each has a study guide, tips, key terms and slides. Practice every skill in the Labs tab, where a simulated terminal checks your work.",
+  "updated": "2026-11-03",
+  "sources": [],
+  "modules": [
+    {
+      "id": "D1",
+      "short": "Shells",
+      "title": "Shells and navigation",
+      "summary": "Know what a shell is, how Bash, PowerShell and the Windows command prompt differ, and how to move around, get help and work faster with history and completion.",
+      "guide": [
+        {
+          "h": "What a shell is",
+          "html": "<p>A <b>shell</b> is a program that reads the commands you type, runs them, and prints the result. The window you type in is the <b>terminal</b>; the shell is the program inside it. Typing is faster than clicking once you know a few commands, it can be repeated exactly, and it is the only way to manage most servers.</p>"
+        },
+        {
+          "h": "Three shells you will meet",
+          "html": "<ul><li><b>Bash</b> (and the similar <code>sh</code>, <code>zsh</code>) is the default on Linux and the Terminal on macOS. Commands print <b>text</b>.</li><li><b>PowerShell</b> is built into Windows and also runs on Linux and macOS. Its commands, called <b>cmdlets</b>, are named <code>Verb-Noun</code> (<code>Get-ChildItem</code>) and pass <b>objects</b>, not just text.</li><li><b>Command Prompt</b> (<code>cmd.exe</code>) is the older Windows shell with commands like <code>dir</code>, <code>ipconfig</code> and <code>copy</code>.</li></ul><p>The ideas are the same in all three: a command, options, and arguments.</p>"
+        },
+        {
+          "h": "Anatomy of a command",
+          "html": "<p>Most commands look like <code>command -options arguments</code>. In <code>ls -l /etc</code>, <code>ls</code> is the command, <code>-l</code> is an option that changes how it behaves, and <code>/etc</code> is the argument it works on. PowerShell uses named parameters instead: <code>Get-ChildItem -Path C:\\Users -Force</code>.</p><p>Spaces separate the parts, so a name with a space needs quotes: <code>cd \"My Documents\"</code>.</p>"
+        },
+        {
+          "h": "Where am I? Moving around",
+          "html": "<p>Every shell has a <b>current directory</b> (working folder). <code>pwd</code> prints it, <code>ls</code> lists it, and <code>cd</code> changes it.</p><ul><li><b>Absolute path</b> starts at the top: <code>/var/log</code> (Linux) or <code>C:\\Windows</code> (Windows).</li><li><b>Relative path</b> starts from where you are: <code>../logs</code>. <code>.</code> means here and <code>..</code> means one level up.</li><li><code>~</code> means your home folder in Bash. <code>cd</code> with no argument also goes home.</li></ul><p>PowerShell equivalents: <code>Get-Location</code> (<code>pwd</code>), <code>Get-ChildItem</code> (<code>ls</code>, <code>dir</code>), <code>Set-Location</code> (<code>cd</code>).</p>"
+        },
+        {
+          "h": "Getting help and working faster",
+          "html": "<p>Nobody memorizes every option. Use the built-in help: <code>man ls</code> (full manual, <code>q</code> to quit), <code>ls --help</code> (short summary), or <code>Get-Help Get-ChildItem -Examples</code> in PowerShell.</p><p>Speed tricks that work in every shell: <b>Tab</b> completes names, the <b>Up arrow</b> brings back earlier commands, <code>history</code> lists them, <b>Ctrl+C</b> stops a running command and <b>Ctrl+L</b> clears the screen. Be careful, though: the shell does what you type, with no undo.</p>"
+        }
+      ],
+      "tips": [
+        "Tab completion saves typing and prevents typos in long paths.",
+        "Linux is case-sensitive: <code>Notes.txt</code> and <code>notes.txt</code> are different files. Windows is not.",
+        "If a command seems to hang, Ctrl+C usually stops it.",
+        "Read before you press Enter, especially on commands that delete or overwrite.",
+        "Look up unknown options with <code>man</code> or <code>--help</code> before guessing."
+      ],
+      "terms": [
+        [
+          "Terminal",
+          "The window where you type; the shell runs inside it."
+        ],
+        [
+          "Shell",
+          "The program that interprets commands (Bash, PowerShell, cmd)."
+        ],
+        [
+          "Cmdlet",
+          "A PowerShell command named Verb-Noun."
+        ],
+        [
+          "Working directory",
+          "The folder commands act on by default."
+        ],
+        [
+          "Absolute path",
+          "A full path from the root, such as /var/log."
+        ],
+        [
+          "Relative path",
+          "A path measured from the current directory."
+        ],
+        [
+          "Option / flag",
+          "Changes how a command behaves, such as -l."
+        ],
+        [
+          "Argument",
+          "What the command acts on, such as a file name."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Shells and navigation",
+          "bullets": [
+            "Type commands, get results",
+            "Bash, PowerShell, cmd",
+            "Move, look, ask for help"
+          ],
+          "script": [
+            "This lesson covers what a shell is and how to find your way around with a few commands.",
+            "These skills carry over to almost every IT job."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Bash",
+                "d": "Linux and macOS"
+              },
+              {
+                "t": "PowerShell",
+                "d": "Windows and more"
+              },
+              {
+                "t": "cmd",
+                "d": "Classic Windows"
+              },
+              {
+                "t": "Help",
+                "d": "man · Get-Help"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "Anatomy of a command",
+          "bullets": [
+            "command, options, arguments",
+            "Spaces separate parts",
+            "Quote names with spaces"
+          ],
+          "script": [
+            "A command has a name, options that change its behavior, and arguments that say what to work on.",
+            "Put quotes around names that contain spaces."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "ls",
+                "d": "Command"
+              },
+              {
+                "t": "-l",
+                "d": "Option"
+              },
+              {
+                "t": "/etc",
+                "d": "Argument"
+              },
+              {
+                "t": "Output",
+                "d": "Printed text"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Paths and moving around",
+          "bullets": [
+            "pwd shows where you are",
+            "cd changes folder",
+            "~ is home, .. is up one"
+          ],
+          "script": [
+            "Use pwd to see where you are and cd to move.",
+            "Absolute paths start at the top. Relative paths start from your current folder."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Task",
+              "Bash",
+              "PowerShell"
+            ],
+            "rows": [
+              [
+                "Where am I?",
+                "pwd",
+                "Get-Location"
+              ],
+              [
+                "List files",
+                "ls",
+                "Get-ChildItem"
+              ],
+              [
+                "Change folder",
+                "cd",
+                "Set-Location"
+              ],
+              [
+                "Help",
+                "man",
+                "Get-Help"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Work faster",
+          "bullets": [
+            "Tab completes",
+            "Up arrow repeats",
+            "Ctrl+C stops"
+          ],
+          "script": [
+            "Press Tab to complete names, and the Up arrow to bring back earlier commands.",
+            "Ctrl+C stops a command that is still running."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Tab",
+                "d": "Complete"
+              },
+              {
+                "t": "↑",
+                "d": "Recall"
+              },
+              {
+                "t": "history",
+                "d": "List"
+              },
+              {
+                "t": "Ctrl+C",
+                "d": "Stop"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "short": "Files",
+      "title": "Files and folders",
+      "summary": "Create, copy, move, rename and delete files and folders safely, use wildcards, find hidden files, and read permissions.",
+      "guide": [
+        {
+          "h": "The everyday commands",
+          "html": "<table><tr><th>Task</th><th>Bash</th><th>PowerShell</th></tr><tr><td>Make a folder</td><td><code>mkdir reports</code></td><td><code>New-Item -ItemType Directory reports</code></td></tr><tr><td>Create an empty file</td><td><code>touch notes.txt</code></td><td><code>New-Item notes.txt</code></td></tr><tr><td>Copy</td><td><code>cp a.txt b.txt</code></td><td><code>Copy-Item a.txt b.txt</code></td></tr><tr><td>Move or rename</td><td><code>mv old.txt new.txt</code></td><td><code>Move-Item old.txt new.txt</code></td></tr><tr><td>Delete</td><td><code>rm old.txt</code></td><td><code>Remove-Item old.txt</code></td></tr><tr><td>Show contents</td><td><code>cat notes.txt</code></td><td><code>Get-Content notes.txt</code></td></tr></table>"
+        },
+        {
+          "h": "Copy, move and the options that matter",
+          "html": "<p><code>cp</code> leaves the original; <code>mv</code> does not, and it is also how you rename. Copying a folder needs <code>-r</code> (recursive): <code>cp -r projects backup</code>. <code>mkdir -p a/b/c</code> creates every missing folder in the path in one go.</p><p><code>ls -l</code> shows details (permissions, owner, size, date) and <code>ls -a</code> includes <b>hidden</b> files, which begin with a dot such as <code>.bashrc</code>. Combine them: <code>ls -la</code>.</p>"
+        },
+        {
+          "h": "Wildcards",
+          "html": "<p>The shell expands wildcards before the command runs. <code>*</code> matches any characters, <code>?</code> matches exactly one, and <code>[ab]</code> matches one of the listed characters. <code>ls *.txt</code> lists every text file; <code>cp report-?.csv backup/</code> copies <code>report-1.csv</code> but not <code>report-10.csv</code>.</p><p>Tip: run <code>ls</code> with the same pattern first to see exactly what a wildcard will match before you use it with <code>rm</code>.</p>"
+        },
+        {
+          "h": "Deleting safely",
+          "html": "<p>There is <b>no recycle bin</b> on the command line. <code>rm</code> deletes immediately and <code>rm -r</code> deletes a folder and everything inside. Habits that prevent disasters:</p><ul><li>Run <code>ls</code> with the same path or pattern first.</li><li>Use <code>rm -i</code> to be asked about each file.</li><li>Never run a recursive delete as root unless you have double-checked the path.</li><li>Keep backups of anything you cannot recreate.</li></ul>"
+        },
+        {
+          "h": "Reading permissions",
+          "html": "<p>In <code>ls -l</code> output, <code>-rwxr-xr--</code> has a type character then three groups: owner (<code>rwx</code>), group (<code>r-x</code>) and everyone else (<code>r--</code>). <b>r</b> = read, <b>w</b> = write, <b>x</b> = execute (run, or enter a folder).</p><p><code>chmod</code> changes them. Numbers add up: read 4, write 2, execute 1. So <code>chmod 755 script.sh</code> is <code>rwxr-xr-x</code>, and <code>chmod 600 secret.txt</code> is <code>rw-------</code>. <code>chmod +x script.sh</code> makes a script runnable.</p>"
+        }
+      ],
+      "tips": [
+        "Add -r to copy or delete folders.",
+        "<code>mv</code> is rename and move in one command.",
+        "Hidden files start with a dot; use <code>ls -a</code> to see them.",
+        "Check a wildcard with <code>ls</code> before using it with <code>rm</code>.",
+        "Scripts need the execute bit (<code>chmod +x</code>) before you can run them."
+      ],
+      "terms": [
+        [
+          "Recursive",
+          "Applies to a folder and everything inside it (-r)."
+        ],
+        [
+          "Wildcard",
+          "A pattern such as * or ? expanded by the shell."
+        ],
+        [
+          "Hidden file",
+          "A name starting with a dot, hidden from plain ls."
+        ],
+        [
+          "Permissions",
+          "Read, write and execute rights for owner, group and others."
+        ],
+        [
+          "chmod",
+          "Changes permissions."
+        ],
+        [
+          "Home folder",
+          "Your personal folder, written ~."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Files and folders",
+          "bullets": [
+            "Create, copy, move, delete",
+            "Wildcards",
+            "Permissions"
+          ],
+          "script": [
+            "Here you will learn to manage files from the command line, and to do it safely."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "mkdir",
+                "d": "Make folder"
+              },
+              {
+                "t": "cp",
+                "d": "Copy"
+              },
+              {
+                "t": "mv",
+                "d": "Move/rename"
+              },
+              {
+                "t": "rm",
+                "d": "Delete"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "Everyday commands",
+          "bullets": [
+            "cp keeps the original",
+            "mv moves and renames",
+            "mkdir -p makes the whole path"
+          ],
+          "script": [
+            "Copy leaves the original in place. Move does not, and moving to a new name is how you rename.",
+            "mkdir with -p creates every missing folder in a path."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Task",
+              "Bash",
+              "PowerShell"
+            ],
+            "rows": [
+              [
+                "Copy",
+                "cp",
+                "Copy-Item"
+              ],
+              [
+                "Move/rename",
+                "mv",
+                "Move-Item"
+              ],
+              [
+                "Delete",
+                "rm",
+                "Remove-Item"
+              ],
+              [
+                "Show text",
+                "cat",
+                "Get-Content"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Wildcards",
+          "bullets": [
+            "* any characters",
+            "? one character",
+            "Test with ls first"
+          ],
+          "script": [
+            "Wildcards let one command act on many files.",
+            "Before using a wildcard with rm, run ls with the same pattern and check the list."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Pattern",
+              "Matches"
+            ],
+            "rows": [
+              [
+                "*.txt",
+                "All text files"
+              ],
+              [
+                "report-?.csv",
+                "report-1.csv, not report-10.csv"
+              ],
+              [
+                "[ab]*",
+                "Names starting with a or b"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Permissions",
+          "bullets": [
+            "r w x for owner, group, others",
+            "755 = rwxr-xr-x",
+            "chmod +x makes a script runnable"
+          ],
+          "script": [
+            "Permissions are read, write and execute for three groups of people.",
+            "Numbers add up: four for read, two for write, one for execute."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Mode",
+              "Meaning"
+            ],
+            "rows": [
+              [
+                "755",
+                "rwxr-xr-x"
+              ],
+              [
+                "644",
+                "rw-r--r--"
+              ],
+              [
+                "600",
+                "rw-------"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "short": "Pipes & logs",
+      "title": "Pipes, filters and logs",
+      "summary": "Chain small commands with pipes, redirect output to files, and use grep, sort, uniq, cut, head and wc to answer questions from log files.",
+      "guide": [
+        {
+          "h": "Input, output and redirection",
+          "html": "<p>Every command has a standard input, a standard output (normal results) and a standard error (error messages). Redirection sends them to or from files:</p><ul><li><code>&gt;</code> writes output to a file, <b>replacing</b> it: <code>ls &gt; files.txt</code></li><li><code>&gt;&gt;</code> <b>appends</b> to the end of the file</li><li><code>2&gt;</code> redirects error messages: <code>cmd 2&gt; errors.txt</code></li></ul><p>Careful: a single <code>&gt;</code> silently overwrites an existing file.</p>"
+        },
+        {
+          "h": "The pipe",
+          "html": "<p>The pipe <code>|</code> sends one command's output into the next command's input. Small tools that each do one job combine into a powerful one-liner:</p><pre>cat access.log | grep 404 | wc -l</pre><p>reads the log, keeps lines containing 404, and counts them.</p>"
+        },
+        {
+          "h": "The filtering toolbox",
+          "html": "<table><tr><th>Tool</th><th>What it does</th></tr><tr><td><code>grep text file</code></td><td>Keep lines that match (<code>-i</code> ignore case, <code>-v</code> invert, <code>-c</code> count)</td></tr><tr><td><code>cut -d\" \" -f1</code></td><td>Take one field from each line</td></tr><tr><td><code>sort</code></td><td>Sort lines (<code>-n</code> numeric, <code>-r</code> reverse)</td></tr><tr><td><code>uniq -c</code></td><td>Collapse repeated adjacent lines and count them (sort first!)</td></tr><tr><td><code>head -n 5</code> / <code>tail -n 5</code></td><td>First or last lines (<code>tail -f</code> follows a growing log)</td></tr><tr><td><code>wc -l</code></td><td>Count lines</td></tr></table>"
+        },
+        {
+          "h": "A worked example",
+          "html": "<p>Which client IP address made the most requests? The IP is the first field in each line:</p><pre>cut -d\" \" -f1 access.log | sort | uniq -c | sort -rn | head -3</pre><p>Cut out the IP, sort so duplicates sit together, count each one, sort the counts from high to low, and keep the top three. Build pipelines one step at a time, checking the output at each pipe.</p>"
+        },
+        {
+          "h": "The PowerShell pipeline",
+          "html": "<p>PowerShell pipes <b>objects</b>, so you filter by property instead of cutting text:</p><pre>Get-Process | Where-Object CPU -gt 100 | Sort-Object CPU -Descending | Select-Object -First 5 Name, CPU</pre><p>Useful partners: <code>Where-Object</code> (filter), <code>Sort-Object</code>, <code>Select-Object</code> (choose properties or the first N), <code>Group-Object</code> (count by value), <code>Measure-Object</code> (count/sum), and <code>Export-Csv</code> or <code>Out-File</code> to save results. Log search: <code>Select-String -Path app.log -Pattern ERROR</code>.</p>"
+        }
+      ],
+      "tips": [
+        "Sort before uniq: uniq only collapses neighbouring duplicates.",
+        "<code>&gt;</code> overwrites, <code>&gt;&gt;</code> appends.",
+        "<code>grep -c</code> counts matching lines; <code>wc -l</code> counts all lines.",
+        "Build a pipeline one stage at a time and check the output as you go.",
+        "Quote search text containing spaces: <code>grep \"failed login\" auth.log</code>."
+      ],
+      "terms": [
+        [
+          "stdout / stderr",
+          "Normal output and error output streams."
+        ],
+        [
+          "Redirect",
+          "Send output to a file instead of the screen."
+        ],
+        [
+          "Pipe",
+          "Feeds one command's output into another's input."
+        ],
+        [
+          "grep",
+          "Searches text for matching lines."
+        ],
+        [
+          "Filter",
+          "A command that reads text, changes or selects part of it, and passes it on."
+        ],
+        [
+          "Object pipeline",
+          "PowerShell passes structured objects, not plain text."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Pipes, filters and logs",
+          "bullets": [
+            "Redirect output",
+            "Chain with pipes",
+            "Answer questions from logs"
+          ],
+          "script": [
+            "Logs record what happened. Pipes let you ask questions of them quickly."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "grep",
+                "d": "Find lines"
+              },
+              {
+                "t": "cut",
+                "d": "Pick field"
+              },
+              {
+                "t": "sort | uniq -c",
+                "d": "Count"
+              },
+              {
+                "t": "head",
+                "d": "Top results"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "Redirection",
+          "bullets": [
+            "> overwrites",
+            ">> appends",
+            "2> errors"
+          ],
+          "script": [
+            "Redirection sends output to a file instead of the screen.",
+            "A single greater-than sign replaces the file, so be careful."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Symbol",
+              "Effect"
+            ],
+            "rows": [
+              [
+                ">",
+                "Write (replace)"
+              ],
+              [
+                ">>",
+                "Append"
+              ],
+              [
+                "2>",
+                "Errors only"
+              ],
+              [
+                "|",
+                "Into next command"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "The toolbox",
+          "bullets": [
+            "grep filters",
+            "sort and uniq -c count",
+            "head, tail, wc"
+          ],
+          "script": [
+            "Learn a handful of tools well: grep, cut, sort, uniq, head, tail and wc."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Need",
+              "Use"
+            ],
+            "rows": [
+              [
+                "Find lines",
+                "grep"
+              ],
+              [
+                "Pick a field",
+                "cut -d -f"
+              ],
+              [
+                "Rank",
+                "sort | uniq -c | sort -rn"
+              ],
+              [
+                "Count lines",
+                "wc -l"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "PowerShell pipelines",
+          "bullets": [
+            "Objects, not text",
+            "Where-Object filters",
+            "Select-String searches files"
+          ],
+          "script": [
+            "PowerShell pipes objects, so you filter on properties such as CPU or Name.",
+            "Select-String is its version of grep."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Get-Process",
+                "d": "Objects"
+              },
+              {
+                "t": "Where-Object",
+                "d": "Filter"
+              },
+              {
+                "t": "Sort-Object",
+                "d": "Order"
+              },
+              {
+                "t": "Select-Object",
+                "d": "Top N"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "short": "Scripts",
+      "title": "Writing and running scripts",
+      "summary": "Turn commands into reusable scripts: shebang and permissions, variables, conditions, loops, arguments, exit codes, and the habits that keep scripts safe.",
+      "guide": [
+        {
+          "h": "Why script",
+          "html": "<p>A script is a text file of commands that run in order. Script anything you do more than twice: backups, cleaning old files, collecting information for tickets, creating accounts. Scripts are faster, repeatable and less error-prone than doing it by hand, and they document how a task is done.</p>"
+        },
+        {
+          "h": "Your first Bash script",
+          "html": "<pre>#!/bin/bash\n# backup.sh: copy the projects folder to a dated archive\nSRC=\"$HOME/projects\"\nDEST=\"$HOME/backup-$(date +%F).tar.gz\"\ntar -czf \"$DEST\" \"$SRC\"\necho \"Backup written to $DEST\"</pre><ul><li>The first line, the <b>shebang</b> <code>#!/bin/bash</code>, says which interpreter runs the file.</li><li><code>#</code> starts a comment.</li><li><code>NAME=value</code> sets a variable (<b>no spaces around =</b>); <code>$NAME</code> reads it. Use double quotes so spaces do not break it.</li><li><code>$(command)</code> captures a command's output.</li></ul><p>Make it runnable and run it: <code>chmod +x backup.sh</code> then <code>./backup.sh</code>.</p>"
+        },
+        {
+          "h": "Decisions, loops and arguments",
+          "html": "<pre>#!/bin/bash\nif [ ! -d \"$1\" ]; then\n  echo \"Usage: $0 FOLDER\" &gt;&amp;2\n  exit 1\nfi\nfor f in \"$1\"/*.log; do\n  echo \"Checking $f\"\n  grep -c ERROR \"$f\"\ndone</pre><ul><li><code>$1</code>, <code>$2</code> are the arguments; <code>$0</code> is the script name; <code>$#</code> is the count.</li><li><code>if [ test ]; then ... fi</code> makes decisions. Common tests: <code>-f</code> file exists, <code>-d</code> folder exists, <code>-z</code> string empty, <code>-eq</code> numbers equal.</li><li><code>for x in list; do ... done</code> repeats for each item.</li><li><b>Exit codes</b>: every command returns a number, <code>0</code> = success, anything else = failure. <code>$?</code> holds the last one, and <code>exit 1</code> ends your script with failure.</li></ul>"
+        },
+        {
+          "h": "PowerShell scripts",
+          "html": "<pre>param([string]$Path = \"C:\\Logs\")\n$old = Get-ChildItem $Path -File |\n  Where-Object LastWriteTime -lt (Get-Date).AddDays(-30)\nif ($old) { $old | Remove-Item -WhatIf }\nelse { Write-Host \"Nothing to clean\" }</pre><p>Variables start with <code>$</code>, <code>param()</code> declares inputs, and <code>-WhatIf</code> shows what <i>would</i> happen without doing it. Scripts are <code>.ps1</code> files. Windows blocks them by default through the <b>execution policy</b>; <code>Get-ExecutionPolicy</code> shows it, and <code>RemoteSigned</code> is a common, reasonable setting. It is a safety guard, not a security boundary.</p>"
+        },
+        {
+          "h": "Safe scripting habits",
+          "html": "<ul><li><b>Test first</b> on a copy or in a lab. Use <code>echo</code> in front of a risky command (or <code>-WhatIf</code>) to see what it would do.</li><li><b>Never hard-code passwords</b> or keys in a script; read them from a protected file or a secrets manager.</li><li><b>Quote variables</b> so a space or empty value cannot turn <code>rm -r $DIR/</code> into <code>rm -r /</code>.</li><li><b>Check results</b>: test exit codes, print clear errors, and fail early. In Bash, <code>set -eu</code> stops on errors and unset variables.</li><li><b>Least privilege</b>: do not run scripts as root or Administrator unless needed.</li><li><b>Comment</b> the why, keep scripts in version control, and schedule with <code>cron</code> (Linux) or Task Scheduler (Windows).</li></ul>"
+        }
+      ],
+      "tips": [
+        "No spaces around = when assigning Bash variables.",
+        "Quote variables: \"$VAR\".",
+        "A script needs the execute bit before ./script.sh works.",
+        "0 means success; non-zero means failure.",
+        "Test with echo or -WhatIf before running anything destructive.",
+        "Do not put passwords in scripts."
+      ],
+      "terms": [
+        [
+          "Shebang",
+          "First line naming the interpreter, e.g. #!/bin/bash."
+        ],
+        [
+          "Variable",
+          "A named value: NAME=value, read with $NAME."
+        ],
+        [
+          "Exit code",
+          "Number returned by a command; 0 means success."
+        ],
+        [
+          "Argument ($1)",
+          "A value passed to the script when you run it."
+        ],
+        [
+          "Execution policy",
+          "PowerShell setting that controls which scripts may run."
+        ],
+        [
+          "-WhatIf",
+          "PowerShell switch that previews an action without doing it."
+        ],
+        [
+          "cron",
+          "Linux scheduler for running commands at set times."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Writing and running scripts",
+          "bullets": [
+            "Automate repeat tasks",
+            "Variables, if, for",
+            "Safe habits"
+          ],
+          "script": [
+            "Scripts save time and make tasks repeatable."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Write",
+                "d": "Text file"
+              },
+              {
+                "t": "chmod +x",
+                "d": "Make runnable"
+              },
+              {
+                "t": "./script.sh",
+                "d": "Run it"
+              },
+              {
+                "t": "Check",
+                "d": "Exit code"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "Anatomy of a script",
+          "bullets": [
+            "#!/bin/bash on line one",
+            "VAR=value, $VAR",
+            "Comments with #"
+          ],
+          "script": [
+            "The first line, the shebang, names the interpreter.",
+            "Assign variables with no spaces around the equals sign, and read them with a dollar sign."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Syntax",
+              "Meaning"
+            ],
+            "rows": [
+              [
+                "$1 $2",
+                "Arguments"
+              ],
+              [
+                "$#",
+                "Argument count"
+              ],
+              [
+                "$?",
+                "Last exit code"
+              ],
+              [
+                "[ -f x ]",
+                "File exists"
+              ],
+              [
+                "$(cmd)",
+                "Command output"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Decisions and loops",
+          "bullets": [
+            "if ... then ... fi",
+            "for ... do ... done",
+            "exit 0 success, non-zero failure"
+          ],
+          "script": [
+            "If statements make decisions and for loops repeat work.",
+            "Exit codes tell the next tool whether the script succeeded."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "if",
+                "d": "Test"
+              },
+              {
+                "t": "then",
+                "d": "Action"
+              },
+              {
+                "t": "for",
+                "d": "Repeat"
+              },
+              {
+                "t": "exit",
+                "d": "Report"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Script safely",
+          "bullets": [
+            "Test first",
+            "Quote variables",
+            "No passwords in scripts"
+          ],
+          "script": [
+            "Test destructive commands with echo or WhatIf first, quote your variables, and keep secrets out of scripts."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Test",
+                "d": "echo / -WhatIf"
+              },
+              {
+                "t": "Quote",
+                "d": "\"$VAR\""
+              },
+              {
+                "t": "Secrets",
+                "d": "Never inline"
+              },
+              {
+                "t": "Schedule",
+                "d": "cron / Task Scheduler"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

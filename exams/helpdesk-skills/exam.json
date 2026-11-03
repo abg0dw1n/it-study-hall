@@ -1,0 +1,29 @@
+{
+  "slug": "helpdesk-skills",
+  "code": "IT Skills",
+  "name": "Help Desk & Troubleshooting Skills",
+  "vendor": "IT Skills",
+  "type": "skill",
+  "domains": {
+    "D1": {
+      "name": "How a help desk works",
+      "weight": "",
+      "pct": 25
+    },
+    "D2": {
+      "name": "A troubleshooting method",
+      "weight": "",
+      "pct": 25
+    },
+    "D3": {
+      "name": "Communication and customer service",
+      "weight": "",
+      "pct": 25
+    },
+    "D4": {
+      "name": "Everyday issues and safe support",
+      "weight": "",
+      "pct": 25
+    }
+  }
+}

@@ -1,0 +1,843 @@
+{
+  "intro": "Four modules take you from how a network is put together to diagnosing real problems with the same commands professionals use. Practice in the labs: subnetting, ports and records, a PC on the wrong network, and a down gateway.",
+  "updated": "2026-11-03",
+  "sources": [],
+  "modules": [
+    {
+      "id": "D1",
+      "short": "Network basics",
+      "title": "How networks fit together",
+      "summary": "Learn what switches, routers, access points and firewalls do, how IP and MAC addresses work, and how a device finds the internet.",
+      "guide": [
+        {
+          "h": "The pieces of a network",
+          "html": "<ul><li><b>Switch</b>: connects devices on the same local network (LAN) and forwards traffic by MAC address.</li><li><b>Router</b>: connects different networks and forwards traffic by IP address. At home it is also your gateway to the internet.</li><li><b>Access point (AP)</b>: lets wireless devices join the wired network.</li><li><b>Firewall</b>: allows or blocks traffic by rules (address, protocol, port).</li><li><b>Modem / ONT</b>: connects your router to the ISP's cable, DSL or fiber line.</li></ul><p>A <b>LAN</b> covers one site; a <b>WAN</b> links sites together over long distances, and the internet is the biggest WAN of all.</p>"
+        },
+        {
+          "h": "IP addresses and MAC addresses",
+          "html": "<p>A <b>MAC address</b> (like <code>00-1A-2B-3C-4D-5E</code>) identifies a network card on the local link. An <b>IP address</b> (like <code>192.168.1.25</code>) identifies a device on a network and can change. IPv4 addresses are four numbers from 0 to 255; IPv6 addresses are longer and written in hexadecimal.</p><p>Every IP address comes with a <b>subnet mask</b>, which says which part is the network and which part is the host (for example <code>255.255.255.0</code> or <code>/24</code>).</p><p><b>Private ranges</b> are used inside organizations and are not routed on the internet: <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> (172.16 to 172.31) and <code>192.168.0.0/16</code>. <b>NAT</b> on the router translates them to a public address so many devices can share one.</p>"
+        },
+        {
+          "h": "Same network or not?",
+          "html": "<p>Before sending, a device compares the destination to its own address and mask. <b>Same network</b>: it sends directly (finding the MAC address with ARP). <b>Different network</b>: it sends the packet to the <b>default gateway</b>, a router, which forwards it on. That is why a wrong gateway means \"I can reach my neighbors but not the internet\", and a wrong mask or subnet can mean you cannot reach anything.</p>"
+        },
+        {
+          "h": "What a device needs to get online",
+          "html": "<p>Four settings are enough: <b>IP address</b>, <b>subnet mask</b>, <b>default gateway</b> and <b>DNS server</b>. Normally <b>DHCP</b> gives them automatically. If DHCP fails, Windows self-assigns an <b>APIPA</b> address (<code>169.254.x.x</code>), which only works locally. Static addresses are for servers, printers and network gear; make sure they stay outside the DHCP scope or use reservations.</p>"
+        },
+        {
+          "h": "Layers in one minute",
+          "html": "<p>Models like OSI and TCP/IP split networking into layers: <b>physical</b> (cables, Wi-Fi), <b>data link</b> (MAC, switches), <b>network</b> (IP, routers), <b>transport</b> (TCP/UDP and ports) and <b>application</b> (HTTP, DNS...). They give you a map for troubleshooting: if layer 1 is broken, nothing above it can work.</p>"
+        }
+      ],
+      "tips": [
+        "Switch = MAC addresses, router = IP addresses.",
+        "169.254.x.x means DHCP failed.",
+        "Different network? Traffic goes through the default gateway.",
+        "Private ranges: 10/8, 172.16/12, 192.168/16.",
+        "A wrong mask or gateway breaks communication in different ways."
+      ],
+      "terms": [
+        [
+          "LAN / WAN",
+          "Local network at one site / network linking sites."
+        ],
+        [
+          "Subnet mask",
+          "Defines the network and host parts of an IP address."
+        ],
+        [
+          "Default gateway",
+          "The router a device uses to leave its own network."
+        ],
+        [
+          "NAT",
+          "Translates private addresses to a public one."
+        ],
+        [
+          "ARP",
+          "Finds the MAC address that goes with an IP address."
+        ],
+        [
+          "APIPA",
+          "169.254.x.x address a PC gives itself when DHCP fails."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "How networks fit together",
+          "bullets": [
+            "Switches, routers, APs, firewalls",
+            "IP and MAC addresses",
+            "The default gateway"
+          ],
+          "script": [
+            "This lesson explains the pieces of a network and how a device finds its way."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Switch",
+                "d": "MAC, same LAN"
+              },
+              {
+                "t": "Router",
+                "d": "IP, between networks"
+              },
+              {
+                "t": "AP",
+                "d": "Wi-Fi"
+              },
+              {
+                "t": "Firewall",
+                "d": "Rules"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "Addresses",
+          "bullets": [
+            "IP: where, can change",
+            "MAC: which card",
+            "Mask splits network and host"
+          ],
+          "script": [
+            "An IP address says where a device is, and the mask says which part is the network."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Item",
+              "Example"
+            ],
+            "rows": [
+              [
+                "IPv4",
+                "192.168.1.25"
+              ],
+              [
+                "Mask",
+                "255.255.255.0 or /24"
+              ],
+              [
+                "Gateway",
+                "192.168.1.1"
+              ],
+              [
+                "MAC",
+                "00-1A-2B-3C-4D-5E"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Local or remote?",
+          "bullets": [
+            "Same network: send directly",
+            "Different: send to the gateway",
+            "Wrong gateway = no internet"
+          ],
+          "script": [
+            "A device checks whether the destination is on its own network. If not, it hands the packet to the default gateway."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Destination",
+                "d": "IP + mask"
+              },
+              {
+                "t": "Same net?",
+                "d": "Compare"
+              },
+              {
+                "t": "Local",
+                "d": "Direct"
+              },
+              {
+                "t": "Remote",
+                "d": "Via gateway"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Four settings to get online",
+          "bullets": [
+            "IP address",
+            "Mask",
+            "Gateway and DNS"
+          ],
+          "script": [
+            "Four settings get a device online. DHCP normally supplies them."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "IP",
+                "d": "Who"
+              },
+              {
+                "t": "Mask",
+                "d": "Which network"
+              },
+              {
+                "t": "Gateway",
+                "d": "The way out"
+              },
+              {
+                "t": "DNS",
+                "d": "Names"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "short": "Subnetting",
+      "title": "Subnetting made simple",
+      "summary": "Work out the network, broadcast, usable range and host count from an address and prefix, and choose the right size for a subnet.",
+      "guide": [
+        {
+          "h": "Why subnet",
+          "html": "<p>Subnetting splits one network into smaller ones to organize devices (offices, VLANs, guest Wi-Fi), reduce broadcast traffic, apply security rules between groups, and use addresses efficiently.</p>"
+        },
+        {
+          "h": "Prefix, mask and host bits",
+          "html": "<p>A prefix like <code>/24</code> says how many of the 32 bits are the network part. The rest are host bits. <code>/24</code> = <code>255.255.255.0</code>, <code>/25</code> = <code>.128</code>, <code>/26</code> = <code>.192</code>, <code>/27</code> = <code>.224</code>, <code>/28</code> = <code>.240</code>, <code>/30</code> = <code>.252</code>.</p><p>Usable hosts = 2<sup>host bits</sup> &minus; 2 (the network address and broadcast address cannot be assigned). A <code>/24</code> has 8 host bits: 256 &minus; 2 = <b>254</b> hosts. A <code>/27</code> has 5 host bits: 32 &minus; 2 = <b>30</b>.</p>"
+        },
+        {
+          "h": "The block-size method",
+          "html": "<ol><li><b>Block size</b> = 256 minus the interesting mask octet. For <code>/27</code> (<code>.224</code>) the block size is 32.</li><li>List the blocks: 0, 32, 64, 96, 128, 160...</li><li>Find the block that holds your address. That start is the <b>network address</b>.</li><li>The <b>broadcast</b> is one less than the next block start.</li><li>Usable hosts run from <b>network + 1</b> to <b>broadcast &minus; 1</b>.</li></ol><p>Example: <code>172.16.40.130/27</code>. Blocks of 32: 128 holds 130. Network <code>172.16.40.128</code>, broadcast <code>172.16.40.159</code>, usable <code>.129</code> to <code>.158</code>, 30 hosts.</p>"
+        },
+        {
+          "h": "Choosing a size",
+          "html": "<p>Pick the smallest subnet that fits the hosts you need today <b>plus growth</b>: 2 hosts (point-to-point link) &rarr; <code>/30</code>; up to 14 &rarr; <code>/28</code>; up to 30 &rarr; <code>/27</code>; up to 62 &rarr; <code>/26</code>; up to 126 &rarr; <code>/25</code>; up to 254 &rarr; <code>/24</code>. Two devices can talk directly only when they are in the same subnet; otherwise a router is needed.</p>"
+        },
+        {
+          "h": "Reading subnets across octets",
+          "html": "<p>When the prefix falls in the third octet (for example <code>/22</code>), the same method works on that octet. A <code>/22</code> is <code>255.255.252.0</code>: block size 4 in the third octet. <code>10.1.5.200/22</code> sits in the block starting at third octet 4, so the network is <code>10.1.4.0</code>, the broadcast is <code>10.1.7.255</code>, and there are 1,022 usable hosts.</p>"
+        }
+      ],
+      "tips": [
+        "Usable hosts = 2^host bits minus 2.",
+        "Block size = 256 minus the mask octet.",
+        "Broadcast = next block start minus 1.",
+        "A /30 is the classic size for a two-device link.",
+        "Work on the octet where the mask changes."
+      ],
+      "terms": [
+        [
+          "CIDR / prefix",
+          "Slash notation giving the number of network bits, like /26."
+        ],
+        [
+          "Network address",
+          "The first address in a subnet; identifies the subnet."
+        ],
+        [
+          "Broadcast address",
+          "The last address; reaches every host in the subnet."
+        ],
+        [
+          "Usable hosts",
+          "Addresses you can assign to devices."
+        ],
+        [
+          "Block size",
+          "The step between subnets in the interesting octet."
+        ],
+        [
+          "VLSM",
+          "Using different subnet sizes inside one address block."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Subnetting made simple",
+          "bullets": [
+            "Prefix and mask",
+            "Block-size method",
+            "Pick the right size"
+          ],
+          "script": [
+            "Subnetting is simple arithmetic once you know the steps."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Prefix",
+              "Mask",
+              "Hosts"
+            ],
+            "rows": [
+              [
+                "/24",
+                "255.255.255.0",
+                "254"
+              ],
+              [
+                "/25",
+                "255.255.255.128",
+                "126"
+              ],
+              [
+                "/26",
+                "255.255.255.192",
+                "62"
+              ],
+              [
+                "/27",
+                "255.255.255.224",
+                "30"
+              ],
+              [
+                "/28",
+                "255.255.255.240",
+                "14"
+              ],
+              [
+                "/30",
+                "255.255.255.252",
+                "2"
+              ]
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "The method",
+          "bullets": [
+            "Block size = 256 minus mask",
+            "Find the block",
+            "Network, broadcast, range"
+          ],
+          "script": [
+            "Find the block size, then the block your address falls in. The network is the start, and the broadcast is one less than the next block."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Block size",
+                "d": "256 - mask"
+              },
+              {
+                "t": "Find block",
+                "d": "Where address sits"
+              },
+              {
+                "t": "Network",
+                "d": "Block start"
+              },
+              {
+                "t": "Broadcast",
+                "d": "Next start - 1"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Worked example",
+          "bullets": [
+            "172.16.40.130/27",
+            "Blocks of 32",
+            "Network .128, broadcast .159"
+          ],
+          "script": [
+            "For 172.16.40.130 slash 27, the block is 128. The usable range is 129 to 158, which is 30 hosts."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Item",
+              "Value"
+            ],
+            "rows": [
+              [
+                "Network",
+                "172.16.40.128"
+              ],
+              [
+                "Broadcast",
+                "172.16.40.159"
+              ],
+              [
+                "Range",
+                "...129 to ...158"
+              ],
+              [
+                "Hosts",
+                "30"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Sizing subnets",
+          "bullets": [
+            "Plan for growth",
+            "/30 for point-to-point",
+            "Same subnet = no router"
+          ],
+          "script": [
+            "Choose the smallest subnet that fits your hosts with room to grow."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Need",
+              "Use"
+            ],
+            "rows": [
+              [
+                "2 hosts",
+                "/30"
+              ],
+              [
+                "Up to 30",
+                "/27"
+              ],
+              [
+                "Up to 126",
+                "/25"
+              ],
+              [
+                "Up to 254",
+                "/24"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "short": "DNS & DHCP",
+      "title": "DNS, DHCP and ports",
+      "summary": "Understand how names become addresses, how devices get addresses automatically, and what ports and common protocols do.",
+      "guide": [
+        {
+          "h": "DNS: the phone book of the internet",
+          "html": "<p>People use names; networks use addresses. <b>DNS</b> translates <code>www.example.com</code> into an IP address. Your device asks its configured <b>DNS server</b> (often your router or company resolver), which answers from its cache or asks other servers on your behalf. Answers are cached for a time set by the record's <b>TTL</b>, so a change can take time to appear everywhere.</p>"
+        },
+        {
+          "h": "Record types",
+          "html": "<table><tr><th>Record</th><th>Purpose</th></tr><tr><td><b>A</b></td><td>Name to IPv4 address</td></tr><tr><td><b>AAAA</b></td><td>Name to IPv6 address</td></tr><tr><td><b>CNAME</b></td><td>Alias pointing to another name</td></tr><tr><td><b>MX</b></td><td>Mail servers for a domain</td></tr><tr><td><b>TXT</b></td><td>Text, used for SPF/DKIM/DMARC and domain verification</td></tr><tr><td><b>PTR</b></td><td>Reverse lookup: IP address to name</td></tr><tr><td><b>NS</b></td><td>Which servers hold the zone</td></tr></table><p>Test with <code>nslookup name</code> (Windows/Linux) or <code>dig name</code> (Linux/macOS). If you can ping an IP address but not the name, DNS is the problem.</p>"
+        },
+        {
+          "h": "DHCP: addresses on demand",
+          "html": "<p>DHCP hands out an IP address, mask, gateway and DNS server for a limited <b>lease</b>. The conversation is four steps, remembered as <b>DORA</b>: client <b>Discover</b>s, server <b>Offer</b>s, client <b>Request</b>s, server <b>Acknowledge</b>s. Use <b>reservations</b> to always give the same address to a printer or server, and keep static addresses outside the <b>scope</b> (range) to avoid duplicates. If no server answers, the PC falls back to APIPA (<code>169.254.x.x</code>). <code>ipconfig /release</code> and <code>/renew</code> ask for a new lease.</p>"
+        },
+        {
+          "h": "Ports and protocols",
+          "html": "<p>An IP address finds the device; a <b>port</b> finds the service on it. <b>TCP</b> is reliable and connection-based (web, email, SSH). <b>UDP</b> is lighter and faster with no guarantee (DNS queries, streaming, voice).</p><table><tr><th>Port</th><th>Service</th></tr><tr><td>22</td><td>SSH (secure remote shell)</td></tr><tr><td>25</td><td>SMTP (server-to-server email)</td></tr><tr><td>53</td><td>DNS</td></tr><tr><td>67/68</td><td>DHCP</td></tr><tr><td>80 / 443</td><td>HTTP / HTTPS</td></tr><tr><td>3389</td><td>RDP (Windows remote desktop)</td></tr></table>"
+        },
+        {
+          "h": "Firewalls in one paragraph",
+          "html": "<p>A firewall matches traffic against rules by source, destination, protocol and port, top to bottom, and the first match wins. Anything that matches no rule is denied. To publish a web server you allow TCP 443 to that server and nothing else. Open only what is needed (least privilege), and prefer encrypted protocols such as SSH over Telnet and HTTPS over HTTP.</p>"
+        }
+      ],
+      "tips": [
+        "Ping works by IP but not by name: it's DNS.",
+        "DORA: Discover, Offer, Request, Acknowledge.",
+        "DNS uses port 53; DHCP uses 67/68.",
+        "A record = IPv4, AAAA = IPv6, MX = mail, PTR = reverse.",
+        "Keep static IPs outside the DHCP scope."
+      ],
+      "terms": [
+        [
+          "DNS",
+          "System that turns names into IP addresses."
+        ],
+        [
+          "TTL",
+          "How long a DNS answer may be cached."
+        ],
+        [
+          "DHCP",
+          "Service that assigns network settings automatically."
+        ],
+        [
+          "Lease",
+          "The time a DHCP address is loaned to a device."
+        ],
+        [
+          "Port",
+          "A number identifying a service on a device."
+        ],
+        [
+          "TCP / UDP",
+          "Reliable connection-oriented vs. lightweight transport."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "DNS, DHCP and ports",
+          "bullets": [
+            "Names to addresses",
+            "Addresses on demand",
+            "Ports find services"
+          ],
+          "script": [
+            "These three services are involved in almost every network problem."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "DNS",
+                "d": "Names"
+              },
+              {
+                "t": "DHCP",
+                "d": "Addresses"
+              },
+              {
+                "t": "Ports",
+                "d": "Services"
+              },
+              {
+                "t": "Firewall",
+                "d": "Rules"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "DNS records",
+          "bullets": [
+            "A and AAAA",
+            "CNAME and MX",
+            "TXT and PTR"
+          ],
+          "script": [
+            "Different DNS record types answer different questions."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Record",
+              "Maps"
+            ],
+            "rows": [
+              [
+                "A",
+                "Name to IPv4"
+              ],
+              [
+                "AAAA",
+                "Name to IPv6"
+              ],
+              [
+                "CNAME",
+                "Alias"
+              ],
+              [
+                "MX",
+                "Mail server"
+              ],
+              [
+                "TXT",
+                "Text"
+              ],
+              [
+                "PTR",
+                "IP to name"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "DHCP: DORA",
+          "bullets": [
+            "Discover",
+            "Offer",
+            "Request, Acknowledge"
+          ],
+          "script": [
+            "The client discovers, the server offers, the client requests, and the server acknowledges."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Discover",
+                "d": "Client asks"
+              },
+              {
+                "t": "Offer",
+                "d": "Server offers"
+              },
+              {
+                "t": "Request",
+                "d": "Client accepts"
+              },
+              {
+                "t": "Acknowledge",
+                "d": "Lease granted"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Common ports",
+          "bullets": [
+            "22 SSH, 53 DNS",
+            "80 HTTP, 443 HTTPS",
+            "3389 RDP"
+          ],
+          "script": [
+            "Memorize a handful of well-known ports."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Port",
+              "Service"
+            ],
+            "rows": [
+              [
+                "22",
+                "SSH"
+              ],
+              [
+                "25",
+                "SMTP"
+              ],
+              [
+                "53",
+                "DNS"
+              ],
+              [
+                "80/443",
+                "HTTP/HTTPS"
+              ],
+              [
+                "3389",
+                "RDP"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "short": "Diagnosing",
+      "title": "Diagnosing network problems",
+      "summary": "Use ipconfig, ping, tracert and nslookup (or ip, ping, traceroute and dig) to find which layer is broken, and know what to fix yourself and what to escalate.",
+      "guide": [
+        {
+          "h": "Work from the bottom up",
+          "html": "<p>Follow the same order every time: <b>1. physical</b> (cable, Wi-Fi, link light); <b>2. address</b> (do I have a valid IP, mask and gateway?); <b>3. local network</b> (can I reach the gateway?); <b>4. beyond</b> (can I reach the internet by IP?); <b>5. names</b> (does DNS work?); <b>6. the service</b> (is the app or website itself up?). The first step that fails tells you where the problem is.</p>"
+        },
+        {
+          "h": "The toolkit",
+          "html": "<table><tr><th>Question</th><th>Windows</th><th>Linux / macOS</th></tr><tr><td>What are my settings?</td><td><code>ipconfig /all</code></td><td><code>ip addr</code>, <code>ip route</code></td></tr><tr><td>Can I reach it?</td><td><code>ping host</code></td><td><code>ping -c 4 host</code></td></tr><tr><td>Where does the path stop?</td><td><code>tracert host</code></td><td><code>traceroute host</code></td></tr><tr><td>Does DNS work?</td><td><code>nslookup name</code></td><td><code>dig name</code></td></tr><tr><td>What is listening or connected?</td><td><code>netstat -an</code></td><td><code>ss -tuln</code></td></tr><tr><td>New DHCP lease</td><td><code>ipconfig /release</code> then <code>/renew</code></td><td>restart the connection</td></tr></table>"
+        },
+        {
+          "h": "Reading the results",
+          "html": "<ul><li><b>169.254.x.x</b>: no DHCP answer. Check the cable, VLAN or DHCP server.</li><li><b>Right IP, wrong subnet or gateway</b>: can't reach anything, or only neighbors.</li><li><b>Ping gateway fails</b>: the local network or the gateway is down.</li><li><b>Ping 8.8.8.8 works, ping name fails</b>: DNS (wrong server, server down).</li><li><b>Request timed out</b> may be a block by a firewall that drops ICMP, so it is not always an outage. <b>Destination host unreachable</b> usually comes from a router with no route.</li><li><b>tracert</b> stops at hop N: look at the device at hop N-1 and N.</li></ul>"
+        },
+        {
+          "h": "Wi-Fi and common causes",
+          "html": "<p>Weak or intermittent Wi-Fi: distance and walls, interference on a crowded channel (try 5 GHz or a different channel), too many clients on one AP, or the wrong SSID or password. Wired issues: bad cable, port or speed/duplex mismatch. Other classic causes: duplicate IP address (two devices, one address), a DHCP scope that is full, a static address left over from another network, and a stale DNS cache (<code>ipconfig /flushdns</code>).</p>"
+        },
+        {
+          "h": "Fix it or escalate it",
+          "html": "<p>Fix what is yours: your own PC's settings, a bad cable, a stale lease or cache. When the evidence points at shared equipment (gateway, switch, DHCP or DNS server, the ISP), do not poke around; <b>escalate with proof</b>: what is affected, which tests pass and fail, times, and what you have tried. Then verify the original complaint is gone and update the ticket.</p>"
+        }
+      ],
+      "tips": [
+        "Test in order: address, gateway, internet by IP, name.",
+        "Ping by IP then by name to separate network from DNS problems.",
+        "A timeout is not always an outage; some devices drop ping.",
+        "tracert shows where the path breaks.",
+        "Escalate shared-equipment faults with test results."
+      ],
+      "terms": [
+        [
+          "ICMP / ping",
+          "Simple test that asks whether a host replies."
+        ],
+        [
+          "Traceroute",
+          "Lists each router on the path to a destination."
+        ],
+        [
+          "Request timed out",
+          "No reply received in time."
+        ],
+        [
+          "Flush DNS",
+          "Clear the local cache of DNS answers."
+        ],
+        [
+          "Duplicate IP",
+          "Two devices using the same address."
+        ],
+        [
+          "Escalate with evidence",
+          "Pass the problem on with test results attached."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Diagnosing network problems",
+          "bullets": [
+            "Bottom-up order",
+            "The toolkit",
+            "Fix or escalate"
+          ],
+          "script": [
+            "Always troubleshoot in order, and let each test narrow the search."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Physical",
+                "d": "Link"
+              },
+              {
+                "t": "Address",
+                "d": "ipconfig"
+              },
+              {
+                "t": "Gateway",
+                "d": "ping"
+              },
+              {
+                "t": "Internet",
+                "d": "ping IP"
+              },
+              {
+                "t": "Names",
+                "d": "nslookup"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "The toolkit",
+          "bullets": [
+            "ipconfig / ip",
+            "ping and tracert",
+            "nslookup / dig"
+          ],
+          "script": [
+            "A handful of commands answer most questions."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Need",
+              "Windows",
+              "Linux"
+            ],
+            "rows": [
+              [
+                "Settings",
+                "ipconfig /all",
+                "ip addr"
+              ],
+              [
+                "Reach",
+                "ping",
+                "ping -c 4"
+              ],
+              [
+                "Path",
+                "tracert",
+                "traceroute"
+              ],
+              [
+                "DNS",
+                "nslookup",
+                "dig"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "What the results mean",
+          "bullets": [
+            "169.254: no DHCP",
+            "Gateway ping fails: local",
+            "IP works, name fails: DNS"
+          ],
+          "script": [
+            "Match the symptom to the layer that is broken."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Symptom",
+              "Likely cause"
+            ],
+            "rows": [
+              [
+                "169.254.x.x",
+                "DHCP unreachable"
+              ],
+              [
+                "Gateway ping fails",
+                "Local network or gateway"
+              ],
+              [
+                "IP ok, name fails",
+                "DNS"
+              ],
+              [
+                "Intermittent Wi-Fi",
+                "Interference or signal"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Fix it or escalate it",
+          "bullets": [
+            "Your PC: fix it",
+            "Shared gear: escalate",
+            "Include test results"
+          ],
+          "script": [
+            "Fix what is yours, and escalate shared equipment with evidence."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Fix",
+                "d": "PC settings, cable"
+              },
+              {
+                "t": "Escalate",
+                "d": "Gateway, switch, DNS"
+              },
+              {
+                "t": "Evidence",
+                "d": "Tests + times"
+              },
+              {
+                "t": "Verify",
+                "d": "Confirm fixed"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

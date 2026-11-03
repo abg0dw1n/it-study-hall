@@ -1,0 +1,575 @@
+{
+  "intro": "Practice networking skills in your browser: subnetting drills, ports and DNS records, and two command-prompt labs that teach you to find the broken layer and decide what to fix or escalate. Everything is graded for you.",
+  "labs": [
+    {
+      "id": "np-subnet",
+      "title": "Subnet it",
+      "domain": "D2",
+      "kind": "tasks",
+      "level": "beginner",
+      "minutes": 12,
+      "summary": "Work out network, broadcast, usable range and host count, then pick the right prefix for each requirement.",
+      "scenario": "<p>You are documenting two subnets for a new office and need to choose sizes for three more.</p>",
+      "activities": [
+        {
+          "type": "fill",
+          "title": "Document 172.16.40.130/27",
+          "prompt": "Fill in each value.",
+          "rows": [
+            {
+              "label": "Subnet mask",
+              "answer": [
+                "255.255.255.224"
+              ]
+            },
+            {
+              "label": "Network address",
+              "answer": [
+                "172.16.40.128"
+              ]
+            },
+            {
+              "label": "Broadcast address",
+              "answer": [
+                "172.16.40.159"
+              ]
+            },
+            {
+              "label": "First usable host",
+              "answer": [
+                "172.16.40.129"
+              ]
+            },
+            {
+              "label": "Last usable host",
+              "answer": [
+                "172.16.40.158"
+              ]
+            },
+            {
+              "label": "Usable hosts",
+              "answer": [
+                "30"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "fill",
+          "title": "Document 10.1.5.200/22",
+          "prompt": "Fill in each value.",
+          "rows": [
+            {
+              "label": "Subnet mask",
+              "answer": [
+                "255.255.252.0"
+              ]
+            },
+            {
+              "label": "Network address",
+              "answer": [
+                "10.1.4.0"
+              ]
+            },
+            {
+              "label": "Broadcast address",
+              "answer": [
+                "10.1.7.255"
+              ]
+            },
+            {
+              "label": "Usable hosts",
+              "answer": [
+                "1022",
+                "1,022"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "fill",
+          "title": "Choose the prefix",
+          "prompt": "Pick the smallest prefix that fits each requirement.",
+          "rows": [
+            {
+              "label": "Link between two routers (2 hosts)",
+              "answer": [
+                "/30",
+                "30",
+                "/31",
+                "31"
+              ],
+              "placeholder": "/__"
+            },
+            {
+              "label": "Guest Wi-Fi, up to 100 devices",
+              "answer": [
+                "/25",
+                "25"
+              ],
+              "placeholder": "/__"
+            },
+            {
+              "label": "Server VLAN, 25 hosts",
+              "answer": [
+                "/27",
+                "27"
+              ],
+              "placeholder": "/__"
+            },
+            {
+              "label": "Office floor with 400 devices",
+              "answer": [
+                "/23",
+                "23"
+              ],
+              "placeholder": "/__"
+            }
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "text": "Subnet 172.16.40.130/27 correctly",
+          "check": {
+            "activity": 0
+          }
+        },
+        {
+          "text": "Subnet 10.1.5.200/22 correctly",
+          "check": {
+            "activity": 1
+          }
+        },
+        {
+          "text": "Choose the right prefix for each requirement",
+          "check": {
+            "activity": 2
+          }
+        }
+      ],
+      "hints": [
+        "/27 means a block size of 32 in the last octet: 0, 32, 64, 96, 128, 160. Where does .130 fall?",
+        "For /22 the interesting octet is the third one: 255.255.252.0 gives a block size of 4. Which block holds 5?",
+        "Usable hosts = 2^host bits - 2. A /23 has 9 host bits: 510."
+      ],
+      "review": "<p>Find the block size, the block your address falls in, then network = block start and broadcast = next start minus 1. Choose the smallest prefix whose usable host count covers your needs.</p>"
+    },
+    {
+      "id": "np-ports",
+      "title": "Ports, records and DHCP",
+      "domain": "D3",
+      "kind": "tasks",
+      "level": "beginner",
+      "minutes": 10,
+      "summary": "Match ports to services and DNS records to jobs, and put the DHCP conversation in order.",
+      "scenario": "<p>A new colleague asks how the pieces of name resolution and addressing fit together. Walk through them.</p>",
+      "activities": [
+        {
+          "type": "match",
+          "title": "Well-known ports",
+          "prompt": "Match each port to its service.",
+          "categories": [
+            "HTTP",
+            "HTTPS",
+            "SSH",
+            "DNS",
+            "RDP",
+            "SMTP"
+          ],
+          "items": [
+            {
+              "text": "TCP 80",
+              "cat": 0
+            },
+            {
+              "text": "TCP 443",
+              "cat": 1
+            },
+            {
+              "text": "TCP 22",
+              "cat": 2
+            },
+            {
+              "text": "UDP/TCP 53",
+              "cat": 3
+            },
+            {
+              "text": "TCP 3389",
+              "cat": 4
+            },
+            {
+              "text": "TCP 25",
+              "cat": 5
+            }
+          ]
+        },
+        {
+          "type": "match",
+          "title": "DNS records",
+          "prompt": "Match each record type to its job.",
+          "categories": [
+            "A",
+            "AAAA",
+            "CNAME",
+            "MX",
+            "TXT",
+            "PTR"
+          ],
+          "items": [
+            {
+              "text": "Name to IPv4 address",
+              "cat": 0
+            },
+            {
+              "text": "Name to IPv6 address",
+              "cat": 1
+            },
+            {
+              "text": "Alias for another name",
+              "cat": 2
+            },
+            {
+              "text": "Where to deliver email",
+              "cat": 3
+            },
+            {
+              "text": "Holds text such as SPF and verification codes",
+              "cat": 4
+            },
+            {
+              "text": "IP address back to a name",
+              "cat": 5
+            }
+          ]
+        },
+        {
+          "type": "order",
+          "title": "DHCP: DORA",
+          "prompt": "Put the DHCP exchange in order.",
+          "items": [
+            "Client broadcasts a Discover",
+            "Server sends an Offer",
+            "Client sends a Request",
+            "Server sends an Acknowledgement"
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "text": "Match ports to services",
+          "check": {
+            "activity": 0
+          }
+        },
+        {
+          "text": "Match DNS records to their jobs",
+          "check": {
+            "activity": 1
+          }
+        },
+        {
+          "text": "Order the DHCP exchange",
+          "check": {
+            "activity": 2
+          }
+        }
+      ],
+      "hints": [
+        "Web is 80 and 443; remote admin is 22 (Linux) and 3389 (Windows).",
+        "A is IPv4, AAAA is IPv6. PTR is the reverse of A.",
+        "DORA: Discover, Offer, Request, Acknowledge."
+      ],
+      "review": "<p>Ports identify services, DNS records answer different questions about a name, and DHCP uses a four-step conversation to lease an address.</p>"
+    },
+    {
+      "id": "np-moved",
+      "title": "The PC that moved desks",
+      "domain": "D4",
+      "kind": "cli",
+      "level": "beginner",
+      "minutes": 15,
+      "summary": "Find a leftover static address from another subnet and switch the PC back to DHCP.",
+      "scenario": "<p><b>SALES-PC08</b> was moved from the 2nd to the 1st floor and now cannot reach anything, not even the sales printer <code>192.168.10.30</code>. The office network is <code>192.168.10.0/24</code> with gateway <code>192.168.10.1</code> and DHCP on <code>192.168.10.5</code>. At the command prompt:</p><ul><li>Check the configuration</li><li>Test the gateway</li><li>Fix the address so the PC works on this network, and prove it by pinging the printer</li></ul>",
+      "devices": [
+        {
+          "name": "SALES-PC08",
+          "platform": "windows",
+          "hostname": "SALES-PC08",
+          "adapter": {
+            "name": "Ethernet",
+            "dhcp": false,
+            "ip": "192.168.20.75",
+            "mask": "255.255.255.0",
+            "gw": "192.168.20.1",
+            "dns": [
+              "192.168.10.5"
+            ],
+            "mac": "00-1A-2B-AA-BB-08"
+          },
+          "network": {
+            "subnet": "192.168.10.0",
+            "mask": "255.255.255.0",
+            "gateway": "192.168.10.1",
+            "internet": true,
+            "dhcp": {
+              "available": true,
+              "server": "192.168.10.5",
+              "ip": "192.168.10.88",
+              "mask": "255.255.255.0",
+              "gw": "192.168.10.1",
+              "dns": [
+                "192.168.10.5"
+              ]
+            },
+            "dnsServers": {
+              "192.168.10.5": true
+            },
+            "records": {
+              "www.example.com": "93.184.216.34"
+            },
+            "hosts": {
+              "192.168.10.30": "PRN-SALES",
+              "192.168.10.5": "DC01"
+            },
+            "remote": {
+              "93.184.216.34": true
+            }
+          }
+        }
+      ],
+      "tasks": [
+        {
+          "text": "Review the settings with <code>ipconfig /all</code>",
+          "check": {
+            "ran": [
+              "SALES-PC08",
+              "^ipconfig\\s+/all"
+            ]
+          }
+        },
+        {
+          "text": "Ping the gateway <code>192.168.10.1</code> (it fails)",
+          "check": {
+            "ran": [
+              "SALES-PC08",
+              "^ping\\s+192\\.168\\.10\\.1$"
+            ]
+          }
+        },
+        {
+          "text": "Switch the adapter back to DHCP and get an address on 192.168.10.x",
+          "check": {
+            "all": [
+              {
+                "dev": "SALES-PC08",
+                "path": "adapter.dhcp",
+                "eq": true
+              },
+              {
+                "dev": "SALES-PC08",
+                "path": "adapter.ip",
+                "re": "^192\\.168\\.10\\."
+              }
+            ]
+          }
+        },
+        {
+          "text": "Ping the printer <code>192.168.10.30</code> successfully",
+          "check": {
+            "all": [
+              {
+                "ping": [
+                  "SALES-PC08",
+                  "192.168.10.30"
+                ]
+              },
+              {
+                "ran": [
+                  "SALES-PC08",
+                  "^ping\\s+192\\.168\\.10\\.30"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "text": "What was the root cause?",
+          "check": {
+            "q": "cause",
+            "eq": 1
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": "cause",
+          "prompt": "Root cause:",
+          "options": [
+            "The DNS server is down",
+            "A static address from the old floor's subnet",
+            "The cable is unplugged",
+            "The printer is powered off"
+          ]
+        }
+      ],
+      "hints": [
+        "Compare the PC's IP and gateway with the network details in the scenario.",
+        "A different subnet and gateway means this static setting belongs to another network.",
+        "<code>netsh interface ip set address name=\"Ethernet\" dhcp</code>"
+      ],
+      "solution": "<pre>ipconfig /all\nping 192.168.10.1\nnetsh interface ip set address name=\"Ethernet\" dhcp\nipconfig\nping 192.168.10.30</pre>",
+      "review": "<p>A static IP, mask and gateway from another subnet leave the PC unable to talk to anyone here. Compare the PC's settings with the network it is on, and use DHCP unless a device needs a fixed address.</p>"
+    },
+    {
+      "id": "np-gateway",
+      "title": "When the problem isn't your PC",
+      "domain": "D4",
+      "kind": "cli",
+      "level": "intermediate",
+      "minutes": 15,
+      "summary": "Gather evidence with ipconfig, ping and tracert, decide that the gateway is down, and escalate with proof.",
+      "scenario": "<p>Everyone in Operations lost internet access at once. You are on <b>OPS-PC03</b>. Collect evidence from the command prompt: your own configuration, a local device that should respond (the print server <code>10.40.0.20</code>), the gateway <code>10.40.0.1</code>, an internet address <code>8.8.8.8</code> and a path trace. Then decide what to do.</p>",
+      "devices": [
+        {
+          "name": "OPS-PC03",
+          "platform": "windows",
+          "hostname": "OPS-PC03",
+          "adapter": {
+            "name": "Ethernet",
+            "dhcp": true,
+            "ip": "10.40.0.66",
+            "mask": "255.255.255.0",
+            "gw": "10.40.0.1",
+            "dns": [
+              "10.40.0.5"
+            ],
+            "mac": "00-1A-2B-CC-DD-03"
+          },
+          "network": {
+            "subnet": "10.40.0.0",
+            "mask": "255.255.255.0",
+            "gateway": "10.40.0.1",
+            "gatewayUp": false,
+            "internet": true,
+            "dhcp": {
+              "available": true,
+              "server": "10.40.0.5",
+              "ip": "10.40.0.66",
+              "mask": "255.255.255.0",
+              "gw": "10.40.0.1",
+              "dns": [
+                "10.40.0.5"
+              ]
+            },
+            "dnsServers": {
+              "10.40.0.5": true
+            },
+            "records": {
+              "www.example.com": "93.184.216.34"
+            },
+            "hosts": {
+              "10.40.0.20": "PRN-OPS",
+              "10.40.0.5": "DC01"
+            },
+            "remote": {
+              "93.184.216.34": true,
+              "8.8.8.8": true
+            }
+          }
+        }
+      ],
+      "tasks": [
+        {
+          "text": "Check your own configuration with <code>ipconfig</code>",
+          "check": {
+            "ran": [
+              "OPS-PC03",
+              "^ipconfig"
+            ]
+          }
+        },
+        {
+          "text": "Ping the print server <code>10.40.0.20</code> (local traffic)",
+          "check": {
+            "ran": [
+              "OPS-PC03",
+              "^ping\\s+10\\.40\\.0\\.20$"
+            ]
+          }
+        },
+        {
+          "text": "Ping the gateway <code>10.40.0.1</code>",
+          "check": {
+            "ran": [
+              "OPS-PC03",
+              "^ping\\s+10\\.40\\.0\\.1$"
+            ]
+          }
+        },
+        {
+          "text": "Ping <code>8.8.8.8</code> and run <code>tracert 8.8.8.8</code>",
+          "check": {
+            "all": [
+              {
+                "ran": [
+                  "OPS-PC03",
+                  "^ping\\s+8\\.8\\.8\\.8"
+                ]
+              },
+              {
+                "ran": [
+                  "OPS-PC03",
+                  "^tracert\\s"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "text": "What does the evidence show?",
+          "check": {
+            "q": "finding",
+            "eq": 2
+          }
+        },
+        {
+          "text": "What should you do next?",
+          "check": {
+            "q": "action",
+            "eq": 1
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": "finding",
+          "prompt": "Finding:",
+          "options": [
+            "The PC's DNS setting is wrong",
+            "The PC has an APIPA address",
+            "Local devices answer, but the gateway does not",
+            "The internet site is down for everyone"
+          ]
+        },
+        {
+          "id": "action",
+          "prompt": "Next step:",
+          "options": [
+            "Reinstall the network driver",
+            "Escalate to the network team with these test results",
+            "Assign the PC a new static address",
+            "Reboot the PC and close the ticket"
+          ]
+        }
+      ],
+      "hints": [
+        "Your address looks valid. Does the printer on the same subnet answer?",
+        "If the local network works but the gateway doesn't, the fault isn't on this PC.",
+        "Shared equipment problems go to the network team, with the evidence you collected."
+      ],
+      "solution": "<pre>ipconfig\nping 10.40.0.20\nping 10.40.0.1\nping 8.8.8.8\ntracert 8.8.8.8</pre><p>Escalate: gateway 10.40.0.1 does not respond; the local print server does.</p>",
+      "review": "<p>Evidence beats guessing. A valid address with a working local network but a silent gateway points to the router or its link, which is not yours to fix. Escalate with what passes, what fails and when.</p>"
+    }
+  ]
+}

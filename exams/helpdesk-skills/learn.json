@@ -1,0 +1,803 @@
+{
+  "intro": "Four modules cover the whole job: how a help desk works, a troubleshooting method you can reuse, how to talk to people, and how to handle everyday issues safely. Practice in the labs: log and prioritise a ticket, diagnose a PC, and work through customer scenarios.",
+  "updated": "2026-11-03",
+  "sources": [],
+  "modules": [
+    {
+      "id": "D1",
+      "short": "Help desk",
+      "title": "How a help desk works",
+      "summary": "Understand tickets, incidents and requests, support tiers, priority and SLAs, escalation, and the knowledge base.",
+      "guide": [
+        {
+          "h": "What the help desk does",
+          "html": "<p>The help desk is the <b>single point of contact</b> where people ask for IT help. It records every contact, fixes what it can, routes the rest to the right specialists, and keeps the customer informed. Good support is measured by how quickly and how well problems are solved, and by whether the same problem comes back.</p>"
+        },
+        {
+          "h": "Tickets, incidents and requests",
+          "html": "<p>Everything is recorded in a <b>ticket</b> so nothing is forgotten and work can be handed over. Common types:</p><ul><li><b>Incident</b>: something that was working is broken or degraded (\"I can't print\").</li><li><b>Service request</b>: a standard thing the user is entitled to ask for (\"I need access to the shared drive\", a new laptop).</li><li><b>Problem</b>: the underlying cause behind repeated incidents (every Monday the VPN drops). A problem record lets the team fix the root cause once.</li><li><b>Change</b>: a planned modification, such as a patch or new software, approved and scheduled to reduce risk.</li></ul><p>A good ticket contains who, what, when, where, the exact error message, what has been tried, and the impact.</p>"
+        },
+        {
+          "h": "Support tiers and escalation",
+          "html": "<ul><li><b>Self-service / Tier 0</b>: password reset portals and knowledge base articles.</li><li><b>Tier 1</b>: first contact. Logs the ticket, gathers details, fixes common issues, and escalates.</li><li><b>Tier 2</b>: deeper technical skills, such as desktop, server or network specialists.</li><li><b>Tier 3</b>: experts, engineers and vendors for the hardest problems.</li></ul><p><b>Functional escalation</b> passes the ticket to a team with more skill. <b>Hierarchical escalation</b> informs management because an issue is high-impact or the SLA is at risk. Escalate with everything you learned so the next person does not start over.</p>"
+        },
+        {
+          "h": "Priority and SLAs",
+          "html": "<p>Priority comes from two questions: <b>impact</b> (how many people or how much business is affected) and <b>urgency</b> (how soon it must be fixed). A server outage that stops the whole company is high impact and high urgency (P1). One user's broken mouse is low impact and low urgency (P4). The loudest caller does not decide priority; the business impact does.</p><p>A <b>service level agreement (SLA)</b> sets targets for how fast you must <b>respond</b> and <b>resolve</b> by priority, for example P1 response in 15 minutes and resolution in 4 hours. Watch the clock and escalate before a target is missed.</p>"
+        },
+        {
+          "h": "Knowledge base and metrics",
+          "html": "<p>A <b>knowledge base (KB)</b> stores tested fixes as short articles, so the next technician (or the user, through self-service) solves the issue faster. When you solve something new, write it up. Teams track <b>first contact resolution</b>, time to resolve, SLA compliance, ticket volume by category and customer satisfaction to find recurring problems and improve.</p>"
+        }
+      ],
+      "tips": [
+        "Impact times urgency decides priority, not who shouts loudest.",
+        "Record everything in the ticket, even quick fixes.",
+        "Escalate with full notes so the next tier does not repeat your questions.",
+        "Watch the SLA clock; escalate before a target is missed.",
+        "If you solve something new, add it to the knowledge base."
+      ],
+      "terms": [
+        [
+          "Ticket",
+          "A record of a request or problem, from opening to closing."
+        ],
+        [
+          "Incident",
+          "An unplanned interruption or reduction in quality of a service."
+        ],
+        [
+          "Service request",
+          "A standard request, such as new access or equipment."
+        ],
+        [
+          "Problem",
+          "The root cause behind one or more incidents."
+        ],
+        [
+          "SLA",
+          "Service level agreement: agreed response and resolution times."
+        ],
+        [
+          "Escalation",
+          "Handing a ticket to a more skilled team or to management."
+        ],
+        [
+          "First contact resolution",
+          "Solving the issue on the first call or chat."
+        ],
+        [
+          "Knowledge base",
+          "A library of documented fixes and how-tos."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "How a help desk works",
+          "bullets": [
+            "One front door for IT help",
+            "Tickets track everything",
+            "Tiers and escalation"
+          ],
+          "script": [
+            "The help desk is where people go for IT help. Tickets make sure nothing gets lost."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Incident",
+                "d": "Broken"
+              },
+              {
+                "t": "Request",
+                "d": "Need something"
+              },
+              {
+                "t": "Problem",
+                "d": "Root cause"
+              },
+              {
+                "t": "Change",
+                "d": "Planned update"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "Support tiers",
+          "bullets": [
+            "Tier 0 self-service",
+            "Tier 1 first contact",
+            "Tier 2 and 3 specialists"
+          ],
+          "script": [
+            "Most issues are fixed at tier one. Harder ones move up, with full notes."
+          ],
+          "visual": {
+            "type": "layers",
+            "items": [
+              {
+                "t": "Tier 3",
+                "d": "Experts and vendors"
+              },
+              {
+                "t": "Tier 2",
+                "d": "Specialist technicians"
+              },
+              {
+                "t": "Tier 1",
+                "d": "First contact"
+              },
+              {
+                "t": "Tier 0",
+                "d": "Self-service and KB"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Priority and SLAs",
+          "bullets": [
+            "Impact: how many",
+            "Urgency: how soon",
+            "SLA: response and resolve targets"
+          ],
+          "script": [
+            "Priority combines impact and urgency. The SLA sets how fast you must respond and resolve."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Priority",
+              "Example",
+              "Typical target"
+            ],
+            "rows": [
+              [
+                "P1 Critical",
+                "Company-wide outage",
+                "Respond minutes"
+              ],
+              [
+                "P2 High",
+                "Department blocked",
+                "Respond within the hour"
+              ],
+              [
+                "P3 Medium",
+                "One user blocked",
+                "Same day"
+              ],
+              [
+                "P4 Low",
+                "Question or nuisance",
+                "Few days"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Learn and share",
+          "bullets": [
+            "Write it down",
+            "Update the KB",
+            "Look for patterns"
+          ],
+          "script": [
+            "Document what you learn so the next person solves it faster, and look for repeated tickets that point to a bigger problem."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Solve",
+                "d": "Fix it"
+              },
+              {
+                "t": "Document",
+                "d": "Ticket + KB"
+              },
+              {
+                "t": "Review",
+                "d": "Spot trends"
+              },
+              {
+                "t": "Prevent",
+                "d": "Fix root cause"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "short": "Method",
+      "title": "A troubleshooting method",
+      "summary": "Follow a repeatable process: gather facts, form a theory, test it, fix, verify, and document. Ask good questions and change one thing at a time.",
+      "guide": [
+        {
+          "h": "Why a method matters",
+          "html": "<p>Guessing and clicking at random wastes time and can make things worse. A method keeps you calm, gets to the cause faster, and gives you notes to hand over. The widely used outline is: <b>identify the problem; establish a theory; test the theory; plan and implement; verify; document</b>.</p>"
+        },
+        {
+          "h": "1. Identify the problem",
+          "html": "<p>Gather information before touching anything. Good questions:</p><ul><li>What exactly happens? What is the <b>exact error message</b>?</li><li>What were you trying to do, and when did it last work?</li><li>What changed recently (updates, new software, moved desks, password change)?</li><li>Is anyone else affected? Does it happen on another device or network?</li><li>Can you show me or send a screenshot?</li></ul><p>Then try to <b>reproduce</b> it and back up important data before making changes. Confirm the real problem: users often describe a symptom (\"the internet is down\") rather than the cause.</p>"
+        },
+        {
+          "h": "2-3. Theory and testing",
+          "html": "<p>List probable causes, starting with the <b>simple and obvious</b>: power, cables, wrong network, Caps Lock, an unplugged adapter. Then work from what is most likely and cheapest to check.</p><p>Test each theory with a quick, safe check (<code>ping</code>, swap a cable, try another account). If the theory is wrong, form a new one. If you run out of ideas or lack access or skill, <b>escalate</b>. Useful techniques: <b>divide and conquer</b> (is it the device, the network, or the service?), compare with a working machine, and change only <b>one thing at a time</b> so you know what fixed it.</p>"
+        },
+        {
+          "h": "4-6. Fix, verify and document",
+          "html": "<p><b>Plan</b> the fix and consider side effects: do you need approval, a maintenance window, a backup, or a way to roll back? Then implement it. <b>Verify</b> that the original problem is gone, that the user agrees, and that nothing else broke; add preventive steps where you can (updates, a KB article, a monitoring alert). Finally <b>document</b> the symptoms, cause, steps and outcome in the ticket.</p>"
+        },
+        {
+          "h": "Think in layers",
+          "html": "<p>Many problems are easiest to find by working through layers. For \"I can't reach the website\": is the device powered and connected (physical)? Does it have an IP address (<code>ipconfig</code>)? Can it reach the gateway and the internet by IP (<code>ping 8.8.8.8</code>)? Can it resolve names (<code>nslookup</code>)? Does the site itself work for others? Each answer narrows the search by half.</p>"
+        }
+      ],
+      "tips": [
+        "Ask for the exact error message or a screenshot.",
+        "Always ask: what changed recently?",
+        "Check the simple things first.",
+        "Change one thing at a time.",
+        "Verify with the user before closing the ticket.",
+        "Document even when it was quick."
+      ],
+      "terms": [
+        [
+          "Theory of probable cause",
+          "Your best explanation of the problem, before you test it."
+        ],
+        [
+          "Reproduce",
+          "Make the problem happen again on purpose to study it."
+        ],
+        [
+          "Divide and conquer",
+          "Split the system in two and find which half has the fault."
+        ],
+        [
+          "Rollback plan",
+          "Steps to undo a change if it makes things worse."
+        ],
+        [
+          "Root cause",
+          "The underlying reason a problem happens."
+        ],
+        [
+          "Escalate",
+          "Hand the problem to someone with more skill or authority."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "A troubleshooting method",
+          "bullets": [
+            "Identify, theory, test",
+            "Plan, verify, document",
+            "Simple things first"
+          ],
+          "script": [
+            "A method turns guessing into a process you can repeat and explain."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Identify",
+                "d": "Facts"
+              },
+              {
+                "t": "Theory",
+                "d": "Likely cause"
+              },
+              {
+                "t": "Test",
+                "d": "Prove it"
+              },
+              {
+                "t": "Fix",
+                "d": "Plan + do"
+              },
+              {
+                "t": "Verify",
+                "d": "Works?"
+              },
+              {
+                "t": "Document",
+                "d": "Notes"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "Ask good questions",
+          "bullets": [
+            "What exactly happens?",
+            "What changed?",
+            "Who else is affected?"
+          ],
+          "script": [
+            "Good questions find the problem faster than guessing."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "What",
+                "d": "Error text"
+              },
+              {
+                "t": "When",
+                "d": "Last worked?"
+              },
+              {
+                "t": "What changed",
+                "d": "Updates, moves"
+              },
+              {
+                "t": "Who",
+                "d": "One or many"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Narrow it down",
+          "bullets": [
+            "Obvious causes first",
+            "Divide and conquer",
+            "One change at a time"
+          ],
+          "script": [
+            "Start with the simple and likely, split the system in half, and change one thing at a time so you know what worked."
+          ],
+          "visual": {
+            "type": "layers",
+            "items": [
+              {
+                "t": "Service",
+                "d": "Website or app"
+              },
+              {
+                "t": "Name resolution",
+                "d": "DNS"
+              },
+              {
+                "t": "Network",
+                "d": "IP and gateway"
+              },
+              {
+                "t": "Physical",
+                "d": "Cable, power, Wi-Fi"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Finish properly",
+          "bullets": [
+            "Verify with the user",
+            "Prevent a repeat",
+            "Document everything"
+          ],
+          "script": [
+            "A fix is not finished until it is verified and written down."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Verify",
+                "d": "Ask user"
+              },
+              {
+                "t": "Prevent",
+                "d": "KB or alert"
+              },
+              {
+                "t": "Document",
+                "d": "Ticket notes"
+              },
+              {
+                "t": "Close",
+                "d": "Done"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "short": "Communication",
+      "title": "Communication and customer service",
+      "summary": "Listen, set expectations, handle upset customers, explain in plain language, and write clear ticket notes.",
+      "guide": [
+        {
+          "h": "Listen first",
+          "html": "<p>People contact the help desk when they are blocked, often stressed or in a hurry. Start by listening without interrupting. Let them finish, then <b>repeat back</b> what you understood: \"So the printer shows an offline error since this morning, and you have a meeting at 2. Is that right?\" That shows you care and catches misunderstandings early.</p>"
+        },
+        {
+          "h": "Plain language and tone",
+          "html": "<p>Avoid jargon. Say \"your computer's connection to the network\" instead of \"your NIC's DHCP lease\". Give one step at a time and check that the user has done it. Match the person's pace, stay patient, and never make anyone feel foolish: users are experts at their own jobs, not at IT. Use positive wording: \"Here is what we can do\" rather than \"You can't\". Never blame (\"you should have...\").</p>"
+        },
+        {
+          "h": "Handling an upset customer",
+          "html": "<ol><li><b>Stay calm</b> and do not take it personally.</li><li><b>Listen</b> and let them vent briefly.</li><li><b>Acknowledge</b> the feeling: \"I understand this is frustrating, especially with a deadline.\"</li><li><b>Focus on the solution</b> and what you will do now.</li><li><b>Set expectations</b>: what happens next and when, and then keep that promise.</li><li><b>Follow up</b>, or escalate if you cannot help.</li></ol><p>Do not argue, make excuses, put the customer down, or promise something you cannot deliver.</p>"
+        },
+        {
+          "h": "Setting expectations and handing over",
+          "html": "<p>Be honest about timing: \"I will call you back by 3 pm with an update\" is better than \"soon\". If you cannot fix it on the call, explain the next step, who owns it, and how the user will hear about it. When transferring or escalating, summarize the case to the next person so the customer does not repeat everything. Never leave a customer on hold without telling them why and checking back.</p>"
+        },
+        {
+          "h": "Writing good ticket notes",
+          "html": "<p>Notes are communication too. Write them so a stranger could continue the work: <b>symptom</b> (with the exact error), <b>impact</b>, <b>steps tried and results</b>, <b>current status</b> and <b>next step</b>. Keep it factual, professional and free of opinions or jokes about the customer. Remember that tickets may be read by the user, managers or auditors. Finally, treat what you see on screens and desks as confidential.</p>"
+        }
+      ],
+      "tips": [
+        "Repeat back the problem to confirm you understand.",
+        "Acknowledge feelings before jumping to the fix.",
+        "Avoid jargon and blame.",
+        "Promise only what you can deliver, then deliver it.",
+        "Write ticket notes for a stranger.",
+        "Keep customer information confidential."
+      ],
+      "terms": [
+        [
+          "Active listening",
+          "Giving full attention and confirming what you heard."
+        ],
+        [
+          "Empathy",
+          "Showing you understand how the person feels."
+        ],
+        [
+          "Expectation setting",
+          "Telling the customer what happens next and when."
+        ],
+        [
+          "Jargon",
+          "Technical words that confuse non-technical people."
+        ],
+        [
+          "Handoff",
+          "Passing a case to someone else with a clear summary."
+        ],
+        [
+          "Confidentiality",
+          "Not sharing or exposing private information."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Communication and customer service",
+          "bullets": [
+            "Listen first",
+            "Plain language",
+            "Set expectations"
+          ],
+          "script": [
+            "How you communicate matters as much as the technical fix."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Listen",
+                "d": "Don't interrupt"
+              },
+              {
+                "t": "Empathize",
+                "d": "Acknowledge"
+              },
+              {
+                "t": "Explain",
+                "d": "Plain words"
+              },
+              {
+                "t": "Follow up",
+                "d": "Keep promises"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "Handle an upset customer",
+          "bullets": [
+            "Stay calm and listen",
+            "Acknowledge the feeling",
+            "Offer the next step"
+          ],
+          "script": [
+            "Stay calm, listen, acknowledge how they feel, then focus on what you can do."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Calm",
+                "d": "Listen"
+              },
+              {
+                "t": "Acknowledge",
+                "d": "Empathy"
+              },
+              {
+                "t": "Solve",
+                "d": "Next step"
+              },
+              {
+                "t": "Follow up",
+                "d": "Keep promise"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Words that help",
+          "bullets": [
+            "Avoid jargon",
+            "Avoid blame",
+            "Promise what you can deliver"
+          ],
+          "script": [
+            "Choose plain words, and be honest about timing."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Instead of",
+              "Say"
+            ],
+            "rows": [
+              [
+                "You didn't read my email",
+                "Let me walk you through it"
+              ],
+              [
+                "It'll be fixed soon",
+                "I'll update you by 3 pm"
+              ],
+              [
+                "That's not my job",
+                "Let me find the right person"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Ticket notes",
+          "bullets": [
+            "Symptom and impact",
+            "Steps tried",
+            "Status and next step"
+          ],
+          "script": [
+            "Write notes so a stranger could continue the work."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Symptom",
+                "d": "Exact error"
+              },
+              {
+                "t": "Tried",
+                "d": "Steps + results"
+              },
+              {
+                "t": "Status",
+                "d": "Where now"
+              },
+              {
+                "t": "Next",
+                "d": "Who does what"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "short": "Everyday issues",
+      "title": "Everyday issues and safe support",
+      "summary": "Handle common requests quickly: passwords, network, printers, slow PCs and email, verify who you are helping, use remote tools safely, and recognise social engineering.",
+      "guide": [
+        {
+          "h": "Verify identity first",
+          "html": "<p>Attackers often phone the help desk pretending to be an employee to get a password reset or MFA change. Before any account action, <b>verify the person</b> using your procedure: employee ID, a callback to the number on file, a manager's approval, or a verification code sent to a known device. <b>Never</b> ask for a user's password. Never reset an account on the strength of urgency or pressure alone (\"I'm the CEO and I'm about to board\"). Pressure is the red flag.</p>"
+        },
+        {
+          "h": "Common problems and first checks",
+          "html": "<table><tr><th>Report</th><th>Quick checks</th></tr><tr><td>Can't sign in</td><td>Caps Lock, correct account and domain, locked or expired password, MFA device, then reset after verifying identity</td></tr><tr><td>No internet / network</td><td>Wi-Fi or cable, <code>ipconfig</code> (169.254.x.x means no DHCP), ping the gateway, test DNS with <code>nslookup</code>, other devices affected?</td></tr><tr><td>Slow computer</td><td>Free disk space, memory and CPU in Task Manager, startup programs, pending updates, malware scan, restart</td></tr><tr><td>Printer won't print</td><td>Power and connection, offline status, queue stuck, correct printer selected, driver, paper and toner</td></tr><tr><td>Email problems</td><td>Webmail works? Network, full mailbox, wrong password, spam or rules, Outlook profile</td></tr><tr><td>Application crashes</td><td>Restart, updates, repair or reinstall, exact error, recent changes</td></tr></table>"
+        },
+        {
+          "h": "Remote support",
+          "html": "<p>Remote tools (Remote Desktop, Quick Assist, vendor tools) let you fix things without visiting. Always <b>get permission</b> before connecting, tell the user what you are doing, use company-approved tools only, avoid viewing private data, and <b>disconnect and log out</b> when finished. Never use personal remote tools or leave unattended access running. Record the session in the ticket.</p>"
+        },
+        {
+          "h": "Social engineering and phishing",
+          "html": "<p>Help desk staff are targets. Watch for urgency, authority, unusual requests, requests to skip the process, and callers who know little but demand access. Teach users to report suspicious emails rather than delete them: hover over links, check the sender, never share codes or passwords. If a user clicked something, isolate the device, change passwords, and report to security straight away; speed matters.</p>"
+        },
+        {
+          "h": "Know when to escalate",
+          "html": "<p>Escalate when it needs access or skill you lack, affects many people, involves a security incident, risks data loss, or the SLA is about to be missed. A good escalation says what is wrong, the impact, what you tried, and what you need. Closing the loop matters too: tell the user what happened and confirm the fix before closing the ticket.</p>"
+        }
+      ],
+      "tips": [
+        "Verify identity before any account change.",
+        "Never ask for or accept a password.",
+        "Urgency and pressure are social engineering red flags.",
+        "Get permission before connecting remotely, and log out afterward.",
+        "169.254.x.x means the PC could not get an address from DHCP.",
+        "Report phishing; do not just delete it."
+      ],
+      "terms": [
+        [
+          "Social engineering",
+          "Tricking people into giving access or information."
+        ],
+        [
+          "Phishing",
+          "Fraudulent messages that steal credentials or install malware."
+        ],
+        [
+          "MFA",
+          "Multi-factor authentication: more than one proof of identity."
+        ],
+        [
+          "Remote support",
+          "Fixing a device over the network with the user's permission."
+        ],
+        [
+          "APIPA",
+          "169.254.x.x self-assigned address used when DHCP fails."
+        ],
+        [
+          "Least privilege",
+          "Giving only the access needed to do the job."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Everyday issues and safe support",
+          "bullets": [
+            "Verify identity",
+            "Quick checks for common issues",
+            "Remote tools and phishing"
+          ],
+          "script": [
+            "Most tickets are common problems. Solve them fast, and stay safe."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Sign-in",
+                "d": "Passwords, MFA"
+              },
+              {
+                "t": "Network",
+                "d": "ipconfig, ping"
+              },
+              {
+                "t": "Printing",
+                "d": "Queue, driver"
+              },
+              {
+                "t": "Slow PC",
+                "d": "Disk, startup"
+              }
+            ]
+          },
+          "layout": "title"
+        },
+        {
+          "title": "Verify before you help",
+          "bullets": [
+            "Callback or employee ID",
+            "Never ask for a password",
+            "Pressure is a red flag"
+          ],
+          "script": [
+            "Always verify identity before resetting anything. Urgency and pressure are warning signs."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Caller",
+                "d": "Asks for reset"
+              },
+              {
+                "t": "Verify",
+                "d": "Policy steps"
+              },
+              {
+                "t": "Reset",
+                "d": "If verified"
+              },
+              {
+                "t": "Log",
+                "d": "In the ticket"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Quick network checks",
+          "bullets": [
+            "ipconfig",
+            "ping gateway",
+            "nslookup"
+          ],
+          "script": [
+            "For a network problem, check the address, then the gateway, then name resolution."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Result",
+              "Meaning"
+            ],
+            "rows": [
+              [
+                "169.254.x.x",
+                "No DHCP address"
+              ],
+              [
+                "Ping gateway fails",
+                "Local network problem"
+              ],
+              [
+                "Ping IP ok, name fails",
+                "DNS problem"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Remote support safely",
+          "bullets": [
+            "Ask permission",
+            "Use approved tools",
+            "Log out afterward"
+          ],
+          "script": [
+            "Connect only with permission, use approved tools, and disconnect when you are done."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Permission",
+                "d": "Ask first"
+              },
+              {
+                "t": "Approved",
+                "d": "Company tools"
+              },
+              {
+                "t": "Privacy",
+                "d": "Don't snoop"
+              },
+              {
+                "t": "Disconnect",
+                "d": "Log out"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
