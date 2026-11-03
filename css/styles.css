@@ -1624,3 +1624,24 @@ a.icon-btn { display: inline-flex; align-items: center; justify-content: center;
 .comment-form-foot, .name-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .name-row input { flex: 1; min-width: 0; }
 .mod-item .ctext { margin: 4px 0; }
+
+/* What's new */
+.wn-pill { display: flex; width: fit-content; align-items: center; gap: 8px; max-width: 100%; margin-bottom: 14px; padding: 5px 12px 5px 8px; font-size: .82rem; color: var(--text); text-decoration: none; background: var(--panel); border: 1px solid var(--border); border-radius: 999px; transition: border-color .15s, background .15s; }
+.wn-pill:hover { border-color: var(--azure); background: var(--azure-soft); }
+.wn-pill[hidden] { display: none; }
+.wn-pill .wn-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--azure); box-shadow: 0 0 0 3px var(--azure-soft); }
+.wn-pill .wn-lead { flex: none; font-weight: 700; color: var(--azure-text); }
+.wn-pill .wn-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); }
+.wn-pill .icon { flex: none; width: 14px; height: 14px; color: var(--azure-text); }
+.wn-list { display: flex; flex-direction: column; gap: 16px; }
+.wn-release { display: flex; flex-direction: column; gap: 12px; }
+.wn-fresh { border-color: var(--azure); box-shadow: 0 0 0 1px var(--azure); }
+.wn-head h3 { margin: 4px 0 0; font-size: 1.15rem; }
+.wn-items { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.wn-items li { display: flex; align-items: baseline; gap: 12px; line-height: 1.5; }
+.wn-items li > span:last-child { min-width: 0; }
+.wn-tag { flex: none; min-width: 86px; padding: 2px 8px; font-size: .7rem; font-weight: 700; letter-spacing: .04em; text-align: center; text-transform: uppercase; border-radius: 999px; color: var(--azure-text); background: var(--azure-soft); }
+.wn-improved { color: var(--ok-text); background: var(--ok-soft); }
+.wn-changed { color: var(--warn-text); background: var(--warn-soft); }
+.wn-fixed { color: var(--bad-text); background: var(--bad-soft); }
+@media (max-width: 560px) { .wn-items li { flex-direction: column; gap: 4px; } .wn-tag { min-width: 0; } }

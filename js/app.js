@@ -1572,6 +1572,7 @@ async function renderHome() {
   $('main').innerHTML = `<section class="catalog stack">
     <section class="home-hero">
       <div class="home-hero-copy">
+        <a class="wn-pill" id="wn-pill" href="/whats-new" hidden></a>
         <span class="eyebrow">YOUR CERTIFICATION STUDY SPACE</span>
         <h2>Learn the concepts.<br><span>Practice with confidence.</span></h2>
         <p>Start with a guided learning path, sharpen your skills with practice questions, and see how ready you are for exam day.</p>
@@ -1634,6 +1635,7 @@ async function renderHome() {
     </section>` : ''}
   </section>`;
   $('main').querySelector('[data-feature-new]')?.addEventListener('click', () => openFeatureForm());
+  wireWhatsNewPill();
   // One delegated listener for the home page's Recents "hide" buttons (renderHome runs many times).
   if (!homeClicksBound) {
     homeClicksBound = true;
@@ -1866,6 +1868,43 @@ function renderAppearancePage() {
   wireAppearance();
 }
 
+// ── What's new (/whats-new): recent additions and changes, from whats-new.json ──
+const WN_KEY = 'itsh:wn-seen';
+let wnPromise = null;
+const loadWhatsNew = () => (wnPromise ||= fetch('/whats-new.json').then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then((d) => d.releases || []));
+const wnSeen = () => { try { return localStorage.getItem(WN_KEY); } catch { return null; } };
+const wnMarkSeen = (id) => { try { localStorage.setItem(WN_KEY, id); } catch { /* ignore */ } };
+// Small link on the home page: the latest update, with a dot until the page has been opened.
+function wireWhatsNewPill() {
+  const a = $('wn-pill');
+  if (!a) return;
+  loadWhatsNew().then((rel) => {
+    if (!rel.length || !a.isConnected) return;
+    const unseen = wnSeen() !== rel[0].id;
+    a.innerHTML = `${unseen ? '<span class="wn-dot" aria-hidden="true"></span>' : ''}<span class="wn-lead">${unseen ? 'New' : 'What’s new'}</span><span class="wn-title">${escapeHtml(rel[0].title)}</span>${icon('right')}`;
+    a.hidden = false;
+  }).catch(() => { /* optional; leave hidden */ });
+}
+async function renderWhatsNewPage() {
+  document.body.classList.add('home', 'account-page');
+  document.title = 'What’s new · The IT Study Hall';
+  $('navigator').hidden = true;
+  $('main').innerHTML = `<section class="stack"><div class="stack" style="gap:6px"><h2 class="home-title">What’s new</h2>
+    <p class="muted">The latest features and changes to The IT Study Hall, newest first.</p></div>
+    <div id="wn-list" class="wn-list"><div class="panel empty" role="status"><p>Loading…</p></div></div></section>`;
+  try {
+    const rel = await loadWhatsNew();
+    const prev = wnSeen();
+    $('wn-list').innerHTML = rel.map((r) => `<article class="panel card-pad wn-release${prev !== r.id && r === rel[0] && prev ? ' wn-fresh' : ''}">
+      <header class="wn-head"><span class="eyebrow">${escapeHtml(r.date)}</span><h3>${escapeHtml(r.title)}</h3></header>
+      <ul class="wn-items">${r.items.map((i) => `<li><span class="wn-tag wn-${escapeHtml(String(i.tag).toLowerCase())}">${escapeHtml(i.tag)}</span><span>${escapeHtml(i.text)}</span></li>`).join('')}</ul>
+    </article>`).join('');
+    if (rel.length) wnMarkSeen(rel[0].id);
+  } catch (err) {
+    $('wn-list').innerHTML = `<div class="panel empty"><p>Couldn’t load the updates (${escapeHtml(err.message)}). Check your connection and try again.</p></div>`;
+  }
+}
+
 // ── Account page (/account): profile, sign out, and admin tools ──────────────
 async function renderAccountPage() {
   document.body.classList.add('home', 'account-page');
@@ -1881,7 +1920,7 @@ async function renderAccountPage() {
         <div class="account-avatar" aria-hidden="true">${icon('user')}</div>
         <div class="account-who"><span class="muted small">Browsing as</span><b>Guest</b>
           <span class="muted small">Progress isn't saved. It's cleared when you close this tab and can't be moved to an account.</span></div>
-        <div class="account-actions"><a class="btn btn-ghost btn-sm" href="/privacy">Privacy policy</a>
+        <div class="account-actions"><a class="btn btn-ghost btn-sm" href="/whats-new">What’s new</a><a class="btn btn-ghost btn-sm" href="/privacy">Privacy policy</a>
           <button class="btn btn-ghost btn-sm" data-guest-exit="exit">Exit guest mode</button>
           <button class="btn btn-primary btn-sm" data-guest-exit="signin">Sign in to save progress</button></div>
       </div>
@@ -1896,7 +1935,7 @@ async function renderAccountPage() {
         <div class="account-avatar" aria-hidden="true">${escapeHtml((user?.email || '?')[0].toUpperCase())}</div>
         <div class="account-who"><span class="muted small">Signed in as</span><b>${escapeHtml(user?.email || 'Guest')} <span id="account-admin-chip" class="admin-badge" hidden>Admin</span></b>
           <span class="muted small">Your learning progress, practice answers, labs and exam history sync to this account.</span></div>
-        <div class="account-actions"><a class="btn btn-ghost btn-sm" href="/privacy">Privacy policy</a>
+        <div class="account-actions"><a class="btn btn-ghost btn-sm" href="/whats-new">What’s new</a><a class="btn btn-ghost btn-sm" href="/privacy">Privacy policy</a>
           ${user ? '<button id="btn-signout" class="btn btn-ghost btn-sm">Sign out</button>' : ''}</div>
       </div>
       ${appearanceLink()}
@@ -2205,11 +2244,12 @@ async function syncFromCloud() {
 async function init() {
   const initialSlug = currentSlug();
   const initialMode = new URLSearchParams(location.search).get('mode');
-  const PAGES = ['account', 'learning-paths', 'appearance'];
+  const PAGES = ['account', 'learning-paths', 'appearance', 'whats-new'];
   const loadingMessage = initialSlug === 'account'
     ? 'Loading your account…'
     : initialSlug === 'learning-paths' ? 'Loading learning paths…'
     : initialSlug === 'appearance' ? 'Loading appearance settings…'
+    : initialSlug === 'whats-new' ? 'Loading updates…'
     : initialSlug
       ? initialMode === 'learn' ? 'Loading learning materials…' : 'Loading course…'
       : 'Loading the learning and practice library…';
@@ -2241,6 +2281,7 @@ async function init() {
   if (!slug) return renderHome();
   if (slug === 'account') return renderAccountPage();
   if (slug === 'appearance') return renderAppearancePage();
+  if (slug === 'whats-new') return renderWhatsNewPage();
   if (slug === 'learning-paths') return renderLearningPathsPage();
   try {
     await loadBank(slug, slug === initialSlug ? bankFiles : undefined);

@@ -255,3 +255,7 @@ through Supabase (project `exam-simulator`). It's off until `AUTH_ENABLED` is se
   rejects anyone not on the list. Admins can add or remove invites from the home page.
 - Progress is stored per user and exam in `public.progress`, protected by row-level security.
 - OAuth buttons are listed in `PROVIDERS` in `js/auth.js`; enable each provider in the Supabase dashboard first.
+
+## What's new
+
+`/whats-new` lists recent features and changes, newest first, from `whats-new.json` (no code change needed to add an update: put a new release object at the top of `releases` with an `id` such as `2026-11-04`, a `date`, a `title` and `items` tagged New, Improved, Changed or Fixed). The home page shows a small link to the latest release, with a dot until the visitor has opened the page (`itsh:wn-seen` in `localStorage`). The Account page links to it too.

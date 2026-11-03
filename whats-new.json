@@ -1,0 +1,57 @@
+{
+  "note": "Newest first. To add an update: put a new object at the top of \"releases\" (id = the date, e.g. 2026-11-04). Tags: New, Improved, Changed, Fixed. Keep each item to one plain sentence.",
+  "releases": [
+    {
+      "id": "2026-11-03",
+      "date": "November 3, 2026",
+      "title": "Make it yours: themes, backgrounds and discussions",
+      "items": [
+        { "tag": "New", "text": "Question discussions: signed-in users can comment under every practice question, with a display name (never your email), reporting and community guidelines." },
+        { "tag": "New", "text": "68 color themes, each with a light and a dark version, including 46 PowerShell ISE palettes. The light/dark button always switches within the theme you picked." },
+        { "tag": "New", "text": "An Appearance page (the palette button beside light/dark) with a compact theme list, filters and a live preview." },
+        { "tag": "New", "text": "Ten animated backgrounds that follow your theme: Galaxy, Neon grid, Circuit board, Code rain, Constellation network, Aurora, Network globe, Wireframe terrain, Data tunnel and Fiber streaks. Or turn them off." },
+        { "tag": "New", "text": "Skills & Topics: three non-certification learning paths (CLI and scripting, help desk, networking in practice), each with modules, practice and labs." },
+        { "tag": "Improved", "text": "The browser-tab icon and header logo now match your theme." },
+        { "tag": "Improved", "text": "Course overview cards follow the tab order (Learn, Labs, Practice, Exam), and the card you last used is highlighted." },
+        { "tag": "Improved", "text": "The Discussion section is now a clear button with a comment count and a hint." },
+        { "tag": "Improved", "text": "Learning paths have search and topic filters (AI, Cloud, Security and more)." },
+        { "tag": "Improved", "text": "Fuller explanations with verified documentation links for Google ACE and PCA, CompTIA A+ Core 1 and 2, Data+ and Tech+." }
+      ]
+    },
+    {
+      "id": "2026-11-02",
+      "date": "November 2, 2026",
+      "title": "Better explanations and course overviews",
+      "items": [
+        { "tag": "Improved", "text": "Fuller explanations with verified Microsoft Learn, AWS and man-page links for AZ-104, AZ-900, SC-900, DP-900, AI-901, AI-103, AWS Cloud Practitioner, Linux Essentials, Linux+ and RHCSA." },
+        { "tag": "New", "text": "A course overview page for each course; Recents cards open it." },
+        { "tag": "Improved", "text": "Study guides redesigned with numbered sections, steps, command tables and notes." },
+        { "tag": "Improved", "text": "The question navigator's Domain filter is clearer." },
+        { "tag": "Changed", "text": "AI-102 has been retired and replaced by AI-103; the old address redirects." }
+      ]
+    },
+    {
+      "id": "2026-10-29",
+      "date": "October 29, 2026",
+      "title": "Hands-on labs and Linux courses",
+      "items": [
+        { "tag": "New", "text": "Labs: hands-on CLI, configuration and admin-console simulations, starting with A+ Core 1 and 2, Security+ and AZ-104." },
+        { "tag": "New", "text": "Linux courses: LPI Linux Essentials, CompTIA Linux+ and Red Hat RHCSA, with a Linux lab simulator (RHEL administration, storage, SELinux, firewalld)." },
+        { "tag": "New", "text": "Learning paths for the beginner AI courses." },
+        { "tag": "New", "text": "Narrated slides: each slide is read aloud with a short pause between slides." },
+        { "tag": "Improved", "text": "Recents cards redesigned with compact progress stats." }
+      ]
+    },
+    {
+      "id": "2026-10-28",
+      "date": "October 28, 2026",
+      "title": "The IT Study Hall",
+      "items": [
+        { "tag": "Changed", "text": "The site is now called The IT Study Hall, with a new logo, the Monokai Pro look and a light/dark switch." },
+        { "tag": "New", "text": "Medical courses: AAPC CPC, NHA CBCS and NHA CMAA." },
+        { "tag": "New", "text": "Learn and Practice buttons on course cards, and a Browse learning paths page." },
+        { "tag": "New", "text": "Guest mode (a limited preview) and feature requests for signed-in users." }
+      ]
+    }
+  ]
+}
