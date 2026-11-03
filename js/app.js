@@ -1890,7 +1890,7 @@ async function renderWhatsNewPage() {
   document.title = 'What’s new · The IT Study Hall';
   $('navigator').hidden = true;
   $('main').innerHTML = `<section class="stack"><div class="stack" style="gap:6px"><h2 class="home-title">What’s new</h2>
-    <p class="muted">The latest features and changes to The IT Study Hall, newest first.</p></div>
+    <p class="muted">The biggest recent additions and changes to The IT Study Hall, newest first.</p></div>
     <div id="wn-list" class="wn-list"><div class="panel empty" role="status"><p>Loading…</p></div></div></section>`;
   try {
     const rel = await loadWhatsNew();
