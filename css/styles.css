@@ -1305,6 +1305,118 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
   --shadow: 0 1px 2px rgba(7,54,66,.06), 0 6px 20px rgba(7,54,66,.08);
 }
 
+:root[data-palette="powershell-light"] {
+  /* Theme: PowerShell Light (ISE-style) */
+  --bg: #e9eef6;
+  --panel: #ffffff;
+  --panel-2: #f4f7fb;
+  --border: #d3dcea;
+  --border-strong: #b3c2d9;
+  --text: #1b1b1b;
+  --text-2: #3d4656;
+  --muted: #5b667a;
+  --azure: #0a64c8;
+  --azure-hover: #2478d6;
+  --azure-soft: rgba(10,100,200,.10);
+  --azure-text: #0a58b0;
+  --on-accent: #ffffff;
+  --accent-2: #c2185b;
+  --ok: #1b8a3a;
+  --ok-soft: rgba(27,138,58,.11);
+  --ok-text: #17702f;
+  --bad: #d13438;
+  --bad-soft: rgba(209,52,56,.10);
+  --bad-text: #b52a2e;
+  --warn: #d97706;
+  --warn-soft: rgba(217,119,6,.12);
+  --warn-text: #a35a00;
+  --code-bg: #012456;
+}
+
+:root[data-palette="dracula-light"] {
+  /* Theme: Dracula Light (Alucard) */
+  --bg: #f3eed9;
+  --panel: #fffbeb;
+  --panel-2: #f8f3df;
+  --border: #e3dcc0;
+  --border-strong: #c9c09c;
+  --text: #1f1f1f;
+  --text-2: #46443d;
+  --muted: #68645a;
+  --azure: #644ac9;
+  --azure-hover: #7860d6;
+  --azure-soft: rgba(100,74,201,.11);
+  --azure-text: #5a40bd;
+  --on-accent: #fffbeb;
+  --accent-2: #a3144d;
+  --ok: #14710a;
+  --ok-soft: rgba(20,113,10,.11);
+  --ok-text: #14710a;
+  --bad: #cb3a2a;
+  --bad-soft: rgba(203,58,42,.10);
+  --bad-text: #b02e20;
+  --warn: #a34d14;
+  --warn-soft: rgba(163,77,20,.12);
+  --warn-text: #8a3f0d;
+  --code-bg: #282a36;
+}
+
+:root[data-palette="one-light"] {
+  /* Theme: One Light */
+  --bg: #eceded;
+  --panel: #fafafa;
+  --panel-2: #f3f3f4;
+  --border: #dcdddf;
+  --border-strong: #bfc1c6;
+  --text: #2c2e35;
+  --text-2: #4b4e58;
+  --muted: #696c77;
+  --azure: #3569e0;
+  --azure-hover: #4a7ae8;
+  --azure-soft: rgba(64,120,242,.11);
+  --azure-text: #2f63d6;
+  --on-accent: #ffffff;
+  --accent-2: #a626a4;
+  --ok: #50a14f;
+  --ok-soft: rgba(80,161,79,.12);
+  --ok-text: #2f7a2e;
+  --bad: #e45649;
+  --bad-soft: rgba(228,86,73,.10);
+  --bad-text: #bf3a2f;
+  --warn: #c18401;
+  --warn-soft: rgba(193,132,1,.12);
+  --warn-text: #8d6000;
+  --code-bg: #282c34;
+}
+
+:root[data-palette="nord-light"] {
+  /* Theme: Nord Light */
+  --bg: #e5e9f0;
+  --panel: #eceff4;
+  --panel-2: #e8ecf2;
+  --border: #d3dae6;
+  --border-strong: #b4bfd1;
+  --text: #2e3440;
+  --text-2: #434c5e;
+  --muted: #5f6a80;
+  --azure: #4f7399;
+  --azure-hover: #61849f;
+  --azure-soft: rgba(94,129,172,.13);
+  --azure-text: #3f6591;
+  --on-accent: #ffffff;
+  --accent-2: #8f6a9e;
+  --ok: #6a9a4f;
+  --ok-soft: rgba(106,154,79,.13);
+  --ok-text: #3f6a2a;
+  --bad: #bf616a;
+  --bad-soft: rgba(191,97,106,.11);
+  --bad-text: #a14852;
+  --warn: #d08770;
+  --warn-soft: rgba(208,135,112,.14);
+  --warn-text: #9a4f33;
+  --code-bg: #2e3440;
+}
+
 .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 12px; }
 .theme-opt { display: flex; flex-direction: column; gap: 8px; padding: 10px; text-align: left; font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; cursor: pointer; }
 .theme-opt:hover { border-color: var(--border-strong); }

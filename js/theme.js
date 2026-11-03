@@ -7,14 +7,18 @@
   var KEY = 'itsh:theme';
   // scheme = base light/dark styling; bg/panel/accent/text feed the picker swatches and the browser UI color.
   var LIST = [
-    { id: 'dark',            name: 'Monokai Pro',     scheme: 'dark',  bg: '#221f22', panel: '#2d2a2e', accent: '#ffd866', text: '#fcfcfa' },
-    { id: 'light',           name: 'Monokai Light',   scheme: 'light', bg: '#f1ebe8', panel: '#faf4f2', accent: '#f0b429', text: '#29242a' },
-    { id: 'powershell',      name: 'PowerShell',      scheme: 'dark',  bg: '#012456', panel: '#06306b', accent: '#f9f1a5', text: '#eeedf0' },
-    { id: 'dracula',         name: 'Dracula',         scheme: 'dark',  bg: '#21222c', panel: '#282a36', accent: '#bd93f9', text: '#f8f8f2' },
-    { id: 'one-dark',        name: 'One Dark',        scheme: 'dark',  bg: '#21252b', panel: '#282c34', accent: '#61afef', text: '#abb2bf' },
-    { id: 'nord',            name: 'Nord',            scheme: 'dark',  bg: '#2e3440', panel: '#3b4252', accent: '#88c0d0', text: '#eceff4' },
-    { id: 'solarized-dark',  name: 'Solarized Dark',  scheme: 'dark',  bg: '#002b36', panel: '#073642', accent: '#b58900', text: '#93a1a1' },
-    { id: 'solarized-light', name: 'Solarized Light', scheme: 'light', bg: '#eee8d5', panel: '#fdf6e3', accent: '#b58900', text: '#073642' },
+    { id: 'dark', pair: 'light',            name: 'Monokai Pro',     scheme: 'dark',  bg: '#221f22', panel: '#2d2a2e', accent: '#ffd866', text: '#fcfcfa' },
+    { id: 'light', pair: 'dark',           name: 'Monokai Light',   scheme: 'light', bg: '#f1ebe8', panel: '#faf4f2', accent: '#f0b429', text: '#29242a' },
+    { id: 'powershell', pair: 'powershell-light',      name: 'PowerShell',      scheme: 'dark',  bg: '#012456', panel: '#06306b', accent: '#f9f1a5', text: '#eeedf0' },
+    { id: 'dracula', pair: 'dracula-light',         name: 'Dracula',         scheme: 'dark',  bg: '#21222c', panel: '#282a36', accent: '#bd93f9', text: '#f8f8f2' },
+    { id: 'one-dark', pair: 'one-light',        name: 'One Dark',        scheme: 'dark',  bg: '#21252b', panel: '#282c34', accent: '#61afef', text: '#abb2bf' },
+    { id: 'nord', pair: 'nord-light',            name: 'Nord',            scheme: 'dark',  bg: '#2e3440', panel: '#3b4252', accent: '#88c0d0', text: '#eceff4' },
+    { id: 'solarized-dark', pair: 'solarized-light',  name: 'Solarized Dark',  scheme: 'dark',  bg: '#002b36', panel: '#073642', accent: '#b58900', text: '#93a1a1' },
+    { id: 'solarized-light', pair: 'solarized-dark', name: 'Solarized Light', scheme: 'light', bg: '#eee8d5', panel: '#fdf6e3', accent: '#b58900', text: '#073642' },
+    { id: 'powershell-light', pair: 'powershell', name: 'PowerShell Light', scheme: 'light', bg: '#e9eef6', panel: '#ffffff', accent: '#0a64c8', text: '#1b1b1b' },
+    { id: 'dracula-light',   pair: 'dracula',   name: 'Dracula Light',   scheme: 'light', bg: '#f3eed9', panel: '#fffbeb', accent: '#644ac9', text: '#1f1f1f' },
+    { id: 'one-light',       pair: 'one-dark',  name: 'One Light',       scheme: 'light', bg: '#eceded', panel: '#fafafa', accent: '#3569e0', text: '#383a42' },
+    { id: 'nord-light',      pair: 'nord',      name: 'Nord Light',      scheme: 'light', bg: '#e5e9f0', panel: '#eceff4', accent: '#4f7399', text: '#2e3440' },
   ];
   var BY_ID = {};
   LIST.forEach(function (t) { BY_ID[t.id] = t; });
@@ -54,8 +58,12 @@
       try { if (p === 'system' || !BY_ID[p]) localStorage.removeItem(KEY); else localStorage.setItem(KEY, p); } catch (e) { /* ignore */ }
       apply();
     },
-    // The header button flips between the Monokai light and dark pair.
-    toggle: function () { this.set(this.current() === 'light' ? 'dark' : 'light'); },
+    // The header button flips to the light/dark counterpart of the chosen theme
+    // (e.g. Dracula <-> Dracula Light). With System, it picks a fixed theme.
+    toggle: function () {
+      var t = BY_ID[this.palette()];
+      this.set(t && t.pair ? t.pair : (this.current() === 'light' ? 'dark' : 'light'));
+    },
   };
 
   apply();
