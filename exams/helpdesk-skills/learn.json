@@ -1,5 +1,10 @@
 {
   "intro": "Four modules cover the whole job: how a help desk works, a troubleshooting method you can reuse, how to talk to people, and how to handle everyday issues safely. Practice in the labs: log and prioritise a ticket, diagnose a PC, and work through customer scenarios.",
+  "narration": {
+    "src": "media/{id}-{n}.mp3",
+    "perSlide": true,
+    "credit": "Andrew (standard Neural)"
+  },
   "updated": "2026-11-03",
   "sources": [],
   "modules": [

@@ -1,5 +1,10 @@
 {
   "intro": "Four short modules take you from your first commands to writing and running your own scripts. Each has a study guide, tips, key terms and slides. Practice every skill in the Labs tab, where a simulated terminal checks your work.",
+  "narration": {
+    "src": "media/{id}-{n}.mp3",
+    "perSlide": true,
+    "credit": "Andrew (standard Neural)"
+  },
   "updated": "2026-11-03",
   "sources": [],
   "modules": [
