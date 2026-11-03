@@ -1123,7 +1123,7 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
 .ov-tile.featured { border-left-width: 6px; background: linear-gradient(135deg, var(--azure-soft), transparent 70%), var(--panel); }
 .ov-tile.featured .ov-title { font-size: 19px; }
 .ov-flag { margin-left: auto; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 650; letter-spacing: .03em; color: var(--azure-text); background: var(--azure-soft); }
-@media (min-width: 700px) { .ov-tile.featured { grid-column: span 2; } }
+@media (min-width: 700px) and (max-width: 1099px) { .ov-tile.featured { grid-column: span 2; } }
 
 /* Skills & Topics: non-certification skill paths */
 .skills-section { display: grid; gap: 16px; margin-top: 8px; padding-top: 22px; border-top: 1px solid var(--border); }

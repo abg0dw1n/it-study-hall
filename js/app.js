@@ -338,7 +338,7 @@ function renderOverview(main) {
       <h2 class="home-title">${escapeHtml(EXAM.name)}</h2>
       <p class="muted">${SKILL ? 'Learn the topic, then practice it hands-on in the labs.' : 'Learn the material, practice it, then prove it.'} Choose where to pick up. ${last ? `You were last in <b>${last}</b>.` : ''}</p>
     </header>
-    <div class="ov-grid">${tiles.filter((t) => !SKILL || t.mode === 'learn' || t.mode === 'labs').map((t) => `
+    <div class="ov-grid">${['learn', 'labs', 'practice', 'exam'].map((m) => tiles.find((t) => t.mode === m)).filter((t) => t && (!SKILL || t.mode === 'learn' || t.mode === 'labs')).map((t) => `
       <button type="button" class="panel ov-tile${t.featured ? ' featured' : ''}${t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review') ? ' last' : ''}" data-action="overview-go" data-go="${t.mode}">
         <span class="ov-top"><span class="ov-icon">${icon(t.ic)}</span><span class="ov-title">${t.title}</span>${t.featured ? '<span class="ov-flag">Core feature</span>' : ''}</span>
         <span class="ov-blurb">${t.blurb}</span>
