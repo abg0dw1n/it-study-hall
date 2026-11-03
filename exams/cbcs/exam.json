@@ -38,5 +38,5 @@
     100
   ],
   "realExamNote": "The real CBCS exam has 100 scored and 25 unscored pretest questions in 3 hours. CPT is a registered trademark of the American Medical Association.",
-  "scoreNote": "NHA uses a scaled score from 200 to 500 with 390 to pass; this simulator maps percent correct onto that scale, so treat 390+ as a readiness signal, not a guarantee."
+  "scoreNote": "NHA uses a scaled score from 200 to 500 with 390 to pass; the timed mock exam maps percent correct onto that scale, so treat 390+ as a readiness signal, not a guarantee."
 }

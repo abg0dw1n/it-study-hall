@@ -99,7 +99,7 @@ async function hideRecent(slug) {
   } catch { /* offline: still allow hiding with the slug as the name */ }
   const ok = await confirmModal(
     `Hide ${name} from Recents?`,
-    `Your progress is kept. The course will no longer appear in Recents, but you can open it anytime from the full exam list.`,
+    `Your progress is kept. The course will no longer appear in Recents, but you can open it anytime from the course library.`,
     'Hide',
     'Keep'
   );
@@ -376,7 +376,7 @@ function render() {
 
   if (!QUESTIONS.length) {
     renderGridEmpty();
-    main.innerHTML = `<div class="panel empty"><p>This exam doesn't have any questions yet.</p><a class="btn btn-ghost" href="/">All exams</a></div>`;
+    main.innerHTML = `<div class="panel empty"><p>This course doesn't have any practice questions yet.</p><a class="btn btn-ghost" href="/">All courses</a></div>`;
     return;
   }
   if (state.mode === 'exam' && !state.exam) return renderExamIntro(main);
@@ -1051,7 +1051,7 @@ function guestSample(questions) {
 }
 
 const guestCta = (what) => `<div class="guest-limit" role="note">
-    ${icon('lock')}<span><b>${what}</b> Sign in to unlock every question, all learning modules and timed exams, and to save your progress. Accounts are free.</span>
+    ${icon('lock')}<span><b>${what}</b> Sign in to unlock every question, all learning modules and timed mock exams, and to save your progress. Accounts are free.</span>
     <button class="btn btn-primary btn-sm" data-guest-exit="signin">Sign in for full access</button>
   </div>`;
 
@@ -1324,9 +1324,9 @@ async function renderHome() {
   const recentsBody = recents.length
     ? `<div class="learning-path-grid">${recents.map(recentCard).join('')}</div>`
     : learningCards
-      ? `<p class="recents-empty">Nothing in progress yet. Start with a learning path, or open any practice exam below.</p>
+      ? `<p class="recents-empty">Nothing in progress yet. Start with a learning path, or open any course below.</p>
          <div class="learning-path-grid">${learningCards}</div>`
-      : '<p class="recents-empty">Courses and exams you start will appear here.</p>';
+      : '<p class="recents-empty">Courses you start will appear here.</p>';
 
   // ── Most popular: an open folder of the most-viewed exams (all users, last 30 days).
   const popular = ((await popularRequest) || []).filter((p) => cardFor[p?.exam]);
@@ -1349,9 +1349,9 @@ async function renderHome() {
     // Right side: this person's progress in the vendor, or just the exam count if they haven't started.
     const started = entries.filter(({ exam }) => recentActivity(exam, readSaved(exam.slug, exam.legacyStorageKey))).length;
     const passed = entries.filter(({ exam }) => readSaved(exam.slug, exam.legacyStorageKey)?.history?.some((h) => h.passed)).length;
-    const total = `${entries.length} exam${entries.length === 1 ? '' : 's'}`;
+    const total = `${entries.length} course${entries.length === 1 ? '' : 's'}`;
     const progress = started
-      ? `<span class="folder-progress" title="Exams you've opened in ${escapeHtml(provider)}">
+      ? `<span class="folder-progress" title="Courses you've opened in ${escapeHtml(provider)}">
           <span>${started} of ${total} started${passed ? ` · ${passed} passed` : ''}</span>
           <span class="folder-bar"><i style="width:${Math.round((started / entries.length) * 100)}%"></i></span></span>`
       : `<span class="folder-count">${total}</span>`;
@@ -1391,24 +1391,24 @@ async function renderHome() {
     <section class="learning-section" id="recents" aria-labelledby="recents-title">
       <div class="section-heading">
         <div><span class="eyebrow">RECENTS</span><h2 id="recents-title">${recents.length ? 'Pick up where you left off' : 'Start learning'}</h2>
-          <p class="muted">${recents.length ? 'Courses you have opened, most recent first, with your learning, practice, lab and timed-exam progress.' : 'Courses and exams you start will appear here.'}</p></div>
+          <p class="muted">${recents.length ? 'Courses you have opened, most recent first, with your learning, practice, lab and timed-exam progress.' : 'Courses you start will appear here.'}</p></div>
         ${recents.length ? `<span class="learning-count">${recents.length} in progress</span>` : ''}
       </div>
       ${recentsBody}
     </section>
     <section class="practice-section" id="practice" aria-labelledby="practice-title">
     <div class="catalog-heading">
-      <div class="stack" style="gap:6px"><span class="eyebrow">PRACTICE EXAMS</span><h2 class="home-title" id="practice-title">Choose a certification to practice</h2>
-        <p class="muted">Work through question banks at your own pace, then test yourself with a timed mock exam.</p></div>
-      <div class="catalog-summary"><strong>${exams.length}</strong> exams <span>·</span> <strong>${providers.length}</strong> providers</div>
+      <div class="stack" style="gap:6px"><span class="eyebrow">COURSE LIBRARY</span><h2 class="home-title" id="practice-title">Choose a certification to study</h2>
+        <p class="muted">Every course has practice exams and a timed mock exam, and many add learning paths and labs.</p></div>
+      <div class="catalog-summary"><strong>${exams.length}</strong> courses <span>·</span> <strong>${providers.length}</strong> providers</div>
     </div>
     <div class="catalog-tools">
-      <label class="catalog-search"><span class="sr-only">Search certifications</span><input id="exam-search" type="search" placeholder="Search exams or codes" autocomplete="off"></label>
-      <div class="provider-filters" role="group" aria-label="Filter exams by provider">${providerControls}</div>
+      <label class="catalog-search"><span class="sr-only">Search certifications</span><input id="exam-search" type="search" placeholder="Search courses or exam codes" autocomplete="off"></label>
+      <div class="provider-filters" role="group" aria-label="Filter courses by provider">${providerControls}</div>
     </div>
-    <div class="catalog-results-head"><div><h3>All certifications</h3><p class="muted small">Search by certification or filter by provider to find your next practice session.</p></div><span id="exam-result-count" class="muted small">${exams.length} exams</span></div>
+    <div class="catalog-results-head"><div><h3>All courses</h3><p class="muted small">Search by certification or filter by provider to find your next course.</p></div><span id="exam-result-count" class="muted small">${exams.length} courses</span></div>
     <div id="exam-grid" class="folder-list">${examGroups}</div>
-    <p id="exam-empty" class="panel catalog-empty" hidden>No certifications match your search. Try a different term or provider.</p>
+    <p id="exam-empty" class="panel catalog-empty" hidden>No courses match your search. Try a different term or provider.</p>
     </section>
     <section class="request-section" aria-labelledby="request-title">
       <div class="request-copy">
@@ -1461,10 +1461,10 @@ async function renderHome() {
       group.open = filtering && !group.hidden;
       // Rows showing personal progress have no count element; only plain-count rows are updated.
       const count = group.querySelector('.folder-count');
-      if (count) count.textContent = `${groupVisible} exam${groupVisible === 1 ? '' : 's'}`;
+      if (count) count.textContent = `${groupVisible} course${groupVisible === 1 ? '' : 's'}`;
       visible += groupVisible;
     });
-    $('exam-result-count').textContent = `${visible} exam${visible === 1 ? '' : 's'}`;
+    $('exam-result-count').textContent = `${visible} course${visible === 1 ? '' : 's'}`;
     $('exam-empty').hidden = visible > 0;
   };
   search.addEventListener('input', applyFilters);
@@ -1487,7 +1487,7 @@ function renderSignIn(error) {
     `<button class="btn btn-ghost full" data-provider="${p.id}">${p.label}</button>`).join('');
   $('main').innerHTML = `<section class="panel card-pad signin">
       <h2>Sign in</h2>
-      <p class="muted">This site is invite-only. Sign in to practice and keep your progress in sync across devices. Not invited yet? Request a sign-in link anyway and the site owner will be asked to approve you.</p>
+      <p class="muted">This site is invite-only. Sign in to learn, practice and keep your progress in sync across devices. Not invited yet? Request a sign-in link anyway and the site owner will be asked to approve you.</p>
       ${error ? `<p class="signin-msg bad-msg" role="alert">${escapeHtml(error)}</p>` : ''}
       ${providers ? `<div class="stack" style="gap:10px">${providers}</div><div class="or"><span>or</span></div>` : ''}
       <form id="magic-form" class="stack" style="gap:10px">
@@ -1613,7 +1613,7 @@ async function renderAccountPage() {
       <div class="panel card-pad account-card">
         <div class="account-avatar" aria-hidden="true">${escapeHtml((user?.email || '?')[0].toUpperCase())}</div>
         <div class="account-who"><span class="muted small">Signed in as</span><b>${escapeHtml(user?.email || 'Guest')} <span id="account-admin-chip" class="admin-badge" hidden>Admin</span></b>
-          <span class="muted small">Your practice progress and exam history sync to this account.</span></div>
+          <span class="muted small">Your learning progress, practice answers, labs and exam history sync to this account.</span></div>
         <div class="account-actions"><a class="btn btn-ghost btn-sm" href="/privacy">Privacy policy</a>
           ${user ? '<button id="btn-signout" class="btn btn-ghost btn-sm">Sign out</button>' : ''}</div>
       </div>
@@ -1689,7 +1689,7 @@ async function renderAccessRequests() {
 
 // ── Feature requests ─────────────────────────────────────────────────────────
 const FEATURE_CATEGORIES = {
-  learning: 'Learning paths and lessons', practice: 'Practice questions', exams: 'Timed exams and scoring',
+  learning: 'Learning paths and lessons', practice: 'Practice exams and questions', exams: 'Timed mock exams and scoring',
   design: 'Look and feel', account: 'Account and sign-in', other: 'Something else',
 };
 const FEATURE_STATUS = { new: 'Submitted', planned: 'Planned', 'in-progress': 'In progress', done: 'Done', declined: 'Not planned' };
@@ -1876,7 +1876,7 @@ async function init() {
     ? 'Loading your account…'
     : initialSlug === 'learning-paths' ? 'Loading learning paths…'
     : initialSlug
-      ? initialMode === 'learn' ? 'Loading learning materials…' : 'Loading exam…'
+      ? initialMode === 'learn' ? 'Loading learning materials…' : 'Loading course…'
       : 'Loading the learning and practice library…';
   $('main').innerHTML = `<div class="panel empty" role="status"><p>${loadingMessage}</p></div>`;
   // Exam content is public, so start downloading it now instead of after sign-in and sync.
@@ -1910,8 +1910,8 @@ async function init() {
     await loadBank(slug, slug === initialSlug ? bankFiles : undefined);
   } catch (err) {
     const known = await fetchIndex().then((list) => list.some((e) => e.slug === slug), () => true);
-    $('main').innerHTML = `<div class="panel empty"><p>${known ? `Couldn't load the "${escapeHtml(slug)}" exam (${escapeHtml(err.message)}). Check your connection and try again.` : `There's no course at /${escapeHtml(slug)}.`}</p>
-      <a class="btn btn-primary" href="/">All exams</a></div>`;
+    $('main').innerHTML = `<div class="panel empty"><p>${known ? `Couldn't load the "${escapeHtml(slug)}" course (${escapeHtml(err.message)}). Check your connection and try again.` : `There's no course at /${escapeHtml(slug)}.`}</p>
+      <a class="btn btn-primary" href="/">All courses</a></div>`;
     $('navigator').hidden = true;
     return;
   }

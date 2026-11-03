@@ -63,5 +63,5 @@
     100
   ],
   "realExamNote": "The real RHCSA (EX200, RHEL 10) is entirely hands-on: you configure live systems in about 3 hours, and everything must survive a reboot. These questions check the knowledge behind each task; the Labs tab gives you terminal practice. Red Hat doesn't publish domain weights, so the weights here are estimates used to balance practice exams.",
-  "scoreNote": "Red Hat scores out of 300 with 210 to pass; this simulator maps percent correct onto that scale. Passing questions isn't the same as doing the tasks under time pressure, so practice the labs too."
+  "scoreNote": "Red Hat scores out of 300 with 210 to pass; the timed mock exam maps percent correct onto that scale. Passing questions isn't the same as doing the tasks under time pressure, so practice the labs too."
 }

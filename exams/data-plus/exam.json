@@ -42,6 +42,6 @@
     60,
     90
   ],
-  "realExamNote": "Based on Data+ V2 (DA0-002), launched October 14, 2025. The real exam has up to 90 questions in 90 minutes, including performance-based items; this simulator is multiple choice only.",
+  "realExamNote": "Based on Data+ V2 (DA0-002), launched October 14, 2025. The real exam has up to 90 questions in 90 minutes, including performance-based items; the practice exams here are multiple choice only.",
   "scoreNote": "CompTIA uses scaled scoring, so treat 675+ as a readiness signal, not a guarantee."
 }

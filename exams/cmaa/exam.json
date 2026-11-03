@@ -53,5 +53,5 @@
     100
   ],
   "realExamNote": "The real CMAA exam has 110 scored and 25 unscored pretest questions (about 2 hours 15 minutes).",
-  "scoreNote": "NHA uses a scaled score from 200 to 500 with 390 to pass; this simulator maps percent correct onto that scale, so treat 390+ as a readiness signal, not a guarantee."
+  "scoreNote": "NHA uses a scaled score from 200 to 500 with 390 to pass; the timed mock exam maps percent correct onto that scale, so treat 390+ as a readiness signal, not a guarantee."
 }

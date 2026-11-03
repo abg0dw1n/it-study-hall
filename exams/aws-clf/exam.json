@@ -13,6 +13,6 @@
   "minutesPerQuestion": 1.385,
   "defaultSize": 65,
   "sizeOptions": [20, 40, 65],
-  "realExamNote": "The real exam has 65 questions (50 scored) in 90 minutes and includes multiple-response questions; this simulator uses single-answer questions.",
+  "realExamNote": "The real exam has 65 questions (50 scored) in 90 minutes and includes multiple-response questions; the practice exams here use single-answer questions.",
   "scoreNote": "AWS uses scaled scoring, so treat 700+ as a readiness signal, not a guarantee."
 }

@@ -14,6 +14,6 @@
   "minutesPerQuestion": 1,
   "defaultSize": 90,
   "sizeOptions": [30, 60, 90],
-  "realExamNote": "The real exam has up to 90 questions in 90 minutes, including performance-based questions; this simulator is multiple choice only. SY0-701 is available until June 11, 2027.",
+  "realExamNote": "The real exam has up to 90 questions in 90 minutes, including performance-based questions; the practice exams here are multiple choice only. SY0-701 is available until June 11, 2027.",
   "scoreNote": "CompTIA's real scoring is scaled differently, so treat 750+ as a readiness signal, not a guarantee."
 }

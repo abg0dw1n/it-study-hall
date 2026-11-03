@@ -14,6 +14,6 @@
   "minutesPerQuestion": 1.2,
   "defaultSize": 100,
   "sizeOptions": [25, 50, 100],
-  "realExamNote": "Built for CCNA v2.0 (testing from February 3, 2027); most topics also apply to v1.1, which retires February 2, 2027. The real exam is 120 minutes and includes simulations; this simulator is multiple choice only.",
+  "realExamNote": "Built for CCNA v2.0 (testing from February 3, 2027); most topics also apply to v1.1, which retires February 2, 2027. The real exam is 120 minutes and includes simulations; the practice exams here are multiple choice only.",
   "scoreNote": "Cisco doesn't publish an official passing score; 825 of 1000 is the commonly cited target."
 }

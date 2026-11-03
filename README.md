@@ -41,7 +41,7 @@ Source: https://github.com/abg0dw1n/it-study-hall
 | CompTIA Linux+ (XK0-006) · intermediate | `exams/linux-plus` | 148 | 720 on 100–900 to pass |
 | Red Hat RHCSA (EX200, RHEL 10) · advanced | `exams/rhcsa` | 106 | 210 of 300 to pass (real exam is hands-on) |
 
-Open the site to pick an exam, or go straight to one at `/<folder>` (e.g. `/az-104`, `/network-plus`, `/security-plus`, `/ccna`, `/aws-saa`, `/ai-901`, `/aws-aif`, `/google-gail`, `/cpc`, `/cbcs`, `/cmaa`, `/linux-essentials`, `/linux-plus`, `/rhcsa`). Each exam keeps its own progress and history.
+Open the site to pick a course, or go straight to one at `/<folder>` (e.g. `/az-104`, `/network-plus`, `/security-plus`, `/ccna`, `/aws-saa`, `/ai-901`, `/aws-aif`, `/google-gail`, `/cpc`, `/cbcs`, `/cmaa`, `/linux-essentials`, `/linux-plus`, `/rhcsa`). Each exam keeps its own progress and history.
 
 ## Modes
 

@@ -42,6 +42,6 @@
     50,
     100
   ],
-  "realExamNote": "The real CPC exam has 100 multiple-choice questions in 4 hours, including 10 multi-part coding cases, and is open-book (AMA CPT Professional Edition, ICD-10-CM and HCPCS Level II books). This simulator tests the guidelines and concepts you apply with those books, without the books. CPT is a registered trademark of the American Medical Association.",
+  "realExamNote": "The real CPC exam has 100 multiple-choice questions in 4 hours, including 10 multi-part coding cases, and is open-book (AMA CPT Professional Edition, ICD-10-CM and HCPCS Level II books). These practice exams test the guidelines and concepts you apply with those books, without the books. CPT is a registered trademark of the American Medical Association.",
   "scoreNote": "AAPC requires 70% (70 correct) to pass. Treat 70+ here as a readiness signal, and practice coding with your books too."
 }
