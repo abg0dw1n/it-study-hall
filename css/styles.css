@@ -1119,8 +1119,6 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
 .ov-bar i { display: block; height: 100%; border-radius: inherit; background: var(--v, var(--azure)); }
 .ov-tile .learning-path-action { margin-top: auto; }
 
-/* Featured tile: practice exams stand out a little from the other course sections */
-@media (min-width: 700px) and (max-width: 1099px) { 
 /* Skills & Topics: non-certification skill paths */
 .skills-section { display: grid; gap: 16px; margin-top: 8px; padding-top: 22px; border-top: 1px solid var(--border); }
 .exam-card h3 { font-size: 17px; font-weight: 650; line-height: 1.35; }
