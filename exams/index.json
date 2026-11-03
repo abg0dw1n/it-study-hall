@@ -348,7 +348,7 @@
     "learningDescription": "Prepare for the hands-on RHEL 10 exam: essential tools, scripting, boot and processes, LVM and file systems, software, networking, users, firewalld and SELinux.",
     "learningModules": 9,
     "questions": 106,
-    "updated": "2026-10-29",
+    "updated": "2026-11-02",
     "labs": 9
   }
 ]

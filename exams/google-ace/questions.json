@@ -22,7 +22,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "IAM policies and organization policies inherit down the hierarchy."
+    "explanation": "Google Cloud's hierarchy runs Organization, then folders, then projects, with resources inside projects. IAM and organization policies set higher up are inherited by everything below, so the order matters for where you grant access.",
+    "refs": [
+      {
+        "title": "About resource hierarchy | Resource Manager",
+        "url": "https://docs.cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy"
+      }
+    ]
   },
   {
     "id": 2,
@@ -47,7 +53,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Most paid APIs require an active billing account on the project."
+    "explanation": "Compute Engine calls only work once the API is enabled on the project, and most paid APIs also need an active billing account linked. Quota increases and service account keys come later, if at all.",
+    "refs": [
+      {
+        "title": "Enable and disable services | Service Usage",
+        "url": "https://docs.cloud.google.com/service-usage/docs/enable-disable"
+      },
+      {
+        "title": "Enable, disable, or change billing for a project",
+        "url": "https://docs.cloud.google.com/billing/docs/how-to/modify-project"
+      }
+    ]
   },
   {
     "id": 3,
@@ -72,7 +88,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Named configurations let you switch between projects and accounts."
+    "explanation": "gcloud config set project PROJECT_ID sets the default project for later commands. gcloud projects create makes a new project, and named configurations let you switch between accounts and projects.",
+    "refs": [
+      {
+        "title": "gcloud config set | Google Cloud SDK",
+        "url": "https://docs.cloud.google.com/sdk/gcloud/reference/config/set"
+      }
+    ]
   },
   {
     "id": 4,
@@ -97,7 +119,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Budgets alert but don't stop spending unless you automate it with Pub/Sub."
+    "explanation": "A Cloud Billing budget with threshold rules (such as 80% of $1,000) sends alerts when spending reaches those percentages. Budgets only alert unless you automate action with Pub/Sub; quotas and uptime checks don't track spend.",
+    "refs": [
+      {
+        "title": "Create, edit, or delete budgets and budget alerts | Cloud Billing",
+        "url": "https://docs.cloud.google.com/billing/docs/how-to/budgets"
+      }
+    ]
   },
   {
     "id": 5,
@@ -122,7 +150,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Standard and detailed usage cost exports are available."
+    "explanation": "Export Cloud Billing data to BigQuery to analyze costs with SQL, using the standard or detailed usage cost exports. The PDF invoice and audit logs don't contain queryable cost data.",
+    "refs": [
+      {
+        "title": "Export Cloud Billing data to BigQuery",
+        "url": "https://docs.cloud.google.com/billing/docs/how-to/export-data-bigquery"
+      }
+    ]
   },
   {
     "id": 6,
@@ -147,7 +181,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Predefined roles give fine-grained access to specific services."
+    "explanation": "Basic roles (Owner, Editor, Viewer) grant very broad permissions across services and should generally be avoided in production. Predefined and custom roles give fine-grained access.",
+    "refs": [
+      {
+        "title": "IAM roles and permissions index | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/understanding-roles"
+      }
+    ]
   },
   {
     "id": 7,
@@ -172,7 +212,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Grant at the lowest level that meets the need."
+    "explanation": "Grant the narrowest role at the lowest level that meets the need: roles/compute.instanceAdmin.v1 on the project manages Compute Engine instances there without broader organization-wide access.",
+    "refs": [
+      {
+        "title": "IAM roles and permissions index | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/understanding-roles"
+      },
+      {
+        "title": "Use IAM securely",
+        "url": "https://docs.cloud.google.com/iam/docs/using-iam-securely"
+      }
+    ]
   },
   {
     "id": 8,
@@ -197,7 +247,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Roles granted on a folder are inherited by its projects."
+    "explanation": "Roles granted on a folder are inherited by every project beneath it, so granting a group the role on the Finance folder covers all Finance projects. Doing it per VM or per bucket doesn't scale.",
+    "refs": [
+      {
+        "title": "About resource hierarchy | Resource Manager",
+        "url": "https://docs.cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy"
+      },
+      {
+        "title": "IAM roles and permissions index | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/understanding-roles"
+      }
+    ]
   },
   {
     "id": 9,
@@ -222,7 +282,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Groups simplify onboarding and offboarding."
+    "explanation": "Grant roles to Google groups instead of individual users, which simplifies onboarding and offboarding. Shared accounts, per-person keys and temporary Owner grants all weaken accountability.",
+    "refs": [
+      {
+        "title": "Use IAM securely",
+        "url": "https://docs.cloud.google.com/iam/docs/using-iam-securely"
+      }
+    ]
   },
   {
     "id": 10,
@@ -247,7 +313,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud Identity can sync users from Active Directory with Google Cloud Directory Sync."
+    "explanation": "Cloud Identity manages user identities and groups for an organization without Google Workspace, and can sync from Active Directory using Google Cloud Directory Sync.",
+    "refs": [
+      {
+        "title": "Overview of Cloud Identity",
+        "url": "https://docs.cloud.google.com/identity/docs/overview"
+      }
+    ]
   },
   {
     "id": 11,
@@ -272,7 +344,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Quotas protect against unexpected usage and can be raised on request."
+    "explanation": "When a project hits a regional vCPU limit, request a quota increase. Quotas protect against unexpected usage and can be raised on request; a new billing account or disabling the API doesn't help.",
+    "refs": [
+      {
+        "title": "Cloud Quotas overview",
+        "url": "https://docs.cloud.google.com/docs/quotas/overview"
+      }
+    ]
   },
   {
     "id": 12,
@@ -297,7 +375,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Organization policies are inherited down the hierarchy."
+    "explanation": "An organization policy with the resource locations constraint restricts where resources can be created, such as EU regions only, and is inherited down the hierarchy. Firewall rules and budgets don't restrict resource locations.",
+    "refs": [
+      {
+        "title": "Organization Policy overview",
+        "url": "https://docs.cloud.google.com/resource-manager/docs/organization-policy/overview"
+      }
+    ]
   },
   {
     "id": 13,
@@ -322,7 +406,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud Shell includes an editor and 5 GB of persistent home storage."
+    "explanation": "Cloud Shell is a browser-based shell with gcloud preinstalled, an editor and persistent home storage. Cloud Run, Scheduler and Tasks are not shells.",
+    "refs": [
+      {
+        "title": "Cloud Shell documentation",
+        "url": "https://docs.cloud.google.com/shell/docs"
+      }
+    ]
   },
   {
     "id": 14,
@@ -347,7 +437,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Billing Account Administrators can manage the billing account itself."
+    "explanation": "Linking a project to billing needs Billing Account User on the billing account and Project Billing Manager (or equivalent) on the project. Viewers on either can't change the link.",
+    "refs": [
+      {
+        "title": "Enable, disable, or change billing for a project",
+        "url": "https://docs.cloud.google.com/billing/docs/how-to/modify-project"
+      }
+    ]
   },
   {
     "id": 15,
@@ -372,7 +468,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Package-managed installations use the OS package manager instead."
+    "explanation": "gcloud components install kubectl adds optional components to the gcloud CLI. If gcloud was installed through an OS package manager, install components with that package manager instead."
   },
   {
     "id": 16,
@@ -397,7 +493,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Labels appear in billing exports for filtering."
+    "explanation": "Key-value labels like env=prod and team=web on resources appear in billing exports, so you can filter and group costs by environment and team. Long names or per-VM billing accounts are impractical.",
+    "refs": [
+      {
+        "title": "Create and update labels for projects | Resource Manager",
+        "url": "https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels"
+      }
+    ]
   },
   {
     "id": 17,
@@ -422,7 +524,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Gemini Cloud Assist can also query Cloud Asset Inventory."
+    "explanation": "Gemini Cloud Assist helps admins explore resources and troubleshoot from the Google Cloud console, including querying Cloud Asset Inventory. Gemini in Gmail and Code Assist in the IDE serve other purposes."
   },
   {
     "id": 18,
@@ -447,7 +549,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Conditions use attributes like time and resource name."
+    "explanation": "IAM Conditions grant access only when attributes are met, such as time (an expiry date) or resource name. Basic roles and service account keys have no conditional logic.",
+    "refs": [
+      {
+        "title": "Overview of IAM Conditions",
+        "url": "https://docs.cloud.google.com/iam/docs/conditions-overview"
+      }
+    ]
   },
   {
     "id": 19,
@@ -472,7 +580,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Specify --zone, --machine-type and --image-family as needed."
+    "explanation": "gcloud compute instances create creates a VM, with --zone, --machine-type and --image-family as needed. gcloud run deploy and clusters create are for Cloud Run and GKE.",
+    "refs": [
+      {
+        "title": "gcloud compute instances create | Google Cloud SDK",
+        "url": "https://docs.cloud.google.com/sdk/gcloud/reference/compute/instances/create"
+      }
+    ]
   },
   {
     "id": 20,
@@ -497,7 +611,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Spot VMs can be preempted at any time."
+    "explanation": "Spot VMs are the cheapest option for interruptible batch jobs, at the cost that Compute Engine can preempt them at any time. Standard VMs and 3-year commitments cost more.",
+    "refs": [
+      {
+        "title": "Spot VMs | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/instances/spot"
+      }
+    ]
   },
   {
     "id": 21,
@@ -522,7 +642,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Instance templates are immutable; create a new one to change settings."
+    "explanation": "An instance template defines the machine type, image and settings for VMs in a managed instance group. Templates are immutable, so create a new one to change settings.",
+    "refs": [
+      {
+        "title": "Instance templates | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/instance-templates"
+      }
+    ]
   },
   {
     "id": 22,
@@ -547,7 +673,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Set an initial delay so VMs can boot before health checks count."
+    "explanation": "Autohealing recreates VMs that fail an application health check; set an initial delay so VMs can boot before checks count. Autoscaling changes group size and rolling updates change templates.",
+    "refs": [
+      {
+        "title": "Set up an application-based health check and autohealing | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/instance-groups/autohealing-instances-in-migs"
+      }
+    ]
   },
   {
     "id": 23,
@@ -572,7 +704,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Autopilot applies Google's best-practice configuration."
+    "explanation": "GKE Autopilot manages nodes for you and bills per pod resource requests, applying Google's best-practice configuration. Standard mode leaves node management to you.",
+    "refs": [
+      {
+        "title": "GKE Autopilot overview",
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview"
+      }
+    ]
   },
   {
     "id": 24,
@@ -597,7 +735,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "This writes cluster credentials to your kubeconfig."
+    "explanation": "gcloud container clusters get-credentials CLUSTER writes cluster credentials to your kubeconfig so kubectl can reach it. kubectl has no set-cluster --gke option.",
+    "refs": [
+      {
+        "title": "Install kubectl and configure cluster access | GKE",
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl"
+      }
+    ]
   },
   {
     "id": 25,
@@ -622,7 +766,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud Run can also build from source with --source."
+    "explanation": "gcloud run deploy SERVICE --image IMAGE deploys a container to Cloud Run; --source builds from source. It is not an App Engine or functions command.",
+    "refs": [
+      {
+        "title": "Deploy container images to Cloud Run services",
+        "url": "https://docs.cloud.google.com/run/docs/deploying"
+      }
+    ]
   },
   {
     "id": 26,
@@ -647,7 +797,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Minimum storage durations: Nearline 30 days, Coldline 90, Archive 365."
+    "explanation": "Coldline fits data accessed about once a quarter (90-day minimum storage duration). Nearline is monthly with a 30-day minimum, Archive is yearly with 365 days, and Standard is for frequent access.",
+    "refs": [
+      {
+        "title": "Storage classes | Cloud Storage",
+        "url": "https://docs.cloud.google.com/storage/docs/storage-classes"
+      }
+    ]
   },
   {
     "id": 27,
@@ -672,7 +828,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "gsutil cp also works but gcloud storage is recommended."
+    "explanation": "gcloud storage cp file.txt gs://BUCKET/ copies a local file into a bucket; gsutil cp also works but gcloud storage is recommended. mb makes buckets, and bq load targets BigQuery.",
+    "refs": [
+      {
+        "title": "Quickstart: Discover object storage with the Google Cloud CLI",
+        "url": "https://docs.cloud.google.com/storage/docs/discover-object-storage-gcloud"
+      }
+    ]
   },
   {
     "id": 28,
@@ -697,7 +859,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud SQL supports MySQL, PostgreSQL and SQL Server."
+    "explanation": "Cloud SQL for MySQL is the managed, regional relational database suited to lifting and shifting a MySQL app (it also supports PostgreSQL and SQL Server). Spanner, Bigtable and Firestore have different data models.",
+    "refs": [
+      {
+        "title": "Cloud SQL overview | Cloud SQL for MySQL",
+        "url": "https://docs.cloud.google.com/sql/docs/mysql/introduction"
+      }
+    ]
   },
   {
     "id": 29,
@@ -722,7 +890,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Hyperdisk lets you tune IOPS and throughput separately."
+    "explanation": "Persistent Disk or Hyperdisk provides block storage for VMs that can be resized and snapshotted; Hyperdisk lets you tune IOPS and throughput separately. Cloud Storage is object storage and Local SSD is ephemeral.",
+    "refs": [
+      {
+        "title": "Choose a disk type | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/disks"
+      }
+    ]
   },
   {
     "id": 30,
@@ -747,7 +921,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Subnets are regional; VPC networks are global."
+    "explanation": "A custom mode VPC lets you create your own subnets and ranges in each region. Subnets are regional while the VPC network itself is global; auto mode creates predefined subnets.",
+    "refs": [
+      {
+        "title": "VPC networks | Virtual Private Cloud",
+        "url": "https://docs.cloud.google.com/vpc/docs/vpc"
+      }
+    ]
   },
   {
     "id": 31,
@@ -772,7 +952,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud NAT provides outbound-only internet access."
+    "explanation": "Cloud NAT on a Cloud Router gives VMs without external IPs outbound-only internet access for updates. Peering and ingress firewall rules don't provide NAT.",
+    "refs": [
+      {
+        "title": "Cloud NAT overview",
+        "url": "https://docs.cloud.google.com/nat/docs/overview"
+      }
+    ]
   },
   {
     "id": 32,
@@ -797,7 +983,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Private Google Access is enabled per subnet."
+    "explanation": "Private Google Access, enabled per subnet, lets VMs with only internal IPs reach Google APIs and services such as Cloud Storage. Adding public IPs would work but defeats the intent.",
+    "refs": [
+      {
+        "title": "Private Google Access | Virtual Private Cloud",
+        "url": "https://docs.cloud.google.com/vpc/docs/private-google-access"
+      }
+    ]
   },
   {
     "id": 33,
@@ -822,7 +1014,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "It uses a single anycast IP address."
+    "explanation": "The global external Application Load Balancer distributes HTTPS traffic to backends in multiple regions through a single anycast IP address. Internal and regional passthrough balancers are regional.",
+    "refs": [
+      {
+        "title": "Cloud Load Balancing overview",
+        "url": "https://docs.cloud.google.com/load-balancing/docs/load-balancing-overview"
+      }
+    ]
   },
   {
     "id": 34,
@@ -847,7 +1045,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Passthrough load balancers preserve client IP addresses."
+    "explanation": "The internal passthrough Network Load Balancer handles internal TCP/UDP traffic in a region without proxying and preserves client IP addresses. Application and proxy balancers terminate connections.",
+    "refs": [
+      {
+        "title": "Cloud Load Balancing overview",
+        "url": "https://docs.cloud.google.com/load-balancing/docs/load-balancing-overview"
+      }
+    ]
   },
   {
     "id": 35,
@@ -872,7 +1076,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "A host project shares subnets with service projects."
+    "explanation": "Shared VPC lets a host project share subnets of one central network with service projects, managed by a network team. Peering every project or separate auto mode VPCs doesn't centralize control.",
+    "refs": [
+      {
+        "title": "Shared VPC | Virtual Private Cloud",
+        "url": "https://docs.cloud.google.com/vpc/docs/shared-vpc"
+      }
+    ]
   },
   {
     "id": 36,
@@ -897,7 +1107,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Infrastructure Manager runs Terraform as a managed service."
+    "explanation": "Deployment Manager is retired; Google recommends Terraform, and Infrastructure Manager runs Terraform as a managed service. Cloud Scheduler and Build triggers aren't IaC tools.",
+    "refs": [
+      {
+        "title": "Infrastructure Manager overview",
+        "url": "https://docs.cloud.google.com/infrastructure-manager/docs/overview"
+      }
+    ]
   },
   {
     "id": 37,
@@ -922,7 +1138,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Schema can be auto-detected with --autodetect."
+    "explanation": "bq load --source_format=CSV dataset.table gs://bucket/file.csv loads a CSV from Cloud Storage into a table; add --autodetect to infer the schema. bq query runs SQL instead.",
+    "refs": [
+      {
+        "title": "Batch load data | BigQuery",
+        "url": "https://docs.cloud.google.com/bigquery/docs/batch-loading-data"
+      }
+    ]
   },
   {
     "id": 38,
@@ -947,7 +1169,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Push and pull subscriptions are supported."
+    "explanation": "Pub/Sub decouples a web app from background workers by passing messages through topics and subscriptions (push or pull). DNS, Cloud Armor and Persistent Disk aren't messaging services.",
+    "refs": [
+      {
+        "title": "What is Pub/Sub?",
+        "url": "https://docs.cloud.google.com/pubsub/docs/overview"
+      }
+    ]
   },
   {
     "id": 39,
@@ -972,7 +1200,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Eventarc routes events to Cloud Run services and functions."
+    "explanation": "Cloud Run functions with a Cloud Storage trigger run code when an object lands in a bucket; Eventarc routes the events. Polling from GKE or a startup script is not event-driven.",
+    "refs": [
+      {
+        "title": "Eventarc overview",
+        "url": "https://docs.cloud.google.com/eventarc/docs/overview"
+      }
+    ]
   },
   {
     "id": 40,
@@ -997,7 +1231,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "HA uses a standby instance in a second zone."
+    "explanation": "Cloud SQL high availability uses a standby instance in a second zone for automatic failover. Read replicas scale reads and PITR restores data; neither fails over automatically as HA does.",
+    "refs": [
+      {
+        "title": "About high availability | Cloud SQL for MySQL",
+        "url": "https://docs.cloud.google.com/sql/docs/mysql/high-availability"
+      }
+    ]
   },
   {
     "id": 41,
@@ -1022,7 +1262,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "HA VPN offers a 99.99% SLA when configured with two tunnels."
+    "explanation": "Cloud VPN (HA VPN) links on-premises networks to a VPC over the internet with IPsec encryption, offering a 99.99% SLA with two tunnels. Dedicated Interconnect is a private physical link.",
+    "refs": [
+      {
+        "title": "Cloud VPN overview",
+        "url": "https://docs.cloud.google.com/network-connectivity/docs/vpn/concepts/overview"
+      }
+    ]
   },
   {
     "id": 42,
@@ -1047,7 +1293,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Service types include ClusterIP, NodePort and LoadBalancer."
+    "explanation": "A Kubernetes Service gives a set of pods a stable internal IP address (ClusterIP, with NodePort and LoadBalancer types). ConfigMap, Secret and PersistentVolumeClaim serve other purposes.",
+    "refs": [
+      {
+        "title": "Understand Kubernetes Services | GKE networking",
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/service"
+      }
+    ]
   },
   {
     "id": 43,
@@ -1072,7 +1324,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Google renamed Cloud Composer in April 2026."
+    "explanation": "Managed Service for Apache Airflow (formerly Cloud Composer) runs managed Airflow to schedule pipelines. Cloud Scheduler and Cloud Tasks aren't workflow DAG orchestrators.",
+    "refs": [
+      {
+        "title": "Managed Airflow overview | Managed Service for Apache Airflow",
+        "url": "https://docs.cloud.google.com/composer/docs/composer-3/composer-overview"
+      }
+    ]
   },
   {
     "id": 44,
@@ -1097,7 +1355,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Google Cloud NetApp Volumes is another managed file option."
+    "explanation": "Filestore provides managed NFS file shares for VMs and GKE. Cloud Storage is object storage and Bigtable is a NoSQL database.",
+    "refs": [
+      {
+        "title": "Filestore overview",
+        "url": "https://docs.cloud.google.com/filestore/docs/overview"
+      }
+    ]
   },
   {
     "id": 45,
@@ -1122,7 +1386,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Autopilot clusters are regional."
+    "explanation": "gcloud container clusters create-auto NAME --region REGION creates an Autopilot cluster, which is regional. The standard create command makes a Standard cluster.",
+    "refs": [
+      {
+        "title": "GKE Autopilot overview",
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview"
+      }
+    ]
   },
   {
     "id": 46,
@@ -1147,7 +1417,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Ops Agent combines logging and monitoring collection."
+    "explanation": "The Ops Agent collects memory metrics and application logs from Compute Engine VMs, combining logging and monitoring collection. SSM Agent is AWS.",
+    "refs": [
+      {
+        "title": "Ops Agent overview | Cloud Monitoring",
+        "url": "https://docs.cloud.google.com/monitoring/agent/ops-agent"
+      }
+    ]
   },
   {
     "id": 47,
@@ -1172,7 +1448,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Uptime checks run from multiple global locations."
+    "explanation": "An uptime check with an alerting policy tests a public site from global locations and notifies you when it stops responding. Budgets and log sinks don't probe availability.",
+    "refs": [
+      {
+        "title": "Create public uptime checks | Cloud Monitoring",
+        "url": "https://docs.cloud.google.com/monitoring/uptime-checks"
+      }
+    ]
   },
   {
     "id": 48,
@@ -1197,7 +1479,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sinks can also route to Cloud Storage, Pub/Sub or other log buckets."
+    "explanation": "A log sink routes log entries to destinations such as BigQuery, Cloud Storage or Pub/Sub for long-term analysis. Log-based metrics count entries rather than exporting them.",
+    "refs": [
+      {
+        "title": "Route log entries | Cloud Logging",
+        "url": "https://docs.cloud.google.com/logging/docs/routing/overview"
+      }
+    ]
   },
   {
     "id": 49,
@@ -1222,7 +1510,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Admin Activity logs can't be disabled and are free."
+    "explanation": "Admin Activity audit logs are always on, free and can't be disabled; they record administrative changes such as creating a VM. Data Access logs record reads and are off by default for most services.",
+    "refs": [
+      {
+        "title": "Cloud Audit Logs overview | Cloud Logging",
+        "url": "https://docs.cloud.google.com/logging/docs/audit"
+      }
+    ]
   },
   {
     "id": 50,
@@ -1247,7 +1541,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "BigQuery Data Access logs are enabled by default."
+    "explanation": "Data Access audit logs record reads and must usually be enabled to see who read Cloud Storage objects (BigQuery Data Access logs are on by default). Admin Activity logs cover configuration changes only.",
+    "refs": [
+      {
+        "title": "Cloud Audit Logs overview | Cloud Logging",
+        "url": "https://docs.cloud.google.com/logging/docs/audit"
+      }
+    ]
   },
   {
     "id": 51,
@@ -1272,7 +1572,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Backup and DR Service offers centralized backup management too."
+    "explanation": "A snapshot schedule attached to the disk takes automatic nightly snapshots with a retention period such as 14 days. Machine images made by hand or instance templates aren't scheduled backups.",
+    "refs": [
+      {
+        "title": "Create schedules for disk snapshots | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/disks/scheduled-snapshots"
+      }
+    ]
   },
   {
     "id": 52,
@@ -1297,7 +1603,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Canary updates can test a template on a subset of VMs."
+    "explanation": "A rolling update with maxUnavailable set to 0 replaces VMs gradually without reducing capacity, so there's no downtime; canary updates test a template on a subset. Recreating the group causes an outage.",
+    "refs": [
+      {
+        "title": "Automatically apply VM configuration updates in a MIG",
+        "url": "https://docs.cloud.google.com/compute/docs/instance-groups/rolling-out-updates-to-managed-instance-groups"
+      }
+    ]
   },
   {
     "id": 53,
@@ -1322,7 +1634,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A HorizontalPodAutoscaler adjusts replicas automatically."
+    "explanation": "kubectl scale deployment web --replicas=5 sets the deployment to five replicas; a HorizontalPodAutoscaler adjusts replicas automatically. Resizing the cluster changes nodes, not replicas."
   },
   {
     "id": 54,
@@ -1347,7 +1659,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Minimum instances reduce cold starts but cost more."
+    "explanation": "Setting a maximum number of instances caps Cloud Run scaling and therefore cost during traffic spikes. Minimum instances reduce cold starts but cost more.",
+    "refs": [
+      {
+        "title": "Set maximum instances for services | Cloud Run",
+        "url": "https://docs.cloud.google.com/run/docs/configuring/max-instances"
+      }
+    ]
   },
   {
     "id": 55,
@@ -1372,7 +1690,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Tags give each revision a test URL."
+    "explanation": "Cloud Run splits traffic by assigning percentages to revisions, and tags give each revision a test URL. You don't need a second project or to delete the old revision.",
+    "refs": [
+      {
+        "title": "Rollbacks, gradual rollouts, and traffic migration | Cloud Run",
+        "url": "https://docs.cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration"
+      }
+    ]
   },
   {
     "id": 56,
@@ -1397,7 +1721,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use the Logging query language to filter by resource and severity."
+    "explanation": "Logs Explorer is the console tool for searching and filtering log entries with the Logging query language. Metrics Explorer charts metrics, not log entries."
   },
   {
     "id": 57,
@@ -1422,7 +1746,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Alerting policies can use log-based metrics."
+    "explanation": "Log-based metrics create counters or distributions from matching log entries (for example 'error' messages), and alerting policies can use them. Sinks export logs instead.",
+    "refs": [
+      {
+        "title": "Log-based metrics overview | Cloud Logging",
+        "url": "https://docs.cloud.google.com/logging/docs/logs-based-metrics"
+      }
+    ]
   },
   {
     "id": 58,
@@ -1447,7 +1777,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Retention can be configured on custom log buckets."
+    "explanation": "The _Default log bucket keeps logs for 30 days by default; retention is configurable on custom buckets. It is not 7 days or forever.",
+    "refs": [
+      {
+        "title": "Configure log buckets | Cloud Logging",
+        "url": "https://docs.cloud.google.com/logging/docs/buckets"
+      }
+    ]
   },
   {
     "id": 59,
@@ -1472,7 +1808,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "PITR requires automated backups and binary logging (MySQL) or WAL archiving (PostgreSQL)."
+    "explanation": "Point-in-time recovery restores a Cloud SQL instance to a chosen moment, such as 10 minutes before a delete. It needs automated backups plus binary logging (MySQL) or WAL archiving (PostgreSQL); read replicas don't undo deletes.",
+    "refs": [
+      {
+        "title": "Perform point-in-time recovery (PITR) | Cloud SQL for MySQL",
+        "url": "https://docs.cloud.google.com/sql/docs/mysql/backup-recovery/pitr"
+      }
+    ]
   },
   {
     "id": 60,
@@ -1497,7 +1839,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Release channels control how quickly new versions arrive."
+    "explanation": "Node auto-upgrade with maintenance windows keeps GKE nodes current with minimal disruption, and release channels control how quickly new versions arrive. Manual SSH or recreating clusters is unnecessary."
   },
   {
     "id": 61,
@@ -1522,7 +1864,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Add --filter to narrow results, e.g. status=RUNNING."
+    "explanation": "gcloud compute instances list shows VMs in the current project; add --filter to narrow, such as status=RUNNING. gcloud projects list lists projects, not VMs."
   },
   {
     "id": 62,
@@ -1547,7 +1889,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Asset Inventory supports export to BigQuery."
+    "explanation": "Cloud Asset Inventory keeps a historical inventory of resources and IAM policies across projects, with export to BigQuery. Monitoring dashboards and billing reports don't inventory resources.",
+    "refs": [
+      {
+        "title": "Cloud Asset Inventory overview",
+        "url": "https://docs.cloud.google.com/asset-inventory/docs/overview"
+      }
+    ]
   },
   {
     "id": 63,
@@ -1572,7 +1920,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Trace is part of Google Cloud Observability."
+    "explanation": "Cloud Trace shows latency across distributed requests so you can find bottlenecks. Logging alone doesn't show request spans, and billing and asset tools aren't for latency.",
+    "refs": [
+      {
+        "title": "Cloud Trace overview",
+        "url": "https://docs.cloud.google.com/trace/docs/overview"
+      }
+    ]
   },
   {
     "id": 64,
@@ -1597,7 +1951,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Persistent disks can be resized while attached."
+    "explanation": "Persistent disks can be resized while attached, so resize the disk and then grow the file system. This is far less disruptive than recreating the VM or changing machine type.",
+    "refs": [
+      {
+        "title": "Choose a disk type | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/disks"
+      }
+    ]
   },
   {
     "id": 65,
@@ -1622,7 +1982,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Channels include email, SMS, Slack, PagerDuty and Pub/Sub."
+    "explanation": "Notification channels on alerting policies route alerts to the right people (email, SMS, Slack, PagerDuty, Pub/Sub). Log sinks and budgets aren't alert routing."
   },
   {
     "id": 66,
@@ -1647,7 +2007,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Autopilot handles node scaling automatically."
+    "explanation": "The GKE cluster autoscaler adds nodes when pods can't be scheduled for lack of resources. The Horizontal Pod Autoscaler changes replica counts; Autopilot handles node scaling for you.",
+    "refs": [
+      {
+        "title": "About GKE cluster autoscaling",
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler"
+      }
+    ]
   },
   {
     "id": 67,
@@ -1672,7 +2038,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Lifecycle rules can also change storage classes."
+    "explanation": "Object Lifecycle Management rules delete or change the storage class of objects based on age, such as deleting after 365 days. Bucket Lock prevents deletion instead.",
+    "refs": [
+      {
+        "title": "Object Lifecycle Management | Cloud Storage",
+        "url": "https://docs.cloud.google.com/storage/docs/lifecycle"
+      }
+    ]
   },
   {
     "id": 68,
@@ -1697,7 +2069,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Revisions are immutable, making rollbacks quick."
+    "explanation": "Revisions are immutable, so routing 100% of traffic back to the previous Cloud Run revision restores service immediately. Redeploying from scratch is slower.",
+    "refs": [
+      {
+        "title": "Rollbacks, gradual rollouts, and traffic migration | Cloud Run",
+        "url": "https://docs.cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration"
+      }
+    ]
   },
   {
     "id": 69,
@@ -1722,7 +2100,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Database Center surfaces health, security and performance issues."
+    "explanation": "Database Center gives a fleet-wide view of Cloud SQL, AlloyDB and Spanner with health, security and performance recommendations. Query Insights covers a single instance's queries."
   },
   {
     "id": 70,
@@ -1747,7 +2125,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Alerts can notify you of incidents affecting your resources."
+    "explanation": "Personalized Service Health shows incidents that affect your specific projects, and can alert you. The public status dashboard shows general Google Cloud status.",
+    "refs": [
+      {
+        "title": "Personalized Service Health overview",
+        "url": "https://docs.cloud.google.com/service-health/docs/overview"
+      }
+    ]
   },
   {
     "id": 71,
@@ -1772,7 +2156,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "OS Login ties SSH access to IAM roles and supports 2FA."
+    "explanation": "OS Login ties Linux SSH access to IAM roles (with optional 2FA), so you don't manage SSH keys in metadata. Shared passwords and port 3389 (RDP) are the wrong approach.",
+    "refs": [
+      {
+        "title": "About OS Login | Compute Engine",
+        "url": "https://docs.cloud.google.com/compute/docs/oslogin"
+      }
+    ]
   },
   {
     "id": 72,
@@ -1797,7 +2187,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Attached service accounts get short-lived credentials from the metadata server."
+    "explanation": "Attach a service account with an appropriate storage role to the VM; it receives short-lived credentials from the metadata server. Copying passwords or downloading keys creates leakable secrets.",
+    "refs": [
+      {
+        "title": "Attach service accounts to resources | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/attach-service-accounts"
+      }
+    ]
   },
   {
     "id": 73,
@@ -1822,7 +2218,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use attached service accounts, impersonation or Workload Identity Federation instead."
+    "explanation": "Service account keys are long-lived credentials that can leak. Prefer attached service accounts, impersonation or Workload Identity Federation; keys don't expire hourly or get required everywhere.",
+    "refs": [
+      {
+        "title": "Best practices for managing service account keys",
+        "url": "https://docs.cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys"
+      }
+    ]
   },
   {
     "id": 74,
@@ -1847,7 +2249,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Federation exchanges external tokens for short-lived Google credentials."
+    "explanation": "Workload Identity Federation lets AWS workloads exchange their identity tokens for short-lived Google credentials, with no service account keys to store. A key stored in AWS Secrets Manager is still a long-lived key.",
+    "refs": [
+      {
+        "title": "Workload Identity Federation | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/workload-identity-federation"
+      }
+    ]
   },
   {
     "id": 75,
@@ -1872,7 +2280,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Impersonation avoids distributing keys."
+    "explanation": "Service Account Token Creator or Service Account User allows a principal to impersonate or act as a service account, avoiding the distribution of keys.",
+    "refs": [
+      {
+        "title": "Service account impersonation | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/service-account-impersonation"
+      }
+    ]
   },
   {
     "id": 76,
@@ -1897,7 +2311,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Kubernetes service accounts map to IAM principals."
+    "explanation": "Workload Identity Federation for GKE maps Kubernetes service accounts to IAM principals so pods call Google APIs without keys. Embedding keys or API keys in images is insecure.",
+    "refs": [
+      {
+        "title": "About Workload Identity Federation for GKE",
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/workload-identity"
+      }
+    ]
   },
   {
     "id": 77,
@@ -1922,7 +2342,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "VPC networks have an implied deny ingress and allow egress rule."
+    "explanation": "Ingress rules control traffic entering VMs. VPC networks have implied rules that deny all ingress and allow all egress.",
+    "refs": [
+      {
+        "title": "VPC firewall rules",
+        "url": "https://docs.cloud.google.com/firewall/docs/firewalls"
+      }
+    ]
   },
   {
     "id": 78,
@@ -1947,7 +2373,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Secure tags with Cloud NGFW policies offer IAM-controlled targeting."
+    "explanation": "Firewall rules can target VMs by network tags or service accounts, so you can scope a rule to web servers only. Secure tags with Cloud NGFW policies add IAM-controlled targeting.",
+    "refs": [
+      {
+        "title": "VPC firewall rules",
+        "url": "https://docs.cloud.google.com/firewall/docs/firewalls"
+      },
+      {
+        "title": "Firewall policies and rules | Cloud Next Generation Firewall",
+        "url": "https://docs.cloud.google.com/firewall/docs/firewall-policies-overview"
+      }
+    ]
   },
   {
     "id": 79,
@@ -1972,7 +2408,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Policies are evaluated before VPC firewall rules."
+    "explanation": "Hierarchical firewall policies apply rules across many projects from the organization or folder level, and are evaluated before VPC firewall rules. Per-project rules don't centralize control.",
+    "refs": [
+      {
+        "title": "Firewall policies and rules | Cloud Next Generation Firewall",
+        "url": "https://docs.cloud.google.com/firewall/docs/firewall-policies-overview"
+      }
+    ]
   },
   {
     "id": 80,
@@ -1997,7 +2439,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "IAP TCP forwarding also secures SSH and RDP without public IPs."
+    "explanation": "Identity-Aware Proxy (IAP) checks user identity and context before allowing access to internal apps, and IAP TCP forwarding secures SSH and RDP without public IPs. Cloud Armor and CDN don't verify identity this way.",
+    "refs": [
+      {
+        "title": "Identity-Aware Proxy overview",
+        "url": "https://docs.cloud.google.com/iap/docs/concepts-overview"
+      }
+    ]
   },
   {
     "id": 81,
@@ -2022,7 +2470,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Grant secretAccessor only to workloads that need each secret."
+    "explanation": "Secret Manager stores API keys and passwords with versioning and IAM control; grant secretAccessor only to the workloads that need each secret. Metadata and public buckets are not secure.",
+    "refs": [
+      {
+        "title": "Secret Manager overview",
+        "url": "https://docs.cloud.google.com/secret-manager/docs/overview"
+      }
+    ]
   },
   {
     "id": 82,
@@ -2047,7 +2501,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Customer-supplied keys (CSEK) are another option for some services."
+    "explanation": "Customer-managed encryption keys (CMEK) in Cloud KMS let a company control the keys protecting BigQuery and Cloud Storage data. CSEK is another option for some services.",
+    "refs": [
+      {
+        "title": "Customer-managed encryption keys (CMEK) | Cloud KMS",
+        "url": "https://docs.cloud.google.com/kms/docs/cmek"
+      }
+    ]
   },
   {
     "id": 83,
@@ -2072,7 +2532,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Privileged Access Manager supports just-in-time access requests."
+    "explanation": "IAM Conditions with an expiry, or Privileged Access Manager just-in-time grants, give temporary elevated access that ends automatically. Permanent Owner or shared keys do not expire.",
+    "refs": [
+      {
+        "title": "Overview of IAM Conditions",
+        "url": "https://docs.cloud.google.com/iam/docs/conditions-overview"
+      }
+    ]
   },
   {
     "id": 84,
@@ -2097,7 +2563,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Perimeters restrict access to Google-managed services."
+    "explanation": "VPC Service Controls creates perimeters around Google-managed services such as BigQuery and Cloud Storage to reduce data exfiltration. Cloud Armor and firewall egress rules don't cover API access.",
+    "refs": [
+      {
+        "title": "Overview of VPC Service Controls",
+        "url": "https://docs.cloud.google.com/vpc-service-controls/docs/overview"
+      }
+    ]
   },
   {
     "id": 85,
@@ -2122,7 +2594,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Signed URLs are another option for individual objects."
+    "explanation": "Grant Storage Object Viewer on that bucket with an IAM condition that expires in a week. Organization-wide Viewer is far too broad, and a public bucket exposes the data to everyone.",
+    "refs": [
+      {
+        "title": "Overview of IAM Conditions",
+        "url": "https://docs.cloud.google.com/iam/docs/conditions-overview"
+      },
+      {
+        "title": "Use IAM securely",
+        "url": "https://docs.cloud.google.com/iam/docs/using-iam-securely"
+      }
+    ]
   },
   {
     "id": 86,
@@ -2147,7 +2629,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use groups instead of individual users where possible."
+    "explanation": "gcloud projects add-iam-policy-binding PROJECT --member=user:EMAIL --role=ROLE adds a role binding on the project. Prefer groups over individual users where possible.",
+    "refs": [
+      {
+        "title": "IAM roles and permissions index | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/understanding-roles"
+      }
+    ]
   },
   {
     "id": 87,
@@ -2172,7 +2660,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Recommendations are based on 90 days of permission usage."
+    "explanation": "IAM Recommender's role recommendations suggest removing unused permissions based on 90 days of usage. Policy Troubleshooter explains access decisions rather than recommending changes.",
+    "refs": [
+      {
+        "title": "Overview of role recommendations | Policy Intelligence",
+        "url": "https://docs.cloud.google.com/iam/docs/recommender-overview"
+      }
+    ]
   },
   {
     "id": 88,
@@ -2197,7 +2691,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Cloud NGFW Enterprise adds intrusion prevention."
+    "explanation": "Cloud NGFW firewall policy rules can use threat intelligence to block traffic to or from known malicious IP addresses; Cloud NGFW Enterprise adds intrusion prevention.",
+    "refs": [
+      {
+        "title": "Firewall policies and rules | Cloud Next Generation Firewall",
+        "url": "https://docs.cloud.google.com/firewall/docs/firewall-policies-overview"
+      }
+    ]
   },
   {
     "id": 89,
@@ -2222,6 +2722,16 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use separate service accounts per workload."
+    "explanation": "Least privilege guides service account roles: use separate service accounts per workload with only the roles they need. Granting Editor everywhere, sharing one account or creating keys violates it.",
+    "refs": [
+      {
+        "title": "Use IAM securely",
+        "url": "https://docs.cloud.google.com/iam/docs/using-iam-securely"
+      },
+      {
+        "title": "Attach service accounts to resources | IAM",
+        "url": "https://docs.cloud.google.com/iam/docs/attach-service-accounts"
+      }
+    ]
   }
 ]
