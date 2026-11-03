@@ -22,7 +22,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The initramfs (initrd) provides drivers needed to mount the real root file system before handing off to systemd."
+    "explanation": "After power-on, firmware (UEFI/BIOS) starts the bootloader (GRUB 2), which loads the kernel and initramfs, and the kernel then hands off to systemd, which brings up targets and services. The initramfs supplies drivers needed to mount the real root file system."
   },
   {
     "id": 2,
@@ -47,7 +47,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "RHEL: grub2-mkconfig -o /boot/grub2/grub.cfg (or grubby --update-kernel ALL --args ...). Debian/Ubuntu: update-grub."
+    "explanation": "On GRUB 2 systems, edit the defaults in /etc/default/grub (GRUB_CMDLINE_LINUX) and then regenerate the configuration with grub2-mkconfig or update-grub. Edits made directly to grub.cfg are overwritten the next time it is regenerated."
   },
   {
     "id": 3,
@@ -72,7 +72,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "dracut -f regenerates the initramfs for the running kernel. Debian uses update-initramfs, and older systems mkinitrd."
+    "explanation": "dracut builds the initramfs on RHEL-family systems; dracut -f regenerates it for the running kernel after a storage driver change. Debian uses update-initramfs. mkfs, modinfo and depmod don't build an initramfs."
   },
   {
     "id": 4,
@@ -97,7 +97,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use modprobe -r to unload. Blacklist modules in /etc/modprobe.d/*.conf; load at boot via /etc/modules-load.d/."
+    "explanation": "modprobe loads a module and resolves and loads its dependencies, while insmod loads a single file with no dependency handling. modprobe -r unloads; blacklist modules in /etc/modprobe.d.",
+    "refs": [
+      {
+        "title": "modprobe(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/modprobe.8.html"
+      }
+    ]
   },
   {
     "id": 5,
@@ -122,7 +128,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "lspci lists PCI devices, and -k adds the kernel driver in use and the available modules. Other hardware tools: lsusb, lshw, dmidecode (firmware/DMI tables), lscpu, dmesg."
+    "explanation": "lspci lists PCI devices, and -k adds the kernel driver in use and available modules. lsusb handles USB, lscpu the CPU, and dmidecode reads firmware (DMI) tables.",
+    "refs": [
+      {
+        "title": "lspci(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/lspci.8.html"
+      }
+    ]
   },
   {
     "id": 6,
@@ -147,7 +159,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "PV → VG → LV → file system → mount. Check with pvs, vgs, lvs."
+    "explanation": "LVM is built bottom-up: pvcreate on the disk, vgcreate to make a volume group, lvcreate for the logical volume, then mkfs and mount. Putting a file system on the raw disk first would prevent using it as a physical volume.",
+    "refs": [
+      {
+        "title": "lvextend(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/lvextend.8.html"
+      },
+      {
+        "title": "Managing storage devices - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_storage_devices/index"
+      }
+    ]
   },
   {
     "id": 7,
@@ -172,7 +194,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "-r calls the right resizer (xfs_growfs for XFS, resize2fs for ext4). +5G adds; 5G sets an absolute size."
+    "explanation": "lvextend -r -L +5G grows the LV and, with -r, also resizes the file system using the right tool (xfs_growfs for XFS, resize2fs for ext4). +5G adds 5 GiB while 5G sets an absolute size, and without -r the file system stays the old size.",
+    "refs": [
+      {
+        "title": "lvextend(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/lvextend.8.html"
+      }
+    ]
   },
   {
     "id": 8,
@@ -197,7 +225,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "XFS is the RHEL default. Grow it while mounted with xfs_growfs /mountpoint."
+    "explanation": "XFS can be grown while mounted (xfs_growfs) but cannot be shrunk; ext4 can be both grown and shrunk, with the file system unmounted for shrinking. XFS is the RHEL default.",
+    "refs": [
+      {
+        "title": "Managing storage devices - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_storage_devices/index"
+      }
+    ]
   },
   {
     "id": 9,
@@ -222,7 +256,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Fields: device, mount point, type, options, dump, fsck order. Find UUIDs with blkid or lsblk -f. Test with mount -a or findmnt --verify."
+    "explanation": "An fstab line has six fields in order: device, mount point, type, options, dump and fsck order, so UUID=... /data xfs defaults 0 0 is correct. Find UUIDs with blkid or lsblk -f and test with mount -a before rebooting.",
+    "refs": [
+      {
+        "title": "fstab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/fstab.5.html"
+      }
+    ]
   },
   {
     "id": 10,
@@ -247,7 +287,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "noexec stops binaries on that file system from being run directly. Hardening /tmp often uses nodev,nosuid,noexec."
+    "explanation": "noexec stops binaries on that file system from being run directly. nosuid ignores setuid bits, nodev ignores device files and ro makes it read-only. Hardening /tmp commonly uses nodev,nosuid,noexec.",
+    "refs": [
+      {
+        "title": "mount(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/mount.8.html"
+      }
+    ]
   },
   {
     "id": 11,
@@ -272,7 +318,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Millions of tiny files (such as session or cache files) can use all inodes. Delete them or rebuild the file system with more inodes."
+    "explanation": "When writes fail with 'No space left on device' but df -h shows free space, check inodes with df -i. Millions of small files can exhaust the inode table even though blocks remain free.",
+    "refs": [
+      {
+        "title": "mount(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/mount.8.html"
+      }
+    ]
   },
   {
     "id": 12,
@@ -297,7 +349,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check status in /proc/mdstat or mdadm --detail /dev/md0. RAID 1 mirrors; RAID 5 stripes with parity; RAID 10 mirrors and stripes."
+    "explanation": "mdadm --create builds the array; --level=1 is a mirror with two devices. Watch the status in /proc/mdstat or mdadm --detail. RAID 5 stripes with parity and RAID 10 mirrors then stripes; --assemble only reactivates existing arrays.",
+    "refs": [
+      {
+        "title": "mdadm(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/mdadm.8.html"
+      }
+    ]
   },
   {
     "id": 13,
@@ -322,7 +380,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "_netdev waits for the network. SMB shares use //server/share with type cifs and a credentials file."
+    "explanation": "An NFS entry in fstab uses server:/export as the device, the nfs type and _netdev so mounting waits for the network. The //server/share form is for SMB/CIFS.",
+    "refs": [
+      {
+        "title": "fstab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/fstab.5.html"
+      }
+    ]
   },
   {
     "id": 14,
@@ -347,7 +411,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Example: tmpfs /tmp tmpfs size=2G,nodev,nosuid 0 0."
+    "explanation": "tmpfs keeps its contents in RAM (and swap), so everything disappears at reboot, and you can cap it with size=. It is fast and needs no partition.",
+    "refs": [
+      {
+        "title": "fstab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/fstab.5.html"
+      },
+      {
+        "title": "mount(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/mount.8.html"
+      }
+    ]
   },
   {
     "id": 15,
@@ -372,7 +446,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Modify a profile with nmcli con mod <name> ipv4.addresses ... ipv4.method manual, then nmcli con up <name>."
+    "explanation": "nmcli connection show lists NetworkManager connection profiles and their devices. Change one with nmcli con mod and activate it with nmcli con up. netplan and ifconfig aren't NetworkManager tools."
   },
   {
     "id": 16,
@@ -397,7 +471,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Netplan renders configuration for systemd-networkd or NetworkManager. netplan try rolls back automatically if you lose connectivity."
+    "explanation": "Ubuntu Server defines networking in YAML files under /etc/netplan, applied with netplan apply. netplan try rolls back automatically if connectivity is lost. /etc/sysconfig/network-scripts is the older RHEL layout.",
+    "refs": [
+      {
+        "title": "Netplan documentation",
+        "url": "https://netplan.readthedocs.io/en/stable/"
+      }
+    ]
   },
   {
     "id": 17,
@@ -422,7 +502,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "With hosts: files dns, a matching /etc/hosts entry wins."
+    "explanation": "/etc/nsswitch.conf controls lookup order; with hosts: files dns, a matching /etc/hosts entry wins before DNS is queried. resolv.conf only lists DNS servers.",
+    "refs": [
+      {
+        "title": "nsswitch.conf(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/nsswitch.conf.5.html"
+      }
+    ]
   },
   {
     "id": 18,
@@ -447,7 +533,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Login shells read /etc/profile and ~/.bash_profile (which usually sources ~/.bashrc). System-wide snippets go in /etc/profile.d/."
+    "explanation": "Personal aliases for interactive Bash shells belong in ~/.bashrc. Login shells read /etc/profile and ~/.bash_profile, which usually sources ~/.bashrc, and system-wide snippets go in /etc/profile.d.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 19,
@@ -472,7 +564,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "i enters insert mode, Esc returns to normal mode, /text searches, dd deletes a line, u undoes."
+    "explanation": "In vim, press Esc to leave insert mode and type :wq then Enter to write and quit. :q! quits without saving; Ctrl+S and Ctrl+X are not vim commands."
   },
   {
     "id": 20,
@@ -497,7 +589,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use -J for xz and -j for bzip2. cpio is an older archive format used inside initramfs and RPMs."
+    "explanation": "tar -czpf creates a gzip-compressed archive and -p preserves permissions. cp -r doesn't compress, gzip -r compresses files individually and dd copies raw blocks.",
+    "refs": [
+      {
+        "title": "tar(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/tar.1.html"
+      }
+    ]
   },
   {
     "id": 21,
@@ -522,7 +620,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "-a is archive mode (recursive, permissions, times, links). --delete removes files deleted at the source. The trailing slash copies the contents."
+    "explanation": "rsync -a copies recursively while preserving attributes and transfers only changed files; --delete mirrors deletions, and the trailing slash on the source copies the directory's contents. scp -r recopies everything.",
+    "refs": [
+      {
+        "title": "rsync(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/rsync.1.html"
+      }
+    ]
   },
   {
     "id": 22,
@@ -547,7 +651,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "dd copies raw blocks from one device or file to another, so the image includes partitions, boot data and unused space. Example: dd if=/dev/sdb of=/backup/sdb.img bs=4M status=progress. ddrescue is better for failing disks."
+    "explanation": "dd copies raw blocks, so the image includes partitions, boot data and unused space, for example dd if=/dev/sdb of=sdb.img bs=4M status=progress. rsync and tar copy files, not blocks. ddrescue is better for failing disks.",
+    "refs": [
+      {
+        "title": "dd(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/dd.1.html"
+      }
+    ]
   },
   {
     "id": 23,
@@ -572,7 +682,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "libvirt manages them, using virsh at the command line and virt-manager in a GUI."
+    "explanation": "KVM is the kernel's hardware virtualization module and QEMU emulates devices and runs the VM; libvirt manages them with virsh or virt-manager. KVM is not a container runtime."
   },
   {
     "id": 24,
@@ -597,7 +707,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Other verbs: start, shutdown, destroy (force off), autostart, snapshot-create-as, dumpxml."
+    "explanation": "virsh list --all shows every libvirt domain, including those that are shut off. Plain virsh list shows only running ones."
   },
   {
     "id": 25,
@@ -622,7 +732,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Create one with qemu-img create -f qcow2 disk.qcow2 40G; convert with qemu-img convert."
+    "explanation": "qcow2 is QEMU's copy-on-write image format with thin provisioning and snapshot support (qemu-img create -f qcow2). Raw images have neither."
   },
   {
     "id": 26,
@@ -647,7 +757,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "It's useful for labs and CI but needs CPU support enabled on the host."
+    "explanation": "Nested virtualization lets a hypervisor run inside a virtual machine, useful for labs and CI. It requires CPU virtualization support to be exposed to the VM."
   },
   {
     "id": 27,
@@ -672,7 +782,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Front ends: dnf/yum and zypper for RPM, apt for Debian."
+    "explanation": "RHEL, Fedora and SUSE use RPM packages (dnf/yum, zypper), while Debian and Ubuntu use .deb packages managed by dpkg and apt. dpkg isn't used by RHEL."
   },
   {
     "id": 28,
@@ -697,7 +807,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "/sys exposes devices and drivers; /dev holds device nodes; /run holds runtime data."
+    "explanation": "/proc is a virtual file system exposing kernel and process information; /sys exposes devices and drivers, /dev holds device nodes and /run holds runtime data. /var and /opt are real storage.",
+    "refs": [
+      {
+        "title": "hier(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/hier.7.html"
+      }
+    ]
   },
   {
     "id": 29,
@@ -722,7 +838,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Wayland replaces the X11 protocol; most major desktops now default to a Wayland session. Display managers (GDM, SDDM, LightDM) handle graphical login; window managers and compositors draw windows."
+    "explanation": "Wayland is the modern display protocol replacing X11 on most distributions. GDM, SDDM and LightDM are display managers for graphical login, and GNOME is a desktop environment."
   },
   {
     "id": 30,
@@ -747,7 +863,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "AArch64 (also shown as arm64) is the 64-bit ARM architecture. Check with uname -m or lscpu."
+    "explanation": "AArch64 (arm64) is the 64-bit ARM architecture; x86_64 is 64-bit Intel/AMD and i686 is 32-bit x86. Check yours with uname -m or lscpu.",
+    "refs": [
+      {
+        "title": "lscpu(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/lscpu.1.html"
+      }
+    ]
   },
   {
     "id": 31,
@@ -772,7 +894,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "PXE uses DHCP and TFTP/HTTP to load a bootloader, often combined with Kickstart or cloud-init for unattended installs."
+    "explanation": "PXE boots a computer over the network (DHCP plus TFTP or HTTP) and is often combined with Kickstart or cloud-init for unattended installs. It isn't a USB boot or disk encryption."
   },
   {
     "id": 32,
@@ -797,7 +919,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Combine with sort: du -sh /var/* | sort -h."
+    "explanation": "du -sh /var/* shows the total size of each subdirectory; pipe to sort -h to rank them. df reports file system usage, not directory sizes."
   },
   {
     "id": 33,
@@ -822,7 +944,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Never run fsck on a mounted file system. Use xfs_repair for XFS."
+    "explanation": "fsck.ext4 (e2fsck) checks and repairs an unmounted ext4 file system; never run it on a mounted one. XFS uses xfs_repair instead.",
+    "refs": [
+      {
+        "title": "fsck(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/fsck.8.html"
+      }
+    ]
   },
   {
     "id": 34,
@@ -847,7 +975,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "export EDITOR=vim in ~/.bashrc."
+    "explanation": "EDITOR (or VISUAL) names the default editor used by crontab -e and visudo; set it with export EDITOR=vim in ~/.bashrc. PATH and SHELL don't select editors.",
+    "refs": [
+      {
+        "title": "crontab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/crontab.5.html"
+      }
+    ]
   },
   {
     "id": 35,
@@ -872,7 +1006,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "-r creates a system account with a low UID. Service accounts shouldn't have interactive shells."
+    "explanation": "useradd -r creates a system account with a low UID, -s /sbin/nologin denies interactive login and -M skips the home directory. Service accounts shouldn't have shells.",
+    "refs": [
+      {
+        "title": "useradd(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/useradd.8.html"
+      }
+    ]
   },
   {
     "id": 36,
@@ -897,7 +1037,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "chage -M max days, -m min days, -W warning days, -E expiry date, -l lists settings. Defaults live in /etc/login.defs."
+    "explanation": "chage -d 0 sets the last password change to the epoch, so the user must set a new password at next login. -E sets the account expiry, and passwd -l only locks the password.",
+    "refs": [
+      {
+        "title": "chage(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chage.1.html"
+      }
+    ]
   },
   {
     "id": 37,
@@ -922,7 +1068,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Also expire the account (chage -E 0) to block key-based logins, since -L only locks the password."
+    "explanation": "usermod -L (or passwd -l) locks the password, preserving files, but SSH key logins can still work, so also expire the account with chage -E 0. userdel -r would delete the home directory.",
+    "refs": [
+      {
+        "title": "usermod(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/usermod.8.html"
+      },
+      {
+        "title": "chage(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chage.1.html"
+      }
+    ]
   },
   {
     "id": 38,
@@ -947,7 +1103,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Add a standard .bashrc or README to /etc/skel; useradd -m copies it."
+    "explanation": "Files in /etc/skel are copied into each new home directory, so a standard .bashrc or README placed there reaches every user created with useradd -m.",
+    "refs": [
+      {
+        "title": "useradd(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/useradd.8.html"
+      }
+    ]
   },
   {
     "id": 39,
@@ -972,7 +1134,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Only root can read /etc/shadow."
+    "explanation": "/etc/shadow holds password hashes and aging information and is readable only by root. /etc/passwd has no hashes, and login.defs holds defaults.",
+    "refs": [
+      {
+        "title": "passwd(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/passwd.5.html"
+      },
+      {
+        "title": "chage(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chage.1.html"
+      }
+    ]
   },
   {
     "id": 40,
@@ -997,7 +1169,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "ps -ef shows PID and PPID. pstree shows the hierarchy."
+    "explanation": "PPID is the process ID of the parent process. ps -ef shows PID and PPID and pstree shows the tree. It's not a priority or a port.",
+    "refs": [
+      {
+        "title": "ps(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ps.1.html"
+      }
+    ]
   },
   {
     "id": 41,
@@ -1022,7 +1200,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Zombies use no CPU or memory but take a PID. Fix the parent or restart it."
+    "explanation": "State Z is a zombie: the process has exited but its parent hasn't collected its exit status. It uses no CPU or memory but occupies a PID; fix or restart the parent.",
+    "refs": [
+      {
+        "title": "ps(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ps.1.html"
+      }
+    ]
   },
   {
     "id": 42,
@@ -1047,7 +1231,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Nice values range from -20 (highest priority) to 19 (lowest). Only root can lower a nice value (raise priority)."
+    "explanation": "renice -n 10 -p 2211 changes the priority of a running process. Nice ranges from -20 (highest priority) to 19 (lowest), and only root can lower a value. nice only starts new commands.",
+    "refs": [
+      {
+        "title": "renice(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/renice.1.html"
+      }
+    ]
   },
   {
     "id": 43,
@@ -1072,7 +1262,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "jobs lists jobs; fg %1 resumes job 1 in the foreground. nohup keeps a command running after logout."
+    "explanation": "Press Ctrl+Z to suspend the foreground job, then run bg to continue it in the background; jobs lists jobs and fg resumes. Ctrl+C would terminate it, and nohup keeps it alive after logout.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 44,
@@ -1097,7 +1293,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "SIGTERM lets a program clean up. SIGKILL can't be caught. SIGHUP often tells daemons to reread their config."
+    "explanation": "kill sends SIGTERM (15) by default, letting the program clean up. SIGKILL (9) can't be caught, SIGHUP (1) often means reread config and SIGINT (2) is Ctrl+C.",
+    "refs": [
+      {
+        "title": "signal(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/signal.7.html"
+      }
+    ]
   },
   {
     "id": 45,
@@ -1122,7 +1324,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Fields: minute hour day-of-month month day-of-week. Edit with crontab -e; list with crontab -l."
+    "explanation": "Crontab fields are minute, hour, day-of-month, month, day-of-week, so 30 2 * * 1-5 runs at 2:30 AM Monday through Friday. Edit with crontab -e.",
+    "refs": [
+      {
+        "title": "crontab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/crontab.5.html"
+      }
+    ]
   },
   {
     "id": 46,
@@ -1147,7 +1355,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "anacron tracks the last run of daily, weekly, and monthly jobs. systemd timers can do the same with Persistent=true."
+    "explanation": "anacron runs daily, weekly and monthly jobs that were missed while a machine was off, which suits laptops. systemd timers can do the same with Persistent=true; cron skips missed runs.",
+    "refs": [
+      {
+        "title": "systemd.timer - Timer unit configuration",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html"
+      }
+    ]
   },
   {
     "id": 47,
@@ -1172,7 +1386,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "atq lists pending jobs; atrm removes them."
+    "explanation": "at schedules a one-time job, for example echo \"script\" | at 23:00. atq lists pending jobs and atrm removes them; cron is for repeating jobs."
   },
   {
     "id": 48,
@@ -1197,7 +1411,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Repos set gpgcheck=1 and gpgkey= in /etc/yum.repos.d/*.repo. Debian/Ubuntu use signed-by keyrings in /etc/apt/keyrings."
+    "explanation": "rpm --import adds a repository's GPG key on RHEL-family systems, and repos set gpgcheck=1 with a gpgkey= URL. Debian-family systems use signed-by keyrings rather than apt-key."
   },
   {
     "id": 49,
@@ -1222,7 +1436,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "rpm -qf /path shows the owning package of an installed file. On Debian, use dpkg -S /path or apt-file search."
+    "explanation": "dnf provides /usr/bin/dig finds which package supplies a file, even if it isn't installed. rpm -qf /path works for installed files and dpkg -S is the Debian equivalent."
   },
   {
     "id": 50,
@@ -1247,7 +1461,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "update-alternatives --config java presents a menu of installed options."
+    "explanation": "update-alternatives (alternatives on RHEL) manages symlinks for commands with several installed versions; --config java lets you choose the default."
   },
   {
     "id": 51,
@@ -1272,7 +1486,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Pair backup.timer with backup.service. OnCalendar=daily; Persistent=true runs missed jobs. List with systemctl list-timers."
+    "explanation": "A .timer unit triggers a matching .service on a schedule, similar to cron, with OnCalendar= and Persistent=true to run missed jobs. List them with systemctl list-timers.",
+    "refs": [
+      {
+        "title": "systemd.timer - Timer unit configuration",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html"
+      }
+    ]
   },
   {
     "id": 52,
@@ -1297,7 +1517,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use systemctl edit name to create a drop-in override; it reloads automatically."
+    "explanation": "After editing a unit file, run systemctl daemon-reload so systemd rereads it before you restart the service. systemctl edit creates drop-ins and reloads automatically.",
+    "refs": [
+      {
+        "title": "systemd.unit",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html"
+      },
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      }
+    ]
   },
   {
     "id": 53,
@@ -1322,7 +1552,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Undo with systemctl unmask. Use it when two services conflict."
+    "explanation": "systemctl mask links the unit to /dev/null so it can't be started, even manually or as a dependency; unmask undoes it. disable only stops it starting at boot.",
+    "refs": [
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      }
+    ]
   },
   {
     "id": 54,
@@ -1347,7 +1583,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "systemd-analyze critical-chain shows the slowest dependency chain."
+    "explanation": "systemd-analyze blame lists how long each unit took to start at the last boot, and critical-chain shows the slowest dependency chain.",
+    "refs": [
+      {
+        "title": "systemd-analyze",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd-analyze.html"
+      }
+    ]
   },
   {
     "id": 55,
@@ -1372,7 +1614,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "timedatectl also shows whether NTP sync is active. Time sync clients: chronyd or systemd-timesyncd."
+    "explanation": "timedatectl set-timezone America/New_York sets the time zone, and timedatectl also shows NTP synchronization status. Time sync is handled by chronyd or systemd-timesyncd.",
+    "refs": [
+      {
+        "title": "timedatectl",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/timedatectl.html"
+      }
+    ]
   },
   {
     "id": 56,
@@ -1397,7 +1645,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "It updates /etc/hostname. Update /etc/hosts if local resolution of the name is needed."
+    "explanation": "hostnamectl set-hostname makes the change permanent by writing /etc/hostname. The hostname command alone changes it only until reboot, and /etc/hosts maps names to addresses.",
+    "refs": [
+      {
+        "title": "hostnamectl",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/hostnamectl.html"
+      }
+    ]
   },
   {
     "id": 57,
@@ -1422,7 +1676,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "On these systems /etc/resolv.conf points to the local stub resolver 127.0.0.53."
+    "explanation": "resolvectl status shows the DNS servers per interface on systems running systemd-resolved, where /etc/resolv.conf points to the stub resolver 127.0.0.53.",
+    "refs": [
+      {
+        "title": "resolvectl - Query and configure the systemd-resolved DNS resolver",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/resolvectl.html"
+      }
+    ]
   },
   {
     "id": 58,
@@ -1447,7 +1707,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "The same syntax works with docker. -d detaches; podman ps lists running containers."
+    "explanation": "podman run -d --name web -p 8080:80 runs detached, names the container and maps host port 8080 to container port 80 (host:container). Reversing the ports would expose the wrong one."
   },
   {
     "id": 59,
@@ -1472,7 +1732,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Named volumes are managed by the runtime; bind mounts map a host directory. On SELinux hosts add :Z to relabel bind mounts."
+    "explanation": "Container filesystems are discarded when the container is removed, so persist data in a named volume or bind mount (-v). On SELinux hosts add :Z to relabel bind mounts.",
+    "refs": [
+      {
+        "title": "Using SELinux - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_selinux/index"
+      }
+    ]
   },
   {
     "id": 60,
@@ -1497,7 +1763,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Build with podman build -t myapp:1.0 . Each instruction creates a layer."
+    "explanation": "FROM sets the base image in a Containerfile or Dockerfile; each following instruction (RUN, COPY and so on) creates a layer. CMD defines the default command."
   },
   {
     "id": 61,
@@ -1522,7 +1788,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Podman runs rootless by default for regular users, using user namespaces."
+    "explanation": "A rootless container runs under an unprivileged user (via user namespaces), so a breakout doesn't give root on the host. Podman does this by default for regular users."
   },
   {
     "id": 62,
@@ -1547,7 +1813,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Add -f to follow. podman inspect shows configuration such as mounts, ports, and IP."
+    "explanation": "podman logs api shows the container's output (add -f to follow). podman inspect shows configuration such as mounts, ports and IP, not logs."
   },
   {
     "id": 63,
@@ -1572,7 +1838,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "On RHEL, Apache (httpd) reads every *.conf file in /etc/httpd/conf.d/, so virtual hosts usually go there. Debian/Ubuntu Apache uses /etc/apache2/sites-available with a2ensite. Test syntax with apachectl configtest or nginx -t."
+    "explanation": "On RHEL, Apache (httpd) reads every *.conf file in /etc/httpd/conf.d, so virtual hosts normally go there. Debian-family Apache uses /etc/apache2/sites-available with a2ensite. Test with apachectl configtest."
   },
   {
     "id": 64,
@@ -1597,7 +1863,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A DHCP server leases IP addresses, gateways and DNS settings to clients automatically. SMTP sends mail between servers (Postfix); IMAP lets clients read mail (Dovecot); NTP/PTP sync time; DNS (BIND, Unbound) resolves names."
+    "explanation": "A DHCP server (Kea or ISC dhcpd) leases IP addresses, gateways and DNS settings to clients. SMTP sends mail, IMAP lets clients read it, and NTP synchronizes time."
   },
   {
     "id": 65,
@@ -1622,7 +1888,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Linux uses linuxptp (ptp4l) for PTP and chrony for NTP."
+    "explanation": "PTP provides far more precise synchronization (sub-microsecond, often with hardware timestamping) than NTP. Linux uses linuxptp (ptp4l) for PTP and chrony for NTP."
   },
   {
     "id": 66,
@@ -1647,7 +1913,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Grant only needed commands (least privilege). visudo checks syntax before saving."
+    "explanation": "Grant only the needed command with a drop-in in /etc/sudoers.d edited via visudo -f, for example %ops ALL=(root) /usr/bin/systemctl restart nginx. That's least privilege; visudo checks the syntax before saving, and wheel or the root password give far more.",
+    "refs": [
+      {
+        "title": "sudoers(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/sudoers.5.html"
+      }
+    ]
   },
   {
     "id": 67,
@@ -1672,7 +1944,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "+i makes a file immutable. View attributes with lsattr."
+    "explanation": "chattr +a makes a file append-only even for root until removed; +i makes it immutable. View attributes with lsattr. chmod and chown can't do this.",
+    "refs": [
+      {
+        "title": "chattr(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chattr.1.html"
+      }
+    ]
   },
   {
     "id": 68,
@@ -1697,7 +1975,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Files start at 666 and directories at 777, minus the umask: 666-027 → 640, 777-027 → 750."
+    "explanation": "Files start at 666 and directories at 777, then the umask bits are removed: 666 minus 027 gives 640 (rw-r-----) and directories get 750.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 69,
@@ -1722,7 +2006,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "getfacl shows ACLs. A + after the mode in ls -l means an ACL exists. Default ACLs (-d) apply to new files in a directory."
+    "explanation": "setfacl -m u:maria:r adds a user ACL entry without changing the owner, group or mode. getfacl displays ACLs, a + in ls -l indicates one, and default ACLs (-d) apply to new files in a directory.",
+    "refs": [
+      {
+        "title": "setfacl(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/setfacl.1.html"
+      }
+    ]
   },
   {
     "id": 70,
@@ -1747,7 +2037,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Edit /etc/ssh/sshd_config or a drop-in in sshd_config.d, validate with sshd -t, then restart sshd. Add AllowUsers or AllowGroups to limit access."
+    "explanation": "Setting PermitRootLogin no and PasswordAuthentication no leaves only key logins for normal users. Validate with sshd -t and add AllowUsers or AllowGroups to restrict who can log in.",
+    "refs": [
+      {
+        "title": "sshd_config(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/sshd_config.5.html"
+      }
+    ]
   },
   {
     "id": 71,
@@ -1772,7 +2068,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use SSH, SFTP/SCP, HTTPS, and STARTTLS/implicit TLS for mail."
+    "explanation": "Telnet, FTP and plain HTTP send credentials in clear text and should be replaced with SSH, SFTP/SCP, HTTPS and TLS-protected mail protocols.",
+    "refs": [
+      {
+        "title": "ssh(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ssh.1.html"
+      }
+    ]
   },
   {
     "id": 72,
@@ -1797,7 +2099,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Shim and GRUB are signed; unsigned kernel modules may be blocked. Manage keys with mokutil."
+    "explanation": "Secure Boot verifies that the bootloader and kernel are signed by trusted keys before they run; shim and GRUB are signed, and mokutil manages extra keys. It doesn't encrypt the disk."
   },
   {
     "id": 73,
@@ -1822,7 +2124,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Configuration lives in /etc/pam.d. pam_pwquality enforces password rules; pam_faillock locks accounts after failed attempts."
+    "explanation": "PAM (Pluggable Authentication Modules) governs authentication, configured in /etc/pam.d. pam_pwquality enforces password rules and pam_faillock locks accounts after failed attempts; SELinux and auditd do different jobs."
   },
   {
     "id": 74,
@@ -1847,7 +2149,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Join a domain with realm join. Kerberos provides ticket-based authentication; Winbind is the Samba alternative."
+    "explanation": "SSSD connects Linux to Active Directory or LDAP and caches credentials; join a domain with realm join. Kerberos provides ticket-based authentication, and Winbind is the Samba alternative."
   },
   {
     "id": 75,
@@ -1872,7 +2174,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "pkexec runs a command as another user based on polkit rules."
+    "explanation": "polkit decides whether unprivileged processes may perform privileged system actions, such as a desktop user mounting a disk; pkexec runs a command as another user under polkit rules."
   },
   {
     "id": 76,
@@ -1897,7 +2199,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Search with ausearch -f /etc/passwd; summarize with aureport."
+    "explanation": "auditd records security-relevant events, such as writes or attribute changes to /etc/passwd from a rule like -w /etc/passwd -p wa. Search with ausearch and summarize with aureport."
   },
   {
     "id": 77,
@@ -1922,7 +2224,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Configure in /etc/logrotate.conf and /etc/logrotate.d/. The journal size is limited in /etc/systemd/journald.conf (SystemMaxUse)."
+    "explanation": "logrotate rotates, compresses and deletes old logs on a schedule, configured in /etc/logrotate.conf and /etc/logrotate.d. The systemd journal's size is limited in journald.conf.",
+    "refs": [
+      {
+        "title": "logrotate(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/logrotate.8.html"
+      }
+    ]
   },
   {
     "id": 78,
@@ -1947,7 +2255,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "List with firewall-cmd --list-all. Zones group rules by trust level."
+    "explanation": "firewall-cmd --permanent --add-service=https writes the rule to the saved configuration and --reload applies it. Without --permanent the rule disappears on reload or reboot.",
+    "refs": [
+      {
+        "title": "Documentation | firewalld",
+        "url": "https://firewalld.org/documentation/"
+      }
+    ]
   },
   {
     "id": 79,
@@ -1972,7 +2286,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Allow SSH before enabling, or you'll lock yourself out of a remote server."
+    "explanation": "On Ubuntu with ufw, set the default to deny incoming, allow OpenSSH, and then enable ufw. Allow SSH first or you will lock yourself out of a remote server."
   },
   {
     "id": 80,
@@ -1997,7 +2311,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "firewalld uses nftables as its back end on current distributions."
+    "explanation": "nftables (nft) is the modern kernel packet-filtering framework replacing iptables, and firewalld uses it as its back end on current distributions.",
+    "refs": [
+      {
+        "title": "nftables wiki",
+        "url": "https://wiki.nftables.org/wiki-nftables/index.php/Main_Page"
+      },
+      {
+        "title": "iptables(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/iptables.8.html"
+      }
+    ]
   },
   {
     "id": 81,
@@ -2022,7 +2346,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "nftables/iptables use conntrack: ct state established,related accept."
+    "explanation": "A stateful firewall tracks connections (conntrack) and allows return traffic for established flows, while stateless filtering judges each packet on its own. Stateful is the Linux norm, for example ct state established,related accept.",
+    "refs": [
+      {
+        "title": "nftables wiki",
+        "url": "https://wiki.nftables.org/wiki-nftables/index.php/Main_Page"
+      }
+    ]
   },
   {
     "id": 82,
@@ -2047,7 +2377,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Masquerade (source NAT) lets private hosts reach the internet through the Linux router."
+    "explanation": "Routing between networks requires IP forwarding: net.ipv4.ip_forward=1, persisted in /etc/sysctl.d. Add masquerade (source NAT) so private hosts can reach the internet through the router.",
+    "refs": [
+      {
+        "title": "sysctl(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/sysctl.8.html"
+      }
+    ]
   },
   {
     "id": 83,
@@ -2072,7 +2408,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Then cryptsetup open /dev/sdb1 secure, mkfs on /dev/mapper/secure, and add it to /etc/crypttab."
+    "explanation": "cryptsetup luksFormat encrypts a partition with LUKS; then cryptsetup open it, create a file system on /dev/mapper/name, and list it in /etc/crypttab. gpg and openssl encrypt files, not block devices.",
+    "refs": [
+      {
+        "title": "cryptsetup(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/cryptsetup.8.html"
+      }
+    ]
   },
   {
     "id": 84,
@@ -2097,7 +2439,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "openssl s_client -connect host:443 tests a live TLS connection and shows the chain."
+    "explanation": "openssl x509 -in server.crt -noout -enddate prints a certificate's expiry date, and openssl s_client -connect host:443 tests a live TLS connection and shows the chain."
   },
   {
     "id": 85,
@@ -2122,7 +2464,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "On RHEL, update-crypto-policies --set DEFAULT or FUTURE removes weak algorithms system-wide."
+    "explanation": "A hardened server should allow only TLS 1.2 and 1.3; SSLv3 and TLS 1.0/1.1 are deprecated. On RHEL, system-wide crypto policies (update-crypto-policies) remove weak algorithms."
   },
   {
     "id": 86,
@@ -2147,7 +2489,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "SHA-256 is a current, collision-resistant hash; MD5 and SHA-1 are no longer considered safe. Compare against the publisher's signed checksum file."
+    "explanation": "Use SHA-256 (sha256sum) to verify a download against the publisher's signed checksum. MD5 and SHA-1 are no longer collision-resistant, and Base64 and ROT13 aren't hashes."
   },
   {
     "id": 87,
@@ -2172,7 +2514,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Configure with wg and wg-quick; peers exchange public keys."
+    "explanation": "WireGuard is a simple, modern VPN built into the Linux kernel, configured with wg and wg-quick, where peers exchange public keys. It is not a firewall or an IDS.",
+    "refs": [
+      {
+        "title": "WireGuard: fast, modern, secure VPN tunnel",
+        "url": "https://www.wireguard.com/"
+      }
+    ]
   },
   {
     "id": 88,
@@ -2197,7 +2545,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "faillock --user name shows and resets failures. Configure /etc/security/faillock.conf."
+    "explanation": "pam_faillock locks an account after repeated failed logins (configure /etc/security/faillock.conf); faillock --user shows and resets failures. pam_tally2 is the older module."
   },
   {
     "id": 89,
@@ -2222,7 +2570,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "oscap xccdf eval --profile ... applies SCAP content. AIDE detects changed files by comparing hashes to a baseline database."
+    "explanation": "OpenSCAP (oscap) evaluates a system against a security profile such as a CIS Benchmark and produces a report. AIDE detects changed files by comparing hashes to a baseline, and nmap scans networks."
   },
   {
     "id": 90,
@@ -2247,7 +2595,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Patch high and critical CVEs first, and track them with dnf updateinfo or the distro's security advisories."
+    "explanation": "CVSS rates a vulnerability's severity on a 0-10 scale. A CVE is just an identifier, and CWE classifies weakness types. Patch high and critical findings first."
   },
   {
     "id": 91,
@@ -2272,7 +2620,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "For SSDs use the manufacturer's secure erase or crypto-erase, since overwriting may miss remapped blocks."
+    "explanation": "Securely wipe disks with shred or the drive's secure-erase command, or physically destroy them. For SSDs use the manufacturer's secure or crypto erase, because overwriting may miss remapped blocks; deleting partitions or reformatting leaves data."
   },
   {
     "id": 92,
@@ -2297,7 +2645,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "getenforce shows the mode. AppArmor is the path-based alternative used by Ubuntu and SUSE."
+    "explanation": "In enforcing mode SELinux applies mandatory access control and blocks actions the policy doesn't allow, even for root-owned processes. Permissive only logs; getenforce shows the mode, and Ubuntu and SUSE use AppArmor instead.",
+    "refs": [
+      {
+        "title": "Using SELinux - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_selinux/index"
+      }
+    ]
   },
   {
     "id": 93,
@@ -2322,7 +2676,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "/etc/motd shows a message after login."
+    "explanation": "A login banner (/etc/issue.net with sshd's Banner) shows an authorized-use warning before login, supporting legal and compliance needs. /etc/motd shows a message after login.",
+    "refs": [
+      {
+        "title": "sshd_config(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/sshd_config.5.html"
+      }
+    ]
   },
   {
     "id": 94,
@@ -2347,7 +2707,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Modules such as ansible.builtin.package check state first and report changed only when they act."
+    "explanation": "Idempotent means running a task again leaves the system in the same state without extra changes. Ansible modules check state first and report 'changed' only when they act."
   },
   {
     "id": 95,
@@ -2372,7 +2732,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Ansible playbooks are YAML; Puppet manifests use its own declarative language."
+    "explanation": "Ansible is agentless: the control node pushes changes over SSH using YAML playbooks. Puppet agents pull configuration from a server written in its own declarative language."
   },
   {
     "id": 96,
@@ -2397,7 +2757,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Run with ansible-playbook -i inventory site.yml. Handlers run once at the end when notified, for example to restart a service."
+    "explanation": "The hosts line of a play selects which inventory hosts or groups it runs against, for example ansible-playbook -i inventory site.yml. Tasks define what runs and handlers run once at the end when notified."
   },
   {
     "id": 97,
@@ -2422,7 +2782,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Examples: OpenTofu/Terraform for provisioning, Ansible for configuration. Changes are reviewed and repeatable."
+    "explanation": "Infrastructure as code defines servers, networks and settings in version-controlled files applied by tools, so changes are reviewed and repeatable. OpenTofu/Terraform provision and Ansible configures."
   },
   {
     "id": 98,
@@ -2447,7 +2807,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Pass it with inst.ks= on the boot line or embed it in the ISO."
+    "explanation": "A Kickstart file (ks.cfg) automates unattended RHEL installs; pass it with inst.ks= on the boot line or embed it in the ISO. cloud-init user-data configures cloud instances instead."
   },
   {
     "id": 99,
@@ -2472,7 +2832,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "user-data is often YAML starting with #cloud-config."
+    "explanation": "cloud-init configures a cloud instance at first boot from user-data (often YAML beginning #cloud-config): hostname, users, SSH keys, packages and scripts."
   },
   {
     "id": 100,
@@ -2497,7 +2857,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Kubernetes and Docker Swarm orchestrate containers across many hosts with scaling and self-healing."
+    "explanation": "Docker Compose or Podman Compose runs several related containers from one YAML file. Kubernetes and Swarm orchestrate containers across many hosts with scaling and self-healing."
   },
   {
     "id": 101,
@@ -2522,7 +2882,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Continuous delivery/deployment then releases tested builds automatically."
+    "explanation": "Continuous integration means every code change is built and tested automatically when merged. Continuous delivery or deployment then releases tested builds."
   },
   {
     "id": 102,
@@ -2547,7 +2907,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Parameter expansion also includes ${#var} (length) and ${var%.txt} (strip suffix)."
+    "explanation": "${name:-guest} expands to 'guest' when name is unset or empty, and to the value otherwise. ${#var} gives length and ${var%.txt} strips a suffix.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 103,
@@ -2572,7 +2938,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Call it with backup /etc. Inside, $1 is the function's first argument; return sets its status."
+    "explanation": "A Bash function is defined as name() { commands; }, and called by name with its own $1, $2. return sets its status. def and => belong to other languages.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 104,
@@ -2597,7 +2969,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "IFS= keeps leading spaces; -r keeps backslashes."
+    "explanation": "while IFS= read -r line; do ...; done < file reads a file line by line safely: IFS= preserves leading spaces and -r keeps backslashes. A for loop would split on whitespace.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 105,
@@ -2622,7 +3000,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "In [[ ]] you can also use (( count > 10 )) for arithmetic."
+    "explanation": "Use [ \"$count\" -gt 10 ] for numeric comparison in test brackets. A bare > redirects output, and (( count > 10 )) is the arithmetic form.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 106,
@@ -2647,7 +3031,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "case \"$1\" in start) ...;; stop) ...;; *) echo usage;; esac"
+    "explanation": "A case statement matches a value against patterns and runs the commands of the first match, ending each branch with ;; and the block with esac.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 107,
@@ -2672,7 +3062,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "awk's OFS sets the output separator, for example awk -F, -v OFS='\\t' '{print $1,$3}'."
+    "explanation": "awk -F, '{print $3}' sets comma as the field separator and prints the third field; OFS controls the output separator. cut -f3 would use tab as the delimiter.",
+    "refs": [
+      {
+        "title": "awk(1p) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/awk.1p.html"
+      }
+    ]
   },
   {
     "id": 108,
@@ -2697,7 +3093,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Record dependencies in requirements.txt (pip freeze). Follow PEP 8 for style."
+    "explanation": "Create a virtual environment with python3 -m venv .venv and install packages into it, recording dependencies in requirements.txt. Using sudo pip alters the system Python and risks breaking system tools.",
+    "refs": [
+      {
+        "title": "venv - Creation of virtual environments",
+        "url": "https://docs.python.org/3/library/venv.html"
+      }
+    ]
   },
   {
     "id": 109,
@@ -2722,7 +3124,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "A list is ordered and mutable; a tuple is ordered but immutable, and a set is unordered. Common built-in modules for admin scripts: os, subprocess, pathlib, json, argparse, logging."
+    "explanation": "A list is ordered and mutable, a tuple is ordered but immutable, a set is unordered and a dict holds key-value pairs. Common admin modules include os, subprocess, pathlib, json, argparse and logging."
   },
   {
     "id": 110,
@@ -2747,7 +3149,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Then git add, git commit -m \"...\", and git push -u origin fix-login."
+    "explanation": "git switch -c fix-login (or git checkout -b) creates a branch and switches to it. git branch -d deletes a branch and git merge combines branches.",
+    "refs": [
+      {
+        "title": "Git - git-switch Documentation",
+        "url": "https://git-scm.com/docs/git-switch"
+      }
+    ]
   },
   {
     "id": 111,
@@ -2772,7 +3180,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Avoid rebasing commits others have already pulled."
+    "explanation": "Merge combines histories with a merge commit; rebase replays your commits on top of another branch for a linear history. Avoid rebasing commits others have already pulled.",
+    "refs": [
+      {
+        "title": "Git - git-rebase Documentation",
+        "url": "https://git-scm.com/docs/git-rebase"
+      }
+    ]
   },
   {
     "id": 112,
@@ -2797,7 +3211,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Restore with git stash pop."
+    "explanation": "git stash saves uncommitted changes temporarily and cleans the working tree; restore them with git stash pop. It doesn't push or tag.",
+    "refs": [
+      {
+        "title": "Git - git-stash Documentation",
+        "url": "https://git-scm.com/docs/git-stash"
+      }
+    ]
   },
   {
     "id": 113,
@@ -2822,7 +3242,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Never commit credentials; if you do, rotate them."
+    "explanation": ".gitignore lists files git should not track, such as build output and .env secrets. Never commit credentials; if you do, rotate them.",
+    "refs": [
+      {
+        "title": "Git - gitignore Documentation",
+        "url": "https://git-scm.com/docs/gitignore"
+      }
+    ]
   },
   {
     "id": 114,
@@ -2847,7 +3273,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Follow company AI policies and data governance. Give clear, specific prompts with context and constraints."
+    "explanation": "AI-generated scripts must be reviewed and tested outside production, and secrets or confidential data should never go in prompts. A well-formatted answer isn't necessarily correct, and company AI and data policies apply."
   },
   {
     "id": 115,
@@ -2872,7 +3298,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "SLIs measure, SLOs set targets, SLAs are agreements with customers."
+    "explanation": "An SLO is a target for a service-level indicator, such as 99.9% of requests succeeding each month. SLIs are the measurements and SLAs are customer agreements with consequences."
   },
   {
     "id": 116,
@@ -2897,7 +3323,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Agents give richer metrics; agentless is simpler to deploy. Webhooks send alerts to chat or ticketing tools."
+    "explanation": "Agentless monitoring polls hosts with existing protocols (SNMP, SSH) instead of installing software on them. Agents gather richer metrics but add deployment work."
   },
   {
     "id": 117,
@@ -2922,7 +3348,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "-e exits on any error, -u treats unset variables as errors, and -o pipefail makes a pipeline fail if any command in it fails. A common safe default at the top of Bash scripts."
+    "explanation": "set -euo pipefail makes a script exit on errors (-e), treat unset variables as errors (-u) and fail a pipeline if any command in it fails (pipefail). It's a common safe default, not debugging or root.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 118,
@@ -2947,7 +3379,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "It doesn't validate ranges (999 would match), but it's fine for extracting addresses from logs."
+    "explanation": "([0-9]{1,3}\\.){3}[0-9]{1,3} matches four groups of 1-3 digits separated by escaped dots. It doesn't validate ranges (999 matches) but works for pulling addresses from logs; an unescaped . matches any character.",
+    "refs": [
+      {
+        "title": "grep(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/grep.1.html"
+      }
+    ]
   },
   {
     "id": 119,
@@ -2972,7 +3410,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Log in to emergency mode, fix the entry (or add nofail for optional devices), then systemctl daemon-reload and mount -a. Always test with mount -a before rebooting."
+    "explanation": "A typo, wrong UUID or absent device in a new fstab line makes the boot hang or drop to emergency mode. Fix the entry (or add nofail for optional devices), run systemctl daemon-reload and always test with mount -a before rebooting.",
+    "refs": [
+      {
+        "title": "fstab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/fstab.5.html"
+      }
+    ]
   },
   {
     "id": 120,
@@ -2997,7 +3441,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Common culprits: logs in /var/log, the journal, package caches, and core dumps. A deleted file still held open by a process keeps using space; find it with lsof +L1."
+    "explanation": "du -xh /var | sort -h | tail finds the largest directories without crossing file systems. Logs, the journal, package caches and core dumps are common culprits, and lsof +L1 reveals deleted files still held open.",
+    "refs": [
+      {
+        "title": "df(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/df.1.html"
+      }
+    ]
   },
   {
     "id": 121,
@@ -3022,7 +3472,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Restart the process or truncate the file through /proc/<pid>/fd."
+    "explanation": "When df shows a full disk but du can't find the files, a process is still holding a deleted file open, so its space isn't freed. Restart the process or truncate the file via /proc/<pid>/fd.",
+    "refs": [
+      {
+        "title": "df(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/df.1.html"
+      }
+    ]
   },
   {
     "id": 122,
@@ -3047,7 +3503,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Look for exit codes, missing files, permission errors, and SELinux denials."
+    "explanation": "systemctl status app shows the unit state and recent log lines, and journalctl -u app -b shows this boot's full log. Look for exit codes, missing files, permission errors and SELinux denials.",
+    "refs": [
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      },
+      {
+        "title": "journalctl - Query the systemd journal",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html"
+      }
+    ]
   },
   {
     "id": 123,
@@ -3072,7 +3538,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Set the default kernel with grubby --set-default. Check dmesg/journal logs from the failed boot afterward."
+    "explanation": "If a new kernel panics, pick the previous kernel from the GRUB menu, then investigate or remove the faulty one. Set the default with grubby --set-default; reinstalling the OS is far too drastic."
   },
   {
     "id": 124,
@@ -3097,7 +3563,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Quotas are enabled with mount options such as usrquota and managed with edquota or xfs_quota on XFS."
+    "explanation": "quota -u username shows a user's usage and limits, and repquota reports all users. Quotas are enabled with usrquota mount options and managed with edquota or xfs_quota.",
+    "refs": [
+      {
+        "title": "mount(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/mount.8.html"
+      }
+    ]
   },
   {
     "id": 125,
@@ -3122,7 +3594,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Look for \"Out of memory: Killed process\" in dmesg or journalctl -k."
+    "explanation": "A process whose memory grows without bound has a memory leak, and when memory runs out the kernel's OOM killer ends it, logging 'Out of memory: Killed process' in dmesg or journalctl -k.",
+    "refs": [
+      {
+        "title": "dmesg(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/dmesg.1.html"
+      }
+    ]
   },
   {
     "id": 126,
@@ -3147,7 +3625,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Also check /etc/hosts for wrong static entries and /etc/nsswitch.conf order."
+    "explanation": "If hosts respond by IP but not by name, it's a name-resolution problem: check /etc/resolv.conf or resolvectl, /etc/hosts and nsswitch order, and test with dig or getent hosts.",
+    "refs": [
+      {
+        "title": "resolv.conf(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/resolv.conf.5.html"
+      },
+      {
+        "title": "nsswitch.conf(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/nsswitch.conf.5.html"
+      }
+    ]
   },
   {
     "id": 127,
@@ -3172,7 +3660,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Fix with nmcli con mod <con> ipv4.gateway x.x.x.x and bring the connection up again."
+    "explanation": "Reaching only the local subnet points to a missing or wrong default gateway; check ip route and fix it with nmcli con mod ipv4.gateway and reactivate the connection. DNS issues would still allow IP access.",
+    "refs": [
+      {
+        "title": "ip(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ip.8.html"
+      }
+    ]
   },
   {
     "id": 128,
@@ -3197,7 +3691,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Tunnels add headers, reducing the usable MTU."
+    "explanation": "Small packets work but large VPN transfers stall: suspect an MTU mismatch, since tunnels add headers. Test with ping -M do -s 1400 and lower the MTU if needed.",
+    "refs": [
+      {
+        "title": "ip(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ip.8.html"
+      }
+    ]
   },
   {
     "id": 129,
@@ -3222,7 +3722,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Find the MAC owner in the switch or DHCP leases."
+    "explanation": "For a suspected duplicate IP, run arping -D (duplicate address detection) or watch ip neigh for a changing MAC address; then find the owner in switch or DHCP records.",
+    "refs": [
+      {
+        "title": "ip(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ip.8.html"
+      }
+    ]
   },
   {
     "id": 130,
@@ -3247,7 +3753,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check ss -tlnp for the listening address and firewall-cmd --list-all for allowed services."
+    "explanation": "If curl localhost works but clients can't connect, either firewalld doesn't allow the port or the service listens only on 127.0.0.1. Check ss -tlnp for the listening address and firewall-cmd --list-all.",
+    "refs": [
+      {
+        "title": "ss(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ss.8.html"
+      },
+      {
+        "title": "Documentation | firewalld",
+        "url": "https://firewalld.org/documentation/"
+      }
+    ]
   },
   {
     "id": 131,
@@ -3272,7 +3788,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "mtr combines ping and traceroute to show loss per hop."
+    "explanation": "traceroute (or tracepath/mtr) shows each hop packets take and where they stop; mtr combines ping and traceroute with per-hop loss."
   },
   {
     "id": 132,
@@ -3297,7 +3813,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Save to a file with -w capture.pcap and open it in Wireshark."
+    "explanation": "tcpdump -i eth0 captures packets on that interface; save with -w capture.pcap and analyze in Wireshark.",
+    "refs": [
+      {
+        "title": "tcpdump(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/tcpdump.1.html"
+      }
+    ]
   },
   {
     "id": 133,
@@ -3322,7 +3844,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Find denials with ausearch -m avc -ts recent or sealert. Booleans (getsebool -a) toggle common policy options."
+    "explanation": "When Unix permissions are right but SELinux blocks Apache, label the content: semanage fcontext -a -t httpd_sys_content_t \"/srv/web(/.*)?\" then restorecon -Rv. Don't use chmod 777 or disable SELinux; find denials with ausearch -m avc.",
+    "refs": [
+      {
+        "title": "Using SELinux - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_selinux/index"
+      }
+    ]
   },
   {
     "id": 134,
@@ -3347,7 +3875,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check with id; also check parent directory execute permission and ACLs."
+    "explanation": "Group membership is read at login, so a user just added to projects must log out and back in (or use newgrp) before it applies. Check with id, and also parent directory execute permission and ACLs.",
+    "refs": [
+      {
+        "title": "id(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/id.1.html"
+      },
+      {
+        "title": "usermod(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/usermod.8.html"
+      }
+    ]
   },
   {
     "id": 135,
@@ -3372,7 +3910,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Unlock with usermod -U or passwd -u. Also check chage -l for expiry, faillock, and the shell (nologin)."
+    "explanation": "In passwd -S output, L means the password is locked. Unlock with usermod -U or passwd -u, and also check chage -l for expiry, faillock, and the shell (nologin).",
+    "refs": [
+      {
+        "title": "usermod(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/usermod.8.html"
+      },
+      {
+        "title": "chage(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chage.1.html"
+      }
+    ]
   },
   {
     "id": 136,
@@ -3397,7 +3945,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "openssl s_client -connect site:443 -showcerts shows the chain."
+    "explanation": "A valid certificate can still fail in browsers if the server doesn't send the intermediate chain or the name doesn't match. openssl s_client -connect site:443 -showcerts shows what is sent."
   },
   {
     "id": 137,
@@ -3422,7 +3970,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Restart sshd and rescan to confirm."
+    "explanation": "Weak SSH ciphers are fixed by a stricter system crypto policy (update-crypto-policies) or by setting Ciphers and KexAlgorithms in sshd configuration, then restarting sshd and rescanning.",
+    "refs": [
+      {
+        "title": "sshd_config(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/sshd_config.5.html"
+      }
+    ]
   },
   {
     "id": 138,
@@ -3447,7 +4001,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use iostat -x, iotop, or pidstat -d to find the busy device and process."
+    "explanation": "High load with low CPU and high wa in top means processes are waiting on disk or storage I/O. Use iostat -x, iotop or pidstat -d to find the busy device and process.",
+    "refs": [
+      {
+        "title": "top(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/top.1.html"
+      }
+    ]
   },
   {
     "id": 139,
@@ -3472,7 +4032,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Watch swap activity (si/so in vmstat) and the available column instead."
+    "explanation": "Linux uses spare RAM for cache and releases it when programs need it, so low 'free' but healthy 'available' is normal. Watch swap activity (si/so in vmstat) and available instead.",
+    "refs": [
+      {
+        "title": "free(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/free.1.html"
+      }
+    ]
   },
   {
     "id": 140,
@@ -3497,7 +4063,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Reduce memory use, add RAM, or tune vm.swappiness."
+    "explanation": "For heavy swapping, find which processes use the most memory (top sorted by %MEM or ps --sort=-rss), then reduce usage, add RAM or tune vm.swappiness.",
+    "refs": [
+      {
+        "title": "top(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/top.1.html"
+      },
+      {
+        "title": "ps(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ps.1.html"
+      }
+    ]
   },
   {
     "id": 141,
@@ -3522,7 +4098,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Then renice, limit with systemd (CPUQuota=), or stop the runaway process."
+    "explanation": "ps aux --sort=-%cpu | head (or top) shows the biggest CPU consumers. Then renice, limit with systemd CPUQuota= or stop the runaway process.",
+    "refs": [
+      {
+        "title": "ps(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ps.1.html"
+      },
+      {
+        "title": "top(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/top.1.html"
+      }
+    ]
   },
   {
     "id": 142,
@@ -3547,7 +4133,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Baselines make it easier to spot deviations such as rising load or memory."
+    "explanation": "sar (from sysstat) records performance data over time, which lets you compare current behavior with a baseline. A single uptime reading gives no history."
   },
   {
     "id": 143,
@@ -3572,7 +4158,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check network latency to the NFS server and the server's health."
+    "explanation": "State D is uninterruptible sleep, usually waiting on I/O such as a storage or network file system like a slow NFS mount. Check network latency and the server's health.",
+    "refs": [
+      {
+        "title": "ps(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ps.1.html"
+      }
+    ]
   },
   {
     "id": 144,
@@ -3597,7 +4189,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "From rescue media: chroot into the system and run grub2-mkconfig (and grub2-install for BIOS if needed)."
+    "explanation": "A grub> prompt means GRUB couldn't load its configuration or find the kernel. Boot manually or, from rescue media, chroot and rebuild with grub2-mkconfig (and grub2-install on BIOS)."
   },
   {
     "id": 145,
@@ -3622,7 +4214,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Some devices need non-free firmware packages."
+    "explanation": "If a new NIC is missing from ip link, check whether its driver is loaded: lspci -k and dmesg for errors, then load the module or install firmware (some devices need non-free firmware packages).",
+    "refs": [
+      {
+        "title": "lspci(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/lspci.8.html"
+      },
+      {
+        "title": "dmesg(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/dmesg.1.html"
+      }
+    ]
   },
   {
     "id": 146,
@@ -3647,7 +4249,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Fix DNS or set UseDNS no; check verbose output with ssh -v."
+    "explanation": "A 30-second delay before the SSH password prompt is typically a slow reverse-DNS lookup (UseDNS) or GSSAPI attempt. Fix DNS or set UseDNS no and inspect with ssh -v.",
+    "refs": [
+      {
+        "title": "sshd_config(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/sshd_config.5.html"
+      },
+      {
+        "title": "ssh(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ssh.1.html"
+      }
+    ]
   },
   {
     "id": 147,
@@ -3672,7 +4284,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Clients prefer IPv6 when available, so a broken IPv6 path causes delays or failures."
+    "explanation": "Clients prefer IPv6 when it's available, so a broken IPv6 path causes failures or delays while IPv4 works. Check ip -6 route, ping -6 and IPv6 firewall rules.",
+    "refs": [
+      {
+        "title": "ip(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ip.8.html"
+      }
+    ]
   },
   {
     "id": 148,
@@ -3697,6 +4315,12 @@
       }
     ],
     "answer": 0,
-    "explanation": "A bad fstab entry or firewall change is a common cause; fix it from the serial console or by attaching the disk to another VM."
+    "explanation": "For an unreachable cloud VM after a reboot, check the serial console or boot logs and the security group or network ACL rules. A bad fstab entry or firewall change is common; fix it from the serial console or by attaching the disk to another VM.",
+    "refs": [
+      {
+        "title": "fstab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/fstab.5.html"
+      }
+    ]
   }
 ]
