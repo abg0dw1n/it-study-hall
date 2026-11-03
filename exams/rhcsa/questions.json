@@ -22,7 +22,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "grep prints matching lines in the order they appear, and > writes them to the file. Read the task precisely: output file, order, and whether matches should be exact or case-insensitive."
+    "explanation": "grep prints matching lines in the order they appear in the file, and > writes them to /root/lines. Adding sort would reorder them and -c would write a count instead of the lines. Read the task for output file, order and case rules.",
+    "refs": [
+      {
+        "title": "grep(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/grep.1.html"
+      }
+    ]
   },
   {
     "id": 2,
@@ -47,7 +53,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Create /root/found first. -exec ... {} \\; runs once per match; {} + batches them. Add 2>/dev/null to hide /proc noise."
+    "explanation": "find / -user harry -type f -exec cp -a {} /root/found/ \\; locates every regular file owned by harry and copies each with attributes preserved; create /root/found first. Add 2>/dev/null to hide permission noise.",
+    "refs": [
+      {
+        "title": "find(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/find.1.html"
+      },
+      {
+        "title": "cp(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/cp.1.html"
+      }
+    ]
   },
   {
     "id": 3,
@@ -72,7 +88,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Other useful tests: -perm -4000 (SUID), -mmin -60, -newer file, -name, -iname, -group."
+    "explanation": "find -size +30M -size -50M matches files strictly between those sizes (M is mebibytes); two -size tests are ANDed. The -size 30M-50M and -size >30M forms aren't valid, and -mtime tests age, not size.",
+    "refs": [
+      {
+        "title": "find(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/find.1.html"
+      }
+    ]
   },
   {
     "id": 4,
@@ -97,7 +119,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "bzip2: tar -cjf file.tar.bz2; xz: tar -cJf file.tar.xz. List with tar -tf; extract with tar -xf file -C dir."
+    "explanation": "tar -czf creates (c) a gzip (z) archive into the file (f). The -x option extracts, and -j makes bzip2 (not gzip). Use -cJf for xz.",
+    "refs": [
+      {
+        "title": "tar(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/tar.1.html"
+      }
+    ]
   },
   {
     "id": 5,
@@ -122,7 +150,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "ln TARGET LINK_NAME. Hard links must be on the same file system and can't point to directories."
+    "explanation": "ln -s TARGET LINK_NAME makes a symbolic link, so ln -s /var/log /root/logs creates /root/logs pointing to /var/log. Without -s you get a hard link, which can't point to a directory or cross file systems; reversing the arguments inverts the link.",
+    "refs": [
+      {
+        "title": "ln(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ln.1.html"
+      }
+    ]
   },
   {
     "id": 6,
@@ -147,7 +181,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "su - starts a login shell with the user's environment. sudo -i -u natasha does the same for sudoers."
+    "explanation": "su - natasha starts a login shell with natasha's environment, whereas su without the dash keeps your own environment. sudo -i -u natasha does the same if sudoers allows it.",
+    "refs": [
+      {
+        "title": "Sudo Manual: Execute commands as another user",
+        "url": "https://www.sudo.ws/docs/man/sudo.man/"
+      }
+    ]
   },
   {
     "id": 7,
@@ -172,7 +212,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "chmod 2770 /shared/sales sets rwxrws---."
+    "explanation": "drwxrws--- is a directory with the SGID bit (s in the group execute position): new files inherit the directory's group. Mode 2770 sets it; SUID would show an s in the owner field and the sticky bit a t in the last.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 8,
@@ -197,7 +243,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Special bits: 4 SUID, 2 SGID, 1 sticky, written before the three permission digits."
+    "explanation": "The leading digit holds the special bits (4 SUID, 2 SGID, 1 sticky), so 2770 gives owner and group full access, others none, and group inheritance on new files. 0770 has no SGID and 1770 is the sticky bit.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 9,
@@ -222,7 +274,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "The exam has no internet. Use man, man -k, --help, info, and /usr/share/doc."
+    "explanation": "The exam has no internet, so use installed documentation: man useradd (or useradd --help), man -k to search, info, and /usr/share/doc. help covers only shell builtins.",
+    "refs": [
+      {
+        "title": "man(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/man.1.html"
+      }
+    ]
   },
   {
     "id": 10,
@@ -247,7 +305,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Order matters: 2>&1 after the file redirection sends stderr to the same place."
+    "explanation": "command >> file 2>&1 appends stdout to the file and then points stderr (2) at the same place. Order matters: 2>&1 must come after the file redirection, and a single > would overwrite rather than append.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 11,
@@ -272,7 +336,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "-r recursive, -n line numbers, -l file names only, -i ignore case."
+    "explanation": "grep -rn PermitRootLogin /etc searches recursively (-r) and shows line numbers (-n). find -name matches file names, not contents, and -l prints only file names.",
+    "refs": [
+      {
+        "title": "grep(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/grep.1.html"
+      }
+    ]
   },
   {
     "id": 12,
@@ -297,7 +367,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "grep -Ev '^[#;]|^$' file shows only active configuration lines."
+    "explanation": "With grep -E, ^[#;] matches lines whose first character is # or ;. Combine with -v and ^$ to show only active configuration lines: grep -Ev '^[#;]|^$' file.",
+    "refs": [
+      {
+        "title": "regex(7) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man7/regex.7.html"
+      },
+      {
+        "title": "grep(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/grep.1.html"
+      }
+    ]
   },
   {
     "id": 13,
@@ -322,7 +402,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "scp copies files over SSH, so the data and credentials are encrypted. rsync -av -e ssh and sftp also transfer files securely."
+    "explanation": "scp copies files over SSH, so credentials and data are encrypted: scp /root/report.txt root@server2:/tmp/. rsync -e ssh and sftp work too, but cp can't reach another host and ftp is clear text.",
+    "refs": [
+      {
+        "title": "scp(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/scp.1.html"
+      }
+    ]
   },
   {
     "id": 14,
@@ -347,7 +433,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "stat -c '%a %U %G' file prints just mode, user, and group."
+    "explanation": "stat shows octal permissions, owner, group and size; stat -c '%a %U %G' prints just mode, user and group. file reports content type, not permissions.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 15,
@@ -372,7 +464,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "Save and quit with :wq; quit without saving with :q!."
+    "explanation": "In vim, :%s/http/https/g runs a substitution over every line (%) and replaces all matches per line (g). Without % only the current line changes, and without g only the first match per line."
   },
   {
     "id": 16,
@@ -397,7 +489,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "tail shows the last 10 lines by default, and -f keeps the file open and prints new lines as they're added. journalctl -f follows the systemd journal."
+    "explanation": "tail -f shows the last 10 lines and keeps printing new ones as they are added. head shows the beginning of a file, and journalctl -f follows the journal instead.",
+    "refs": [
+      {
+        "title": "tail(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/tail.1.html"
+      }
+    ]
   },
   {
     "id": 17,
@@ -422,7 +520,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "The shebang line tells the kernel which interpreter runs the script. Make the script executable with chmod +x and run it as ./script.sh or by full path."
+    "explanation": "The shebang #!/bin/bash on the first line tells the kernel which interpreter runs the script; make it executable with chmod +x and run it as ./script.sh. Without it the user's current shell interprets the file.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 18,
@@ -447,7 +551,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "\"$@\" expands each argument as a separate word, which is safest in loops."
+    "explanation": "$# holds the number of arguments. \"$@\" expands each argument as a separate word, $0 is the script name and $? is the last exit status.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 19,
@@ -472,7 +582,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Print a usage message and exit with a non-zero status, for example exit 1."
+    "explanation": "if [ $# -eq 0 ]; then ... fi tests that no arguments were passed, typically printing usage and exiting nonzero. while and case are not conditional blocks for this.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 20,
@@ -497,7 +613,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "while read -r u; do ...; done < /root/users.txt is safer for lines with spaces."
+    "explanation": "for u in $(cat /root/users.txt); do echo \"$u\"; done iterates over each word in the file. While read -r is safer for lines with spaces; looping over the path itself iterates once over the file name.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 21,
@@ -522,7 +644,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Positional parameters: $1, $2, ... ${10} for two-digit positions."
+    "explanation": "$1 is alice and $2 is bob, so echo \"Hello $2\" prints 'Hello bob'. Positional parameters beyond nine need braces, such as ${10}.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 22,
@@ -547,7 +675,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "-e exists, -s size > 0, -r readable, -w writable, -L symbolic link."
+    "explanation": "[ -d \"$1\" ] is true when $1 is an existing directory; -f tests a regular file, -x executable and -z an empty string. Quote the variable so spaces don't break the test.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 23,
@@ -572,7 +706,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Command substitution also processes command output, for example count=$(grep -c ERROR app.log)."
+    "explanation": "host=$(hostname) uses command substitution to store the command's output in a variable. host=hostname stores the literal word, and spaces around = are not allowed.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 24,
@@ -597,7 +737,13 @@
       }
     ],
     "answer": 0,
-    "explanation": ">&2 writes to standard error. || runs the right side only if the left fails."
+    "explanation": "[ -f file ] || { echo \"missing config\" >&2; exit 2; } runs the right side only if the test fails, sending the message to stderr (>&2) and exiting with status 2. Using && would exit when the file exists.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 25,
@@ -622,7 +768,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "C-style: for ((i=1; i<=5; i++)); do ...; done. seq 1 5 also works."
+    "explanation": "for i in {1..5}; do echo $i; done uses brace expansion to count 1 through 5; a C-style loop for ((i=1; i<=5; i++)) also works, as does seq 1 5. 1-5 is just a string, and i<5 would stop at 4.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      }
+    ]
   },
   {
     "id": 26,
@@ -647,7 +799,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Piping into while read -r line handles the output one line at a time, so each line can be prefixed. Processing command output is a core RHCSA scripting objective."
+    "explanation": "Piping into while read -r line handles output one line at a time, so journalctl -b | grep -i error | while read -r line; do echo \"ALERT: $line\"; done prefixes each match. Redirecting to a file named grep doesn't filter.",
+    "refs": [
+      {
+        "title": "bash(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/bash.1.html"
+      },
+      {
+        "title": "grep(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/grep.1.html"
+      }
+    ]
   },
   {
     "id": 27,
@@ -672,7 +834,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check with systemctl get-default. graphical.target is the GUI default."
+    "explanation": "systemctl set-default multi-user.target makes the system boot to a text console by default; graphical.target is the GUI default. isolate only switches the running system, and get-default shows the current setting.",
+    "refs": [
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      }
+    ]
   },
   {
     "id": 28,
@@ -697,7 +865,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "emergency.target is more minimal (root mounted read-only). Edits made at the GRUB menu apply to that boot only."
+    "explanation": "At GRUB press e, append systemd.unit=rescue.target to the linux line and press Ctrl+X to boot once into rescue mode. Changes made there last for that boot only; emergency.target is more minimal.",
+    "refs": [
+      {
+        "title": "Managing, monitoring, and updating the kernel - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_monitoring_and_updating_the_kernel/index"
+      }
+    ]
   },
   {
     "id": 29,
@@ -722,7 +896,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "With rd.break: mount -o remount,rw /sysroot; chroot /sysroot; passwd root; touch /.autorelabel; exit twice. Without the relabel, logins can fail because /etc/shadow has the wrong context."
+    "explanation": "After resetting root's password from the initramfs shell (rd.break), you must trigger an SELinux relabel (touch /.autorelabel) or restore the shadow file context, otherwise logins can fail. Remount /sysroot read-write and chroot to run passwd.",
+    "refs": [
+      {
+        "title": "Using SELinux - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_selinux/index"
+      }
+    ]
   },
   {
     "id": 30,
@@ -747,7 +927,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "systemctl poweroff powers off. shutdown -r +5 schedules a reboot in five minutes."
+    "explanation": "systemctl reboot reboots immediately. shutdown -r +5 schedules a reboot later, and systemctl poweroff powers off instead.",
+    "refs": [
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      }
+    ]
   },
   {
     "id": 31,
@@ -772,7 +958,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "ps aux --sort=-%mem sorts processes by memory use in descending order (the minus sign), and head keeps the top entries. In top, press M to sort by memory and P to sort by CPU."
+    "explanation": "ps aux --sort=-%mem | head lists processes by memory use, highest first (the minus sign), keeping the top entries. In top, M sorts by memory and P by CPU.",
+    "refs": [
+      {
+        "title": "ps(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ps.1.html"
+      },
+      {
+        "title": "top(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/top.1.html"
+      }
+    ]
   },
   {
     "id": 32,
@@ -797,7 +993,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Higher nice = lower priority. Change a running process with renice -n 15 -p PID."
+    "explanation": "nice -n 15 command starts a new process at nice 15 (lower priority); renice changes one already running. Higher nice values mean lower priority.",
+    "refs": [
+      {
+        "title": "nice(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/nice.1.html"
+      },
+      {
+        "title": "renice(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/renice.1.html"
+      }
+    ]
   },
   {
     "id": 33,
@@ -822,7 +1028,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "pgrep -l cpuhog finds the PIDs first."
+    "explanation": "pkill cpuhog (or killall) ends every process with that name; pgrep -l lists the PIDs first. kill needs PIDs, not names, and systemctl stop only works for services.",
+    "refs": [
+      {
+        "title": "pgrep(1) - Linux manual page (pgrep, pkill)",
+        "url": "https://man7.org/linux/man-pages/man1/pkill.1.html"
+      }
+    ]
   },
   {
     "id": 34,
@@ -847,7 +1059,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "tuned-adm active shows the current profile; tuned-adm list shows all. The tuned service must be enabled and running."
+    "explanation": "tuned-adm profile $(tuned-adm recommend) applies the recommended profile; tuned-adm active shows the current one. The tuned service must be enabled and running.",
+    "refs": [
+      {
+        "title": "Managing, monitoring, and updating the kernel - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_monitoring_and_updating_the_kernel/index"
+      }
+    ]
   },
   {
     "id": 35,
@@ -872,7 +1090,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Other filters: --since today, -u sshd, _PID=1234, -o verbose."
+    "explanation": "journalctl -b -p err shows messages of priority err and higher from the current boot. Other filters include --since, -u unit and -o verbose.",
+    "refs": [
+      {
+        "title": "journalctl - Query the systemd journal",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html"
+      }
+    ]
   },
   {
     "id": 36,
@@ -897,7 +1121,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Then journalctl -b -1 shows the previous boot."
+    "explanation": "Set Storage=persistent in /etc/systemd/journald.conf (or create /var/log/journal) and restart systemd-journald so logs survive reboots; then journalctl -b -1 shows the previous boot.",
+    "refs": [
+      {
+        "title": "journald.conf(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/journald.conf.5.html"
+      }
+    ]
   },
   {
     "id": 37,
@@ -922,7 +1152,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Verify with systemctl is-enabled httpd and systemctl is-active httpd."
+    "explanation": "systemctl enable --now httpd starts the service immediately and at every boot. Doing only start leaves it off after reboot, and only enable doesn't start it now.",
+    "refs": [
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      }
+    ]
   },
   {
     "id": 38,
@@ -947,7 +1183,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "rsync uses SSH by default for remote paths."
+    "explanation": "rsync -av /var/www/ server2:/var/www/ copies recursively over SSH, preserving permissions and times, and only transfers changes. The trailing slash copies the contents. scp of a directory needs -r and doesn't preserve as much.",
+    "refs": [
+      {
+        "title": "rsync(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/rsync.1.html"
+      }
+    ]
   },
   {
     "id": 39,
@@ -972,7 +1214,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "systemctl list-unit-files --type=service shows enabled/disabled state."
+    "explanation": "systemctl list-units --type=service --state=running lists running services. list-unit-files shows enabled or disabled state instead.",
+    "refs": [
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      }
+    ]
   },
   {
     "id": 40,
@@ -997,7 +1245,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Regular users can only raise the nice value of their own processes."
+    "explanation": "NI 19 is the nice value: the lowest scheduling priority. Regular users can only raise the nice value of their own processes.",
+    "refs": [
+      {
+        "title": "top(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/top.1.html"
+      },
+      {
+        "title": "renice(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/renice.1.html"
+      }
+    ]
   },
   {
     "id": 41,
@@ -1022,7 +1280,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "This requires persistent journal storage."
+    "explanation": "journalctl -b -1 shows messages from the previous boot, which requires a persistent journal. -b 0 is the current boot.",
+    "refs": [
+      {
+        "title": "journalctl - Query the systemd journal",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html"
+      }
+    ]
   },
   {
     "id": 42,
@@ -1047,7 +1311,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "vmstat 2 prints memory, swap, I/O and CPU statistics every 2 seconds until you stop it. Also useful: top, uptime (load average), and pidstat."
+    "explanation": "vmstat 2 prints memory, swap, I/O and CPU statistics every 2 seconds until stopped. free -h prints once, and uptime shows load average.",
+    "refs": [
+      {
+        "title": "vmstat(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/vmstat.8.html"
+      }
+    ]
   },
   {
     "id": 43,
@@ -1072,7 +1342,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Create the label first: parted /dev/vdb mklabel gpt. gdisk and fdisk are interactive alternatives. Run udevadm settle or partprobe if the kernel doesn't see the new partition."
+    "explanation": "parted configures GPT partitions non-interactively: parted /dev/vdb mklabel gpt, then mkpart. fdisk and gdisk are interactive. Run partprobe or udevadm settle if the kernel doesn't see the new partition.",
+    "refs": [
+      {
+        "title": "parted(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/parted.8.html"
+      }
+    ]
   },
   {
     "id": 44,
@@ -1097,7 +1373,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The device appears as /dev/vgdata/lvdata and /dev/mapper/vgdata-lvdata."
+    "explanation": "Build the stack in order: pvcreate /dev/vdb1, vgcreate vgdata /dev/vdb1, then lvcreate -n lvdata -L 2G vgdata. The volume appears as /dev/vgdata/lvdata and /dev/mapper/vgdata-lvdata.",
+    "refs": [
+      {
+        "title": "lvcreate(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/lvcreate.8.html"
+      },
+      {
+        "title": "Configuring and managing logical volumes - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_logical_volumes/index"
+      }
+    ]
   },
   {
     "id": 45,
@@ -1122,7 +1408,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Set extent size when creating the VG: vgcreate -s 16M vgapp /dev/vdb2. -l 100%FREE uses all free space."
+    "explanation": "lvcreate -l 50 allocates 50 extents (-L would mean a size), and extent size is set when creating the VG: vgcreate -s 16M. -l 100%FREE uses all free space.",
+    "refs": [
+      {
+        "title": "lvcreate(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/lvcreate.8.html"
+      }
+    ]
   },
   {
     "id": 46,
@@ -1147,7 +1439,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check with vgs and pvs."
+    "explanation": "Initialize the partition with pvcreate, then vgextend vgdata /dev/vdc1 adds it to the volume group; verify with pvs and vgs. lvextend grows a logical volume, not a VG.",
+    "refs": [
+      {
+        "title": "vgextend(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/vgextend.8.html"
+      },
+      {
+        "title": "Configuring and managing logical volumes - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_logical_volumes/index"
+      }
+    ]
   },
   {
     "id": 47,
@@ -1172,7 +1474,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "First run mkswap /dev/vgdata/lvswap, then swapon -a to test. Check with swapon --show or free -h."
+    "explanation": "A swap LV needs mkswap and the fstab line /dev/vgdata/lvswap none swap defaults 0 0; test with swapon -a and check swapon --show. Swap has no mount point, so the mount field is 'none'.",
+    "refs": [
+      {
+        "title": "swapon(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/swapon.8.html"
+      },
+      {
+        "title": "mkswap(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/mkswap.8.html"
+      }
+    ]
   },
   {
     "id": 48,
@@ -1197,7 +1509,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Never reuse a partition that holds data."
+    "explanation": "To add swap safely, use a new partition or LV, run mkswap, add it to /etc/fstab and run swapon -a. Never reuse a partition holding data, and swap can't be resized while in use.",
+    "refs": [
+      {
+        "title": "mkswap(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/mkswap.8.html"
+      },
+      {
+        "title": "swapon(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/swapon.8.html"
+      }
+    ]
   },
   {
     "id": 49,
@@ -1222,7 +1544,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use UUID= or LABEL= in /etc/fstab so mounts survive device-name changes."
+    "explanation": "blkid (or lsblk -f) shows UUIDs, labels and file system types. Use UUID= or LABEL= in fstab so mounts survive device-name changes.",
+    "refs": [
+      {
+        "title": "blkid(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/blkid.8.html"
+      }
+    ]
   },
   {
     "id": 50,
@@ -1247,7 +1575,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Labels can also be set at creation: mkfs.xfs -L DATA. Mount with LABEL=DATA."
+    "explanation": "xfs_admin -L DATA /dev/vdb1 sets the label on an unmounted XFS file system, and you can also set it at creation with mkfs.xfs -L. e2label is for ext file systems.",
+    "refs": [
+      {
+        "title": "xfs_admin(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/xfs_admin.8.html"
+      }
+    ]
   },
   {
     "id": 51,
@@ -1272,7 +1606,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Free size = free PE × PE size."
+    "explanation": "vgdisplay shows the physical extent (PE) size and free PE count; free space is free PE times PE size, which tells you how large a new logical volume can be.",
+    "refs": [
+      {
+        "title": "Configuring and managing logical volumes - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_logical_volumes/index"
+      }
+    ]
   },
   {
     "id": 52,
@@ -1297,7 +1637,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Rebooting also works, but isn't usually needed."
+    "explanation": "partprobe /dev/vdb (or udevadm settle) makes the kernel reread the partition table so lsblk shows the new partition. A reboot also works but is rarely needed.",
+    "refs": [
+      {
+        "title": "parted(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/parted.8.html"
+      }
+    ]
   },
   {
     "id": 53,
@@ -1322,7 +1668,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "pvcreate works without the flag, but setting it documents intent."
+    "explanation": "Mark an LVM partition with the 'Linux LVM' type (parted set N lvm on). pvcreate works without the flag, but it documents intent; EFI System and BIOS boot are for other uses.",
+    "refs": [
+      {
+        "title": "parted(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/parted.8.html"
+      }
+    ]
   },
   {
     "id": 54,
@@ -1347,7 +1699,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "ext4: mkfs.ext4. VFAT: mkfs.vfat. Then mount and add to /etc/fstab."
+    "explanation": "mkfs.xfs /dev/vgdata/lvdata creates an XFS file system on the logical volume. xfs_growfs resizes an existing one and mkfs.ext4 makes ext4.",
+    "refs": [
+      {
+        "title": "Managing file systems - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_file_systems/index"
+      }
+    ]
   },
   {
     "id": 55,
@@ -1372,7 +1730,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "findmnt /data verifies the mount; findmnt --verify checks fstab syntax."
+    "explanation": "To mount persistently: create the mount point, add a UUID=... /data xfs defaults 0 0 line to /etc/fstab, run systemctl daemon-reload and mount -a. Testing with mount -a avoids an unbootable system, and findmnt verifies the result.",
+    "refs": [
+      {
+        "title": "fstab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/fstab.5.html"
+      },
+      {
+        "title": "findmnt(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/findmnt.8.html"
+      }
+    ]
   },
   {
     "id": 56,
@@ -1397,7 +1765,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Without -r, run xfs_growfs /data (XFS) or resize2fs /dev/... (ext4) after lvextend."
+    "explanation": "lvextend -r -L 3G sets the LV to 3 GiB total and -r grows the file system too (xfs_growfs for XFS) while mounted. Without -r you must run xfs_growfs /data yourself, and resize2fs is for ext4.",
+    "refs": [
+      {
+        "title": "lvextend(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/lvextend.8.html"
+      },
+      {
+        "title": "xfs_growfs(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/xfs_growfs.8.html"
+      }
+    ]
   },
   {
     "id": 57,
@@ -1422,7 +1800,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Sizes round to whole extents, so pick a middle value."
+    "explanation": "When a size range is given, choose a value safely inside it, such as 850M. Sizes round to whole extents, so exact edge values can land outside the range. Verify with lvs and df -h.",
+    "refs": [
+      {
+        "title": "lvextend(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/lvextend.8.html"
+      }
+    ]
   },
   {
     "id": 58,
@@ -1447,7 +1831,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "List exports with showmount -e server1. Install nfs-utils if needed."
+    "explanation": "An NFS fstab entry lists server:/export first, then the mount point, type nfs and options including _netdev. showmount -e server1 lists exports, and nfs-utils may need installing.",
+    "refs": [
+      {
+        "title": "fstab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/fstab.5.html"
+      },
+      {
+        "title": "Managing file systems - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_file_systems/index"
+      }
+    ]
   },
   {
     "id": 59,
@@ -1472,7 +1866,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Install autofs, enable --now autofs. The master map can live in /etc/auto.master.d/guests.autofs."
+    "explanation": "autofs mounts on demand: a master map entry (/home/guests /etc/auto.guests) and a wildcard map (* -rw,sync nfs.example.com:/home/guests/&) mount each user's home when accessed. Install autofs and enable --now; per-user fstab lines mount everything at boot.",
+    "refs": [
+      {
+        "title": "Managing file systems - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_file_systems/index"
+      }
+    ]
   },
   {
     "id": 60,
@@ -1497,7 +1897,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "VFAT has no Unix permissions, so use uid=, gid=, and umask= mount options to control access."
+    "explanation": "mount -t vfat /dev/sdb1 /mnt/usb mounts a FAT drive. VFAT has no Unix permissions, so control access with uid=, gid= and umask= mount options.",
+    "refs": [
+      {
+        "title": "mount(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/mount.8.html"
+      }
+    ]
   },
   {
     "id": 61,
@@ -1522,7 +1928,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Add g+s so new files keep the projects group."
+    "explanation": "The group needs write permission on the directory, so chmod 775 (g+w) fixes it with minimal change; 777 is too open. Add g+s so new files keep the projects group.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      }
+    ]
   },
   {
     "id": 62,
@@ -1547,7 +1959,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "getfacl shows ACLs. The effective rights are limited by the ACL mask."
+    "explanation": "setfacl -m u:jlee:rw file grants jlee read/write without changing owner, group or mode; getfacl shows ACLs. Effective rights are limited by the ACL mask.",
+    "refs": [
+      {
+        "title": "setfacl(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/setfacl.1.html"
+      }
+    ]
   },
   {
     "id": 63,
@@ -1572,7 +1990,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "findmnt /data checks a specific mount point."
+    "explanation": "findmnt shows mounted file systems as a tree with options; findmnt /data checks one mount point and findmnt --verify checks fstab syntax.",
+    "refs": [
+      {
+        "title": "findmnt(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/findmnt.8.html"
+      }
+    ]
   },
   {
     "id": 64,
@@ -1597,7 +2021,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use nofail for removable or optional storage."
+    "explanation": "Without nofail, a missing device makes the boot wait and then drop to emergency mode. Use nofail for removable or optional storage.",
+    "refs": [
+      {
+        "title": "fstab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/fstab.5.html"
+      }
+    ]
   },
   {
     "id": 65,
@@ -1622,7 +2052,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Place files in /etc/yum.repos.d/*.repo or use dnf config-manager --add-repo URL. Check with dnf repolist. Use gpgcheck=1 with gpgkey= when a key is provided."
+    "explanation": "Define the repository in a .repo file under /etc/yum.repos.d with a [BaseOS] section containing name, baseurl=, enabled=1 and gpgcheck settings (or use dnf config-manager --add-repo). Check with dnf repolist. dnf.conf isn't where repos are defined.",
+    "refs": [
+      {
+        "title": "Managing software with the DNF tool - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_software_with_the_dnf_tool/index"
+      }
+    ]
   },
   {
     "id": 66,
@@ -1647,7 +2083,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "dnf remove, dnf update, dnf info, dnf search, and dnf provides are also common."
+    "explanation": "dnf install -y httpd installs the package and answers yes to prompts. rpm -i doesn't resolve dependencies.",
+    "refs": [
+      {
+        "title": "Managing software with the DNF tool - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_software_with_the_dnf_tool/index"
+      }
+    ]
   },
   {
     "id": 67,
@@ -1672,7 +2114,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "flatpak list shows installed apps; flatpak remotes lists repositories; flatpak uninstall removes apps."
+    "explanation": "Add the remote with flatpak remote-add --if-not-exists flathub <flatpakrepo URL> and then flatpak install flathub <app-id>. flatpak list shows installed apps, and dnf is for RPM packages."
   },
   {
     "id": 68,
@@ -1697,7 +2139,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Edit with crontab -e -u natasha. Verify with crontab -l -u natasha."
+    "explanation": "*/5 * * * * runs every five minutes (the minute field uses step syntax), and the user can be set with crontab -e -u natasha. A leading 5 would run only at minute 5, and six fields is invalid.",
+    "refs": [
+      {
+        "title": "crontab(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/crontab.5.html"
+      }
+    ]
   },
   {
     "id": 69,
@@ -1722,7 +2170,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Enable the timer, not the service: systemctl enable --now backup.timer. Check with systemctl list-timers."
+    "explanation": "Pair backup.service with backup.timer using OnCalendar=daily and Persistent=true so missed runs are caught up; enable the timer (systemctl enable --now backup.timer), not the service. systemctl list-timers shows them.",
+    "refs": [
+      {
+        "title": "systemd.timer - Timer unit configuration",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.timer.html"
+      }
+    ]
   },
   {
     "id": 70,
@@ -1747,7 +2201,7 @@
       }
     ],
     "answer": 0,
-    "explanation": "atd must be running. atq lists and atrm removes jobs."
+    "explanation": "echo \"script\" | at now + 10 minutes schedules a one-time job; atd must be running. atq lists jobs and atrm removes them. cron is for repeating jobs."
   },
   {
     "id": 71,
@@ -1772,7 +2226,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "timedatectl shows whether the clock is synchronized."
+    "explanation": "Add 'server classroom.example.com iburst' to /etc/chrony.conf, restart chronyd and check chronyc sources. RHEL uses chrony, not ntpd, and timedatectl set-ntp only toggles synchronization.",
+    "refs": [
+      {
+        "title": "timedatectl",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/timedatectl.html"
+      }
+    ]
   },
   {
     "id": 72,
@@ -1797,7 +2257,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "grubby --default-kernel shows the current default; grubby --update-kernel=ALL --args=... changes kernel parameters."
+    "explanation": "grubby --set-default /boot/vmlinuz-<version> sets the default boot kernel; grubby --default-kernel shows it. There is no dnf option for this.",
+    "refs": [
+      {
+        "title": "Managing, monitoring, and updating the kernel - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_monitoring_and_updating_the_kernel/index"
+      }
+    ]
   },
   {
     "id": 73,
@@ -1822,7 +2288,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Alternatively edit GRUB_CMDLINE_LINUX in /etc/default/grub and regenerate with grub2-mkconfig."
+    "explanation": "grubby --update-kernel=ALL --args=\"audit=1\" adds a kernel argument to every installed kernel. The alternative is editing GRUB_CMDLINE_LINUX in /etc/default/grub and regenerating with grub2-mkconfig; editing grub.cfg directly gets overwritten.",
+    "refs": [
+      {
+        "title": "Managing, monitoring, and updating the kernel - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_monitoring_and_updating_the_kernel/index"
+      }
+    ]
   },
   {
     "id": 74,
@@ -1847,7 +2319,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Kernel updates install alongside the old kernel, so you can fall back."
+    "explanation": "dnf upgrade (or dnf update) updates all packages to the latest available versions. Kernel updates install alongside the old kernel, so you can fall back.",
+    "refs": [
+      {
+        "title": "Managing software with the DNF tool - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_software_with_the_dnf_tool/index"
+      }
+    ]
   },
   {
     "id": 75,
@@ -1872,7 +2350,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "rpm -qip package.rpm shows information; rpm -qlp lists files."
+    "explanation": "dnf install ./package.rpm installs a local RPM and resolves dependencies from enabled repositories. rpm -i does not fetch dependencies, and rpm -qip shows package information.",
+    "refs": [
+      {
+        "title": "Managing software with the DNF tool - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_software_with_the_dnf_tool/index"
+      }
+    ]
   },
   {
     "id": 76,
@@ -1897,7 +2381,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "enable creates the boot-time symlink without starting the service; enable --now does both. Graders often reboot the system, so services must be enabled."
+    "explanation": "systemctl enable httpd creates the boot-time symlink without starting the service; enable --now does both. Graders often reboot, so a service must be enabled as well as running.",
+    "refs": [
+      {
+        "title": "systemctl - Control the systemd system and service manager",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
+      }
+    ]
   },
   {
     "id": 77,
@@ -1922,7 +2412,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "timedatectl list-timezones lists valid names."
+    "explanation": "timedatectl set-timezone Europe/London sets the system time zone; timedatectl list-timezones lists valid names. Exporting TZ only affects the current shell.",
+    "refs": [
+      {
+        "title": "timedatectl",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/timedatectl.html"
+      }
+    ]
   },
   {
     "id": 78,
@@ -1947,7 +2443,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Profiles are stored in /etc/NetworkManager/system-connections/*.nmconnection."
+    "explanation": "nmcli con mod sets the static address, gateway, DNS and ipv4.method manual persistently, and nmcli con up applies it. ip addr add and ifconfig are temporary; ifcfg files are the legacy format, as profiles now live in /etc/NetworkManager/system-connections.",
+    "refs": [
+      {
+        "title": "Configuring and managing networking - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_networking/index"
+      }
+    ]
   },
   {
     "id": 79,
@@ -1972,7 +2474,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use +ipv6.addresses to add rather than replace. Verify with ip -6 addr."
+    "explanation": "Add an IPv6 address with nmcli con mod eth0 ipv6.addresses fd00::11/64 ipv6.method manual and activate the connection; IPv4 settings stay as they were. Use +ipv6.addresses to add rather than replace, and verify with ip -6 addr.",
+    "refs": [
+      {
+        "title": "Configuring and managing networking - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_networking/index"
+      }
+    ]
   },
   {
     "id": 80,
@@ -1997,7 +2505,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "It writes /etc/hostname."
+    "explanation": "hostnamectl set-hostname servera.lab.example.com makes the name persistent by writing /etc/hostname. The plain hostname command changes it only until reboot.",
+    "refs": [
+      {
+        "title": "hostnamectl",
+        "url": "https://www.freedesktop.org/software/systemd/man/latest/hostnamectl.html"
+      }
+    ]
   },
   {
     "id": 81,
@@ -2022,7 +2536,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Lines are IP name aliases, such as 172.25.250.100 utility.lab.example.com utility."
+    "explanation": "/etc/hosts maps names to IP addresses locally, without DNS; lines are IP name aliases. /etc/resolv.conf lists DNS servers.",
+    "refs": [
+      {
+        "title": "nsswitch.conf(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/nsswitch.conf.5.html"
+      }
+    ]
   },
   {
     "id": 82,
@@ -2047,7 +2567,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Set it with nmcli con mod eth0 connection.autoconnect yes."
+    "explanation": "nmcli -g connection.autoconnect con show eth0 shows whether the profile starts automatically; set it with nmcli con mod eth0 connection.autoconnect yes.",
+    "refs": [
+      {
+        "title": "Configuring and managing networking - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_networking/index"
+      }
+    ]
   },
   {
     "id": 83,
@@ -2072,7 +2598,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "getent hosts follows /etc/nsswitch.conf, including /etc/hosts."
+    "explanation": "host or dig test DNS resolution directly, and getent hosts follows /etc/nsswitch.conf including /etc/hosts. ping tests reachability, not the DNS answer itself.",
+    "refs": [
+      {
+        "title": "nsswitch.conf(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/nsswitch.conf.5.html"
+      },
+      {
+        "title": "resolv.conf(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/resolv.conf.5.html"
+      }
+    ]
   },
   {
     "id": 84,
@@ -2097,7 +2633,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Default route: default via <gateway> dev <iface>."
+    "explanation": "ip route shows the routing table; the default route appears as 'default via <gateway> dev <iface>'. ip addr shows addresses.",
+    "refs": [
+      {
+        "title": "ip(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ip.8.html"
+      }
+    ]
   },
   {
     "id": 85,
@@ -2122,7 +2664,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "ss -tlnp lists listening TCP sockets with numeric ports and the owning process. Check listening address and port when a service isn't reachable."
+    "explanation": "ss -tlnp lists listening TCP sockets with numeric ports and the owning process, which tells you the address and port each service listens on when it isn't reachable.",
+    "refs": [
+      {
+        "title": "ss(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ss.8.html"
+      }
+    ]
   },
   {
     "id": 86,
@@ -2147,7 +2695,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Set the password non-interactively with echo 'password' | passwd --stdin harry."
+    "explanation": "Create the group first (groupadd sysadms) and then the user with supplementary group: useradd -G sysadms harry. Lowercase -g sets the primary group instead. Set the password with passwd --stdin.",
+    "refs": [
+      {
+        "title": "useradd(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/useradd.8.html"
+      },
+      {
+        "title": "groupadd(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/groupadd.8.html"
+      }
+    ]
   },
   {
     "id": 87,
@@ -2172,7 +2730,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Verify with id sarah and grep sarah /etc/passwd."
+    "explanation": "useradd -u 3533 -s /sbin/nologin sarah sets the UID and denies interactive login. Verify with id sarah or grep sarah /etc/passwd.",
+    "refs": [
+      {
+        "title": "useradd(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/useradd.8.html"
+      }
+    ]
   },
   {
     "id": 88,
@@ -2197,7 +2761,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "login.defs affects only accounts created afterward. Use chage -M 90 user for existing accounts."
+    "explanation": "PASS_MAX_DAYS 90 in /etc/login.defs applies to accounts created afterward. For existing users run chage -M 90 user.",
+    "refs": [
+      {
+        "title": "login.defs(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/login.defs.5.html"
+      },
+      {
+        "title": "chage(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chage.1.html"
+      }
+    ]
   },
   {
     "id": 89,
@@ -2222,7 +2796,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "chage -l natasha shows aging. chage -d 0 forces a change at next login."
+    "explanation": "chage -M 30 natasha sets the maximum password age to 30 days; -E sets the account expiry date instead. chage -l shows aging and chage -d 0 forces a change at next login.",
+    "refs": [
+      {
+        "title": "chage(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chage.1.html"
+      }
+    ]
   },
   {
     "id": 90,
@@ -2247,7 +2827,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Members of wheel already have full sudo on RHEL. NOPASSWD: removes the password prompt if a task requires it."
+    "explanation": "Create /etc/sudoers.d/sysadms containing %sysadms ALL=(ALL) ALL using visudo -f, which checks syntax. Don't loosen /etc/sudoers permissions or share root's password; members of wheel already have full sudo on RHEL.",
+    "refs": [
+      {
+        "title": "sudoers(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/sudoers.5.html"
+      }
+    ]
   },
   {
     "id": 91,
@@ -2272,7 +2858,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "gpasswd -a harry wheel is an alternative."
+    "explanation": "usermod -aG wheel harry appends the group and keeps his other supplementary groups; without -a the -G option replaces them. gpasswd -a is an alternative.",
+    "refs": [
+      {
+        "title": "usermod(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/usermod.8.html"
+      }
+    ]
   },
   {
     "id": 92,
@@ -2297,7 +2889,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Check for files owned by the old UID elsewhere with find / -nouser."
+    "explanation": "userdel -r tom deletes the user and removes the home directory and mail spool. Without -r the home stays; check for leftover files with find / -nouser.",
+    "refs": [
+      {
+        "title": "userdel(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/userdel.8.html"
+      }
+    ]
   },
   {
     "id": 93,
@@ -2322,7 +2920,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "getent passwd username shows the account line."
+    "explanation": "id username shows the UID, primary group and supplementary groups; getent passwd username shows the account line. who shows logged-in users.",
+    "refs": [
+      {
+        "title": "id(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/id.1.html"
+      }
+    ]
   },
   {
     "id": 94,
@@ -2347,7 +2951,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "firewall-cmd --list-all shows the active zone's settings."
+    "explanation": "firewall-cmd --permanent --add-service=http saves the rule and --reload applies it, so it works now and after reboot. Without --permanent it's lost on reload; iptables rules aren't how firewalld is managed.",
+    "refs": [
+      {
+        "title": "Configuring firewalls and packet filters - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_firewalls_and_packet_filters/index"
+      }
+    ]
   },
   {
     "id": 95,
@@ -2372,7 +2982,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Rich rules allow source-specific rules: --add-rich-rule='rule family=ipv4 source address=172.25.0.0/16 service name=ssh accept'."
+    "explanation": "firewall-cmd --permanent --add-port=82/tcp followed by --reload opens TCP port 82 persistently. --add-service takes a service name, not a number, and semanage port is SELinux labeling.",
+    "refs": [
+      {
+        "title": "Configuring firewalls and packet filters - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_firewalls_and_packet_filters/index"
+      }
+    ]
   },
   {
     "id": 96,
@@ -2397,7 +3013,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "List labeled ports with semanage port -l | grep http. Then restart httpd and open the port in firewalld."
+    "explanation": "SELinux only lets httpd bind labeled ports, so besides Listen 82 label the port: semanage port -a -t http_port_t -p tcp 82. Then restart httpd and open the port in firewalld. Disabling SELinux is not the fix.",
+    "refs": [
+      {
+        "title": "semanage-port(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/semanage-port.8.html"
+      },
+      {
+        "title": "Using SELinux - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_selinux/index"
+      }
+    ]
   },
   {
     "id": 97,
@@ -2422,7 +3048,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "ls -Zd /srv/web shows the context."
+    "explanation": "semanage fcontext -a -t httpd_sys_content_t '/srv/web(/.*)?' records the labeling rule, and restorecon -Rv applies it, so it survives a relabel. chcon alone is lost on relabel.",
+    "refs": [
+      {
+        "title": "semanage-fcontext(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/semanage-fcontext.8.html"
+      },
+      {
+        "title": "restorecon(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/restorecon.8.html"
+      }
+    ]
   },
   {
     "id": 98,
@@ -2447,7 +3083,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "sestatus shows mode, policy, and config-file mode."
+    "explanation": "getenforce prints the current SELinux mode; sestatus gives mode, policy and the configured mode. setenforce changes the mode.",
+    "refs": [
+      {
+        "title": "getenforce(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/getenforce.8.html"
+      }
+    ]
   },
   {
     "id": 99,
@@ -2472,7 +3114,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "Switching from disabled to enforcing requires a relabel at boot."
+    "explanation": "SELINUX=enforcing in /etc/selinux/config makes enforcing the boot default; setenforce 1 only lasts until reboot. Moving from disabled to enforcing triggers a relabel at boot.",
+    "refs": [
+      {
+        "title": "Using SELinux - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_selinux/index"
+      }
+    ]
   },
   {
     "id": 100,
@@ -2497,7 +3145,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "getsebool -a | grep httpd lists httpd booleans; semanage boolean -l shows descriptions."
+    "explanation": "setsebool -P httpd_can_network_connect_db on persistently allows httpd to connect to remote databases; without -P it reverts at reboot. getsebool -a lists booleans.",
+    "refs": [
+      {
+        "title": "setsebool(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/setsebool.8.html"
+      }
+    ]
   },
   {
     "id": 101,
@@ -2522,7 +3176,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Denials are logged in /var/log/audit/audit.log. setroubleshoot's sealert suggests fixes."
+    "explanation": "ausearch -m AVC -ts recent shows recent SELinux denials from /var/log/audit/audit.log, and sealert (setroubleshoot) suggests fixes.",
+    "refs": [
+      {
+        "title": "ausearch(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/ausearch.8.html"
+      },
+      {
+        "title": "Using SELinux - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_selinux/index"
+      }
+    ]
   },
   {
     "id": 102,
@@ -2547,7 +3211,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "httpd runs in the httpd_t domain."
+    "explanation": "ps -eZ | grep httpd shows the SELinux context of running processes; httpd runs in the httpd_t domain. ls -Z shows file contexts instead.",
+    "refs": [
+      {
+        "title": "Using SELinux - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_selinux/index"
+      }
+    ]
   },
   {
     "id": 103,
@@ -2572,7 +3242,13 @@
       }
     ],
     "answer": 0,
-    "explanation": "cp to a new file usually takes the destination's default context; mv keeps the original context."
+    "explanation": "A file copied from /root may keep admin_home_t if it was moved; restorecon -v resets it to the default context for its new location. cp usually takes the destination's default context but mv keeps the original.",
+    "refs": [
+      {
+        "title": "restorecon(8) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man8/restorecon.8.html"
+      }
+    ]
   },
   {
     "id": 104,
@@ -2597,7 +3273,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "The public key goes into ~student/.ssh/authorized_keys on serverb, which should be mode 600 in a 700 .ssh directory."
+    "explanation": "Run ssh-keygen on servera and ssh-copy-id student@serverb to place the public key in ~student/.ssh/authorized_keys on serverb (mode 600 in a 700 .ssh directory). Never copy the private key or allow empty passwords.",
+    "refs": [
+      {
+        "title": "ssh-keygen(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ssh-keygen.1.html"
+      },
+      {
+        "title": "ssh-copy-id(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/ssh-copy-id.1.html"
+      }
+    ]
   },
   {
     "id": 105,
@@ -2622,7 +3308,17 @@
       }
     ],
     "answer": 0,
-    "explanation": "Set it per user in ~/.bashrc or ~/.bash_profile, or system-wide in /etc/profile.d or /etc/login.defs."
+    "explanation": "umask 027 removes group write and all other permissions: files get 640 and directories 750. Set it in ~/.bashrc or ~/.bash_profile for the user, or system-wide in /etc/profile.d or /etc/login.defs.",
+    "refs": [
+      {
+        "title": "chmod(1) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man1/chmod.1.html"
+      },
+      {
+        "title": "login.defs(5) - Linux manual page",
+        "url": "https://man7.org/linux/man-pages/man5/login.defs.5.html"
+      }
+    ]
   },
   {
     "id": 106,
@@ -2647,6 +3343,12 @@
       }
     ],
     "answer": 0,
-    "explanation": "Use permissive briefly to troubleshoot; always restore enforcing."
+    "explanation": "Permissive mode logs SELinux denials without blocking them, useful briefly for troubleshooting; enforcing blocks, and disabled turns SELinux off. Targeted is a policy type, not a mode.",
+    "refs": [
+      {
+        "title": "Using SELinux - RHEL 9",
+        "url": "https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/using_selinux/index"
+      }
+    ]
   }
 ]
