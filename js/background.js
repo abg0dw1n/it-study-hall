@@ -259,7 +259,7 @@
   cv.className = 'bg-canvas'; cv.setAttribute('aria-hidden', 'true');
   // Inline so the canvas stays behind the page even if the stylesheet is stale or slow to load.
   cv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block';
-  var ctx = cv.getContext('2d'), w = 0, h = 0, raf = 0, cols = null, S = null, cur = null;
+  var ctx = cv.getContext('2d', { alpha: false }), w = 0, h = 0, raf = 0, cols = null, S = null, cur = null;
 
   function pref() { try { var v = localStorage.getItem(KEY); return v === 'off' || STYLES[v] ? v : DEFAULT; } catch (e) { return DEFAULT; } }
   function readColors() {
@@ -281,7 +281,9 @@
     if (S.noClear) { frame(0); }
     if (reduce) { for (var i = 0; i < (S.noClear ? 90 : 1); i++) frame(i * 40 + 1000); } else frame(performance.now());
   }
-  function loop(t) { frame(t); raf = requestAnimationFrame(loop); }
+  var last = 0;
+  // ~40fps cap: the full-screen redraw competes with page repaints (e.g. when an answer is revealed) and Chrome can flash black tiles when it falls behind
+  function loop(t) { raf = requestAnimationFrame(loop); if (t - last < 24) return; last = t; frame(t); }
   function start() { if (!raf && !reduce && cur && !document.hidden) raf = requestAnimationFrame(loop); }
   function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
 

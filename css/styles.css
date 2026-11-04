@@ -1555,7 +1555,7 @@ a.recent-stat:hover { background: color-mix(in srgb, var(--text) 9%, transparent
 .theme-name small { display: block; font-weight: 400; color: var(--muted); font-size: .72rem; }
 
 /* Animated background (js/background.js): fixed canvas behind the page; surfaces stay opaque so text is unaffected. */
-.bg-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.bg-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; transform: translateZ(0); will-change: transform; contain: strict; }
 .bg-heading { margin: 22px 0 0; font: 700 1rem var(--font-head); }
 .bg-grid .theme-opt { gap: 2px; }
 .bg-grid .theme-name small { margin-top: 2px; }
