@@ -1021,7 +1021,7 @@
         "Wildcard = inverse of the mask: /30 → 0.0.0.3, /24 → 0.0.0.255.",
         "<code>passive-interface g0/1</code> keeps advertising the LAN but stops sending hellos there."
       ],
-      "solution": "<pre>! R1\nrouter ospf 1\n router-id 1.1.1.1\n network 192.168.1.0 0.0.0.255 area 0\n network 10.0.12.0 0.0.0.3 area 0\n passive-interface g0/1\n! R2\nrouter ospf 1\n router-id 2.2.2.2\n network 10.0.12.0 0.0.0.3 area 0\n network 10.0.23.0 0.0.0.3 area 0\n! R3\nrouter ospf 1\n router-id 3.3.3.3\n network 192.168.3.0 0.0.0.255 area 0\n network 10.0.23.0 0.0.0.3 area 0\n passive-interface g0/1</pre>",
+      "solution": "<pre>! R1\nenable\nconfigure terminal\nrouter ospf 1\n router-id 1.1.1.1\n network 192.168.1.0 0.0.0.255 area 0\n network 10.0.12.0 0.0.0.3 area 0\n passive-interface g0/1\n end\n! R2\nenable\nconfigure terminal\nrouter ospf 1\n router-id 2.2.2.2\n network 10.0.12.0 0.0.0.3 area 0\n network 10.0.23.0 0.0.0.3 area 0\n end\n! R3\nenable\nconfigure terminal\nrouter ospf 1\n router-id 3.3.3.3\n network 192.168.3.0 0.0.0.255 area 0\n network 10.0.23.0 0.0.0.3 area 0\n passive-interface g0/1\n end\nshow ip ospf neighbor\nshow ip route</pre>",
       "review": "<p>OSPF neighbors need matching area, subnet and mask on the shared link. Passive interfaces advertise the LAN without forming adjacencies on it. Routes learned from neighbors appear with code O.</p>"
     },
     {

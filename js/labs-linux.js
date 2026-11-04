@@ -1,6 +1,6 @@
 // Linux shell simulator for labs: a virtual filesystem with owners, permission bits, special
 // bits, ACLs, symbolic links and SELinux labels; sudo and root shells; pipes, redirection,
-// command lists (; and &&) and variables; and the text tools. System administration
+// command lists (; and &&), one-line for loops and variables; and the text tools. System administration
 // (packages, services, storage, networking, SELinux, firewalld, scheduling, reboot) lives in
 // labs-linux-admin.js and the modules it uses. Ubuntu is the default; labs set distro: "rhel"
 // for Red Hat Enterprise Linux behavior.
@@ -141,9 +141,28 @@ export class LinuxSession {
     // Command lists: a; b and a && b (outside quotes).
     const parts = splitList(line); const outs = [];
     try {
-      for (const { cmd, op } of parts) {
+      for (let i = 0; i < parts.length; i++) {
+        const { cmd, op } = parts[i];
         if (op === '&&' && this.lastFailed) break;
         if (op === '||' && !this.lastFailed) continue;
+        // One-line loops: for VAR in WORDS; do CMD; [CMD; ...] done
+        const loop = cmd.match(/^for\s+([A-Za-z_]\w*)\s+in(?:\s+(.*))?$/);
+        if (loop) {
+          const end = parts.findIndex((x, k) => k > i && x.cmd === 'done');
+          if (!/^do(\s|$)/.test(parts[i + 1]?.cmd || '') || end < 0) { this.lastFailed = true; outs.push(`bash: syntax error: expected "for ${loop[1]} in ...; do ...; done" on one line`); break; }
+          const body = parts.slice(i + 1, end).map((x, k) => ({ cmd: k ? x.cmd : x.cmd.replace(/^do\s*/, ''), op: k ? x.op : ';' })).filter((x) => x.cmd);
+          const words = loop[2] ? this.glob(tokenize(this.expandQuoted(`: ${loop[2]}`))).slice(1) : [];
+          this.lastFailed = false;
+          for (const w of words) {
+            this.s.vars[loop[1]] = w;
+            for (const b of body) {
+              if (b.op === '&&' && this.lastFailed) break;
+              if (b.op === '||' && !this.lastFailed) continue;
+              const o = this.runOne(b.cmd); if (o) outs.push(o);
+            }
+          }
+          i = end; continue;
+        }
         const o = this.runOne(cmd); if (o) outs.push(o);
       }
     } finally { this.root = false; this.sudoAs = null; }
@@ -154,8 +173,9 @@ export class LinuxSession {
     if (/^\w+=\S*$/.test(line)) { const [k, ...v] = line.split('='); this.s.vars[k] = v.join('=').replace(/^['"]|['"]$/g, ''); return ''; }
     const { body, out, append, input, quiet, merge } = redirects(line);
     const stages = splitPipes(body);
-    let data = input ? this.readFile(input) : null; let text = '';
+    let data = null; let text = '';
     try {
+      if (input) { try { data = this.readFile(input); } catch (e) { if (e instanceof ShellError) throw new ShellError(`bash: ${input}: ${e.message.replace(/^.*?:\s*/, '')}`); throw e; } }
       for (const st of stages) { text = this.exec(this.glob(tokenize(this.expandQuoted(st))), data); data = text; }
     } catch (e) {
       this.lastFailed = true; this.root = false;
@@ -268,7 +288,7 @@ export class LinuxSession {
         return out.join('\n');
       }
       case 'stat': { need(1, 'stat: missing operand'); return args.map((t) => { const p = this.abs(t); const n = this.s.fs[p] || this.s.fs[this.follow(p)]; if (!n) throw new ShellError(`stat: cannot statx '${t}': No such file or directory`); return `  File: ${t}${n.t === 'l' ? ` -> ${n.target}` : ''}\n  Size: ${n.size ?? (n.content || '').length}\tBlocks: 8\t${n.t === 'd' ? 'directory' : n.t === 'l' ? 'symbolic link' : 'regular file'}\nAccess: (${n.sp || 0}${n.mode}/${modeString(n)})  Uid: ( ${this.s.users[n.owner]?.uid ?? '?'}/${n.owner})   Gid: ( ${this.s.groups?.[n.group]?.gid ?? '?'}/${n.group})${this.s.selinux ? `\nContext: ${ctxString(ctxOf(this.s, p))}` : ''}`; }).join('\n'); }
-      case 'cat': need(1, 'usage: cat FILE'); return args.map(read).join('\n');
+      case 'cat': if (!args.length && input != null) return String(input).replace(/\n$/, ''); need(1, 'usage: cat FILE'); return args.map(read).join('\n');
       case 'head': case 'tail': {
         if (cmd === 'tail' && flags.includes('-f')) { const t = args.map(read).join('\n'); return `${lines(t).slice(-10).join('\n')}\n(tail -f would keep waiting for new lines; this lab stops here.)`; }
         const nf = a.indexOf('-n'); const n = nf >= 0 ? +a[nf + 1] : (flags.find((f) => /^-\d+$/.test(f)) ? +flags.find((f) => /^-\d+$/.test(f)).slice(1) : 10);
@@ -623,7 +643,7 @@ function redirects(line) {
     if (line.startsWith('&>', i) || line.startsWith('2>', i) || ch === '>' || ch === '<') {
       const err = line.startsWith('2>', i); const both = line.startsWith('&>', i); let j = i + (err || both ? 2 : 1); let app = false;
       if (ch === '>' || err || both) { if (line[j] === '>') { app = true; j++; } }
-      while (line[j] === ' ') j++; let tgt = ''; while (j < line.length && !/[\s|;]/.test(line[j])) tgt += line[j++];
+      while (line[j] === ' ') j++; let tgt = ''; while (j < line.length && !/[\s|;<>]/.test(line[j])) tgt += line[j++];
       if (ch === '<') input = tgt; else if (err) { if (tgt === '/dev/null') quiet = true; } else { out = tgt; append = app; if (both) merge = true; }
       i = j - 1; continue;
     }

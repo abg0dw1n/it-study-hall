@@ -117,4 +117,5 @@ if (dryRun) { console.log('Dry run: no changes written.'); process.exit(0); }
 if (added.length) {
   fs.writeFileSync(bankPath, JSON.stringify([...bank, ...added], null, 2) + '\n');
   console.log(`Bank now has ${bank.length + added.length} questions → ${path.relative(root, bankPath)}`);
+  console.log('Next: commit the bank, then run node scripts/stamp-updated.mjs so exams/index.json shows the new count.');
 }

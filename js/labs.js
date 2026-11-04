@@ -224,7 +224,7 @@ function renderTerminal(el) {
     <p class="small muted term-help">${{
       ios: 'Type commands as you would on the device. Abbreviations work (conf t, int g0/1, sh ip int br). Type ? for help, Tab to complete, ↑/↓ for history.',
       windows: 'Type Windows commands (ipconfig, ping, nslookup, netsh, net user, tasklist…). Type help for the list; ↑/↓ for history.',
-      linux: 'Type Linux commands (ls -l, cat, grep, chmod, sudo, systemctl…). Pipes, ;, &&, > and >> work, and vi or nano opens a simple editor. Type help for the list; Tab completes; ↑/↓ for history.',
+      linux: 'Type Linux commands (ls -l, cat, grep, chmod, sudo, systemctl…). Pipes, ;, &&, one-line for loops, > and >> work, and vi or nano opens a simple editor. Type help for the list; Tab completes; ↑/↓ for history.',
       az: 'Type Azure CLI commands starting with az (for example az group list -o table). ↑/↓ for history.',
     }[consoles[0]?.platform] || ''}</p>
   </div>`;

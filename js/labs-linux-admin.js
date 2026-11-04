@@ -2,7 +2,7 @@
 // (dnf/rpm/flatpak and apt), services and timers (systemctl, journalctl), scheduling (cron,
 // at), tuned, networking (nmcli, ip, hostnamectl, name resolution, ping, curl), time (chrony),
 // SSH keys, archives (tar), links, disk usage, reboot persistence, and state queries for checks.
-import { ShellError, policyCtx, fmtSize, parentOf } from './labs-linux-base.js';
+import { ShellError, policyCtx, parentOf } from './labs-linux-base.js';
 import { storage, storageState, defaultFstab, bootStorage, canon, resolveSpec } from './labs-linux-storage.js';
 import { sec, secState, webStart, webPorts, httpGet, ctxOf } from './labs-linux-sec.js';
 
