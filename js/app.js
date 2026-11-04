@@ -1620,21 +1620,16 @@ async function renderHome() {
     <section class="request-section" aria-labelledby="request-title">
       <div class="request-copy">
         <span class="eyebrow">HELP SHAPE WHAT COMES NEXT</span>
-        <h2 id="request-title">Request a course or exam</h2>
-        <p>Tell us which certification you’re studying for and what learning materials would help. Requests help us prioritize future additions.</p>
+        <h2 id="request-title">Request a course, exam or feature</h2>
+        <p>Tell us which certification you’re studying for, what learning materials would help, or what would make the site better. Requests help us prioritize future additions.</p>
       </div>
       <div class="request-action">
-        <a class="btn btn-primary" href="https://github.com/abg0dw1n/it-study-hall/issues/new?template=course-exam-request.yml" target="_blank" rel="noopener noreferrer">Submit a request ${icon("right","icon")}</a>
-        <p>Requests are public on GitHub. A GitHub account is required. Please don’t include personal or sensitive information.</p>
+        <button class="btn btn-primary" data-request-new>Submit a request ${icon("right","icon")}</button>
+        <p>Choose the type of request on the next screen.</p>
       </div>
     </section>
-    ${Auth.currentUser() ? `<section class="feature-strip" aria-labelledby="feature-strip-title">
-      <div><h3 id="feature-strip-title">${icon('bulb')}Have an idea for the site?</h3>
-        <p class="muted small">Suggest a feature or improvement. Only the site owner sees it, and you can follow its status on your <a href="/account#features">Account page</a>.</p></div>
-      <button class="btn btn-ghost" data-feature-new>Suggest a feature</button>
-    </section>` : ''}
   </section>`;
-  $('main').querySelector('[data-feature-new]')?.addEventListener('click', () => openFeatureForm());
+  $('main').querySelector('[data-request-new]')?.addEventListener('click', () => openRequestForm());
   wireWhatsNewPill();
   // One delegated listener for the home page's Recents "hide" buttons (renderHome runs many times).
   if (!homeClicksBound) {
@@ -2086,24 +2081,50 @@ const FEATURE_CATEGORIES = {
 };
 const FEATURE_STATUS = { new: 'Submitted', planned: 'Planned', 'in-progress': 'In progress', done: 'Done', declined: 'Not planned' };
 
-// Opens the suggestion form; reopens with the same text if the title is too short.
-async function openFeatureForm(prefill = {}) {
-  const body = `<div class="report-form">
-      <p class="small">Suggest something that would make the site better. Only the site owner sees your request.</p>
-      <label class="small">Area
-        <select id="feature-category">${Object.entries(FEATURE_CATEGORIES).map(([k, v]) =>
-          `<option value="${k}" ${prefill.category === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
-      </label>
-      <label class="small">Your idea, in a few words
-        <input id="feature-title" type="text" maxlength="120" required placeholder="For example: flashcards for key terms" value="${escapeHtml(prefill.title || '')}">
-      </label>
-      <label class="small">Details (optional)
-        <textarea id="feature-details" rows="4" maxlength="2000" placeholder="What would it help you do? How would you use it?">${escapeHtml(prefill.details || '')}</textarea>
-      </label>
+const COURSE_REQUEST_URL = 'https://github.com/abg0dw1n/it-study-hall/issues/new?template=course-exam-request.yml';
+
+// One entry point for every kind of request: pick the type, then fill in the matching form.
+async function openRequestForm(prefill = {}) {
+  const signedIn = !!Auth.currentUser();
+  const type = prefill.type === 'feature' && signedIn ? 'feature' : 'course';
+  const body = `<div class="report-form request-form">
+      <fieldset class="request-types"><legend class="small">What are you requesting?</legend>
+        <label class="request-type"><input type="radio" name="req-type" value="course" ${type === 'course' ? 'checked' : ''}><span><strong>A course or exam</strong><small>A certification or learning path to add</small></span></label>
+        <label class="request-type"><input type="radio" name="req-type" value="feature" ${type === 'feature' ? 'checked' : ''} ${signedIn ? '' : 'disabled'}><span><strong>A site feature or idea</strong><small>${signedIn ? 'Something that would improve the site' : 'Sign in to suggest site features'}</small></span></label>
+      </fieldset>
+      <div id="req-course" ${type === 'course' ? '' : 'hidden'}>
+        <p class="small">Tell us which certification you’re studying for and what materials would help. Course and exam requests are <strong>public on GitHub</strong> and need a GitHub account. Please don’t include personal or sensitive information.</p>
+        <a class="btn btn-primary" id="req-github" href="${COURSE_REQUEST_URL}" target="_blank" rel="noopener noreferrer">Continue to GitHub ${icon('right', 'icon')}</a>
+      </div>
+      <div id="req-feature" class="report-form" ${type === 'feature' ? '' : 'hidden'}>
+        <p class="small">Only the site owner sees feature requests, and you can follow their status on your Account page.</p>
+        <label class="small">Area
+          <select id="feature-category">${Object.entries(FEATURE_CATEGORIES).map(([k, v]) =>
+            `<option value="${k}" ${prefill.category === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
+        </label>
+        <label class="small">Your idea, in a few words
+          <input id="feature-title" type="text" maxlength="120" placeholder="For example: flashcards for key terms" value="${escapeHtml(prefill.title || '')}">
+        </label>
+        <label class="small">Details (optional)
+          <textarea id="feature-details" rows="4" maxlength="2000" placeholder="What would it help you do? How would you use it?">${escapeHtml(prefill.details || '')}</textarea>
+        </label>
+      </div>
     </div>`;
-  if (!(await confirmModal('Suggest a feature', body, 'Send suggestion'))) return;
+  const ok = $('modal-ok');
+  const sync = () => {
+    const feature = document.querySelector('input[name="req-type"]:checked')?.value === 'feature';
+    $('req-course').hidden = feature; $('req-feature').hidden = !feature;
+    ok.hidden = !feature; ok.textContent = 'Send suggestion';
+  };
+  const pending = confirmModal('Submit a request', body, 'Send suggestion');
+  sync();
+  $('modal-body').addEventListener('change', sync);
+  $('req-github').addEventListener('click', () => $('modal').close('cancel'));
+  const sent = await pending;
+  ok.hidden = false;
+  if (!sent) return;
   const form = { category: $('feature-category').value, title: $('feature-title').value.trim(), details: $('feature-details').value };
-  if (form.title.length < 3) { toast('Add a short title for your idea (at least 3 characters).'); return openFeatureForm(form); }
+  if (form.title.length < 3) { toast('Add a short title for your idea (at least 3 characters).'); return openRequestForm({ ...form, type: 'feature' }); }
   try {
     await Auth.submitFeatureRequest(form);
     toast('Thanks! Your suggestion was sent. Track it on your Account page.');
@@ -2145,7 +2166,7 @@ async function renderFeatureRequests() {
           ${isAdmin ? `<button class="btn btn-ghost btn-sm" data-feature-edit="${r.id}">Update</button>` : ''}</span></li>`).join('')}</ul>`
         : `<p class="muted small">${isAdmin ? 'No feature requests yet.' : 'You haven’t suggested anything yet.'}</p>`}
     </div>`;
-  box.querySelector('[data-feature-new]').addEventListener('click', () => openFeatureForm());
+  box.querySelector('[data-feature-new]').addEventListener('click', () => openRequestForm({ type: 'feature' }));
   box.querySelectorAll('[data-feature-edit]').forEach((b) => b.addEventListener('click', async () => {
     const r = rows.find((x) => String(x.id) === b.dataset.featureEdit);
     const body = `<div class="report-form">
