@@ -1748,6 +1748,25 @@ async function showAdminBadge() {
   $('account-admin-chip')?.removeAttribute('hidden');
 }
 
+// Sign-ins expire SESSION_MAX_HOURS after the person signed in: save progress to the account,
+// sign out (which clears this device), and ask them to sign in again.
+const EXPIRED_KEY = 'examsim:expired';
+const expiredMessage = () => `For your security, you're signed out ${Auth.SESSION_MAX_HOURS} hours after signing in. Your progress is saved to your account. Please sign in again.`;
+async function endExpiredSession() {
+  if (EXAM) flushUpload();
+  await syncFromCloud().catch(() => {});
+  await Auth.signOut();
+}
+async function checkSessionAge() {
+  if (!Auth.currentUser() || !Auth.sessionExpired()) return;
+  await endExpiredSession();
+  try { sessionStorage.setItem(EXPIRED_KEY, '1'); } catch { /* ignore */ }
+  location.assign('/');
+}
+setInterval(checkSessionAge, 60 * 1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkSessionAge(); });
+const takeExpiredNotice = () => { try { if (sessionStorage.getItem(EXPIRED_KEY)) { sessionStorage.removeItem(EXPIRED_KEY); return expiredMessage(); } } catch { /* ignore */ } return ''; };
+
 // Sign out (header button and Account page): confirm, upload pending progress, clear this device.
 async function confirmSignOut() {
   if (!(await confirmModal('Sign out?', 'Your progress is saved to your account and removed from this device.', 'Sign out'))) return;
@@ -2267,12 +2286,19 @@ async function init() {
   const labFiles = examPage ? optional('labs', Labs.loadLabs) : null;
   if (Auth.AUTH_ENABLED) {
     const auth = await Auth.initAuth();
+    if (auth.confirm) {
+      const ok = await confirmModal('Finish signing in?', `<p>Continue as <b>${escapeHtml(auth.confirm)}</b>?</p>
+        <p class="muted small">Only continue if you just asked to sign in. If someone sent you this link, choose Cancel.</p>`, 'Continue', 'Cancel');
+      if (ok) Auth.acceptPendingSignIn(); else Auth.discardPendingSignIn();
+      location.reload(); return;
+    }
+    if (auth.expired) { await endExpiredSession(); renderAccount(); return renderSignIn(expiredMessage()); }
     if (auth.signedIn && sessionStorage.getItem('examsim:guest')) {
       // Signed in from a guest tab: drop the guest data so it never reaches the account.
       Auth.endGuest(); sessionStorage.removeItem('examsim:guest');
     }
     renderAccount();
-    if (!auth.signedIn && !Auth.isGuest()) return renderSignIn(auth.error);
+    if (!auth.signedIn && !Auth.isGuest()) return renderSignIn(auth.error || takeExpiredNotice());
     if (auth.error) toast(auth.error);
     if (Auth.isGuest()) $('guest-banner').hidden = false;
     else { showAdminBadge(); await syncFromCloud(); }

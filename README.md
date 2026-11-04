@@ -251,6 +251,10 @@ The sign-in screen has **Continue as guest**. Guests get a preview: a fixed samp
 `js/auth.js` adds invite-only sign-in (email link, Google, Microsoft) and syncs each person's progress
 through Supabase (project `exam-simulator`). It's off until `AUTH_ENABLED` is set to `true`.
 
+- **Session lifetime:** people are signed out 24 hours after they last signed in (refreshing the token doesn't extend it) and see a prompt to sign in again; progress is synced first. The time comes from the token's sign-in timestamp (`SESSION_MAX_HOURS` in `js/auth.js`).
+- **Sign-in confirmation:** a sign-in link/redirect the browser didn't start itself (or arriving while already signed in) asks "Continue as …?" before it takes effect, which blocks login-CSRF links.
+- **Database hardening:** tables grant only the columns and verbs the app uses (no TRUNCATE/TRIGGER/REFERENCES to `anon`/`authenticated`), and triggers cap progress rows, question/comment reports, views and access requests per user.
+
 - Invites live in `public.invited_emails`; a Postgres "Before User Created" auth hook (`public.hook_invite_only`)
   rejects anyone not on the list. Admins can add or remove invites from the home page.
 - Progress is stored per user and exam in `public.progress`, protected by row-level security.

@@ -18,6 +18,8 @@ export const PROVIDERS = [
 export const AUTH_ENABLED = true;
 
 const SESSION_KEY = 'examsim:session';
+// Sign-ins last at most this long; after that the person signs in again (see sessionExpired).
+export const SESSION_MAX_HOURS = 24;
 const DATA_PREFIX = 'examsim:';
 
 let session = null;
@@ -34,6 +36,22 @@ const fromTokenResponse = (t) => ({
   user: t.user ? { id: t.user.id, email: t.user.email } : null,
 });
 
+// When this session's sign-in happened, in seconds: the "amr" timestamp Supabase puts in the
+// access token (it doesn't change when the token is refreshed), else the time we stored when
+// the sign-in redirect arrived. 0 = unknown (treated as expired).
+const jwtClaims = (t) => { try { return JSON.parse(atob(String(t).split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); } catch { return null; } };
+function signedInAt(s) {
+  if (!s) return 0;
+  const amr = (jwtClaims(s.access_token)?.amr || []).map((a) => Number(a?.timestamp)).filter((x) => x > 0);
+  return amr.length ? Math.max(...amr) : Number(s.signed_in_at) || 0;
+}
+// True once a signed-in session is older than SESSION_MAX_HOURS since the person signed in.
+export function sessionExpired() {
+  if (!session) return false;
+  const at = signedInAt(session);
+  return !at || Date.now() / 1000 - at > SESSION_MAX_HOURS * 3600;
+}
+
 async function api(path, { method = 'GET', body, auth = true, headers = {}, keepalive = false } = {}) {
   const h = { apikey: SB_KEY, ...headers };
   if (body !== undefined) h['Content-Type'] = 'application/json';
@@ -49,6 +67,17 @@ async function api(path, { method = 'GET', body, auth = true, headers = {}, keep
   return data;
 }
 
+// Sign-in tokens arrive in the URL fragment, so a crafted link could sign someone into another
+// account (login CSRF). Tokens are accepted straight away only if this browser started a sign-in
+// recently; otherwise (another person's link, or a magic link opened on a different device)
+// the app asks "Finish signing in as ...?" first.
+const STARTED_KEY = 'examsim:signin-started';
+const markSignInStarted = () => { try { localStorage.setItem(STARTED_KEY, String(Date.now())); } catch { /* ignore */ } };
+const startedRecently = () => { try { const t = Number(localStorage.getItem(STARTED_KEY)); return t > 0 && Date.now() - t < 2 * 3600 * 1000; } catch { return false; } };
+let pendingSignIn = null;
+export function acceptPendingSignIn() { if (pendingSignIn) writeSession(pendingSignIn); pendingSignIn = null; }
+export function discardPendingSignIn() { pendingSignIn = null; }
+
 // Tokens come back in the URL fragment after an OAuth or magic-link redirect.
 function takeRedirect() {
   if (!location.hash || location.hash.length < 2) return null;
@@ -58,13 +87,19 @@ function takeRedirect() {
   if (p.get('error') || p.get('error_description')) {
     return { error: (p.get('error_description') || p.get('error')).replace(/\+/g, ' ') };
   }
-  writeSession(fromTokenResponse(Object.fromEntries(p)));
+  const next = { ...fromTokenResponse(Object.fromEntries(p)), signed_in_at: Math.floor(Date.now() / 1000) };
+  if (!startedRecently() || session) {
+    pendingSignIn = next;
+    return { confirm: String(jwtClaims(next.access_token)?.email || 'this account') };
+  }
+  try { localStorage.removeItem(STARTED_KEY); } catch { /* ignore */ }
+  writeSession(next);
   return { ok: true };
 }
 
 async function refresh() {
   const t = await api('/auth/v1/token?grant_type=refresh_token', { method: 'POST', auth: false, body: { refresh_token: session.refresh_token } });
-  writeSession(fromTokenResponse(t));
+  writeSession({ ...fromTokenResponse(t), signed_in_at: session.signed_in_at });
 }
 
 // Returns { signedIn, user, error }. Works offline with a previously saved session.
@@ -72,7 +107,10 @@ export async function initAuth() {
   session = readSession();
   const redirect = takeRedirect();
   if (redirect?.error) return { signedIn: !!session, user: session?.user, error: friendlyError(redirect.error) };
+  if (redirect?.confirm) return { signedIn: false, confirm: redirect.confirm };
   if (!session) return { signedIn: false };
+  // Signed in more than SESSION_MAX_HOURS ago: the app syncs progress, then calls signOut().
+  if (sessionExpired()) return { signedIn: false, expired: true, user: session.user };
   try {
     if (!session.user) session.user = await api('/auth/v1/user').then((u) => ({ id: u.id, email: u.email }));
     if (session.expires_at - Date.now() / 1000 < 120) await refresh();
@@ -102,10 +140,12 @@ export function signInWith(provider) {
   const p = PROVIDERS.find((x) => x.id === provider);
   const q = new URLSearchParams({ provider, redirect_to: redirectTarget() });
   if (p?.scopes) q.set('scopes', p.scopes);
+  markSignInStarted();
   location.assign(`${SB_URL}/auth/v1/authorize?${q}`);
 }
 
 export async function sendMagicLink(email) {
+  markSignInStarted();
   try {
     await api(`/auth/v1/otp?redirect_to=${encodeURIComponent(redirectTarget())}`, {
       method: 'POST', auth: false, body: { email: email.trim().toLowerCase(), create_user: true },
