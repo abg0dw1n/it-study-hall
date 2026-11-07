@@ -419,7 +419,8 @@
     "learningModules": 4,
     "questions": 0,
     "labs": 2,
-    "reference": 2
+    "reference": 2,
+    "updated": "2026-11-07"
   },
   {
     "slug": "docker-essentials",
@@ -433,7 +434,8 @@
     "learningModules": 4,
     "questions": 0,
     "labs": 2,
-    "reference": 2
+    "reference": 2,
+    "updated": "2026-11-07"
   },
   {
     "slug": "python-for-it",
@@ -447,7 +449,8 @@
     "learningModules": 4,
     "questions": 0,
     "labs": 2,
-    "reference": 2
+    "reference": 2,
+    "updated": "2026-11-07"
   },
   {
     "slug": "dns-dhcp",
@@ -461,7 +464,8 @@
     "learningModules": 4,
     "questions": 0,
     "labs": 3,
-    "reference": 2
+    "reference": 2,
+    "updated": "2026-11-07"
   },
   {
     "slug": "active-directory",
@@ -475,6 +479,7 @@
     "learningModules": 4,
     "questions": 0,
     "labs": 2,
-    "reference": 2
+    "reference": 2,
+    "updated": "2026-11-07"
   }
 ]
