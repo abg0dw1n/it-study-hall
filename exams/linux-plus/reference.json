@@ -1,0 +1,774 @@
+{
+ "intro": "Printable sheets for Linux+ (XK0-006): commands, users, storage, services, networking, security and scripting.",
+ "trainer": false,
+ "sheets": [
+  {
+   "id": "commands",
+   "title": "Everyday commands",
+   "blurb": "Files, text processing, redirection and the editor.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Files and directories",
+     "rows": [
+      [
+       "ls -lah  /  ls -ld dir",
+       "List with details, hidden files, human sizes"
+      ],
+      [
+       "cd -  /  pwd",
+       "Previous directory; where am I"
+      ],
+      [
+       "cp -a src dst  /  mv a b  /  rm -r dir",
+       "Copy (keep attributes), move or rename, remove"
+      ],
+      [
+       "mkdir -p a/b/c  /  rmdir",
+       "Create parents; remove empty dir"
+      ],
+      [
+       "touch file  /  stat file",
+       "Create or update time; show inode details"
+      ],
+      [
+       "ln file hard  /  ln -s target link",
+       "Hard link / symbolic link"
+      ],
+      [
+       "find /etc -name '*.conf' -mtime -7",
+       "Search by name, age (`-size`, `-user`, `-perm`, `-type f`)"
+      ],
+      [
+       "find / -perm -4000 -type f 2>/dev/null",
+       "Find setuid files"
+      ],
+      [
+       "locate name  /  updatedb",
+       "Fast indexed search"
+      ],
+      [
+       "file x  /  du -sh dir  /  df -h",
+       "File type; directory size; free space"
+      ],
+      [
+       "tar -czf a.tgz dir  /  tar -xzf a.tgz -C /tmp",
+       "Create / extract gzip tar (`-j` bzip2, `-J` xz, `-t` list)"
+      ],
+      [
+       "gzip / gunzip / zip / unzip",
+       "Compression"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Viewing, searching and editing text",
+     "rows": [
+      [
+       "cat  /  less  /  head -n 5  /  tail -f log",
+       "View; follow a growing file"
+      ],
+      [
+       "grep -rin 'error' /var/log",
+       "Search recursively, ignore case, line numbers (`-v` invert, `-E` regex, `-c` count)"
+      ],
+      [
+       "sed 's/old/new/g' f  /  sed -i ... f",
+       "Substitute; `-i` edits in place"
+      ],
+      [
+       "awk '{print $1,$3}' f  /  awk -F: '{print $1}' /etc/passwd",
+       "Columns; custom delimiter"
+      ],
+      [
+       "cut -d: -f1 f  /  sort -n  /  uniq -c  /  wc -l",
+       "Pieces; sort; count duplicates; count lines"
+      ],
+      [
+       "tr a-z A-Z  /  tee file  /  xargs",
+       "Translate; write and pass on; build commands"
+      ],
+      [
+       "cmd > file  /  >> file  /  2> err  /  &> all  /  < in",
+       "Redirection: overwrite, append, stderr, both, stdin"
+      ],
+      [
+       "a | b  /  a && b  /  a || b  /  a ; b",
+       "Pipe; run if success; run if failure; sequence"
+      ],
+      [
+       "vim: i, Esc, :wq, :q!, /text, dd, yy, p, u",
+       "Insert, save and quit, force quit, search, delete line, copy, paste, undo"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "perms",
+   "title": "Permissions and users",
+   "blurb": "Permission bits, ownership, users, groups and sudo.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Permissions",
+     "head": [
+      "Octal",
+      "Symbolic",
+      "Meaning"
+     ],
+     "rows": [
+      [
+       "7",
+       "rwx",
+       "Read, write, execute"
+      ],
+      [
+       "6",
+       "rw-",
+       "Read, write"
+      ],
+      [
+       "5",
+       "r-x",
+       "Read, execute"
+      ],
+      [
+       "4",
+       "r--",
+       "Read"
+      ],
+      [
+       "0",
+       "---",
+       "None"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Ownership and special bits",
+     "rows": [
+      [
+       "chmod 640 f  /  chmod u+x,g-w,o= f  /  chmod -R",
+       "Octal or symbolic"
+      ],
+      [
+       "chown user:group f  /  chown -R  /  chgrp",
+       "Owner and group"
+      ],
+      [
+       "umask 022",
+       "Default mask: files 644, directories 755 (subtracted from 666 / 777)"
+      ],
+      [
+       "chmod u+s f  /  chmod g+s dir  /  chmod +t dir",
+       "setuid (4), setgid (2: new files inherit the group), sticky (1: only the owner can delete)"
+      ],
+      [
+       "setfacl -m u:alice:rw f  /  getfacl f",
+       "Access control lists"
+      ],
+      [
+       "lsattr  /  chattr +i f",
+       "Attributes; immutable flag"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Users, groups and sudo",
+     "rows": [
+      [
+       "useradd -m -s /bin/bash -G wheel alice",
+       "Create user with home, shell, supplementary group (`-u`, `-g`, `-d`, `-e`)"
+      ],
+      [
+       "usermod -aG docker alice",
+       "Add to a group (without -a you replace the groups)"
+      ],
+      [
+       "userdel -r alice",
+       "Remove user and home"
+      ],
+      [
+       "passwd alice  /  passwd -l  /  passwd -e",
+       "Set, lock, expire password"
+      ],
+      [
+       "chage -l alice  /  chage -M 90 alice",
+       "Password aging"
+      ],
+      [
+       "groupadd dev  /  gpasswd -a alice dev",
+       "Groups"
+      ],
+      [
+       "id  /  groups  /  who  /  w  /  last",
+       "Identity and sessions"
+      ],
+      [
+       "su - alice  /  sudo -u alice cmd  /  sudo -i",
+       "Switch user, run as, root shell"
+      ],
+      [
+       "visudo  /  /etc/sudoers.d/file",
+       "Edit sudo rules safely; example `alice ALL=(ALL) NOPASSWD: /usr/bin/systemctl`"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Account files",
+     "head": [
+      "File",
+      "Holds"
+     ],
+     "rows": [
+      [
+       "/etc/passwd",
+       "name:x:UID:GID:comment:home:shell (UID 0 = root, system accounts below 1000 on most distributions)"
+      ],
+      [
+       "/etc/shadow",
+       "Password hashes and aging (root only)"
+      ],
+      [
+       "/etc/group",
+       "Group names and members"
+      ],
+      [
+       "/etc/login.defs  /  /etc/default/useradd  /  /etc/skel",
+       "Defaults for new accounts"
+      ],
+      [
+       "~/.bashrc  /  ~/.bash_profile  /  /etc/profile",
+       "Shell startup files"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fhs",
+   "title": "Filesystem and system",
+   "blurb": "Directory layout, processes and system information.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Filesystem Hierarchy",
+     "head": [
+      "Path",
+      "Purpose"
+     ],
+     "rows": [
+      [
+       "/",
+       "Root of the tree"
+      ],
+      [
+       "/etc",
+       "System configuration"
+      ],
+      [
+       "/home  /  /root",
+       "User homes; root's home"
+      ],
+      [
+       "/var",
+       "Variable data: /var/log, /var/spool, /var/lib, /var/tmp"
+      ],
+      [
+       "/usr",
+       "Programs and libraries (/usr/bin, /usr/sbin, /usr/local)"
+      ],
+      [
+       "/bin  /  /sbin  /  /lib",
+       "Essential binaries and libraries (symlinks to /usr on modern systems)"
+      ],
+      [
+       "/boot",
+       "Kernel, initramfs, bootloader"
+      ],
+      [
+       "/dev",
+       "Device files"
+      ],
+      [
+       "/proc  /  /sys",
+       "Kernel and process information (virtual)"
+      ],
+      [
+       "/tmp",
+       "Temporary files, cleared often"
+      ],
+      [
+       "/opt",
+       "Add-on software"
+      ],
+      [
+       "/mnt  /  /media",
+       "Temporary and removable mounts"
+      ],
+      [
+       "/run",
+       "Runtime data since boot"
+      ],
+      [
+       "/srv",
+       "Service data (web, FTP)"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Processes and system",
+     "rows": [
+      [
+       "ps aux  /  ps -ef  /  top  /  htop",
+       "Process lists"
+      ],
+      [
+       "kill PID  /  kill -9 PID  /  pkill name  /  killall",
+       "SIGTERM (15) politely, SIGKILL (9) forcibly"
+      ],
+      [
+       "nice -n 10 cmd  /  renice -n 5 -p PID",
+       "Priority (-20 high to 19 low)"
+      ],
+      [
+       "jobs  /  bg  /  fg  /  cmd &  /  nohup cmd &",
+       "Job control"
+      ],
+      [
+       "uname -a  /  uptime  /  free -h  /  lscpu  /  lsblk",
+       "Kernel, load, memory, CPU, block devices"
+      ],
+      [
+       "lsof -i :80  /  ss -tulpn",
+       "What is using a file or port"
+      ],
+      [
+       "journalctl -xe  /  dmesg",
+       "Recent errors; kernel messages"
+      ],
+      [
+       "date  /  timedatectl  /  hostnamectl",
+       "Time, time zone, hostname"
+      ],
+      [
+       "man cmd  /  cmd --help  /  info  /  apropos word  /  whatis",
+       "Documentation"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "systemd",
+   "title": "Services and boot",
+   "blurb": "systemd, targets, boot, cron.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "systemd",
+     "rows": [
+      [
+       "systemctl status | start | stop | restart | reload svc",
+       "Control a service now"
+      ],
+      [
+       "systemctl enable --now svc  /  disable  /  mask",
+       "Start at boot (and now); prevent starting"
+      ],
+      [
+       "systemctl is-active | is-enabled svc",
+       "Quick state checks"
+      ],
+      [
+       "systemctl list-units --type=service --failed",
+       "Failed services"
+      ],
+      [
+       "systemctl daemon-reload",
+       "Re-read unit files after editing"
+      ],
+      [
+       "systemctl get-default  /  set-default multi-user.target",
+       "Default target (multi-user = text, graphical.target = GUI)"
+      ],
+      [
+       "systemctl isolate rescue.target",
+       "Switch target now (rescue, emergency)"
+      ],
+      [
+       "journalctl -u svc  /  -f  /  -b  /  --since today  /  -p err",
+       "Logs by unit, follow, this boot, time, priority"
+      ],
+      [
+       "systemctl list-timers  /  /etc/systemd/system/x.timer",
+       "Timer units"
+      ],
+      [
+       "systemctl edit svc",
+       "Drop-in override in /etc/systemd/system/svc.service.d/"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Boot and scheduling",
+     "items": [
+      "Boot order: firmware (BIOS/UEFI) > bootloader (GRUB2) > kernel + initramfs > systemd (PID 1) > target. Config in /etc/default/grub then `grub2-mkconfig -o /boot/grub2/grub.cfg` (RHEL) or `update-grub` (Debian).",
+      "Reset a forgotten root password (RHEL): at GRUB press `e`, add `rd.break` to the linux line, boot, `mount -o remount,rw /sysroot`, `chroot /sysroot`, `passwd`, `touch /.autorelabel`, exit twice.",
+      "cron: `crontab -e` (minute hour day-of-month month day-of-week command); system jobs in /etc/crontab and /etc/cron.d. `at now + 5 min` runs once. Anacron catches up on missed jobs."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "storage",
+   "title": "Storage",
+   "blurb": "Partitions, filesystems, fstab, swap, LVM, RAID.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Disks, filesystems and LVM",
+     "rows": [
+      [
+       "lsblk  /  blkid  /  fdisk -l",
+       "Show disks, UUIDs"
+      ],
+      [
+       "fdisk /dev/sdb  (n, t, w)  /  parted /dev/sdb  /  gdisk",
+       "Partition (MBR / GPT)"
+      ],
+      [
+       "partprobe",
+       "Re-read the partition table"
+      ],
+      [
+       "mkfs.xfs /dev/sdb1  /  mkfs.ext4 /dev/sdb1",
+       "Make a filesystem"
+      ],
+      [
+       "mount /dev/sdb1 /mnt  /  umount /mnt  /  mount -a",
+       "Mount, unmount, mount everything in fstab"
+      ],
+      [
+       "/etc/fstab: UUID=... /data xfs defaults 0 0",
+       "Persistent mount (device, mount point, type, options, dump, fsck order)"
+      ],
+      [
+       "mkswap /dev/sdb2  /  swapon  /  swapoff  /  swapon --show",
+       "Swap"
+      ],
+      [
+       "pvcreate /dev/sdb1  /  vgcreate vg0 /dev/sdb1  /  lvcreate -L 5G -n data vg0",
+       "LVM: physical volume, volume group, logical volume"
+      ],
+      [
+       "lvextend -r -L +2G /dev/vg0/data",
+       "Grow LV and filesystem together (`-r`)"
+      ],
+      [
+       "xfs_growfs /data  /  resize2fs /dev/vg0/data",
+       "Grow XFS (mounted, by path) / ext4 (by device)"
+      ],
+      [
+       "pvs  /  vgs  /  lvs  /  vgextend vg0 /dev/sdc1",
+       "LVM status; add a disk to a group"
+      ],
+      [
+       "fsck  /  xfs_repair  /  tune2fs  /  e2label",
+       "Check and tune (unmounted)"
+      ],
+      [
+       "mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc",
+       "Software RAID"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Storage facts",
+     "items": [
+      "XFS (default on RHEL) can grow but not shrink; ext4 can both. Btrfs and ZFS add snapshots and checksums.",
+      "RAID: 0 striping (no redundancy), 1 mirror, 5 striping with parity (1 disk), 6 double parity (2 disks), 10 mirror of stripes.",
+      "Use UUIDs in /etc/fstab, then test with `mount -a` before rebooting. NFS: `mount -t nfs server:/export /mnt`; autofs mounts on demand."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "network",
+   "title": "Networking and packages",
+   "blurb": "Interface setup, DNS, firewall and package managers.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Networking",
+     "rows": [
+      [
+       "ip addr  /  ip link  /  ip route  /  ip -s link",
+       "Addresses, links, routes, counters"
+      ],
+      [
+       "nmcli con show  /  nmcli dev status",
+       "NetworkManager connections and devices"
+      ],
+      [
+       "nmcli con add type ethernet ifname eth0 con-name lan ipv4.method manual ipv4.addresses 192.168.1.10/24 ipv4.gateway 192.168.1.1 ipv4.dns 8.8.8.8",
+       "Static address"
+      ],
+      [
+       "nmcli con mod lan +ipv4.dns 1.1.1.1  /  nmcli con up lan",
+       "Change and apply a connection"
+      ],
+      [
+       "hostnamectl set-hostname name",
+       "Persistent hostname"
+      ],
+      [
+       "ping -c 4 host  /  traceroute  /  mtr",
+       "Reachability and path"
+      ],
+      [
+       "ss -tulpn  /  curl -I url  /  wget url",
+       "Sockets; HTTP tests; download"
+      ],
+      [
+       "dig name  /  host name  /  getent hosts name",
+       "DNS tests (resolver config in /etc/resolv.conf, /etc/hosts, /etc/nsswitch.conf)"
+      ],
+      [
+       "ssh user@host  /  ssh-keygen  /  ssh-copy-id  /  scp  /  rsync -av",
+       "Remote access and copy"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "firewalld (RHEL) and ufw (Ubuntu)",
+     "rows": [
+      [
+       "firewall-cmd --state  /  --get-active-zones",
+       "Status and zones"
+      ],
+      [
+       "firewall-cmd --add-service=http --permanent",
+       "Allow a service (permanent)"
+      ],
+      [
+       "firewall-cmd --add-port=8080/tcp --permanent",
+       "Allow a port"
+      ],
+      [
+       "firewall-cmd --reload",
+       "Apply permanent changes"
+      ],
+      [
+       "firewall-cmd --list-all",
+       "Show the zone's rules"
+      ],
+      [
+       "ufw allow 22/tcp  /  ufw enable  /  ufw status",
+       "Ubuntu firewall"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Package managers",
+     "head": [
+      "Task",
+      "RHEL / Fedora (dnf, rpm)",
+      "Debian / Ubuntu (apt, dpkg)"
+     ],
+     "rows": [
+      [
+       "Install",
+       "dnf install pkg",
+       "apt install pkg"
+      ],
+      [
+       "Remove",
+       "dnf remove pkg",
+       "apt remove pkg  (purge to drop configs)"
+      ],
+      [
+       "Update all",
+       "dnf upgrade",
+       "apt update && apt upgrade"
+      ],
+      [
+       "Search",
+       "dnf search word",
+       "apt search word"
+      ],
+      [
+       "Info",
+       "dnf info pkg",
+       "apt show pkg"
+      ],
+      [
+       "Which package owns a file",
+       "rpm -qf /path  /  dnf provides /path",
+       "dpkg -S /path"
+      ],
+      [
+       "List installed",
+       "rpm -qa",
+       "dpkg -l"
+      ],
+      [
+       "Local file",
+       "rpm -ivh x.rpm  /  dnf install ./x.rpm",
+       "dpkg -i x.deb"
+      ],
+      [
+       "Repositories",
+       "/etc/yum.repos.d/*.repo",
+       "/etc/apt/sources.list(.d)"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "selinux",
+   "title": "SELinux and security",
+   "blurb": "Contexts, booleans, ports, logs and hardening.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "SELinux (RHEL)",
+     "rows": [
+      [
+       "getenforce  /  setenforce 0|1  /  sestatus",
+       "Mode now (Enforcing, Permissive, Disabled); persistent in /etc/selinux/config"
+      ],
+      [
+       "ls -Z  /  ps -Z  /  id -Z",
+       "Show contexts"
+      ],
+      [
+       "semanage fcontext -a -t httpd_sys_content_t '/web(/.*)?'",
+       "Define the default context for a path"
+      ],
+      [
+       "restorecon -Rv /web",
+       "Apply the default contexts"
+      ],
+      [
+       "chcon -t type file",
+       "Temporary context change (lost on relabel)"
+      ],
+      [
+       "getsebool -a  /  setsebool -P httpd_can_network_connect on",
+       "Booleans; `-P` persists"
+      ],
+      [
+       "semanage port -a -t http_port_t -p tcp 8080",
+       "Allow a service on a non-standard port"
+      ],
+      [
+       "ausearch -m avc -ts recent  /  sealert -a /var/log/audit/audit.log",
+       "Find denials and explanations"
+      ]
+     ]
+    },
+    {
+     "type": "note",
+     "text": "When a service is denied but permissions and the firewall look right, think SELinux: check the file context (`ls -Z`), booleans and ports before turning it off. `touch /.autorelabel` and reboot relabels the whole filesystem."
+    },
+    {
+     "type": "list",
+     "title": "Security and logs",
+     "items": [
+      "Logs: /var/log/messages (RHEL) or /var/log/syslog (Debian), /var/log/secure or auth.log (logins), /var/log/audit/audit.log, `journalctl`. rsyslog or journald forward logs; logrotate rotates them.",
+      "SSH hardening in /etc/ssh/sshd_config: `PermitRootLogin no`, `PasswordAuthentication no`, `AllowUsers`, change the port only as a minor measure; `systemctl reload sshd`. Fail2ban blocks repeated failures.",
+      "Least privilege: sudo rules, file permissions, remove unused packages and services. Keep systems patched; verify packages with `rpm -V` or checksums (`sha256sum`).",
+      "Encryption: LUKS (`cryptsetup luksFormat`, `luksOpen`) for disks, GPG for files, TLS certificates with `openssl`."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "scripting",
+   "title": "Scripting and containers",
+   "blurb": "Bash basics and Podman.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Shell scripting",
+     "rows": [
+      [
+       "#!/bin/bash",
+       "First line (shebang); then `chmod +x script.sh`"
+      ],
+      [
+       "VAR=value  /  echo \"$VAR\"  /  export VAR  /  $(cmd)",
+       "Variables and command substitution"
+      ],
+      [
+       "if [ -f file ]; then ...; elif ...; else ...; fi",
+       "Test: `-f` file, `-d` dir, `-e` exists, `-z` empty string, `-eq -ne -lt -gt` numbers"
+      ],
+      [
+       "for f in *.log; do echo \"$f\"; done",
+       "Loop"
+      ],
+      [
+       "while read -r line; do ...; done < file",
+       "Read a file line by line"
+      ],
+      [
+       "$0 $1 $@ $# $?",
+       "Script name, arguments, all arguments, count, last exit status"
+      ],
+      [
+       "case $x in a) ...;; *) ...;; esac",
+       "Multi-way branch"
+      ],
+      [
+       "alias ll='ls -l'  /  history  /  !!",
+       "Aliases and history"
+      ],
+      [
+       "set -euo pipefail",
+       "Stop on errors in scripts"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Containers (Podman / Docker)",
+     "rows": [
+      [
+       "podman run -d --name web -p 8080:80 nginx",
+       "Run a container in the background with a port mapping"
+      ],
+      [
+       "podman ps -a  /  podman logs web  /  podman exec -it web sh",
+       "List, logs, shell"
+      ],
+      [
+       "podman stop web  /  podman rm web  /  podman images  /  podman rmi",
+       "Stop, remove, images"
+      ],
+      [
+       "podman generate systemd --name web",
+       "Make a systemd unit for the container"
+      ],
+      [
+       "Rootless containers",
+       "Run as a normal user; volumes may need `:Z` to relabel for SELinux"
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

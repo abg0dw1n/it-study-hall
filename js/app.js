@@ -1,6 +1,7 @@
 import * as Auth from './auth.js';
 import * as Learn from './learn.js';
 import * as Labs from './labs.js';
+import * as Reference from './reference.js';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Config
@@ -25,7 +26,7 @@ const KEYS_NUMBER = '123456';
 // sessionStorage, which is cleared when the tab closes)
 // ─────────────────────────────────────────────────────────────────────────────
 const defaultState = () => ({
-  mode: 'practice',          // 'practice' | 'exam' | 'review' | 'learn' | 'labs'
+  mode: 'practice',          // 'practice' | 'exam' | 'review' | 'learn' | 'labs' | 'reference'
   practice: {
     answers: {}, flagged: [], optionOrder: {}, index: 0,
     domain: 'ALL', status: 'all', shuffle: true,
@@ -46,6 +47,7 @@ let timerHandle = null;
 let LEARN = null;           // learn.json for this exam, if it has training content
 let SKILL = false;          // true for non-certification skill paths (learning path + labs only)
 let LABS = null;            // labs.json for this exam, if it has hands-on labs
+let REF = null;             // reference.json (cheat sheets, subnetting trainer), if any
 
 const progressStore = () => (Auth.isGuest() ? sessionStorage : localStorage);
 const HIDDEN_RECENTS_KEY = 'examsim:hidden-recents';
@@ -333,15 +335,22 @@ function renderOverview(main) {
       bar: bar(p), active: !!(sum.started || sum.done), cta: sum.started ? 'Continue labs' : 'Start a lab' });
   }
 
+  if (REF) {
+    const n = (REF.sheets?.length || 0) + (REF.trainer ? 1 : 0);
+    tiles.push({ mode: 'reference', ic: 'flag', title: 'Reference', blurb: REF.trainer ? 'Printable cheat sheets and a subnetting trainer with unlimited practice problems.' : 'One-page cheat sheets you can print.',
+      stat: `${n}<small> ${REF.trainer ? 'tools' : n === 1 ? 'sheet' : 'sheets'}</small>`, sub: REF.sheets?.map((x) => x.title).slice(0, 2).join(' · ') || 'Subnetting trainer',
+      bar: '', active: !!state.reference, cta: 'Open reference' });
+  }
+
   const lastTile = tiles.find((t) => t.active && (t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review')));
-  const last = lastTile && { learn: 'Learn', labs: 'Labs', exam: 'Timed exam', practice: 'Practice' }[lastTile.mode];
+  const last = lastTile && { learn: 'Learn', labs: 'Labs', reference: 'Reference', exam: 'Timed exam', practice: 'Practice' }[lastTile.mode];
   main.innerHTML = `<section class="overview stack">
     <header class="ov-head">
       <span class="learning-path-eyebrow">${SKILL ? 'IT SKILL PATH' : `${escapeHtml(EXAM.vendor)} · ${escapeHtml(EXAM.code)}`}</span>
       <h2 class="home-title">${escapeHtml(EXAM.name)}</h2>
       <p class="muted">${SKILL ? 'Learn the topic, then practice it hands-on in the labs.' : 'Learn the material, practice it, then prove it.'} Choose where to pick up. ${last ? `You were last in <b>${last}</b>.` : ''}</p>
     </header>
-    <div class="ov-grid">${['learn', 'labs', 'practice', 'exam'].map((m) => tiles.find((t) => t.mode === m)).filter((t) => t && (!SKILL || t.mode === 'learn' || t.mode === 'labs')).map((t) => `
+    <div class="ov-grid">${['learn', 'labs', 'reference', 'practice', 'exam'].map((m) => tiles.find((t) => t.mode === m)).filter((t) => t && (!SKILL || ['learn', 'labs', 'reference'].includes(t.mode))).map((t) => `
       <button type="button" class="panel ov-tile${t.active && (t.mode === state.mode || (t.mode === 'exam' && state.mode === 'review')) ? ' last' : ''}" data-action="overview-go" data-go="${t.mode}">
         <span class="ov-top"><span class="ov-icon">${icon(t.ic)}</span><span class="ov-title">${t.title}</span></span>
         <span class="ov-blurb">${t.blurb}</span>
@@ -355,12 +364,13 @@ function renderOverview(main) {
 function render() {
   if (state.mode === 'learn' && !LEARN) state.mode = SKILL && LABS ? 'labs' : 'practice';
   if (state.mode === 'labs' && !LABS) state.mode = SKILL && LEARN ? 'learn' : 'practice';
+  if (state.mode === 'reference' && !REF) state.mode = SKILL ? (LEARN ? 'learn' : 'labs') : 'practice';
   renderModeTabs();
   renderTimer();
 
   const main = $('main');
   if (overview) {
-    Learn.stopLearn(); Labs.stopLabs();
+    Learn.stopLearn(); Labs.stopLabs(); Reference.stopReference();
     return renderOverview(main);
   }
   if (state.mode === 'learn') {
@@ -369,6 +379,12 @@ function render() {
     return Learn.renderLearn(main, { exam: EXAM, state, save, practiceDomain, guest: Auth.isGuest(), guestCta });
   }
   Learn.stopLearn();
+  if (state.mode === 'reference') {
+    $('navigator').hidden = true;
+    Labs.stopLabs();
+    return Reference.renderReference(main, { exam: EXAM, state, save });
+  }
+  Reference.stopReference();
   if (state.mode === 'labs') {
     $('navigator').hidden = true;
     return Labs.renderLabs(main, { exam: EXAM, state, save, guest: Auth.isGuest(), guestCta });
@@ -409,6 +425,7 @@ function renderModeTabs() {
   $('btn-mode-exam').setAttribute('aria-selected', on('exam'));
   $('btn-mode-learn').setAttribute('aria-selected', on('learn'));
   $('btn-mode-labs').setAttribute('aria-selected', on('labs'));
+  $('btn-mode-reference').setAttribute('aria-selected', on('reference'));
 }
 
 let gridKey = '';
@@ -2305,6 +2322,7 @@ async function init() {
   const optional = (flag, load) => catalogEntry.then((e) => (e === null || (e && !e[flag]) ? null : load(initialSlug)));
   const learnFiles = examPage ? optional('learning', Learn.loadLearn) : null;
   const labFiles = examPage ? optional('labs', Labs.loadLabs) : null;
+  const refFiles = examPage ? optional('reference', Reference.loadReference) : null;
   if (Auth.AUTH_ENABLED) {
     const auth = await Auth.initAuth();
     if (auth.confirm) {
@@ -2347,19 +2365,22 @@ async function init() {
   const entry = slug === initialSlug ? null : await fetchIndex().then((list) => list.find((e) => e.slug === slug), () => undefined);
   LEARN = await (slug === initialSlug ? learnFiles : entry && !entry.learning ? null : Learn.loadLearn(slug));
   LABS = await (slug === initialSlug ? labFiles : entry && !entry.labs ? null : Labs.loadLabs(slug));
+  REF = await (slug === initialSlug ? refFiles : entry && !entry.reference ? null : Reference.loadReference(slug));
   if (initialMode === 'learn' && LEARN) state.mode = 'learn';
   if (initialMode === 'labs' && LABS) state.mode = 'labs';
+  if (initialMode === 'reference' && REF) state.mode = 'reference';
   if (initialMode === 'practice') state.mode = 'practice';
   if (initialMode === 'exam') state.mode = 'exam';
   if (initialMode === 'overview') overview = true;
   if (initialMode) history.replaceState(null, '', location.pathname); // keep the address tidy after honoring ?mode
   SKILL = EXAM.type === 'skill';
-  if (SKILL && !['learn', 'labs'].includes(state.mode)) state.mode = LEARN ? 'learn' : 'labs';
+  if (SKILL && !['learn', 'labs', 'reference'].includes(state.mode)) state.mode = LEARN ? 'learn' : 'labs';
   $('btn-mode-practice').hidden = SKILL;
   $('btn-mode-exam').hidden = SKILL;
   $('btn-drawer').hidden = SKILL;
   $('btn-mode-learn').hidden = !LEARN;
   $('btn-mode-labs').hidden = !LABS;
+  $('btn-mode-reference').hidden = !REF;
   $('mode-tabs').hidden = false;
   $('btn-drawer').hidden = SKILL;
   // Counts are shown beside the "Domain" label (updateDomainCount), not in the options.

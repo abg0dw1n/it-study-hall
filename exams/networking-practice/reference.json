@@ -1,0 +1,596 @@
+{
+ "intro": "Quick references for everyday networking work, plus a subnetting trainer.",
+ "trainer": true,
+ "sheets": [
+  {
+   "id": "ports",
+   "title": "Ports and protocols",
+   "blurb": "The ports and transport protocols that show up on the exam.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Common ports",
+     "head": [
+      "Port",
+      "Protocol",
+      "Use"
+     ],
+     "rows": [
+      [
+       "20 / 21",
+       "FTP (TCP)",
+       "File transfer: 20 data (active), 21 control"
+      ],
+      [
+       "22",
+       "SSH / SFTP / SCP (TCP)",
+       "Encrypted remote shell and file transfer"
+      ],
+      [
+       "23",
+       "Telnet (TCP)",
+       "Remote shell in clear text"
+      ],
+      [
+       "25",
+       "SMTP (TCP)",
+       "Mail server to mail server"
+      ],
+      [
+       "49",
+       "TACACS+ (TCP)",
+       "Cisco device administration AAA"
+      ],
+      [
+       "53",
+       "DNS (UDP and TCP)",
+       "Name resolution; TCP for zone transfers and large replies"
+      ],
+      [
+       "67 / 68",
+       "DHCP (UDP)",
+       "67 server, 68 client"
+      ],
+      [
+       "69",
+       "TFTP (UDP)",
+       "Simple file transfer, no authentication"
+      ],
+      [
+       "80",
+       "HTTP (TCP)",
+       "Web, clear text"
+      ],
+      [
+       "88",
+       "Kerberos (UDP/TCP)",
+       "Ticket-based authentication (Active Directory)"
+      ],
+      [
+       "110",
+       "POP3 (TCP)",
+       "Download mail"
+      ],
+      [
+       "123",
+       "NTP (UDP)",
+       "Time synchronization"
+      ],
+      [
+       "137-139",
+       "NetBIOS (UDP/TCP)",
+       "Legacy Windows naming and sessions"
+      ],
+      [
+       "143",
+       "IMAP (TCP)",
+       "Mail kept on the server"
+      ],
+      [
+       "161 / 162",
+       "SNMP (UDP)",
+       "161 polling, 162 traps"
+      ],
+      [
+       "389",
+       "LDAP (TCP/UDP)",
+       "Directory queries"
+      ],
+      [
+       "443",
+       "HTTPS (TCP)",
+       "Web over TLS"
+      ],
+      [
+       "445",
+       "SMB (TCP)",
+       "Windows file and printer sharing"
+      ],
+      [
+       "465 / 587",
+       "SMTPS / submission (TCP)",
+       "Client mail sending over TLS"
+      ],
+      [
+       "500",
+       "IKE / ISAKMP (UDP)",
+       "IPsec key exchange (4500 for NAT-T)"
+      ],
+      [
+       "514",
+       "Syslog (UDP)",
+       "Log messages (6514 for TLS)"
+      ],
+      [
+       "636",
+       "LDAPS (TCP)",
+       "LDAP over TLS"
+      ],
+      [
+       "993 / 995",
+       "IMAPS / POP3S (TCP)",
+       "Mail retrieval over TLS"
+      ],
+      [
+       "1433",
+       "Microsoft SQL Server (TCP)",
+       "Database"
+      ],
+      [
+       "1521",
+       "Oracle (TCP)",
+       "Database"
+      ],
+      [
+       "1812 / 1813",
+       "RADIUS (UDP)",
+       "Authentication (1812) and accounting (1813); legacy 1645/1646"
+      ],
+      [
+       "3306",
+       "MySQL / MariaDB (TCP)",
+       "Database"
+      ],
+      [
+       "3389",
+       "RDP (TCP/UDP)",
+       "Windows remote desktop"
+      ],
+      [
+       "5060 / 5061",
+       "SIP (UDP/TCP)",
+       "VoIP signalling, 5061 over TLS"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "TCP vs UDP",
+     "head": [
+      "",
+      "TCP",
+      "UDP"
+     ],
+     "rows": [
+      [
+       "Connection",
+       "Connection-oriented, 3-way handshake (SYN, SYN-ACK, ACK)",
+       "Connectionless"
+      ],
+      [
+       "Reliability",
+       "Acknowledgements, retransmission, ordering, flow control",
+       "None; the application deals with loss"
+      ],
+      [
+       "Overhead",
+       "20-byte header minimum",
+       "8-byte header"
+      ],
+      [
+       "Used for",
+       "Web, email, file transfer, SSH",
+       "DNS queries, DHCP, VoIP, streaming, TFTP, SNMP"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "addressing",
+   "title": "IP addressing",
+   "blurb": "Special ranges, classes, the subnet table, IPv6.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Subnet quick table",
+     "head": [
+      "Prefix",
+      "Mask",
+      "Block size",
+      "Usable hosts"
+     ],
+     "rows": [
+      [
+       "/24",
+       "255.255.255.0",
+       "256",
+       "254"
+      ],
+      [
+       "/25",
+       "255.255.255.128",
+       "128",
+       "126"
+      ],
+      [
+       "/26",
+       "255.255.255.192",
+       "64",
+       "62"
+      ],
+      [
+       "/27",
+       "255.255.255.224",
+       "32",
+       "30"
+      ],
+      [
+       "/28",
+       "255.255.255.240",
+       "16",
+       "14"
+      ],
+      [
+       "/29",
+       "255.255.255.248",
+       "8",
+       "6"
+      ],
+      [
+       "/30",
+       "255.255.255.252",
+       "4",
+       "2"
+      ],
+      [
+       "/31",
+       "255.255.255.254",
+       "2",
+       "2 (point-to-point links)"
+      ],
+      [
+       "/23",
+       "255.255.254.0",
+       "512 (3rd octet: 2)",
+       "510"
+      ],
+      [
+       "/22",
+       "255.255.252.0",
+       "1,024 (4)",
+       "1,022"
+      ],
+      [
+       "/20",
+       "255.255.240.0",
+       "4,096 (16)",
+       "4,094"
+      ],
+      [
+       "/16",
+       "255.255.0.0",
+       "65,536 (256)",
+       "65,534"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Subnetting in four steps",
+     "items": [
+      "Block size = 256 minus the interesting octet of the mask (for example /26: 256 - 192 = 64).",
+      "Network = the multiple of the block size at or below the host's value in that octet.",
+      "Broadcast = next network address minus 1; usable range sits between network and broadcast.",
+      "Hosts = 2^(host bits) - 2. Subnets = 2^(borrowed bits). Need N hosts: smallest 2^h with 2^h - 2 >= N."
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Special IPv4 ranges",
+     "head": [
+      "Range",
+      "Meaning"
+     ],
+     "rows": [
+      [
+       "10.0.0.0/8",
+       "Private (RFC 1918)"
+      ],
+      [
+       "172.16.0.0/12",
+       "Private: 172.16.0.0 to 172.31.255.255"
+      ],
+      [
+       "192.168.0.0/16",
+       "Private"
+      ],
+      [
+       "169.254.0.0/16",
+       "APIPA / link-local: no DHCP answer was received"
+      ],
+      [
+       "127.0.0.0/8",
+       "Loopback (127.0.0.1)"
+      ],
+      [
+       "100.64.0.0/10",
+       "Carrier-grade NAT (shared address space)"
+      ],
+      [
+       "224.0.0.0/4",
+       "Multicast (224.0.0.5/6 OSPF, 224.0.0.9 RIPv2, 224.0.0.10 EIGRP)"
+      ],
+      [
+       "255.255.255.255",
+       "Limited broadcast"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Classful ranges",
+     "head": [
+      "Class",
+      "First octet",
+      "Default mask"
+     ],
+     "rows": [
+      [
+       "A",
+       "1 to 126",
+       "/8 (255.0.0.0)"
+      ],
+      [
+       "B",
+       "128 to 191",
+       "/16 (255.255.0.0)"
+      ],
+      [
+       "C",
+       "192 to 223",
+       "/24 (255.255.255.0)"
+      ],
+      [
+       "D",
+       "224 to 239",
+       "Multicast"
+      ],
+      [
+       "E",
+       "240 to 255",
+       "Reserved / experimental"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "IPv6 address types",
+     "head": [
+      "Type",
+      "Prefix",
+      "Notes"
+     ],
+     "rows": [
+      [
+       "Global unicast",
+       "2000::/3",
+       "Routable on the internet"
+      ],
+      [
+       "Unique local",
+       "fc00::/7 (in use: fd00::/8)",
+       "Private, like RFC 1918"
+      ],
+      [
+       "Link-local",
+       "fe80::/10",
+       "Every interface; not routed; used by NDP and routing protocols"
+      ],
+      [
+       "Multicast",
+       "ff00::/8",
+       "ff02::1 all nodes, ff02::2 all routers; no broadcast in IPv6"
+      ],
+      [
+       "Loopback",
+       "::1/128",
+       "Like 127.0.0.1"
+      ],
+      [
+       "Unspecified",
+       "::/128",
+       "No address yet"
+      ]
+     ]
+    },
+    {
+     "type": "note",
+     "text": "IPv6 is 128 bits written as 8 groups of 4 hex digits. Drop leading zeros in a group, and replace one run of all-zero groups with `::` (once only). Standard subnet is /64. SLAAC builds an address from the router's prefix plus an interface ID (EUI-64 or random); DHCPv6 can be stateful or stateless. NDP replaces ARP."
+    }
+   ]
+  },
+  {
+   "id": "trouble",
+   "title": "Troubleshooting",
+   "blurb": "Method, commands, tools and common symptoms.",
+   "blocks": [
+    {
+     "type": "list",
+     "title": "Troubleshooting method (CompTIA)",
+     "items": [
+      "1. Identify the problem (gather information, question users, duplicate it, check changes).",
+      "2. Establish a theory of probable cause (start simple; consider the OSI model).",
+      "3. Test the theory to determine the cause. If it fails, form a new theory or escalate.",
+      "4. Establish a plan of action and identify potential effects.",
+      "5. Implement the solution or escalate.",
+      "6. Verify full system functionality and implement preventive measures.",
+      "7. Document findings, actions and outcomes."
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Symptom to likely cause",
+     "head": [
+      "Symptom",
+      "Check first"
+     ],
+     "rows": [
+      [
+       "169.254.x.x address",
+       "DHCP server unreachable, VLAN or relay problem"
+      ],
+      [
+       "Can ping IP but not name",
+       "DNS settings or server"
+      ],
+      [
+       "Local only, no internet",
+       "Default gateway, NAT, router or ISP"
+      ],
+      [
+       "Slow wired link, many errors",
+       "Duplex mismatch, bad cable, EMI"
+      ],
+      [
+       "Intermittent wireless",
+       "Interference, channel overlap, signal, roaming, too many clients"
+      ],
+      [
+       "Switch port err-disabled",
+       "Port security, BPDU guard, loop"
+      ],
+      [
+       "Two hosts same address",
+       "Duplicate IP (static versus DHCP); check ARP"
+      ],
+      [
+       "Cannot reach another VLAN",
+       "Trunk allowed list, inter-VLAN routing, ACL, wrong native VLAN"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Windows",
+     "rows": [
+      [
+       "ipconfig /all",
+       "Full IP configuration, DNS, DHCP lease, MAC"
+      ],
+      [
+       "ipconfig /release  /renew",
+       "Drop and request a DHCP lease"
+      ],
+      [
+       "ipconfig /flushdns",
+       "Clear the resolver cache"
+      ],
+      [
+       "ping -t host",
+       "Continuous ping; `-l` sets size, `-f` don't fragment"
+      ],
+      [
+       "tracert host",
+       "Hops to a destination (ICMP)"
+      ],
+      [
+       "pathping host",
+       "Traceroute plus loss per hop"
+      ],
+      [
+       "nslookup name [server]",
+       "DNS query"
+      ],
+      [
+       "arp -a",
+       "ARP cache"
+      ],
+      [
+       "netstat -ano",
+       "Connections and listening ports with PID"
+      ],
+      [
+       "route print",
+       "Routing table"
+      ],
+      [
+       "nbtstat -n",
+       "NetBIOS names"
+      ],
+      [
+       "netsh interface ip show config",
+       "Interface configuration"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Linux and macOS",
+     "rows": [
+      [
+       "ip addr / ip a",
+       "Addresses (replaces `ifconfig`)"
+      ],
+      [
+       "ip route",
+       "Routing table"
+      ],
+      [
+       "ip neigh",
+       "ARP/neighbor cache"
+      ],
+      [
+       "traceroute host",
+       "Hops (UDP by default; `-I` for ICMP)"
+      ],
+      [
+       "dig name [type]  /  host name",
+       "DNS queries"
+      ],
+      [
+       "ss -tulpn",
+       "Listening sockets and owning processes (replaces `netstat`)"
+      ],
+      [
+       "tcpdump -i eth0 port 80",
+       "Packet capture"
+      ],
+      [
+       "nmap -sS host",
+       "Port scan"
+      ],
+      [
+       "curl -I url",
+       "HTTP headers"
+      ],
+      [
+       "iperf3 -c server",
+       "Throughput test"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Hardware tools",
+     "items": [
+      "Cable tester: continuity and pinout. Toner and probe: find a cable in a bundle. TDR: distance to a copper break. OTDR: distance to a fiber break.",
+      "Loopback plug: tests a port. Wi-Fi analyzer: signal and channels. Protocol analyzer / packet sniffer: capture and decode traffic (Wireshark).",
+      "Crimper and punch-down tool for terminations; multimeter for voltage and continuity; optical power meter for fiber loss.",
+      "Pinouts: T568B is the common standard (orange pair first); a straight-through cable is the same standard on both ends, a crossover is T568A on one end and T568B on the other."
+     ]
+    }
+   ]
+  }
+ ]
+}

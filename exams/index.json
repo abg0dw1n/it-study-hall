@@ -11,7 +11,8 @@
     "learningDescription": "Configure Azure identities and governance, manage storage, deploy compute, build virtual networks, and monitor and maintain Azure resources.",
     "questions": 229,
     "learningModules": 5,
-    "labs": 7
+    "labs": 7,
+    "reference": 6
   },
   {
     "slug": "network-plus",
@@ -21,7 +22,8 @@
     "level": "intermediate",
     "updated": "2026-11-03",
     "questions": 260,
-    "labs": 8
+    "labs": 8,
+    "reference": 8
   },
   {
     "slug": "security-plus",
@@ -39,9 +41,10 @@
     "name": "Cisco Certified Network Associate",
     "vendor": "Cisco",
     "level": "advanced",
-    "updated": "2026-11-03",
+    "updated": "2026-11-04",
     "questions": 200,
-    "labs": 8
+    "labs": 8,
+    "reference": 8
   },
   {
     "slug": "aws-saa",
@@ -175,7 +178,8 @@
     "vendor": "Cisco",
     "level": "beginner",
     "updated": "2026-10-28",
-    "questions": 91
+    "questions": 91,
+    "reference": 5
   },
   {
     "slug": "ccst-cybersecurity",
@@ -323,7 +327,8 @@
     "learningModules": 5,
     "questions": 110,
     "updated": "2026-11-03",
-    "labs": 6
+    "labs": 6,
+    "reference": 4
   },
   {
     "slug": "linux-plus",
@@ -336,7 +341,8 @@
     "learningModules": 5,
     "questions": 148,
     "updated": "2026-11-03",
-    "labs": 7
+    "labs": 7,
+    "reference": 8
   },
   {
     "slug": "rhcsa",
@@ -349,7 +355,8 @@
     "learningModules": 9,
     "questions": 106,
     "updated": "2026-11-03",
-    "labs": 9
+    "labs": 9,
+    "reference": 7
   },
   {
     "slug": "cli-scripting",
@@ -363,7 +370,8 @@
     "learningModules": 4,
     "questions": 0,
     "updated": "2026-11-03",
-    "labs": 4
+    "labs": 4,
+    "reference": 3
   },
   {
     "slug": "helpdesk-skills",
@@ -391,6 +399,7 @@
     "learningModules": 4,
     "questions": 0,
     "updated": "2026-11-03",
-    "labs": 4
+    "labs": 4,
+    "reference": 4
   }
 ]

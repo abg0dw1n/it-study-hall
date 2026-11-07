@@ -1,0 +1,550 @@
+{
+ "intro": "Printable quick references for AZ-104: CLI and PowerShell, identity, storage, compute, networking, monitoring.",
+ "trainer": false,
+ "sheets": [
+  {
+   "id": "cli",
+   "title": "CLI and PowerShell",
+   "blurb": "The Azure CLI and Azure PowerShell commands used most often in labs and on the exam.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Azure CLI essentials",
+     "rows": [
+      [
+       "az login  /  az account set -s <sub>",
+       "Sign in and pick a subscription"
+      ],
+      [
+       "az group create -n rg1 -l eastus",
+       "Resource group"
+      ],
+      [
+       "az group delete -n rg1 --yes --no-wait",
+       "Delete a group and everything in it"
+      ],
+      [
+       "az vm create -g rg1 -n vm1 --image Ubuntu2204 --size Standard_B2s --admin-username azureuser --generate-ssh-keys",
+       "Create a VM"
+      ],
+      [
+       "az vm list -g rg1 -o table",
+       "List VMs (output: json, table, tsv, yaml)"
+      ],
+      [
+       "az vm start | stop | deallocate | restart -g rg1 -n vm1",
+       "Power state (stopped still bills compute; deallocate does not)"
+      ],
+      [
+       "az vm resize -g rg1 -n vm1 --size Standard_D2s_v5",
+       "Change size"
+      ],
+      [
+       "az vm open-port -g rg1 -n vm1 --port 80",
+       "Add an NSG rule"
+      ],
+      [
+       "az network vnet create -g rg1 -n vnet1 --address-prefixes 10.0.0.0/16 --subnet-name s1 --subnet-prefixes 10.0.1.0/24",
+       "VNet with a subnet"
+      ],
+      [
+       "az network nsg rule create -g rg1 --nsg-name nsg1 -n allow-https --priority 200 --access Allow --protocol Tcp --destination-port-ranges 443",
+       "NSG rule"
+      ],
+      [
+       "az network vnet peering create -g rg1 -n a-to-b --vnet-name vnetA --remote-vnet vnetB --allow-vnet-access",
+       "Peering (create both directions)"
+      ],
+      [
+       "az storage account create -n <name> -g rg1 --sku Standard_LRS --kind StorageV2",
+       "Storage account (3-24 lowercase letters or digits, globally unique)"
+      ],
+      [
+       "az storage container create --account-name <n> -n data --auth-mode login",
+       "Blob container"
+      ],
+      [
+       "az storage blob upload --account-name <n> -c data -f file.txt -n file.txt --auth-mode login",
+       "Upload"
+      ],
+      [
+       "az role assignment create --assignee <user> --role Reader --scope <id>",
+       "Assign a role"
+      ],
+      [
+       "az role assignment list --assignee <user> --all",
+       "List assignments"
+      ],
+      [
+       "az ad user create  /  az ad group member add",
+       "Entra users and groups"
+      ],
+      [
+       "az policy assignment create --policy <name> --scope <id>",
+       "Assign a policy"
+      ],
+      [
+       "az webapp create -g rg1 -p plan1 -n app1 --runtime \"NODE:20-lts\"",
+       "App Service web app"
+      ],
+      [
+       "az webapp deployment slot create -g rg1 -n app1 --slot staging",
+       "Deployment slot"
+      ],
+      [
+       "az monitor metrics alert create ...",
+       "Metric alert rule"
+      ],
+      [
+       "az deployment group create -g rg1 --template-file main.bicep",
+       "Deploy a Bicep or ARM template"
+      ],
+      [
+       "az <group> --help  /  az find <term>",
+       "Help and discovery"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Azure PowerShell equivalents",
+     "rows": [
+      [
+       "Connect-AzAccount  /  Set-AzContext -Subscription <id>",
+       "Sign in; pick a subscription"
+      ],
+      [
+       "New-AzResourceGroup -Name rg1 -Location eastus",
+       "Resource group"
+      ],
+      [
+       "New-AzVM -ResourceGroupName rg1 -Name vm1 -Image Ubuntu2204 -Size Standard_B2s",
+       "Create a VM"
+      ],
+      [
+       "Get-AzVM  /  Start-AzVM  /  Stop-AzVM  /  Restart-AzVM",
+       "VM operations (Stop-AzVM deallocates by default)"
+      ],
+      [
+       "New-AzVirtualNetwork  /  New-AzVirtualNetworkSubnetConfig",
+       "Network objects"
+      ],
+      [
+       "New-AzStorageAccount -ResourceGroupName rg1 -Name <n> -SkuName Standard_LRS -Location eastus",
+       "Storage account"
+      ],
+      [
+       "New-AzRoleAssignment -SignInName <upn> -RoleDefinitionName Reader -Scope <id>",
+       "RBAC"
+      ],
+      [
+       "Get-AzResource | Where-Object ResourceType -eq 'Microsoft.Compute/virtualMachines'",
+       "Query resources"
+      ],
+      [
+       "New-AzResourceGroupDeployment -ResourceGroupName rg1 -TemplateFile main.json",
+       "Deploy a template"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "identity",
+   "title": "Identity and governance",
+   "blurb": "RBAC roles, Entra ID, policy, locks and management groups.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Azure RBAC built-in roles",
+     "head": [
+      "Role",
+      "Can"
+     ],
+     "rows": [
+      [
+       "Owner",
+       "Everything, including assigning roles"
+      ],
+      [
+       "Contributor",
+       "Create and manage resources; cannot assign roles"
+      ],
+      [
+       "Reader",
+       "View only"
+      ],
+      [
+       "User Access Administrator",
+       "Manage access to resources (assign roles), nothing else"
+      ],
+      [
+       "Virtual Machine Contributor",
+       "Manage VMs, not the network or storage they use"
+      ],
+      [
+       "Network Contributor",
+       "Manage networks"
+      ],
+      [
+       "Storage Blob Data Reader / Contributor / Owner",
+       "Data-plane access to blobs (separate from management roles)"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Identity and access facts",
+     "items": [
+      "Scope hierarchy: management group > subscription > resource group > resource. Assignments inherit downward; deny assignments and Azure Policy can restrict further.",
+      "Azure RBAC (resources) is separate from Microsoft Entra roles (the directory: Global Administrator, User Administrator...). A Global Administrator can elevate to User Access Administrator at root scope.",
+      "Custom roles: JSON with Actions, NotActions, DataActions, AssignableScopes. Role assignment = security principal + role + scope.",
+      "Entra user types: member and guest (B2B). Groups: Security and Microsoft 365; membership Assigned, Dynamic User or Dynamic Device (Entra ID P1+).",
+      "Licenses: Free, P1 (dynamic groups, conditional access, SSPR writeback), P2 (PIM, Identity Protection). Devices: Registered, Joined, Hybrid joined.",
+      "SSPR: users register authentication methods and reset their own password; writing the new password back to on-premises AD needs P1 or higher. MFA is enforced per user, by security defaults or by Conditional Access.",
+      "Managed identities: system-assigned (tied to the resource lifecycle) and user-assigned (shared). Use them instead of stored secrets."
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Governance",
+     "head": [
+      "Tool",
+      "What it does"
+     ],
+     "rows": [
+      [
+       "Azure Policy",
+       "Evaluates resources against rules. Effects: Deny, Audit, Append, Modify, DeployIfNotExists, AuditIfNotExists, Disabled. Initiative = a group of policies"
+      ],
+      [
+       "Resource locks",
+       "CanNotDelete (delete blocked) or ReadOnly (no changes). Apply at subscription, resource group or resource; they override RBAC"
+      ],
+      [
+       "Tags",
+       "Name/value metadata for cost and ownership; not inherited by default (use Policy to enforce or inherit)"
+      ],
+      [
+       "Management groups",
+       "Up to 6 levels below the tenant root group; apply policy and RBAC across subscriptions"
+      ],
+      [
+       "Cost Management",
+       "Budgets, alerts, cost analysis, advisor recommendations. Reservations and savings plans lower compute cost"
+      ],
+      [
+       "Resource providers",
+       "A subscription must register a provider (Microsoft.Compute) before using it"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "storage",
+   "title": "Storage",
+   "blurb": "Redundancy, tiers, access and security.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Storage redundancy",
+     "head": [
+      "Option",
+      "Copies / durability",
+      "Protects against"
+     ],
+     "rows": [
+      [
+       "LRS",
+       "3 copies in one datacenter (11 nines)",
+       "Drive and rack failure"
+      ],
+      [
+       "ZRS",
+       "3 copies across 3 availability zones (12 nines)",
+       "Datacenter (zone) failure"
+      ],
+      [
+       "GRS",
+       "LRS here + LRS in paired region (16 nines)",
+       "Regional outage (Microsoft-initiated failover)"
+      ],
+      [
+       "RA-GRS",
+       "GRS plus read access to the secondary",
+       "Reads continue during an outage"
+      ],
+      [
+       "GZRS / RA-GZRS",
+       "ZRS in primary + LRS in secondary",
+       "Zone and region failure"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Storage facts",
+     "items": [
+      "Account kinds: StorageV2 (general purpose v2, default), BlockBlobStorage and FileStorage (premium). Services: Blob, Files, Queue, Table, Data Lake Gen2 (hierarchical namespace).",
+      "Blob tiers: Hot, Cool (30-day minimum), Cold (90 days), Archive (180 days, offline: rehydrate takes hours). Lifecycle management rules move or delete blobs automatically.",
+      "Access: account keys (full access, rotate), SAS (service, account, user-delegation; stored access policy can revoke), Entra ID RBAC (preferred), anonymous (container-level, can be disabled).",
+      "Security: firewalls and virtual networks, private endpoints, encryption at rest by default (Microsoft-managed or customer-managed keys), secure transfer required, soft delete, versioning, immutability (WORM).",
+      "Azure Files: SMB 445 / NFS shares; Azure File Sync caches shares on Windows Server. Tools: AzCopy, Storage Explorer, Azure Import/Export, Data Box.",
+      "Replication between accounts: object replication (blob). Failover: customer-managed account failover for GRS/GZRS."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "compute",
+   "title": "Compute",
+   "blurb": "VMs, scale sets, App Service, containers, templates, backup.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Compute choices",
+     "head": [
+      "Service",
+      "Use it for"
+     ],
+     "rows": [
+      [
+       "Virtual machines",
+       "Full OS control. Sizes: B burstable, D general, E memory, F compute, L storage, N GPU, M very large memory"
+      ],
+      [
+       "VM Scale Sets",
+       "Identical VMs that autoscale on metrics or schedule (uniform or flexible orchestration)"
+      ],
+      [
+       "App Service",
+       "Web apps, APIs. Plans: Free/Shared (no custom TLS), Basic (custom domains, TLS), Standard+ (autoscale, slots), Premium, Isolated"
+      ],
+      [
+       "Container Instances",
+       "Quick single containers, no orchestration (billed per second)"
+      ],
+      [
+       "Container Apps",
+       "Serverless containers and microservices (KEDA, Dapr)"
+      ],
+      [
+       "AKS",
+       "Managed Kubernetes; node pools, cluster autoscaler"
+      ],
+      [
+       "Functions",
+       "Event-driven code; Consumption plan scales to zero"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "VM facts",
+     "items": [
+      "Availability: single VM with Premium SSD 99.9%, availability set 99.95% (fault and update domains), availability zones 99.99%. Region pairs help disaster recovery.",
+      "Disks: Standard HDD, Standard SSD, Premium SSD (v1/v2), Ultra. Managed disks. Encryption: SSE by default, Azure Disk Encryption (BitLocker or dm-crypt), encryption at host.",
+      "Stopped (OS shutdown) still bills compute; stopped (deallocated) does not. Resizing may need a deallocate; reserved private IP stays, a dynamic public IP can change.",
+      "Moving a resource to another resource group or subscription changes its resource ID, and not every resource type supports a move. A region move uses Azure Resource Mover or a redeploy.",
+      "ARM templates (JSON) and Bicep are declarative infrastructure as code; deployment modes: Incremental (default) and Complete (deletes resources not in the template).",
+      "App Service slots swap content and settings; slot-specific (sticky) settings stay. Autoscale: rules on metrics or schedule with min, max and default instance counts.",
+      "Azure Backup for VMs uses a Recovery Services vault and a backup policy (daily, retention); Site Recovery replicates VMs to another region."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "network",
+   "title": "Networking",
+   "blurb": "VNets, NSGs, peering, endpoints, gateways and load balancing.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Networking building blocks",
+     "head": [
+      "Item",
+      "Key facts"
+     ],
+     "rows": [
+      [
+       "Virtual network / subnet",
+       "Address space CIDR, no overlap if you peer or connect. Azure reserves 5 addresses per subnet (first 4 and last)"
+      ],
+      [
+       "Peering",
+       "Connects VNets over the Microsoft backbone; not transitive; global peering across regions. Create it in both directions"
+      ],
+      [
+       "NSG",
+       "Stateful allow/deny by 5-tuple, priority 100-4096 (low number wins). Defaults: AllowVNetInBound, AllowAzureLoadBalancerInBound, DenyAllInBound (65000-65500). Attach to a subnet and/or NIC"
+      ],
+      [
+       "ASG",
+       "Group NICs so NSG rules refer to roles, not IPs"
+      ],
+      [
+       "UDR / route table",
+       "Override system routes (for example force traffic to a firewall, next hop type Virtual appliance)"
+      ],
+      [
+       "Service endpoint vs Private Endpoint",
+       "Endpoint: subnet identity reaches a service's public endpoint over the backbone. Private Endpoint: a private IP in your VNet for one resource (Private Link) and DNS via a private zone"
+      ],
+      [
+       "Public IP SKUs",
+       "Basic (retiring) and Standard (static, zone-redundant, secure by default: needs an NSG to allow traffic)"
+      ],
+      [
+       "Azure DNS",
+       "Public zones for internet names; private zones resolve names inside linked VNets (auto-registration option)"
+      ],
+      [
+       "Bastion",
+       "RDP/SSH to VMs over TLS from the portal; no public IP on the VM (AzureBastionSubnet, at least /26)"
+      ],
+      [
+       "VPN Gateway",
+       "Site-to-site, point-to-site and VNet-to-VNet encrypted tunnels over the internet (GatewaySubnet)"
+      ],
+      [
+       "ExpressRoute",
+       "Private circuit from your network to Microsoft; not over the internet; connectivity provider"
+      ],
+      [
+       "Virtual WAN",
+       "Hub-and-spoke connectivity at scale"
+      ],
+      [
+       "Azure Firewall",
+       "Managed stateful firewall; network and application rules, FQDN filtering, threat intelligence"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Load balancing options",
+     "head": [
+      "Service",
+      "Layer",
+      "Scope",
+      "Use"
+     ],
+     "rows": [
+      [
+       "Load Balancer",
+       "4 (TCP/UDP)",
+       "Regional",
+       "Internal or public, health probes, zone-redundant"
+      ],
+      [
+       "Application Gateway",
+       "7 (HTTP/S)",
+       "Regional",
+       "Path-based routing, TLS termination, WAF"
+      ],
+      [
+       "Front Door",
+       "7 (HTTP/S)",
+       "Global",
+       "Edge acceleration, global failover, WAF, CDN-style caching"
+      ],
+      [
+       "Traffic Manager",
+       "DNS",
+       "Global",
+       "DNS-based routing: priority, weighted, performance, geographic, multivalue, subnet"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "monitor",
+   "title": "Monitor and recover",
+   "blurb": "Azure Monitor, alerts, Network Watcher, backup and Site Recovery.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Monitoring and recovery",
+     "head": [
+      "Tool",
+      "Purpose"
+     ],
+     "rows": [
+      [
+       "Azure Monitor",
+       "Platform for metrics (numeric, near-real-time) and logs"
+      ],
+      [
+       "Log Analytics workspace",
+       "Stores logs; query with Kusto Query Language (KQL)"
+      ],
+      [
+       "Alerts",
+       "Rule (signal, condition) triggers an action group (email, SMS, webhook, runbook, function). Types: metric, log, activity log"
+      ],
+      [
+       "Activity log",
+       "Subscription-level control-plane events (who did what, when); 90 days by default"
+      ],
+      [
+       "Diagnostic settings",
+       "Send resource logs and metrics to a workspace, storage or Event Hub"
+      ],
+      [
+       "Application Insights",
+       "Application performance monitoring and availability tests"
+      ],
+      [
+       "VM insights / Azure Monitor agent",
+       "Guest OS metrics and logs; Data Collection Rules"
+      ],
+      [
+       "Service Health / Resource Health",
+       "Azure incidents / health of your resources"
+      ],
+      [
+       "Network Watcher",
+       "IP flow verify, next hop, connection troubleshoot, NSG flow logs, packet capture, topology"
+      ],
+      [
+       "Advisor",
+       "Recommendations for reliability, security, cost, performance, operational excellence"
+      ],
+      [
+       "Recovery Services vault",
+       "Azure Backup (VMs, SQL in VM, Files) and Site Recovery; soft delete protects deleted backups for 14 days"
+      ],
+      [
+       "Backup vault",
+       "Newer vault type for disks, blobs and PostgreSQL"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "KQL starter",
+     "rows": [
+      [
+       "Heartbeat | where TimeGenerated > ago(1h)",
+       "Filter by time"
+      ],
+      [
+       "AzureActivity | summarize count() by OperationNameValue",
+       "Count by group"
+      ],
+      [
+       "Perf | where CounterName == \"% Processor Time\" | summarize avg(CounterValue) by bin(TimeGenerated, 5m)",
+       "Time series"
+      ],
+      [
+       "... | project Computer, TimeGenerated  |  top 10 by TimeGenerated",
+       "Pick columns, sort and limit"
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

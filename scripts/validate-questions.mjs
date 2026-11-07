@@ -41,6 +41,23 @@ for (const entry of index.filter((e) => !only || e.slug === only)) {
   if (entry.questions != null && entry.questions !== questions.length) {
     errors.push(`index.json says ${entry.questions} questions but the bank has ${questions.length} (run node scripts/stamp-updated.mjs)`);
   }
+  // Reference sheets (cheat sheets and the subnetting trainer), if the exam has them.
+  if (fs.existsSync(path.join(root, 'exams', entry.slug, 'reference.json'))) {
+    const ref = JSON.parse(fs.readFileSync(path.join(root, 'exams', entry.slug, 'reference.json'), 'utf8'));
+    const seen = new Set();
+    for (const sh of ref.sheets || []) {
+      if (!sh.id || !sh.title || seen.has(sh.id) || sh.id === 'trainer') errors.push(`reference: sheet needs a unique title and id (${sh.id})`);
+      seen.add(sh.id);
+      for (const b of sh.blocks || []) {
+        if (b.type === 'table') { for (const r of b.rows) if (r.length !== b.head.length) errors.push(`reference ${sh.id}: "${b.title}" row has ${r.length} cells, header has ${b.head.length}: ${r[0]}`); }
+        else if (b.type === 'cmds') { for (const r of b.rows) if (r.length !== 2) errors.push(`reference ${sh.id}: "${b.title}" command rows need [command, meaning]`); }
+        else if (b.type === 'list') { if (!b.items?.length) errors.push(`reference ${sh.id}: empty list "${b.title}"`); }
+        else if (b.type !== 'note') errors.push(`reference ${sh.id}: unknown block type ${b.type}`);
+      }
+    }
+    if (!(ref.sheets?.length || ref.trainer)) errors.push('reference.json has no sheets and no trainer');
+    if (entry.reference != null && entry.reference !== (ref.sheets?.length || 0) + (ref.trainer ? 1 : 0)) errors.push('index.json reference count is stale (run node scripts/stamp-updated.mjs)');
+  }
   const perDomain = Object.keys(exam.domains).map((d) => `${d}: ${questions.filter((q) => q.domain === d).length}`).join(', ');
   console.log(`${exam.code} (${entry.slug}): ${questions.length} questions (${perDomain})`);
   if (errors.length) { failed = true; console.error('  ' + errors.join('\n  ')); }

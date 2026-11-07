@@ -1,0 +1,1086 @@
+{
+ "intro": "Printable Cisco IOS command and concept sheets for CCNA 200-301, plus a subnetting trainer.",
+ "trainer": true,
+ "sheets": [
+  {
+   "id": "cli",
+   "title": "IOS basics",
+   "blurb": "Modes, device setup and the show commands you use for verification.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "IOS modes",
+     "head": [
+      "Prompt",
+      "Mode",
+      "Get there"
+     ],
+     "rows": [
+      [
+       "Router>",
+       "User EXEC",
+       "Login"
+      ],
+      [
+       "Router#",
+       "Privileged EXEC",
+       "`enable`"
+      ],
+      [
+       "Router(config)#",
+       "Global configuration",
+       "`configure terminal`"
+      ],
+      [
+       "Router(config-if)#",
+       "Interface",
+       "`interface g0/1`"
+      ],
+      [
+       "Router(config-line)#",
+       "Line",
+       "`line console 0` / `line vty 0 15`"
+      ],
+      [
+       "Router(config-router)#",
+       "Routing protocol",
+       "`router ospf 1`"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Basic device setup",
+     "rows": [
+      [
+       "hostname R1",
+       "Name the device"
+      ],
+      [
+       "enable secret Cisco123",
+       "Hashed privileged password (use instead of `enable password`)"
+      ],
+      [
+       "service password-encryption",
+       "Weakly encrypt line passwords"
+      ],
+      [
+       "no ip domain-lookup",
+       "Stop DNS lookups on mistyped commands"
+      ],
+      [
+       "banner motd #Authorized only#",
+       "Login banner"
+      ],
+      [
+       "line console 0 / password x / login",
+       "Console password"
+      ],
+      [
+       "line vty 0 15 / login local / transport input ssh",
+       "SSH-only remote access"
+      ],
+      [
+       "username admin secret S3cret",
+       "Local account"
+      ],
+      [
+       "ip domain-name lab.local  +  crypto key generate rsa modulus 2048",
+       "Needed before SSH works"
+      ],
+      [
+       "ip ssh version 2",
+       "Use SSH v2"
+      ],
+      [
+       "copy running-config startup-config  (wr)",
+       "Save the configuration"
+      ],
+      [
+       "erase startup-config  +  reload",
+       "Factory reset"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Verification (show) commands",
+     "rows": [
+      [
+       "show running-config  /  show startup-config",
+       "Active vs saved configuration"
+      ],
+      [
+       "show ip interface brief",
+       "Interface status and IPs (up/up is healthy)"
+      ],
+      [
+       "show interfaces g0/1",
+       "Errors, duplex, speed, counters"
+      ],
+      [
+       "show interfaces status",
+       "Switch: port state, VLAN, duplex, speed"
+      ],
+      [
+       "show vlan brief",
+       "VLANs and access ports"
+      ],
+      [
+       "show interfaces trunk",
+       "Trunks, allowed and native VLANs"
+      ],
+      [
+       "show mac address-table",
+       "Learned MAC addresses"
+      ],
+      [
+       "show ip route",
+       "Routing table (codes C, L, S, O, D, B)"
+      ],
+      [
+       "show ip protocols",
+       "Routing protocol settings"
+      ],
+      [
+       "show ip ospf neighbor",
+       "OSPF adjacencies and state"
+      ],
+      [
+       "show ip ospf interface brief",
+       "OSPF-enabled interfaces, cost, area"
+      ],
+      [
+       "show spanning-tree",
+       "Root bridge, port roles and states"
+      ],
+      [
+       "show etherchannel summary",
+       "Port-channel members and flags"
+      ],
+      [
+       "show cdp neighbors [detail]  /  show lldp neighbors",
+       "Directly connected devices"
+      ],
+      [
+       "show access-lists",
+       "ACLs and hit counts"
+      ],
+      [
+       "show ip nat translations",
+       "Active NAT entries"
+      ],
+      [
+       "show port-security interface f0/1",
+       "Port-security status and violations"
+      ],
+      [
+       "show ip dhcp binding",
+       "DHCP leases handed out"
+      ],
+      [
+       "show version",
+       "IOS, uptime, config register"
+      ],
+      [
+       "show ipv6 interface brief  /  show ipv6 route",
+       "IPv6 equivalents"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "switching",
+   "title": "Switching and VLANs",
+   "blurb": "VLANs, trunks, port security, STP and EtherChannel.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Switch and VLAN configuration",
+     "rows": [
+      [
+       "vlan 10  /  name Sales",
+       "Create a VLAN"
+      ],
+      [
+       "interface f0/1  /  switchport mode access  /  switchport access vlan 10",
+       "Access port"
+      ],
+      [
+       "switchport voice vlan 20",
+       "Voice VLAN on an access port"
+      ],
+      [
+       "interface g0/1  /  switchport mode trunk",
+       "Trunk (802.1Q)"
+      ],
+      [
+       "switchport trunk allowed vlan 10,20",
+       "Limit VLANs on the trunk"
+      ],
+      [
+       "switchport trunk native vlan 99",
+       "Change native VLAN (must match both ends)"
+      ],
+      [
+       "interface vlan 1  /  ip address 192.168.1.2 255.255.255.0  /  no shutdown",
+       "Switch management address"
+      ],
+      [
+       "ip default-gateway 192.168.1.1",
+       "Gateway for the switch itself"
+      ],
+      [
+       "interface range f0/1 - 24  /  shutdown",
+       "Disable unused ports"
+      ],
+      [
+       "switchport port-security  /  switchport port-security maximum 2",
+       "Port security"
+      ],
+      [
+       "switchport port-security mac-address sticky",
+       "Learn MACs dynamically and keep them"
+      ],
+      [
+       "switchport port-security violation shutdown | restrict | protect",
+       "Violation action (default shutdown = err-disabled)"
+      ],
+      [
+       "spanning-tree portfast  /  spanning-tree bpduguard enable",
+       "Edge-port protection"
+      ],
+      [
+       "spanning-tree vlan 1 root primary",
+       "Make this switch the root"
+      ],
+      [
+       "channel-group 1 mode active",
+       "LACP EtherChannel (active/passive); PAgP is desirable/auto; `on` = static"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "STP / RSTP",
+     "head": [
+      "Item",
+      "Detail"
+     ],
+     "rows": [
+      [
+       "STP port states",
+       "Blocking, Listening, Learning, Forwarding, Disabled (about 30 to 50 s to converge)"
+      ],
+      [
+       "RSTP states",
+       "Discarding, Learning, Forwarding (a few seconds)"
+      ],
+      [
+       "Port roles",
+       "Root (best path to root), Designated (forwards on a segment), Alternate / Backup (RSTP), Non-designated (STP)"
+      ],
+      [
+       "Root election",
+       "Lowest bridge ID: priority (default 32768 + VLAN ID, steps of 4096) then lowest MAC"
+      ],
+      [
+       "Path cost",
+       "10 Gbps = 2, 1 Gbps = 4, 100 Mbps = 19, 10 Mbps = 100 (short method)"
+      ],
+      [
+       "Cisco flavors",
+       "PVST+ (STP per VLAN), Rapid PVST+ (`spanning-tree mode rapid-pvst`), MST"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "EtherChannel and first-hop redundancy",
+     "items": [
+      "EtherChannel needs matching speed, duplex, VLAN/trunk settings on every member. LACP active/passive (open standard), PAgP desirable/auto (Cisco), `on` (static, no negotiation). Two passive or two auto sides do not form a bundle.",
+      "HSRP (Cisco): active and standby routers share a virtual IP; default priority 100, preempt off by default. VRRP is the open standard; GLBP load-balances (Cisco)."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "routing",
+   "title": "Routing and OSPF",
+   "blurb": "Static routes, router-on-a-stick, administrative distance and OSPF.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Router interfaces and inter-VLAN routing",
+     "rows": [
+      [
+       "interface g0/0  /  ip address 10.0.0.1 255.255.255.0  /  no shutdown",
+       "Addressing a router port"
+      ],
+      [
+       "interface g0/0.10  /  encapsulation dot1q 10  /  ip address ...",
+       "Router-on-a-stick subinterface"
+      ],
+      [
+       "ip routing",
+       "Enable routing on a layer 3 switch"
+      ],
+      [
+       "ip route 0.0.0.0 0.0.0.0 203.0.113.1",
+       "Default route"
+      ],
+      [
+       "ip route 10.2.0.0 255.255.0.0 10.0.0.2 [150]",
+       "Static route (optional AD makes it a floating static)"
+      ],
+      [
+       "ipv6 unicast-routing",
+       "Enable IPv6 routing"
+      ],
+      [
+       "ipv6 address 2001:db8:1::1/64",
+       "IPv6 interface address"
+      ],
+      [
+       "ip helper-address 10.1.1.10",
+       "DHCP relay on the client-side interface"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Routing protocols",
+     "head": [
+      "Protocol",
+      "Admin distance",
+      "Type / metric"
+     ],
+     "rows": [
+      [
+       "Connected",
+       "0",
+       ""
+      ],
+      [
+       "Static",
+       "1",
+       ""
+      ],
+      [
+       "EIGRP (summary)",
+       "5",
+       ""
+      ],
+      [
+       "eBGP",
+       "20",
+       "Path vector"
+      ],
+      [
+       "EIGRP",
+       "90",
+       "Advanced distance vector; bandwidth + delay"
+      ],
+      [
+       "OSPF",
+       "110",
+       "Link state; cost (bandwidth); multicast 224.0.0.5/6"
+      ],
+      [
+       "IS-IS",
+       "115",
+       "Link state"
+      ],
+      [
+       "RIP",
+       "120",
+       "Distance vector; hop count, max 15"
+      ],
+      [
+       "iBGP",
+       "200",
+       ""
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "OSPF",
+     "rows": [
+      [
+       "router ospf 1",
+       "Process ID is local only"
+      ],
+      [
+       "router-id 1.1.1.1",
+       "Set the router ID (else highest loopback, then highest active interface IP)"
+      ],
+      [
+       "network 10.0.0.0 0.0.0.255 area 0",
+       "Enable OSPF by wildcard mask"
+      ],
+      [
+       "interface g0/0  /  ip ospf 1 area 0",
+       "Enable OSPF on one interface"
+      ],
+      [
+       "passive-interface g0/1",
+       "Advertise the network but form no neighbors"
+      ],
+      [
+       "default-information originate",
+       "Advertise a default route"
+      ],
+      [
+       "ip ospf cost 10  /  auto-cost reference-bandwidth 10000",
+       "Influence cost"
+      ],
+      [
+       "ip ospf priority 0",
+       "Never become DR/BDR (default priority 1)"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "OSPF facts",
+     "items": [
+      "Neighbor states: Down, Init, 2-Way, ExStart, Exchange, Loading, Full. DR/BDR are elected on multi-access (Ethernet) segments; neighbors that are not DR/BDR stay at 2-Way.",
+      "Hello 10 s / dead 40 s on broadcast links. Hello timers, area ID, subnet, authentication and stub flags must match to form an adjacency.",
+      "Cost = reference bandwidth / interface bandwidth (default reference 100 Mbps, so FastEthernet and faster all cost 1).",
+      "Area 0 is the backbone; all areas connect to it. LSA types: 1 router, 2 network, 3 summary, 5 external."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "services",
+   "title": "IP services and security",
+   "blurb": "ACLs, NAT, DHCP, NTP, syslog, SNMP, snooping.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "ACLs, NAT and security",
+     "rows": [
+      [
+       "access-list 10 permit 192.168.1.0 0.0.0.255",
+       "Standard numbered ACL (1-99): source only"
+      ],
+      [
+       "ip access-list extended WEB  /  permit tcp any host 10.0.0.5 eq 443",
+       "Named extended ACL"
+      ],
+      [
+       "interface g0/1  /  ip access-group WEB in",
+       "Apply an ACL (in or out)"
+      ],
+      [
+       "line vty 0 15  /  access-class 10 in",
+       "Restrict who can SSH in"
+      ],
+      [
+       "ip nat inside source list 1 interface g0/1 overload",
+       "PAT using the outside interface address"
+      ],
+      [
+       "ip nat inside  /  ip nat outside",
+       "Mark interfaces"
+      ],
+      [
+       "ip nat inside source static 192.168.1.10 203.0.113.10",
+       "Static NAT"
+      ],
+      [
+       "ip dhcp snooping  /  ip dhcp snooping vlan 10  /  ip dhcp snooping trust",
+       "Trust only the uplink to the real DHCP server"
+      ],
+      [
+       "ip arp inspection vlan 10",
+       "Dynamic ARP inspection (uses the snooping table)"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "ACL rules of thumb",
+     "items": [
+      "Top-down, first match wins, implicit `deny any` at the end. Place standard ACLs close to the destination and extended ACLs close to the source.",
+      "Inbound ACLs filter before routing; outbound after. One ACL per interface, per protocol, per direction. ACLs do not filter traffic the router itself originates.",
+      "Wildcard mask: 0 = must match, 1 = ignore. `host x` = 0.0.0.0, `any` = 255.255.255.255."
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "DHCP server, NTP, syslog, SNMP",
+     "rows": [
+      [
+       "ip dhcp excluded-address 192.168.1.1 192.168.1.10",
+       "Reserve addresses"
+      ],
+      [
+       "ip dhcp pool LAN  /  network 192.168.1.0 255.255.255.0  /  default-router 192.168.1.1  /  dns-server 8.8.8.8",
+       "DHCP pool"
+      ],
+      [
+       "ntp server 10.0.0.1",
+       "Sync time"
+      ],
+      [
+       "logging host 10.0.0.9  /  logging trap informational",
+       "Send logs to syslog"
+      ],
+      [
+       "service timestamps log datetime msec",
+       "Timestamp logs"
+      ],
+      [
+       "snmp-server community public ro",
+       "SNMPv2c read-only (v3 adds auth and encryption)"
+      ],
+      [
+       "cdp run  /  lldp run",
+       "Neighbor discovery protocols"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Security fundamentals",
+     "items": [
+      "Threats: malware, phishing, social engineering, DoS/DDoS, spoofing, reconnaissance, man-in-the-middle. Mitigation = defense in depth, patching, strong passwords, MFA, user training.",
+      "AAA: authentication, authorization, accounting (RADIUS or TACACS+). Passwords: use `enable secret` (type 8/9 hashes if available) not `enable password`.",
+      "Layer 2: port security, DHCP snooping, DAI, disable unused ports, native VLAN not 1, no DTP (`switchport nonegotiate`). VPN: site-to-site and remote access (IPsec, SSL).",
+      "WPA3 beats WPA2; avoid WEP. 802.1X = port-based network access control."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "addressing",
+   "title": "IP addressing",
+   "blurb": "Subnet table, special ranges and IPv6 address types.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Subnet quick table",
+     "head": [
+      "Prefix",
+      "Mask",
+      "Block size",
+      "Usable hosts"
+     ],
+     "rows": [
+      [
+       "/24",
+       "255.255.255.0",
+       "256",
+       "254"
+      ],
+      [
+       "/25",
+       "255.255.255.128",
+       "128",
+       "126"
+      ],
+      [
+       "/26",
+       "255.255.255.192",
+       "64",
+       "62"
+      ],
+      [
+       "/27",
+       "255.255.255.224",
+       "32",
+       "30"
+      ],
+      [
+       "/28",
+       "255.255.255.240",
+       "16",
+       "14"
+      ],
+      [
+       "/29",
+       "255.255.255.248",
+       "8",
+       "6"
+      ],
+      [
+       "/30",
+       "255.255.255.252",
+       "4",
+       "2"
+      ],
+      [
+       "/31",
+       "255.255.255.254",
+       "2",
+       "2 (point-to-point links)"
+      ],
+      [
+       "/23",
+       "255.255.254.0",
+       "512 (3rd octet: 2)",
+       "510"
+      ],
+      [
+       "/22",
+       "255.255.252.0",
+       "1,024 (4)",
+       "1,022"
+      ],
+      [
+       "/20",
+       "255.255.240.0",
+       "4,096 (16)",
+       "4,094"
+      ],
+      [
+       "/16",
+       "255.255.0.0",
+       "65,536 (256)",
+       "65,534"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Subnetting in four steps",
+     "items": [
+      "Block size = 256 minus the interesting octet of the mask (for example /26: 256 - 192 = 64).",
+      "Network = the multiple of the block size at or below the host's value in that octet.",
+      "Broadcast = next network address minus 1; usable range sits between network and broadcast.",
+      "Hosts = 2^(host bits) - 2. Subnets = 2^(borrowed bits). Need N hosts: smallest 2^h with 2^h - 2 >= N."
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Special IPv4 ranges",
+     "head": [
+      "Range",
+      "Meaning"
+     ],
+     "rows": [
+      [
+       "10.0.0.0/8",
+       "Private (RFC 1918)"
+      ],
+      [
+       "172.16.0.0/12",
+       "Private: 172.16.0.0 to 172.31.255.255"
+      ],
+      [
+       "192.168.0.0/16",
+       "Private"
+      ],
+      [
+       "169.254.0.0/16",
+       "APIPA / link-local: no DHCP answer was received"
+      ],
+      [
+       "127.0.0.0/8",
+       "Loopback (127.0.0.1)"
+      ],
+      [
+       "100.64.0.0/10",
+       "Carrier-grade NAT (shared address space)"
+      ],
+      [
+       "224.0.0.0/4",
+       "Multicast (224.0.0.5/6 OSPF, 224.0.0.9 RIPv2, 224.0.0.10 EIGRP)"
+      ],
+      [
+       "255.255.255.255",
+       "Limited broadcast"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "IPv6 address types",
+     "head": [
+      "Type",
+      "Prefix",
+      "Notes"
+     ],
+     "rows": [
+      [
+       "Global unicast",
+       "2000::/3",
+       "Routable on the internet"
+      ],
+      [
+       "Unique local",
+       "fc00::/7 (in use: fd00::/8)",
+       "Private, like RFC 1918"
+      ],
+      [
+       "Link-local",
+       "fe80::/10",
+       "Every interface; not routed; used by NDP and routing protocols"
+      ],
+      [
+       "Multicast",
+       "ff00::/8",
+       "ff02::1 all nodes, ff02::2 all routers; no broadcast in IPv6"
+      ],
+      [
+       "Loopback",
+       "::1/128",
+       "Like 127.0.0.1"
+      ],
+      [
+       "Unspecified",
+       "::/128",
+       "No address yet"
+      ]
+     ]
+    },
+    {
+     "type": "note",
+     "text": "IPv6 is 128 bits written as 8 groups of 4 hex digits. Drop leading zeros in a group, and replace one run of all-zero groups with `::` (once only). Standard subnet is /64. SLAAC builds an address from the router's prefix plus an interface ID (EUI-64 or random); DHCPv6 can be stateful or stateless. NDP replaces ARP."
+    }
+   ]
+  },
+  {
+   "id": "ports",
+   "title": "Ports and protocols",
+   "blurb": "Protocol numbers and well-known ports.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Protocol numbers and ports to know",
+     "head": [
+      "Item",
+      "Value"
+     ],
+     "rows": [
+      [
+       "ICMP / TCP / UDP",
+       "IP protocol 1 / 6 / 17"
+      ],
+      [
+       "EIGRP / OSPF",
+       "IP protocol 88 / 89"
+      ],
+      [
+       "BGP",
+       "TCP 179"
+      ],
+      [
+       "RIP",
+       "UDP 520"
+      ],
+      [
+       "HSRP v1/v2",
+       "UDP 1985 / 224.0.0.2 / 224.0.0.102"
+      ],
+      [
+       "SSH / Telnet",
+       "TCP 22 / 23"
+      ],
+      [
+       "DNS",
+       "UDP/TCP 53"
+      ],
+      [
+       "DHCP",
+       "UDP 67 / 68"
+      ],
+      [
+       "TFTP",
+       "UDP 69"
+      ],
+      [
+       "NTP",
+       "UDP 123"
+      ],
+      [
+       "SNMP",
+       "UDP 161 / 162"
+      ],
+      [
+       "Syslog",
+       "UDP 514"
+      ],
+      [
+       "HTTPS",
+       "TCP 443"
+      ],
+      [
+       "RADIUS",
+       "UDP 1812 / 1813"
+      ],
+      [
+       "TACACS+",
+       "TCP 49"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Common ports",
+     "head": [
+      "Port",
+      "Protocol",
+      "Use"
+     ],
+     "rows": [
+      [
+       "20 / 21",
+       "FTP (TCP)",
+       "File transfer: 20 data (active), 21 control"
+      ],
+      [
+       "22",
+       "SSH / SFTP / SCP (TCP)",
+       "Encrypted remote shell and file transfer"
+      ],
+      [
+       "23",
+       "Telnet (TCP)",
+       "Remote shell in clear text"
+      ],
+      [
+       "25",
+       "SMTP (TCP)",
+       "Mail server to mail server"
+      ],
+      [
+       "49",
+       "TACACS+ (TCP)",
+       "Cisco device administration AAA"
+      ],
+      [
+       "53",
+       "DNS (UDP and TCP)",
+       "Name resolution; TCP for zone transfers and large replies"
+      ],
+      [
+       "67 / 68",
+       "DHCP (UDP)",
+       "67 server, 68 client"
+      ],
+      [
+       "69",
+       "TFTP (UDP)",
+       "Simple file transfer, no authentication"
+      ],
+      [
+       "80",
+       "HTTP (TCP)",
+       "Web, clear text"
+      ],
+      [
+       "88",
+       "Kerberos (UDP/TCP)",
+       "Ticket-based authentication (Active Directory)"
+      ],
+      [
+       "110",
+       "POP3 (TCP)",
+       "Download mail"
+      ],
+      [
+       "123",
+       "NTP (UDP)",
+       "Time synchronization"
+      ],
+      [
+       "137-139",
+       "NetBIOS (UDP/TCP)",
+       "Legacy Windows naming and sessions"
+      ],
+      [
+       "143",
+       "IMAP (TCP)",
+       "Mail kept on the server"
+      ],
+      [
+       "161 / 162",
+       "SNMP (UDP)",
+       "161 polling, 162 traps"
+      ],
+      [
+       "389",
+       "LDAP (TCP/UDP)",
+       "Directory queries"
+      ],
+      [
+       "443",
+       "HTTPS (TCP)",
+       "Web over TLS"
+      ],
+      [
+       "445",
+       "SMB (TCP)",
+       "Windows file and printer sharing"
+      ],
+      [
+       "465 / 587",
+       "SMTPS / submission (TCP)",
+       "Client mail sending over TLS"
+      ],
+      [
+       "500",
+       "IKE / ISAKMP (UDP)",
+       "IPsec key exchange (4500 for NAT-T)"
+      ],
+      [
+       "514",
+       "Syslog (UDP)",
+       "Log messages (6514 for TLS)"
+      ],
+      [
+       "636",
+       "LDAPS (TCP)",
+       "LDAP over TLS"
+      ],
+      [
+       "993 / 995",
+       "IMAPS / POP3S (TCP)",
+       "Mail retrieval over TLS"
+      ],
+      [
+       "1433",
+       "Microsoft SQL Server (TCP)",
+       "Database"
+      ],
+      [
+       "1521",
+       "Oracle (TCP)",
+       "Database"
+      ],
+      [
+       "1812 / 1813",
+       "RADIUS (UDP)",
+       "Authentication (1812) and accounting (1813); legacy 1645/1646"
+      ],
+      [
+       "3306",
+       "MySQL / MariaDB (TCP)",
+       "Database"
+      ],
+      [
+       "3389",
+       "RDP (TCP/UDP)",
+       "Windows remote desktop"
+      ],
+      [
+       "5060 / 5061",
+       "SIP (UDP/TCP)",
+       "VoIP signalling, 5061 over TLS"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "wireless",
+   "title": "Wireless and automation",
+   "blurb": "WLC architecture, Wi-Fi security, REST, controllers.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Wireless architecture",
+     "head": [
+      "Item",
+      "Detail"
+     ],
+     "rows": [
+      [
+       "Autonomous AP",
+       "Configured individually"
+      ],
+      [
+       "Lightweight AP + WLC",
+       "CAPWAP tunnels to a controller (split MAC); control UDP 5246, data UDP 5247"
+      ],
+      [
+       "Cloud-based",
+       "APs managed through a cloud dashboard (Meraki)"
+      ],
+      [
+       "AP modes",
+       "Local, FlexConnect, Monitor, Sniffer, Bridge, Rogue Detector"
+      ],
+      [
+       "Security",
+       "WPA2 (AES-CCMP), WPA3 (SAE); Enterprise uses 802.1X with RADIUS"
+      ],
+      [
+       "WLC ports",
+       "Service port, management, distribution system ports (often an LAG), console"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Wi-Fi standards",
+     "head": [
+      "Standard",
+      "Name",
+      "Bands",
+      "Max rate (theory)"
+     ],
+     "rows": [
+      [
+       "802.11a",
+       "",
+       "5 GHz",
+       "54 Mbps"
+      ],
+      [
+       "802.11b",
+       "",
+       "2.4 GHz",
+       "11 Mbps"
+      ],
+      [
+       "802.11g",
+       "",
+       "2.4 GHz",
+       "54 Mbps"
+      ],
+      [
+       "802.11n",
+       "Wi-Fi 4",
+       "2.4 and 5 GHz",
+       "600 Mbps (MIMO)"
+      ],
+      [
+       "802.11ac",
+       "Wi-Fi 5",
+       "5 GHz",
+       "About 6.9 Gbps (MU-MIMO)"
+      ],
+      [
+       "802.11ax",
+       "Wi-Fi 6 / 6E",
+       "2.4, 5 (and 6 GHz for 6E)",
+       "About 9.6 Gbps (OFDMA)"
+      ],
+      [
+       "802.11be",
+       "Wi-Fi 7",
+       "2.4, 5, 6 GHz",
+       "About 46 Gbps"
+      ]
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Automation and programmability",
+     "items": [
+      "REST uses HTTP verbs: GET read, POST create, PUT replace, PATCH modify, DELETE remove. Data formats: JSON (key: value, braces and brackets), XML, YAML.",
+      "Controller-based networking separates the control plane (decisions) from the data plane (forwarding); northbound APIs go to apps, southbound APIs (NETCONF, RESTCONF, OpenFlow) go to devices.",
+      "Cisco Catalyst Center (DNA Center) = intent-based campus management. SD-Access = fabric, SD-WAN = overlay across WAN links.",
+      "Configuration management: Ansible (agentless, YAML playbooks, push), Puppet and Chef (agent, pull), Terraform (infrastructure provisioning)."
+     ]
+    }
+   ]
+  }
+ ]
+}
