@@ -1,6 +1,6 @@
 // Offline support: network-first for everything (so updates show up immediately),
 // falling back to the cached copy when there's no connection.
-const CACHE = 'examsim-v105';
+const CACHE = 'examsim-v106';
 // Exam files are cached the first time each exam is opened.
 const CORE = ['/', '/css/styles.css', '/css/themes-ise.css', '/css/themes-ise-twins.css', '/js/app.js', '/js/auth.js', '/js/learn.js', '/js/labs.js', '/js/reference.js', '/js/pbq.js', '/js/subnet.js', '/js/labs-net.js', '/js/labs-ios.js', '/js/labs-win.js', '/js/labs-linux.js', '/js/labs-linux-base.js', '/js/labs-linux-admin.js', '/js/labs-linux-storage.js', '/js/labs-linux-sec.js', '/js/labs-az.js', '/js/theme.js', '/js/background.js', '/fonts/inter-latin-var.woff2', '/fonts/jetbrains-mono-latin-var.woff2', '/exams/index.json', '/whats-new.json',
   '/favicon.svg', '/manifest.webmanifest', '/icons/icon-192.png'];
