@@ -1676,7 +1676,6 @@ a.icon-btn { display: inline-flex; align-items: center; justify-content: center;
 .ref-block ul { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 3px; line-height: 1.45; }
 .ref-note { padding: 9px 11px; border: 1px solid var(--border); border-left: 3px solid var(--azure-text); border-radius: 8px; background: var(--panel-2); font-size: 14px; }
 @media (min-width: 900px) { .ref-cols { column-width: auto; column-count: 2; } }
-@media (min-width: 1500px) { .ref-cols { column-count: 3; } }
 .ref-foot { margin-top: 8px; }
 .trainer { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 16px; align-items: start; }
 .trainer-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; font-size: 13px; color: var(--text-2); }
