@@ -1,0 +1,219 @@
+{
+ "intro": "Practice AI-901 ideas with matching and ordering activities.",
+ "labs": [
+  {
+   "id": "ai901-workloads",
+   "title": "Match AI workloads",
+   "domain": "D1",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Choose the right AI workload and apply responsible AI principles.",
+   "scenario": "<p>For each scenario, identify the kind of AI that fits and the principle at stake.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Workload",
+     "prompt": "Match each scenario to a workload.",
+     "categories": [
+      "Computer vision",
+      "Natural language processing",
+      "Generative AI",
+      "Anomaly detection",
+      "Speech"
+     ],
+     "items": [
+      {
+       "text": "Identify damaged parts in photos",
+       "cat": 0
+      },
+      {
+       "text": "Detect the sentiment of reviews",
+       "cat": 1
+      },
+      {
+       "text": "Draft an email reply from a short prompt",
+       "cat": 2
+      },
+      {
+       "text": "Flag unusual card spending",
+       "cat": 3
+      },
+      {
+       "text": "Transcribe a phone call",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Responsible AI principle",
+     "prompt": "Match each concern to a principle.",
+     "categories": [
+      "Fairness",
+      "Reliability and safety",
+      "Privacy and security",
+      "Inclusiveness",
+      "Transparency",
+      "Accountability"
+     ],
+     "items": [
+      {
+       "text": "A loan model approves fewer applicants from one group with similar finances",
+       "cat": 0
+      },
+      {
+       "text": "A chatbot behaves unpredictably on unusual input",
+       "cat": 1
+      },
+      {
+       "text": "Training data exposes customer details",
+       "cat": 2
+      },
+      {
+       "text": "An app cannot be used by people with visual impairments",
+       "cat": 3
+      },
+      {
+       "text": "Users cannot tell why a decision was made",
+       "cat": 4
+      },
+      {
+       "text": "No one owns the outcomes of the AI system",
+       "cat": 5
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Using a model in Foundry",
+     "prompt": "Order the steps.",
+     "items": [
+      "Pick a model from the catalog",
+      "Deploy the model",
+      "Test prompts in the playground",
+      "Call the deployment from an app with the SDK",
+      "Review outputs for safety"
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Workload",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Responsible AI principle",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Using a model in Foundry",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Think about the input type first: image, text, audio or numbers."
+   ],
+   "review": "<p>Naming the workload and the responsible AI principle is the core skill of the first AI-901 domain.</p>"
+  },
+  {
+   "id": "ai901-prompting",
+   "title": "Prompt and parameter basics",
+   "domain": "D2",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 8,
+   "summary": "Understand prompts, parameters and grounding.",
+   "scenario": "<p>Show you know how to steer a generative model.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Setting to effect",
+     "prompt": "Match each setting or technique to its effect.",
+     "categories": [
+      "System message",
+      "Low temperature",
+      "High temperature",
+      "Grounding with your data",
+      "Few-shot examples"
+     ],
+     "items": [
+      {
+       "text": "Sets role, rules and format for every reply",
+       "cat": 0
+      },
+      {
+       "text": "More consistent, predictable output",
+       "cat": 1
+      },
+      {
+       "text": "More varied, creative output",
+       "cat": 2
+      },
+      {
+       "text": "Reduces made-up answers by using retrieved facts",
+       "cat": 3
+      },
+      {
+       "text": "Shows the model the desired pattern",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Terms",
+     "prompt": "Type each answer.",
+     "rows": [
+      {
+       "label": "A fluent but unsupported answer from a model",
+       "answer": [
+        "hallucination"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Platform used to build and deploy AI apps in this exam",
+       "answer": [
+        "Microsoft Foundry",
+        "Foundry"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "A hosted model instance your app calls by name",
+       "answer": [
+        "deployment"
+       ],
+       "placeholder": "..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Setting to effect",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Terms",
+     "check": {
+      "activity": 1
+     }
+    }
+   ],
+   "hints": [
+    "Temperature changes randomness, not knowledge."
+   ],
+   "review": "<p>Prompts steer behavior; grounding supplies facts.</p>"
+  }
+ ]
+}

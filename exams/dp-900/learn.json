@@ -1,0 +1,547 @@
+{
+ "intro": "Four modules follow the DP-900 skills measured: core data concepts, relational data, non-relational data and analytics workloads.",
+ "narration": "",
+ "updated": "2026-11-08",
+ "sources": [
+  {
+   "title": "Microsoft Learn: Study guide for Exam DP-900",
+   "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/dp-900"
+  }
+ ],
+ "modules": [
+  {
+   "id": "D1",
+   "short": "Data concepts",
+   "title": "Describe core data concepts",
+   "summary": "Structured, semi-structured and unstructured data, file formats, data roles, and transactional versus analytical workloads.",
+   "guide": [
+    {
+     "h": "What this domain covers",
+     "html": "<p>About <b>25–30%</b> of DP-900.</p>"
+    },
+    {
+     "h": "Types of data",
+     "html": "<p><b>Structured</b> data fits tables with a fixed schema (a SQL table). <b>Semi-structured</b> data has tags or keys but a flexible shape (JSON, XML). <b>Unstructured</b> data has no model (images, video, documents). Common file formats: <b>CSV</b>, <b>JSON</b>, <b>XML</b>, <b>Parquet</b> (columnar, compressed, good for analytics) and <b>Avro</b>.</p>"
+    },
+    {
+     "h": "Workloads and roles",
+     "html": "<p><b>OLTP</b> (transactional) handles many small reads and writes with ACID guarantees. <b>OLAP</b> (analytical) handles large aggregations across history. <b>Batch</b> processing runs on collected data; <b>streaming</b> processes events as they arrive. Roles: <b>database administrator</b> (manages and secures databases), <b>data engineer</b> (builds pipelines), <b>data analyst</b> (builds reports and models).</p>"
+    },
+    {
+     "h": "ACID",
+     "html": "<p><b>Atomicity</b> (all or nothing), <b>Consistency</b> (valid state), <b>Isolation</b> (concurrent transactions do not interfere) and <b>Durability</b> (committed data survives failure).</p>"
+    }
+   ],
+   "tips": [
+    "Parquet is columnar, ideal for analytics.",
+    "OLTP = day-to-day transactions; OLAP = analysis.",
+    "JSON is semi-structured."
+   ],
+   "terms": [
+    [
+     "Structured data",
+     "Data with a fixed schema in rows and columns."
+    ],
+    [
+     "Semi-structured data",
+     "Self-describing data with flexible structure, such as JSON."
+    ],
+    [
+     "OLTP",
+     "Online transaction processing."
+    ],
+    [
+     "OLAP",
+     "Online analytical processing."
+    ],
+    [
+     "ACID",
+     "Atomicity, consistency, isolation, durability."
+    ],
+    [
+     "Parquet",
+     "A columnar file format for analytics."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "Data types",
+     "bullets": [
+      "Structured",
+      "Semi-structured",
+      "Unstructured"
+     ],
+     "script": [
+      "Match the storage choice to the shape of the data."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Type",
+       "Example"
+      ],
+      "rows": [
+       [
+        "Structured",
+        "SQL table"
+       ],
+       [
+        "Semi-structured",
+        "JSON document"
+       ],
+       [
+        "Unstructured",
+        "Images, video"
+       ]
+      ]
+     }
+    },
+    {
+     "title": "OLTP vs OLAP",
+     "bullets": [
+      "Many small writes",
+      "Large aggregations",
+      "Different designs"
+     ],
+     "script": [
+      "Transactional and analytical systems are tuned differently."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "",
+       "OLTP",
+       "OLAP"
+      ],
+      "rows": [
+       [
+        "Operations",
+        "Insert, update",
+        "Aggregate, scan"
+       ],
+       [
+        "Data",
+        "Current",
+        "Historical"
+       ],
+       [
+        "Example",
+        "Orders",
+        "Sales trends"
+       ]
+      ]
+     }
+    },
+    {
+     "title": "Roles",
+     "bullets": [
+      "DBA",
+      "Data engineer",
+      "Data analyst"
+     ],
+     "script": [
+      "Three roles cooperate in data projects."
+     ],
+     "visual": {
+      "type": "cards",
+      "items": [
+       {
+        "t": "DBA",
+        "d": "Manage and secure"
+       },
+       {
+        "t": "Engineer",
+        "d": "Build pipelines"
+       },
+       {
+        "t": "Analyst",
+        "d": "Report and model"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D2",
+   "short": "Relational data",
+   "title": "Describe relational data on Azure",
+   "summary": "Relational concepts, SQL, and Azure SQL and open-source database options.",
+   "guide": [
+    {
+     "h": "What this domain covers",
+     "html": "<p>About <b>20–25%</b>.</p>"
+    },
+    {
+     "h": "Relational concepts and SQL",
+     "html": "<p>Tables have rows and columns; a <b>primary key</b> uniquely identifies a row and a <b>foreign key</b> links tables. <b>Normalization</b> reduces duplication. <b>Views</b> store queries, <b>indexes</b> speed lookups, <b>stored procedures</b> package logic. SQL groups: <b>DDL</b> (CREATE, ALTER, DROP), <b>DML</b> (INSERT, UPDATE, DELETE, SELECT) and <b>DCL</b> (GRANT, REVOKE).</p>"
+    },
+    {
+     "h": "Azure relational services",
+     "html": "<p><b>Azure SQL Database</b> is a PaaS single database or elastic pool. <b>Azure SQL Managed Instance</b> gives near-full SQL Server compatibility as PaaS. <b>SQL Server on Azure VMs</b> is IaaS with full control. Open-source engines are offered as managed services: <b>Azure Database for PostgreSQL</b> and <b>MySQL</b>.</p>"
+    }
+   ],
+   "tips": [
+    "Managed Instance = easiest migration with high compatibility.",
+    "SQL on a VM = most control, most administration.",
+    "Primary key = unique identifier."
+   ],
+   "terms": [
+    [
+     "Primary key",
+     "Column that uniquely identifies each row."
+    ],
+    [
+     "Foreign key",
+     "Column referencing a primary key in another table."
+    ],
+    [
+     "Normalization",
+     "Organizing data to reduce redundancy."
+    ],
+    [
+     "Azure SQL Database",
+     "Fully managed PaaS relational database."
+    ],
+    [
+     "Managed Instance",
+     "PaaS with near-complete SQL Server compatibility."
+    ],
+    [
+     "DDL",
+     "SQL statements that define structure."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "Relational basics",
+     "bullets": [
+      "Tables, keys",
+      "Normalization",
+      "SQL"
+     ],
+     "script": [
+      "Relational databases model data in related tables."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "Table",
+        "d": "Rows and columns"
+       },
+       {
+        "t": "Keys",
+        "d": "Primary and foreign"
+       },
+       {
+        "t": "SQL",
+        "d": "Query and change data"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Choosing Azure SQL",
+     "bullets": [
+      "Database: cloud-native",
+      "Managed Instance: lift and shift",
+      "VM: full control"
+     ],
+     "script": [
+      "More control brings more administration."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Option",
+       "Type",
+       "Best for"
+      ],
+      "rows": [
+       [
+        "SQL Database",
+        "PaaS",
+        "New cloud apps"
+       ],
+       [
+        "Managed Instance",
+        "PaaS",
+        "Migrating SQL Server"
+       ],
+       [
+        "SQL on VM",
+        "IaaS",
+        "OS-level control"
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D3",
+   "short": "Non-relational data",
+   "title": "Describe non-relational data on Azure",
+   "summary": "Blob, Data Lake, Files, Table storage, and Azure Cosmos DB APIs.",
+   "guide": [
+    {
+     "h": "What this domain covers",
+     "html": "<p>About <b>15–20%</b>.</p>"
+    },
+    {
+     "h": "Azure Storage",
+     "html": "<p><b>Blob storage</b> holds unstructured objects; with a hierarchical namespace it becomes <b>Azure Data Lake Storage Gen2</b> for analytics. <b>Azure Files</b> provides SMB/NFS file shares. <b>Table storage</b> is a simple key-value store. Blob access tiers: hot, cool, cold, archive.</p>"
+    },
+    {
+     "h": "Azure Cosmos DB",
+     "html": "<p><b>Azure Cosmos DB</b> is a globally distributed, multi-model NoSQL database with low latency and elastic scale. APIs: <b>NoSQL</b> (documents), <b>MongoDB</b>, <b>Cassandra</b> (wide-column), <b>Gremlin</b> (graph) and <b>Table</b>. NoSQL types: key-value, document, column-family and graph.</p>"
+    }
+   ],
+   "tips": [
+    "Gremlin API = graph data.",
+    "Hierarchical namespace turns Blob into Data Lake Storage.",
+    "Cosmos DB scales globally."
+   ],
+   "terms": [
+    [
+     "Blob storage",
+     "Object storage for unstructured data."
+    ],
+    [
+     "Data Lake Storage Gen2",
+     "Blob with hierarchical namespace for analytics."
+    ],
+    [
+     "Cosmos DB",
+     "Globally distributed multi-model NoSQL database."
+    ],
+    [
+     "Document database",
+     "Stores JSON-like documents."
+    ],
+    [
+     "Graph database",
+     "Stores nodes and relationships."
+    ],
+    [
+     "Azure Files",
+     "Managed file shares over SMB or NFS."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "NoSQL types",
+     "bullets": [
+      "Key-value",
+      "Document",
+      "Column-family",
+      "Graph"
+     ],
+     "script": [
+      "Each model fits a different access pattern."
+     ],
+     "visual": {
+      "type": "cards",
+      "items": [
+       {
+        "t": "Key-value",
+        "d": "Table"
+       },
+       {
+        "t": "Document",
+        "d": "NoSQL API"
+       },
+       {
+        "t": "Column",
+        "d": "Cassandra"
+       },
+       {
+        "t": "Graph",
+        "d": "Gremlin"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Storage choices",
+     "bullets": [
+      "Blob",
+      "Files",
+      "Table"
+     ],
+     "script": [
+      "Choose by data shape and access protocol."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Service",
+       "Use"
+      ],
+      "rows": [
+       [
+        "Blob",
+        "Objects, media, backups"
+       ],
+       [
+        "Files",
+        "Shared file systems"
+       ],
+       [
+        "Table",
+        "Simple key-value"
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D4",
+   "short": "Analytics",
+   "title": "Describe an analytics workload on Azure",
+   "summary": "Data warehousing, ingestion, Microsoft Fabric, Synapse, Databricks, streaming, and Power BI.",
+   "guide": [
+    {
+     "h": "What this domain covers",
+     "html": "<p>About <b>25–30%</b>.</p>"
+    },
+    {
+     "h": "Analytics pipeline",
+     "html": "<p>Typical flow: <b>ingest</b> data, <b>store</b> it (data lake or warehouse), <b>process</b> it (ETL or ELT), then <b>visualize</b>. A <b>data warehouse</b> holds structured, modeled data in a <b>star schema</b> with <b>fact</b> tables (measurements) and <b>dimension</b> tables (descriptions). A <b>data lakehouse</b> combines lake flexibility with warehouse features.</p>"
+    },
+    {
+     "h": "Azure analytics services",
+     "html": "<p><b>Microsoft Fabric</b> is the unified SaaS analytics platform (OneLake, Data Factory, Real-Time Intelligence, Power BI). <b>Azure Synapse Analytics</b> offers pipelines, SQL and Spark. <b>Azure Databricks</b> is an Apache Spark based platform. <b>Azure Data Factory</b> orchestrates data movement. <b>Azure Stream Analytics</b> and <b>Event Hubs</b> handle streaming data.</p>"
+    },
+    {
+     "h": "Power BI",
+     "html": "<p>Parts: <b>Power BI Desktop</b> (author), the <b>Power BI service</b> (share) and mobile apps. Building blocks: <b>dataset/semantic model</b>, <b>report</b> (multiple pages) and <b>dashboard</b> (pinned tiles from reports).</p>"
+    }
+   ],
+   "tips": [
+    "Fact tables hold numbers; dimension tables describe them.",
+    "ETL transforms before loading; ELT loads then transforms.",
+    "A dashboard is a single page of pinned tiles."
+   ],
+   "terms": [
+    [
+     "Data warehouse",
+     "Central store of modeled data for analytics."
+    ],
+    [
+     "Star schema",
+     "Fact table surrounded by dimension tables."
+    ],
+    [
+     "ETL",
+     "Extract, transform, load."
+    ],
+    [
+     "Microsoft Fabric",
+     "Unified SaaS analytics platform."
+    ],
+    [
+     "Event Hubs",
+     "Ingests high volumes of streaming events."
+    ],
+    [
+     "Power BI dashboard",
+     "One page of tiles pinned from reports."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "Analytics pipeline",
+     "bullets": [
+      "Ingest",
+      "Store",
+      "Process",
+      "Visualize"
+     ],
+     "script": [
+      "Data flows from sources to insights."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "Ingest",
+        "d": "Data Factory, Event Hubs"
+       },
+       {
+        "t": "Store",
+        "d": "Data lake, warehouse"
+       },
+       {
+        "t": "Process",
+        "d": "Spark, SQL"
+       },
+       {
+        "t": "Visualize",
+        "d": "Power BI"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Star schema",
+     "bullets": [
+      "Facts: measures",
+      "Dimensions: context",
+      "Fast aggregation"
+     ],
+     "script": [
+      "Star schemas simplify analytical queries."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Table",
+       "Holds"
+      ],
+      "rows": [
+       [
+        "Fact_Sales",
+        "Quantity, amount"
+       ],
+       [
+        "Dim_Product",
+        "Name, category"
+       ],
+       [
+        "Dim_Date",
+        "Day, month, year"
+       ]
+      ]
+     }
+    },
+    {
+     "title": "Batch and streaming",
+     "bullets": [
+      "Batch: stored data",
+      "Streaming: events",
+      "Event Hubs, Stream Analytics"
+     ],
+     "script": [
+      "Streaming reacts in near real time."
+     ],
+     "visual": {
+      "type": "cards",
+      "items": [
+       {
+        "t": "Batch",
+        "d": "Process in chunks"
+       },
+       {
+        "t": "Streaming",
+        "d": "Process as it arrives"
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

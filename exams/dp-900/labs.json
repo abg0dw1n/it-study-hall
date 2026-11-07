@@ -1,0 +1,391 @@
+{
+ "intro": "Practice DP-900 ideas with matching and ordering activities plus a Cosmos DB setup task.",
+ "labs": [
+  {
+   "id": "dp900-choose",
+   "title": "Choose the data service",
+   "domain": "D2",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Match data scenarios to storage and database choices.",
+   "scenario": "<p>Pick the best Azure data service for each need.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Scenario to service",
+     "prompt": "Match each scenario.",
+     "categories": [
+      "Azure SQL Database",
+      "SQL Managed Instance",
+      "SQL Server on a VM",
+      "Cosmos DB",
+      "Blob storage",
+      "Azure Files"
+     ],
+     "items": [
+      {
+       "text": "A new cloud app needs a managed relational database",
+       "cat": 0
+      },
+      {
+       "text": "Migrating an on-premises SQL Server with minimal changes, as PaaS",
+       "cat": 1
+      },
+      {
+       "text": "A legacy app needs OS-level access to SQL Server",
+       "cat": 2
+      },
+      {
+       "text": "A globally distributed app needs low-latency JSON documents",
+       "cat": 3
+      },
+      {
+       "text": "Store videos and images",
+       "cat": 4
+      },
+      {
+       "text": "Provide an SMB share for lift-and-shift apps",
+       "cat": 5
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Data type",
+     "prompt": "Classify each.",
+     "categories": [
+      "Structured",
+      "Semi-structured",
+      "Unstructured"
+     ],
+     "items": [
+      {
+       "text": "Rows in a sales table",
+       "cat": 0
+      },
+      {
+       "text": "A JSON order document",
+       "cat": 1
+      },
+      {
+       "text": "A scanned PDF",
+       "cat": 2
+      },
+      {
+       "text": "An XML config file",
+       "cat": 1
+      },
+      {
+       "text": "A product photo",
+       "cat": 2
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Terms",
+     "prompt": "Type each answer.",
+     "rows": [
+      {
+       "label": "Column that uniquely identifies a row (two words)",
+       "answer": [
+        "primary key"
+       ],
+       "placeholder": "... ..."
+      },
+      {
+       "label": "Column-oriented file format for analytics",
+       "answer": [
+        "Parquet",
+        "parquet"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Cosmos DB API for graph data",
+       "answer": [
+        "Gremlin",
+        "gremlin"
+       ],
+       "placeholder": "..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Scenario to service",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Data type",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Terms",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Managed Instance is chosen for compatibility.",
+    "JSON and XML are semi-structured."
+   ],
+   "review": "<p>The least-administration option that meets compatibility needs is usually correct.</p>"
+  },
+  {
+   "id": "dp900-analytics",
+   "title": "Build the analytics pipeline",
+   "domain": "D4",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Order a pipeline and classify fact and dimension columns.",
+   "scenario": "<p>Show you understand how analytics data flows and is modeled.</p>",
+   "activities": [
+    {
+     "type": "order",
+     "title": "Pipeline",
+     "prompt": "Order the analytics stages.",
+     "items": [
+      "Ingest data from sources",
+      "Store raw data in a data lake",
+      "Transform and model the data",
+      "Load into a warehouse or semantic model",
+      "Visualize in Power BI"
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Fact or dimension",
+     "prompt": "Where does each column belong?",
+     "categories": [
+      "Fact table",
+      "Dimension table"
+     ],
+     "items": [
+      {
+       "text": "SalesAmount",
+       "cat": 0
+      },
+      {
+       "text": "ProductName",
+       "cat": 1
+      },
+      {
+       "text": "QuantitySold",
+       "cat": 0
+      },
+      {
+       "text": "CustomerCity",
+       "cat": 1
+      },
+      {
+       "text": "OrderDate (as a date attribute)",
+       "cat": 1
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Batch or streaming",
+     "prompt": "Which processing fits?",
+     "categories": [
+      "Batch",
+      "Streaming"
+     ],
+     "items": [
+      {
+       "text": "Nightly sales report",
+       "cat": 0
+      },
+      {
+       "text": "Detect fraud as card swipes arrive",
+       "cat": 1
+      },
+      {
+       "text": "Monthly billing run",
+       "cat": 0
+      },
+      {
+       "text": "Live IoT sensor alerts",
+       "cat": 1
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Pipeline",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Fact or dimension",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Batch or streaming",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Facts are numbers you add up; dimensions describe them."
+   ],
+   "review": "<p>A star schema keeps measures in the fact table and descriptive attributes in dimensions.</p>"
+  },
+  {
+   "id": "dp900-cosmos",
+   "title": "Create a Cosmos DB account",
+   "domain": "D3",
+   "kind": "portal",
+   "level": "beginner",
+   "minutes": 8,
+   "summary": "Choose the right API and consistency for a new app.",
+   "scenario": "<p>Create account <code>cosmos-orders</code> using the <b>NoSQL</b> API, capacity mode <b>Serverless</b>, in region <b>East US</b>, then add a container named <code>orders</code> with partition key <code>/customerId</code>. Save each page.</p>",
+   "portal": {
+    "app": "Cloud Data Portal",
+    "address": "Azure Cosmos DB › Create",
+    "pages": [
+     {
+      "id": "acct",
+      "title": "Account",
+      "sections": [
+       {
+        "title": "Basics",
+        "fields": [
+         {
+          "id": "name",
+          "label": "Account name",
+          "type": "text",
+          "value": ""
+         },
+         {
+          "id": "api",
+          "label": "API",
+          "type": "select",
+          "value": "Table",
+          "options": [
+           "Table",
+           "NoSQL",
+           "MongoDB",
+           "Cassandra",
+           "Gremlin"
+          ]
+         },
+         {
+          "id": "mode",
+          "label": "Capacity mode",
+          "type": "select",
+          "value": "Provisioned throughput",
+          "options": [
+           "Provisioned throughput",
+           "Serverless"
+          ]
+         },
+         {
+          "id": "region",
+          "label": "Region",
+          "type": "select",
+          "value": "West Europe",
+          "options": [
+           "West Europe",
+           "East US",
+           "Japan East"
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "cont",
+      "title": "Container",
+      "sections": [
+       {
+        "title": "New container",
+        "fields": [
+         {
+          "id": "cname",
+          "label": "Container id",
+          "type": "text",
+          "value": ""
+         },
+         {
+          "id": "pk",
+          "label": "Partition key",
+          "type": "text",
+          "value": ""
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "tasks": [
+    {
+     "text": "Account cosmos-orders uses the NoSQL API in Serverless mode",
+     "check": {
+      "all": [
+       {
+        "field": "acct.name",
+        "eq": "cosmos-orders"
+       },
+       {
+        "field": "acct.api",
+        "eq": "NoSQL"
+       },
+       {
+        "field": "acct.mode",
+        "eq": "Serverless"
+       }
+      ]
+     }
+    },
+    {
+     "text": "Deployed in East US",
+     "check": {
+      "all": [
+       {
+        "field": "acct.region",
+        "eq": "East US"
+       }
+      ]
+     }
+    },
+    {
+     "text": "Container orders with partition key /customerId",
+     "check": {
+      "all": [
+       {
+        "field": "cont.cname",
+        "eq": "orders"
+       },
+       {
+        "field": "cont.pk",
+        "eq": "/customerId"
+       }
+      ]
+     }
+    }
+   ],
+   "hints": [
+    "Partition keys start with a slash.",
+    "Serverless suits small or spiky workloads."
+   ],
+   "review": "<p>The API cannot be changed after the account is created, so choose it first. A good partition key spreads data and requests evenly.</p>"
+  }
+ ]
+}

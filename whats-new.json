@@ -2,6 +2,21 @@
   "note": "Major updates only, newest first. To add one: put a new object at the top of \"releases\" (id = the date, e.g. 2026-11-04). Tags: New, Improved, Changed, Fixed. Keep each item to one plain sentence, and leave small tweaks and fixes out.",
   "releases": [
     {
+      "id": "2026-11-09",
+      "date": "November 9, 2026",
+      "title": "Learning and labs for the Microsoft fundamentals and AI exams",
+      "items": [
+        {
+          "tag": "New",
+          "text": "Study guides, slideshows and flashcards for AZ-900, SC-900, DP-900 and AI-103."
+        },
+        {
+          "tag": "New",
+          "text": "Hands-on labs for AZ-900, SC-900, DP-900, AI-103 and AI-901, including a Conditional Access builder, a Cosmos DB setup and a model deployment."
+        }
+      ]
+    },
+    {
       "id": "2026-11-08",
       "date": "November 8, 2026",
       "title": "Flashcards, break-fix labs, new mini-courses and CySA+",

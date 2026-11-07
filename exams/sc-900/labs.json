@@ -1,0 +1,365 @@
+{
+ "intro": "Practice SC-900 ideas with sorting activities and a Conditional Access policy builder.",
+ "labs": [
+  {
+   "id": "sc900-identity",
+   "title": "Identity and Zero Trust",
+   "domain": "D2",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Sort identity capabilities and put a Conditional Access flow in order.",
+   "scenario": "<p>Show you know what each identity feature does.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Feature to purpose",
+     "prompt": "Match each scenario to the best feature.",
+     "categories": [
+      "Conditional Access",
+      "PIM",
+      "Access reviews",
+      "SSPR",
+      "ID Protection"
+     ],
+     "items": [
+      {
+       "text": "Require MFA only when a sign-in is from a new country",
+       "cat": 0
+      },
+      {
+       "text": "Make an admin role active only for two hours after approval",
+       "cat": 1
+      },
+      {
+       "text": "Managers recertify who still needs group membership",
+       "cat": 2
+      },
+      {
+       "text": "Users reset forgotten passwords without the help desk",
+       "cat": 3
+      },
+      {
+       "text": "Detect a leaked-credentials risk on a user",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Conditional Access",
+     "prompt": "Order the evaluation.",
+     "items": [
+      "User signs in",
+      "Signals are collected",
+      "Policy conditions are evaluated",
+      "Grant controls are enforced",
+      "Access is allowed or blocked"
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Principles",
+     "prompt": "Type each answer.",
+     "rows": [
+      {
+       "label": "Zero Trust principle that limits permissions (two words, 'least ...')",
+       "answer": [
+        "least privilege"
+       ],
+       "placeholder": "least ..."
+      },
+      {
+       "label": "Passwordless standard hardware key (acronym)",
+       "answer": [
+        "FIDO2"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Proving who you are",
+       "answer": [
+        "authentication"
+       ],
+       "placeholder": "..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Feature to purpose",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Conditional Access",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Principles",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Think about the trigger in each scenario.",
+    "Policies evaluate before access is granted."
+   ],
+   "review": "<p>Conditional Access uses signals to decide; PIM and access reviews handle privileged access over time.</p>"
+  },
+  {
+   "id": "sc900-defender",
+   "title": "Choose the Microsoft security product",
+   "domain": "D3",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Match scenarios to Defender, Sentinel and network protections.",
+   "scenario": "<p>Pick the product that best fits each situation.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Scenario to product",
+     "prompt": "Match each scenario.",
+     "categories": [
+      "Defender for Endpoint",
+      "Defender for Office 365",
+      "Defender for Identity",
+      "Defender for Cloud Apps",
+      "Sentinel",
+      "Defender for Cloud"
+     ],
+     "items": [
+      {
+       "text": "Block a malicious attachment in email",
+       "cat": 1
+      },
+      {
+       "text": "Detect pass-the-hash on on-premises domain controllers",
+       "cat": 2
+      },
+      {
+       "text": "Investigate a ransomware process on a laptop",
+       "cat": 0
+      },
+      {
+       "text": "Discover shadow IT SaaS apps",
+       "cat": 3
+      },
+      {
+       "text": "Correlate logs from many sources into incidents with playbooks",
+       "cat": 4
+      },
+      {
+       "text": "Show secure score recommendations for Azure subscriptions",
+       "cat": 5
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Terms",
+     "prompt": "Type each answer.",
+     "rows": [
+      {
+       "label": "Category of tool Sentinel is (acronym for log aggregation and detection)",
+       "answer": [
+        "SIEM"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Azure service that stores keys and secrets (two words)",
+       "answer": [
+        "Key Vault",
+        "key vault"
+       ],
+       "placeholder": "... ..."
+      },
+      {
+       "label": "Defender for Cloud measure of posture (two words)",
+       "answer": [
+        "secure score"
+       ],
+       "placeholder": "... ..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Scenario to product",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Terms",
+     "check": {
+      "activity": 1
+     }
+    }
+   ],
+   "hints": [
+    "Endpoint means devices; Identity means on-premises AD."
+   ],
+   "review": "<p>Defender XDR products protect one surface each; Sentinel collects across all of them.</p>"
+  },
+  {
+   "id": "sc900-ca-policy",
+   "title": "Build a Conditional Access policy",
+   "domain": "D2",
+   "kind": "portal",
+   "level": "intermediate",
+   "minutes": 10,
+   "summary": "Require MFA for administrators outside the office.",
+   "scenario": "<p>Create policy <code>CA-Admins-MFA</code> that targets the <b>Admins</b> group on <b>All cloud apps</b>, applies when the location is <b>Any location except Corporate network</b>, and grants access only if <b>Multifactor authentication</b> is required. Turn the policy <b>On</b> and save.</p>",
+   "portal": {
+    "app": "Identity Admin Center",
+    "address": "Protection › Conditional Access › New policy",
+    "pages": [
+     {
+      "id": "pol",
+      "title": "New policy",
+      "sections": [
+       {
+        "title": "Name",
+        "fields": [
+         {
+          "id": "name",
+          "label": "Policy name",
+          "type": "text",
+          "value": ""
+         }
+        ]
+       },
+       {
+        "title": "Assignments",
+        "fields": [
+         {
+          "id": "users",
+          "label": "Users or groups",
+          "type": "select",
+          "value": "All users",
+          "options": [
+           "All users",
+           "Admins",
+           "Finance",
+           "Guests"
+          ]
+         },
+         {
+          "id": "apps",
+          "label": "Target resources",
+          "type": "select",
+          "value": "Office 365",
+          "options": [
+           "Office 365",
+           "All cloud apps",
+           "Azure management"
+          ]
+         },
+         {
+          "id": "loc",
+          "label": "Locations",
+          "type": "select",
+          "value": "Any location",
+          "options": [
+           "Any location",
+           "Any location except Corporate network",
+           "Corporate network only"
+          ]
+         }
+        ]
+       },
+       {
+        "title": "Access controls",
+        "fields": [
+         {
+          "id": "grant",
+          "label": "Grant",
+          "type": "select",
+          "value": "Allow access",
+          "options": [
+           "Allow access",
+           "Require multifactor authentication",
+           "Block access"
+          ]
+         },
+         {
+          "id": "state",
+          "label": "Enable policy",
+          "type": "select",
+          "value": "Off",
+          "options": [
+           "Off",
+           "Report-only",
+           "On"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "tasks": [
+    {
+     "text": "Named CA-Admins-MFA and targets Admins on all cloud apps",
+     "check": {
+      "all": [
+       {
+        "field": "pol.name",
+        "eq": "CA-Admins-MFA"
+       },
+       {
+        "field": "pol.users",
+        "eq": "Admins"
+       },
+       {
+        "field": "pol.apps",
+        "eq": "All cloud apps"
+       }
+      ]
+     }
+    },
+    {
+     "text": "Applies outside the corporate network",
+     "check": {
+      "all": [
+       {
+        "field": "pol.loc",
+        "eq": "Any location except Corporate network"
+       }
+      ]
+     }
+    },
+    {
+     "text": "Requires MFA and is On",
+     "check": {
+      "all": [
+       {
+        "field": "pol.grant",
+        "eq": "Require multifactor authentication"
+       },
+       {
+        "field": "pol.state",
+        "eq": "On"
+       }
+      ]
+     }
+    }
+   ],
+   "hints": [
+    "Report-only evaluates but does not enforce.",
+    "Exclude the corporate network by choosing the 'except' location option."
+   ],
+   "review": "<p>Conditional Access combines assignments (who, what, where) with access controls. Report-only mode is useful for testing before enforcing.</p>"
+  }
+ ]
+}

@@ -1,0 +1,321 @@
+{
+ "intro": "Practice the AZ-900 ideas with sorting activities and a short portal task.",
+ "labs": [
+  {
+   "id": "az900-concepts",
+   "title": "Cloud concepts sort",
+   "domain": "D1",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Classify services and responsibilities, and place the hierarchy in order.",
+   "scenario": "<p>Show you can recognize the cloud service types and Azure's structure.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Service type",
+     "prompt": "Drag each example to its service type.",
+     "categories": [
+      "IaaS",
+      "PaaS",
+      "SaaS"
+     ],
+     "items": [
+      {
+       "text": "Virtual machine",
+       "cat": 0
+      },
+      {
+       "text": "Azure App Service",
+       "cat": 1
+      },
+      {
+       "text": "Microsoft 365",
+       "cat": 2
+      },
+      {
+       "text": "Virtual network",
+       "cat": 0
+      },
+      {
+       "text": "Azure SQL Database",
+       "cat": 1
+      },
+      {
+       "text": "Outlook on the web",
+       "cat": 2
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Who is responsible",
+     "prompt": "Who is always responsible?",
+     "categories": [
+      "Provider",
+      "Customer"
+     ],
+     "items": [
+      {
+       "text": "Physical datacenter security",
+       "cat": 0
+      },
+      {
+       "text": "Your data",
+       "cat": 1
+      },
+      {
+       "text": "Network cables in the datacenter",
+       "cat": 0
+      },
+      {
+       "text": "User accounts and access",
+       "cat": 1
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Azure hierarchy",
+     "prompt": "Order from broadest to narrowest.",
+     "items": [
+      "Management group",
+      "Subscription",
+      "Resource group",
+      "Resource"
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Service type",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Who is responsible",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Azure hierarchy",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Data and identity stay with the customer in every model.",
+    "The hierarchy runs from governance scope down to the individual resource."
+   ],
+   "review": "<p>Service type decides how much you manage, but you always keep responsibility for data and identities.</p>"
+  },
+  {
+   "id": "az900-services",
+   "title": "Pick the right service",
+   "domain": "D2",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Match needs to Azure services and type the redundancy options.",
+   "scenario": "<p>Choose the service that meets each requirement with the least management.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Need to service",
+     "prompt": "Match each need.",
+     "categories": [
+      "Virtual Machines",
+      "App Service",
+      "Functions",
+      "ExpressRoute",
+      "Blob storage"
+     ],
+     "items": [
+      {
+       "text": "Host a website without managing servers",
+       "cat": 1
+      },
+      {
+       "text": "Run code only when a file arrives",
+       "cat": 2
+      },
+      {
+       "text": "Install custom software with admin rights on the OS",
+       "cat": 0
+      },
+      {
+       "text": "Private dedicated link to Azure",
+       "cat": 3
+      },
+      {
+       "text": "Store images and backups as objects",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Redundancy",
+     "prompt": "Type each abbreviation.",
+     "rows": [
+      {
+       "label": "Three copies in one datacenter",
+       "answer": [
+        "LRS"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Copies spread across availability zones",
+       "answer": [
+        "ZRS"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "LRS plus a copy in a paired region",
+       "answer": [
+        "GRS"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Cheapest storage tier for rarely used data",
+       "answer": [
+        "archive",
+        "Archive"
+       ],
+       "placeholder": "..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Need to service",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Redundancy",
+     "check": {
+      "activity": 1
+     }
+    }
+   ],
+   "hints": [
+    "Think about how much control the scenario needs.",
+    "The abbreviations end in RS for redundant storage."
+   ],
+   "review": "<p>Picking the least-admin service that meets the requirement is a common exam pattern.</p>"
+  },
+  {
+   "id": "az900-tag-lock",
+   "title": "Tag and lock a resource group",
+   "domain": "D3",
+   "kind": "portal",
+   "level": "beginner",
+   "minutes": 8,
+   "summary": "Apply a tag and a delete lock in a portal-style console.",
+   "scenario": "<p>The finance team needs resource group <code>rg-prod-web</code> tagged <code>CostCenter = 4410</code> and protected from accidental deletion. Save each page.</p>",
+   "portal": {
+    "app": "Cloud Management Portal",
+    "address": "Resource groups › rg-prod-web",
+    "pages": [
+     {
+      "id": "tags",
+      "title": "Tags",
+      "sections": [
+       {
+        "title": "Tags",
+        "fields": [
+         {
+          "id": "name",
+          "label": "Name",
+          "type": "text",
+          "value": ""
+         },
+         {
+          "id": "value",
+          "label": "Value",
+          "type": "text",
+          "value": ""
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "lock",
+      "title": "Locks",
+      "sections": [
+       {
+        "title": "Add lock",
+        "fields": [
+         {
+          "id": "lname",
+          "label": "Lock name",
+          "type": "text",
+          "value": ""
+         },
+         {
+          "id": "ltype",
+          "label": "Lock type",
+          "type": "select",
+          "value": "(select)",
+          "options": [
+           "(select)",
+           "Read-only",
+           "Delete"
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "tasks": [
+    {
+     "text": "Tag CostCenter with value 4410",
+     "check": {
+      "all": [
+       {
+        "field": "tags.name",
+        "eq": "CostCenter"
+       },
+       {
+        "field": "tags.value",
+        "eq": "4410"
+       }
+      ]
+     }
+    },
+    {
+     "text": "A Delete lock with a name",
+     "check": {
+      "all": [
+       {
+        "field": "lock.ltype",
+        "eq": "Delete"
+       },
+       {
+        "field": "lock.lname",
+        "minLen": 3
+       }
+      ]
+     }
+    }
+   ],
+   "hints": [
+    "Tag names are case sensitive in this lab.",
+    "The Delete lock still allows changes; Read-only blocks them too."
+   ],
+   "review": "<p>Tags support cost reporting. A Delete lock stops removal but permits edits, while Read-only blocks both.</p>"
+  }
+ ]
+}

@@ -1,0 +1,664 @@
+{
+ "intro": "Five modules follow the AI-103 skill areas: plan and manage, generative AI and agents, computer vision, text analysis and information extraction.",
+ "narration": "",
+ "updated": "2026-11-08",
+ "sources": [
+  {
+   "title": "Microsoft Learn: AI-103 certification page",
+   "url": "https://learn.microsoft.com/en-us/credentials/certifications/exams/ai-103/"
+  }
+ ],
+ "modules": [
+  {
+   "id": "D1",
+   "short": "Plan and manage",
+   "title": "Plan and manage an Azure AI solution",
+   "summary": "Foundry resources and projects, model selection, deployments, security, monitoring and responsible AI.",
+   "guide": [
+    {
+     "h": "What this domain covers",
+     "html": "<p>About <b>25–30%</b> of AI-103.</p>"
+    },
+    {
+     "h": "Resources, projects and models",
+     "html": "<p>A <b>Microsoft Foundry</b> resource hosts <b>projects</b>, which group deployments, agents, data connections and evaluations. Choose a model from the <b>model catalog</b> by task, quality, latency, cost and region availability, then create a <b>deployment</b> (with a deployment type and capacity such as tokens per minute). Applications call the deployment by name.</p>"
+    },
+    {
+     "h": "Security and governance",
+     "html": "<p>Prefer <b>Microsoft Entra ID</b> and <b>managed identities</b> over API keys, grant <b>least-privilege roles</b>, store any secrets in <b>Key Vault</b>, and use <b>private endpoints</b> to keep traffic off the public internet. Apply <b>content filters</b> and <b>Azure AI Content Safety</b>. Monitor usage, latency and cost with <b>Azure Monitor</b> and tracing.</p>"
+    },
+    {
+     "h": "Responsible AI",
+     "html": "<p>Apply fairness, reliability and safety, privacy and security, inclusiveness, transparency and accountability. Evaluate models for groundedness, relevance, safety and harmful output before and after release, and keep a human in the loop for high-impact decisions.</p>"
+    }
+   ],
+   "tips": [
+    "Managed identity beats keys.",
+    "Quota is per deployment and region.",
+    "Evaluate before shipping and keep monitoring."
+   ],
+   "terms": [
+    [
+     "Foundry project",
+     "A workspace grouping models, agents and data for an app."
+    ],
+    [
+     "Deployment",
+     "A hosted model instance called by name."
+    ],
+    [
+     "Managed identity",
+     "An Azure-managed credential with no secret to store."
+    ],
+    [
+     "Content filter",
+     "Blocks or flags harmful input and output."
+    ],
+    [
+     "Private endpoint",
+     "Private IP access to a service."
+    ],
+    [
+     "Evaluation",
+     "Measuring quality, safety and groundedness."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "Foundry structure",
+     "bullets": [
+      "Resource",
+      "Project",
+      "Deployments"
+     ],
+     "script": [
+      "Projects organize the work of one application."
+     ],
+     "visual": {
+      "type": "tree",
+      "levels": [
+       [
+        "Foundry resource"
+       ],
+       [
+        "Project A",
+        "Project B"
+       ],
+       [
+        "Deployments",
+        "Agents",
+        "Data"
+       ]
+      ]
+     }
+    },
+    {
+     "title": "Secure access",
+     "bullets": [
+      "Entra ID",
+      "Managed identity",
+      "Private endpoint"
+     ],
+     "script": [
+      "Remove keys from code."
+     ],
+     "visual": {
+      "type": "cards",
+      "items": [
+       {
+        "t": "Entra ID",
+        "d": "Role-based access"
+       },
+       {
+        "t": "Managed identity",
+        "d": "No secrets"
+       },
+       {
+        "t": "Private endpoint",
+        "d": "No public path"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Evaluate and monitor",
+     "bullets": [
+      "Groundedness",
+      "Safety",
+      "Cost and latency"
+     ],
+     "script": [
+      "Quality and cost are watched continuously."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "Test",
+        "d": "Evaluations"
+       },
+       {
+        "t": "Release",
+        "d": "Deploy"
+       },
+       {
+        "t": "Monitor",
+        "d": "Tracing, metrics"
+       },
+       {
+        "t": "Improve",
+        "d": "Tune"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D2",
+   "short": "Generative AI and agents",
+   "title": "Implement generative AI and agentic solutions",
+   "summary": "Prompting, RAG, tools, agents, orchestration and evaluation.",
+   "guide": [
+    {
+     "h": "What this domain covers",
+     "html": "<p>The largest domain at about <b>30–35%</b>.</p>"
+    },
+    {
+     "h": "Prompts and parameters",
+     "html": "<p>The <b>system message</b> sets role, rules and format. <b>Few-shot</b> examples guide output. <b>Temperature</b> controls randomness; lower is more deterministic. Send conversation history to keep context, and watch the <b>context window</b> and token costs. <b>Structured outputs</b> constrain a reply to a JSON schema.</p>"
+    },
+    {
+     "h": "Retrieval-augmented generation",
+     "html": "<p><b>RAG</b> grounds answers in your data. Documents are chunked, converted to <b>embeddings</b> and stored in a vector index such as <b>Azure AI Search</b>. At question time the app retrieves relevant chunks (often <b>hybrid search</b> combining keyword and vector, with a <b>semantic ranker</b>) and adds them to the prompt. RAG reduces hallucinations without retraining; <b>fine-tuning</b> changes model behavior or style.</p>"
+    },
+    {
+     "h": "Agents",
+     "html": "<p>An <b>agent</b> combines a model, instructions and <b>tools</b> (file search, code interpreter, function calling, web search, MCP servers) and can plan multi-step work. A conversation is a <b>thread</b> and each execution is a <b>run</b>. Multi-agent patterns split work among specialist agents. Guard agents with limited tool permissions, approvals for risky actions and tracing for review.</p>"
+    }
+   ],
+   "tips": [
+    "RAG for fresh or private knowledge; fine-tuning for style or behavior.",
+    "Lower temperature for consistent answers.",
+    "Give agents the fewest tools they need."
+   ],
+   "terms": [
+    [
+     "RAG",
+     "Retrieval-augmented generation: ground answers in retrieved data."
+    ],
+    [
+     "Embedding",
+     "A numeric vector capturing meaning."
+    ],
+    [
+     "Temperature",
+     "Controls randomness of output."
+    ],
+    [
+     "Function calling",
+     "Lets a model request your code to be run."
+    ],
+    [
+     "Agent",
+     "A model with instructions and tools that can act."
+    ],
+    [
+     "Hallucination",
+     "Fluent but unsupported model output."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "RAG flow",
+     "bullets": [
+      "Chunk and embed",
+      "Retrieve",
+      "Augment the prompt",
+      "Generate"
+     ],
+     "script": [
+      "RAG keeps answers tied to your documents."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "Index",
+        "d": "Embed chunks"
+       },
+       {
+        "t": "Retrieve",
+        "d": "Search"
+       },
+       {
+        "t": "Augment",
+        "d": "Add context"
+       },
+       {
+        "t": "Generate",
+        "d": "Answer with citations"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Agent anatomy",
+     "bullets": [
+      "Model",
+      "Instructions",
+      "Tools"
+     ],
+     "script": [
+      "Tools turn a chat model into something that acts."
+     ],
+     "visual": {
+      "type": "layers",
+      "items": [
+       {
+        "t": "Tools",
+        "d": "Search, code, functions"
+       },
+       {
+        "t": "Instructions",
+        "d": "Role and rules"
+       },
+       {
+        "t": "Model",
+        "d": "Reasoning"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Prompt vs RAG vs fine-tune",
+     "bullets": [
+      "Prompt: quick",
+      "RAG: your data",
+      "Fine-tune: behavior"
+     ],
+     "script": [
+      "Try the cheaper approaches first."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Approach",
+       "Best for"
+      ],
+      "rows": [
+       [
+        "Prompting",
+        "Format and tone"
+       ],
+       [
+        "RAG",
+        "Current or private facts"
+       ],
+       [
+        "Fine-tuning",
+        "Consistent specialized behavior"
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D3",
+   "short": "Computer vision",
+   "title": "Implement computer vision solutions",
+   "summary": "Image analysis, OCR, multimodal models and video.",
+   "guide": [
+    {
+     "h": "What this domain covers",
+     "html": "<p>About <b>10–15%</b>.</p>"
+    },
+    {
+     "h": "Vision capabilities",
+     "html": "<p><b>Azure AI Vision</b> analyzes images: captions, tags, object detection, people detection and <b>OCR</b> (reading text). Multimodal models accept images in a prompt for questions and descriptions. Custom image models classify (one label per image) or detect objects (labels with bounding boxes) for your own categories. Video can be sampled into frames or analyzed for indexing and search.</p>"
+    },
+    {
+     "h": "Choosing an approach",
+     "html": "<p>Use prebuilt image analysis when general tags and captions are enough. Use a multimodal chat model for flexible questions about an image. Train a custom model when your categories are specific. Always consider <b>content safety</b> for user-supplied images and avoid unsupported identification of people.</p>"
+    }
+   ],
+   "tips": [
+    "Classification: what is it? Detection: what and where?",
+    "Use OCR to read text from images.",
+    "Multimodal models answer free-form questions about images."
+   ],
+   "terms": [
+    [
+     "OCR",
+     "Optical character recognition: extracts text from images."
+    ],
+    [
+     "Object detection",
+     "Finds objects and returns bounding boxes."
+    ],
+    [
+     "Image classification",
+     "Assigns labels to a whole image."
+    ],
+    [
+     "Multimodal model",
+     "Accepts more than one input type, such as text and images."
+    ],
+    [
+     "Bounding box",
+     "A rectangle marking an object's location."
+    ],
+    [
+     "Caption",
+     "A sentence describing an image."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "Vision tasks",
+     "bullets": [
+      "Caption and tag",
+      "Detect objects",
+      "Read text"
+     ],
+     "script": [
+      "Match the task to the capability."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Need",
+       "Capability"
+      ],
+      "rows": [
+       [
+        "Describe a photo",
+        "Captioning"
+       ],
+       [
+        "Find and locate items",
+        "Object detection"
+       ],
+       [
+        "Read a receipt line",
+        "OCR"
+       ],
+       [
+        "Ask any question",
+        "Multimodal model"
+       ]
+      ]
+     }
+    },
+    {
+     "title": "Custom or prebuilt",
+     "bullets": [
+      "Prebuilt first",
+      "Custom for your categories",
+      "Test with real images"
+     ],
+     "script": [
+      "Custom models need labeled examples."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "Try",
+        "d": "Prebuilt"
+       },
+       {
+        "t": "Gap?",
+        "d": "Specific classes"
+       },
+       {
+        "t": "Train",
+        "d": "Custom model"
+       },
+       {
+        "t": "Evaluate",
+        "d": "Real images"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D4",
+   "short": "Text analysis",
+   "title": "Implement text analysis solutions",
+   "summary": "Language understanding, sentiment, entities, summarization, translation and speech.",
+   "guide": [
+    {
+     "h": "What this domain covers",
+     "html": "<p>About <b>10–15%</b>.</p>"
+    },
+    {
+     "h": "Language capabilities",
+     "html": "<p><b>Azure AI Language</b> offers sentiment analysis and opinion mining, key phrase extraction, <b>named entity recognition</b>, PII detection and redaction, language detection, summarization and <b>question answering</b>. <b>Conversational language understanding</b> extracts <b>intents</b> and <b>entities</b> from utterances. <b>Azure AI Translator</b> translates text and documents. <b>Azure AI Speech</b> covers speech-to-text, text-to-speech and speech translation.</p>"
+    },
+    {
+     "h": "Using LLMs for text",
+     "html": "<p>Large language models can summarize, classify and extract structured fields with a good prompt and structured output. Prefer a dedicated service for deterministic tasks like PII redaction, and an LLM for flexible reasoning. Always evaluate accuracy on your own examples.</p>"
+    }
+   ],
+   "tips": [
+    "Intent = what the user wants; entity = the detail.",
+    "Use PII detection before storing text.",
+    "Speech-to-text turns audio into text."
+   ],
+   "terms": [
+    [
+     "Sentiment analysis",
+     "Scores text as positive, negative or neutral."
+    ],
+    [
+     "Named entity recognition",
+     "Finds people, places, dates and more."
+    ],
+    [
+     "Intent",
+     "The goal expressed in an utterance."
+    ],
+    [
+     "Entity",
+     "A detail extracted from an utterance."
+    ],
+    [
+     "PII",
+     "Personally identifiable information."
+    ],
+    [
+     "Speech-to-text",
+     "Transcribes spoken audio."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "Language toolbox",
+     "bullets": [
+      "Sentiment",
+      "Entities",
+      "Summaries"
+     ],
+     "script": [
+      "Choose the operation that produces the field you need."
+     ],
+     "visual": {
+      "type": "cards",
+      "items": [
+       {
+        "t": "Sentiment",
+        "d": "Opinion"
+       },
+       {
+        "t": "Entities",
+        "d": "Facts"
+       },
+       {
+        "t": "PII",
+        "d": "Privacy"
+       },
+       {
+        "t": "Summary",
+        "d": "Short version"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Utterance parsing",
+     "bullets": [
+      "Intent: BookFlight",
+      "Entities: Paris, Friday",
+      "Route the request"
+     ],
+     "script": [
+      "Conversational language understanding turns text into actions."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "Utterance",
+        "d": "Book me a flight to Paris Friday"
+       },
+       {
+        "t": "Intent",
+        "d": "BookFlight"
+       },
+       {
+        "t": "Entities",
+        "d": "Paris, Friday"
+       },
+       {
+        "t": "Action",
+        "d": "Call booking API"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D5",
+   "short": "Information extraction",
+   "title": "Implement information extraction solutions",
+   "summary": "Document intelligence, content understanding, knowledge mining and search enrichment.",
+   "guide": [
+    {
+     "h": "What this domain covers",
+     "html": "<p>About <b>10–15%</b>.</p>"
+    },
+    {
+     "h": "Extracting from documents",
+     "html": "<p><b>Azure AI Document Intelligence</b> extracts text, tables, key-value pairs and fields from forms using prebuilt models (invoices, receipts, IDs) or custom models. <b>Azure AI Content Understanding</b> extracts structured output from documents, images, audio and video using analyzers you define. Output feeds downstream apps or a search index.</p>"
+    },
+    {
+     "h": "Knowledge mining with Azure AI Search",
+     "html": "<p>An <b>indexer</b> pulls data from a source into an <b>index</b>; a <b>skillset</b> applies AI enrichment (OCR, entity recognition, key phrases, image analysis, custom skills) during indexing. Enriched content can be projected into a <b>knowledge store</b>. Index fields can be searchable, filterable, sortable or facetable. Combine keyword, vector and semantic ranking for best relevance.</p>"
+    }
+   ],
+   "tips": [
+    "Prebuilt models for common documents; custom for your own forms.",
+    "Skillsets enrich content during indexing.",
+    "Indexer pulls; index stores."
+   ],
+   "terms": [
+    [
+     "Document Intelligence",
+     "Extracts text, tables and fields from documents."
+    ],
+    [
+     "Indexer",
+     "Pulls data from a source into a search index."
+    ],
+    [
+     "Skillset",
+     "A set of AI enrichment steps run during indexing."
+    ],
+    [
+     "Knowledge store",
+     "Stores enriched output for analysis."
+    ],
+    [
+     "Content Understanding",
+     "Extracts structured output from multimodal content."
+    ],
+    [
+     "Facet",
+     "A field used for filter counts in search."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "Extraction choices",
+     "bullets": [
+      "Prebuilt models",
+      "Custom models",
+      "Content Understanding"
+     ],
+     "script": [
+      "Use the least custom work that meets accuracy needs."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Content",
+       "Choice"
+      ],
+      "rows": [
+       [
+        "Invoices, receipts",
+        "Prebuilt Document Intelligence"
+       ],
+       [
+        "Company-specific form",
+        "Custom model"
+       ],
+       [
+        "Mixed documents, audio, video",
+        "Content Understanding"
+       ]
+      ]
+     }
+    },
+    {
+     "title": "Enriched search",
+     "bullets": [
+      "Data source",
+      "Indexer",
+      "Skillset",
+      "Index"
+     ],
+     "script": [
+      "Enrichment adds searchable fields."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "Source",
+        "d": "Blob, SQL"
+       },
+       {
+        "t": "Indexer",
+        "d": "Crack documents"
+       },
+       {
+        "t": "Skillset",
+        "d": "OCR, entities"
+       },
+       {
+        "t": "Index",
+        "d": "Query"
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

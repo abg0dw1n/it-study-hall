@@ -68,7 +68,8 @@
     "questions": 100,
     "learning": true,
     "learningDescription": "Learn AI concepts and responsible AI, then build generative apps, agents, speech, vision, and information extraction with Microsoft Foundry.",
-    "learningModules": 2
+    "learningModules": 2,
+    "labs": 2
   },
   {
     "slug": "ai-103",
@@ -77,7 +78,11 @@
     "vendor": "Microsoft",
     "level": "advanced",
     "updated": "2026-11-02",
-    "questions": 100
+    "questions": 100,
+    "learningModules": 5,
+    "labs": 3,
+    "learning": true,
+    "learningDescription": "Plan and manage an Azure AI solution, then build generative AI and agents, vision, text analysis and information extraction solutions."
   },
   {
     "slug": "aws-aif",
@@ -110,7 +115,11 @@
     "vendor": "Microsoft",
     "level": "beginner",
     "updated": "2026-11-02",
-    "questions": 127
+    "questions": 127,
+    "learningModules": 3,
+    "labs": 3,
+    "learning": true,
+    "learningDescription": "Learn cloud concepts, core Azure architecture and services, and Azure management and governance."
   },
   {
     "slug": "aws-clf",
@@ -156,7 +165,11 @@
     "vendor": "Microsoft",
     "level": "beginner",
     "updated": "2026-11-02",
-    "questions": 92
+    "questions": 92,
+    "learningModules": 4,
+    "labs": 3,
+    "learning": true,
+    "learningDescription": "Learn security, compliance and identity concepts, Microsoft Entra, Microsoft security solutions and Microsoft compliance solutions."
   },
   {
     "slug": "dp-900",
@@ -165,7 +178,11 @@
     "vendor": "Microsoft",
     "level": "beginner",
     "updated": "2026-11-02",
-    "questions": 92
+    "questions": 92,
+    "learningModules": 4,
+    "labs": 3,
+    "learning": true,
+    "learningDescription": "Learn core data concepts, relational and non-relational data on Azure, and analytics workloads."
   },
   {
     "slug": "tech-plus",

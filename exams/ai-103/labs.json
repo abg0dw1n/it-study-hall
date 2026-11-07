@@ -1,0 +1,350 @@
+{
+ "intro": "Practice AI-103 ideas with design activities and a model deployment task.",
+ "labs": [
+  {
+   "id": "ai103-rag",
+   "title": "Design a RAG solution",
+   "domain": "D2",
+   "kind": "tasks",
+   "level": "intermediate",
+   "minutes": 12,
+   "summary": "Order the RAG steps and choose the right technique.",
+   "scenario": "<p>Show you understand when to use prompting, RAG, fine-tuning and agents.</p>",
+   "activities": [
+    {
+     "type": "order",
+     "title": "RAG pipeline",
+     "prompt": "Order the steps of a RAG solution.",
+     "items": [
+      "Split documents into chunks",
+      "Create embeddings for each chunk",
+      "Store them in a vector index",
+      "Embed the user question and retrieve matches",
+      "Add the retrieved text to the prompt",
+      "Generate a grounded answer"
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Which technique",
+     "prompt": "Pick the best technique.",
+     "categories": [
+      "Prompt engineering",
+      "RAG",
+      "Fine-tuning",
+      "Agent with tools"
+     ],
+     "items": [
+      {
+       "text": "Answer questions using the latest internal policy PDFs",
+       "cat": 1
+      },
+      {
+       "text": "Make replies follow a strict brand voice consistently across thousands of calls",
+       "cat": 2
+      },
+      {
+       "text": "Return JSON in a given format",
+       "cat": 0
+      },
+      {
+       "text": "Look up an order, then issue a refund after approval",
+       "cat": 3
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Terms",
+     "prompt": "Type each answer.",
+     "rows": [
+      {
+       "label": "Lower this setting for more deterministic output",
+       "answer": [
+        "temperature"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Numeric vector that captures meaning",
+       "answer": [
+        "embedding",
+        "embeddings"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Azure service commonly used as the vector index",
+       "answer": [
+        "Azure AI Search",
+        "AI Search"
+       ],
+       "placeholder": "..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "RAG pipeline",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Which technique",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Terms",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Fresh private data points to retrieval.",
+    "Behavior and style point to fine-tuning."
+   ],
+   "review": "<p>Try prompting first, add RAG for knowledge, and fine-tune only when behavior still needs to change.</p>"
+  },
+  {
+   "id": "ai103-services",
+   "title": "Choose the Azure AI service",
+   "domain": "D4",
+   "kind": "tasks",
+   "level": "intermediate",
+   "minutes": 10,
+   "summary": "Match scenarios to vision, language and extraction capabilities.",
+   "scenario": "<p>Pick the capability that fits each requirement.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Scenario to capability",
+     "prompt": "Match each scenario.",
+     "categories": [
+      "OCR",
+      "Object detection",
+      "Sentiment analysis",
+      "Named entity recognition",
+      "Document Intelligence",
+      "Speech-to-text",
+      "Translator"
+     ],
+     "items": [
+      {
+       "text": "Read the text on a photographed sign",
+       "cat": 0
+      },
+      {
+       "text": "Locate each forklift in warehouse images",
+       "cat": 1
+      },
+      {
+       "text": "Score customer reviews as positive or negative",
+       "cat": 2
+      },
+      {
+       "text": "Pull company names and dates from articles",
+       "cat": 3
+      },
+      {
+       "text": "Extract the total and vendor from invoices",
+       "cat": 4
+      },
+      {
+       "text": "Transcribe a recorded meeting",
+       "cat": 5
+      },
+      {
+       "text": "Convert a support article to French",
+       "cat": 6
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Terms",
+     "prompt": "Type each answer.",
+     "rows": [
+      {
+       "label": "Rectangle marking where an object is (two words)",
+       "answer": [
+        "bounding box"
+       ],
+       "placeholder": "... ..."
+      },
+      {
+       "label": "The goal expressed by a user utterance",
+       "answer": [
+        "intent"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Search component that runs AI enrichment while indexing (one word)",
+       "answer": [
+        "skillset"
+       ],
+       "placeholder": "..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Scenario to capability",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Terms",
+     "check": {
+      "activity": 1
+     }
+    }
+   ],
+   "hints": [
+    "Decide whether the input is image, text, audio or a form."
+   ],
+   "review": "<p>Picking the specialized service for the input type is usually simpler than prompting a general model.</p>"
+  },
+  {
+   "id": "ai103-deploy",
+   "title": "Deploy a model and set safety",
+   "domain": "D1",
+   "kind": "portal",
+   "level": "intermediate",
+   "minutes": 10,
+   "summary": "Configure a model deployment and its content filter.",
+   "scenario": "<p>In project <code>support-bot</code>, create a deployment named <code>chat-prod</code> from model <b>gpt-4o-mini</b> using the <b>Standard</b> deployment type with <b>50</b> thousand tokens per minute. Attach content filter <b>Strict</b>, and turn on <b>Managed identity</b> authentication. Save each page.</p>",
+   "portal": {
+    "app": "Foundry Portal",
+    "address": "Project › Models + endpoints › Deploy",
+    "pages": [
+     {
+      "id": "dep",
+      "title": "Deployment",
+      "sections": [
+       {
+        "title": "Model",
+        "fields": [
+         {
+          "id": "name",
+          "label": "Deployment name",
+          "type": "text",
+          "value": ""
+         },
+         {
+          "id": "model",
+          "label": "Model",
+          "type": "select",
+          "value": "gpt-4o",
+          "options": [
+           "gpt-4o",
+           "gpt-4o-mini",
+           "text-embedding-3-large"
+          ]
+         },
+         {
+          "id": "type",
+          "label": "Deployment type",
+          "type": "select",
+          "value": "Global Standard",
+          "options": [
+           "Global Standard",
+           "Standard",
+           "Provisioned"
+          ]
+         },
+         {
+          "id": "tpm",
+          "label": "Tokens per minute (thousands)",
+          "type": "text",
+          "value": "10"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "sec",
+      "title": "Safety and access",
+      "sections": [
+       {
+        "title": "Controls",
+        "fields": [
+         {
+          "id": "filter",
+          "label": "Content filter",
+          "type": "select",
+          "value": "Default",
+          "options": [
+           "Default",
+           "Strict",
+           "None"
+          ]
+         },
+         {
+          "id": "mi",
+          "label": "Managed identity authentication",
+          "type": "toggle",
+          "value": false
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "tasks": [
+    {
+     "text": "Deployment chat-prod uses gpt-4o-mini, Standard type, 50K TPM",
+     "check": {
+      "all": [
+       {
+        "field": "dep.name",
+        "eq": "chat-prod"
+       },
+       {
+        "field": "dep.model",
+        "eq": "gpt-4o-mini"
+       },
+       {
+        "field": "dep.type",
+        "eq": "Standard"
+       },
+       {
+        "field": "dep.tpm",
+        "re": "^50$"
+       }
+      ]
+     }
+    },
+    {
+     "text": "Strict content filter and managed identity on",
+     "check": {
+      "all": [
+       {
+        "field": "sec.filter",
+        "eq": "Strict"
+       },
+       {
+        "field": "sec.mi",
+        "eq": true
+       }
+      ]
+     }
+    }
+   ],
+   "hints": [
+    "Quota is set per deployment, in thousands of tokens per minute.",
+    "Managed identity removes API keys from the app."
+   ],
+   "review": "<p>A deployment pairs a model with capacity and safety settings. Entra-based access with managed identity is preferred over keys.</p>"
+  }
+ ]
+}
