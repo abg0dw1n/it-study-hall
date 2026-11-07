@@ -1,898 +1,903 @@
 {
- "intro": "Four modules take you from your first script to useful automation: Python basics and virtual environments, decisions, loops and data structures, reading files and parsing logs, and running programs, handling errors and calling APIs safely. Practice in the labs and keep the Reference tab handy.",
- "updated": "2026-11-07",
- "sources": [
-  {
-   "title": "The Python Tutorial (official)",
-   "url": "https://docs.python.org/3/tutorial/",
-   "note": "Free"
+  "intro": "Four modules take you from your first script to useful automation: Python basics and virtual environments, decisions, loops and data structures, reading files and parsing logs, and running programs, handling errors and calling APIs safely. Practice in the labs and keep the Reference tab handy.",
+  "narration": {
+    "src": "media/{id}-{n}.mp3",
+    "perSlide": true,
+    "credit": "Andrew (standard Neural)"
   },
-  {
-   "title": "Python standard library reference",
-   "url": "https://docs.python.org/3/library/",
-   "note": "Free reference"
-  }
- ],
- "modules": [
-  {
-   "id": "D1",
-   "short": "Python basics",
-   "title": "Python basics and running scripts",
-   "summary": "Install and run Python, work with values, strings and user input, and keep projects tidy with virtual environments.",
-   "guide": [
+  "updated": "2026-11-07",
+  "sources": [
     {
-     "h": "Why Python for IT",
-     "blocks": [
-      {
-       "p": "Python is readable, runs on Windows, macOS and Linux, and has a huge standard library. IT staff use it to process logs and spreadsheets, call APIs, automate repetitive tasks and glue tools together. You save a script in a <code>.py</code> file and run it with <code>python script.py</code> (on some systems <code>python3</code>)."
-      },
-      {
-       "note": "Check your version with <code>python --version</code>. Use a current supported Python 3 release.",
-       "kind": "tip"
-      }
-     ]
+      "title": "The Python Tutorial (official)",
+      "url": "https://docs.python.org/3/tutorial/",
+      "note": "Free"
     },
     {
-     "h": "Values, variables and strings",
-     "blocks": [
-      {
-       "table": {
-        "head": [
-         "Type",
-         "Example",
-         "Notes"
-        ],
-        "rows": [
-         [
-          "int",
-          "<code>42</code>",
-          "Whole numbers"
-         ],
-         [
-          "float",
-          "<code>3.14</code>",
-          "Decimals"
-         ],
-         [
-          "str",
-          "<code>\"server01\"</code>",
-          "Text, in quotes"
-         ],
-         [
-          "bool",
-          "<code>True</code>",
-          "True or False"
-         ],
-         [
-          "None",
-          "<code>None</code>",
-          "No value"
-         ]
-        ]
-       }
-      },
-      {
-       "p": "Variables just name a value: <code>host = \"server01\"</code>. Format text with f-strings: <code>f\"Checking {host}\"</code>. Read input with <code>input()</code> (it always returns text) and convert with <code>int()</code> when you need a number."
-      }
-     ]
-    },
+      "title": "Python standard library reference",
+      "url": "https://docs.python.org/3/library/",
+      "note": "Free reference"
+    }
+  ],
+  "modules": [
     {
-     "h": "Run scripts and keep dependencies separate",
-     "blocks": [
-      {
-       "steps": [
+      "id": "D1",
+      "short": "Python basics",
+      "title": "Python basics and running scripts",
+      "summary": "Install and run Python, work with values, strings and user input, and keep projects tidy with virtual environments.",
+      "guide": [
         {
-         "t": "Write",
-         "d": "Save code in <code>check.py</code>."
+          "h": "Why Python for IT",
+          "blocks": [
+            {
+              "p": "Python is readable, runs on Windows, macOS and Linux, and has a huge standard library. IT staff use it to process logs and spreadsheets, call APIs, automate repetitive tasks and glue tools together. You save a script in a <code>.py</code> file and run it with <code>python script.py</code> (on some systems <code>python3</code>)."
+            },
+            {
+              "note": "Check your version with <code>python --version</code>. Use a current supported Python 3 release.",
+              "kind": "tip"
+            }
+          ]
         },
         {
-         "t": "Run",
-         "d": "<code>python check.py</code>."
+          "h": "Values, variables and strings",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Type",
+                  "Example",
+                  "Notes"
+                ],
+                "rows": [
+                  [
+                    "int",
+                    "<code>42</code>",
+                    "Whole numbers"
+                  ],
+                  [
+                    "float",
+                    "<code>3.14</code>",
+                    "Decimals"
+                  ],
+                  [
+                    "str",
+                    "<code>\"server01\"</code>",
+                    "Text, in quotes"
+                  ],
+                  [
+                    "bool",
+                    "<code>True</code>",
+                    "True or False"
+                  ],
+                  [
+                    "None",
+                    "<code>None</code>",
+                    "No value"
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "Variables just name a value: <code>host = \"server01\"</code>. Format text with f-strings: <code>f\"Checking {host}\"</code>. Read input with <code>input()</code> (it always returns text) and convert with <code>int()</code> when you need a number."
+            }
+          ]
         },
         {
-         "t": "Isolate",
-         "d": "Create a virtual environment: <code>python -m venv .venv</code>."
-        },
-        {
-         "t": "Activate",
-         "d": "Windows: <code>.venv\\Scripts\\activate</code>. Linux/macOS: <code>source .venv/bin/activate</code>."
-        },
-        {
-         "t": "Install",
-         "d": "<code>pip install requests</code>, then record with <code>pip freeze &gt; requirements.txt</code>."
+          "h": "Run scripts and keep dependencies separate",
+          "blocks": [
+            {
+              "steps": [
+                {
+                  "t": "Write",
+                  "d": "Save code in <code>check.py</code>."
+                },
+                {
+                  "t": "Run",
+                  "d": "<code>python check.py</code>."
+                },
+                {
+                  "t": "Isolate",
+                  "d": "Create a virtual environment: <code>python -m venv .venv</code>."
+                },
+                {
+                  "t": "Activate",
+                  "d": "Windows: <code>.venv\\Scripts\\activate</code>. Linux/macOS: <code>source .venv/bin/activate</code>."
+                },
+                {
+                  "t": "Install",
+                  "d": "<code>pip install requests</code>, then record with <code>pip freeze &gt; requirements.txt</code>."
+                }
+              ]
+            }
+          ]
         }
-       ]
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Python uses indentation (usually 4 spaces) to define blocks. Be consistent.",
-    "Use a virtual environment per project so package versions do not clash.",
-    "Read error messages from the bottom up: the last line says what went wrong."
-   ],
-   "terms": [
-    [
-     "Script",
-     "A text file of Python code that you run."
-    ],
-    [
-     "Variable",
-     "A name that refers to a value."
-    ],
-    [
-     "String",
-     "Text value in quotes."
-    ],
-    [
-     "f-string",
-     "A string with <code>{values}</code> inserted, written <code>f\"...\"</code>."
-    ],
-    [
-     "Virtual environment",
-     "An isolated folder of packages for one project (venv)."
-    ],
-    [
-     "pip",
-     "Python's package installer."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Python for IT work",
-     "bullets": [
-      "Readable and cross-platform",
-      "Great for automation and logs",
-      "Run files with python script.py"
-     ],
-     "script": [
-      "Python is a friendly language that IT teams use to automate repetitive work."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Logs",
-        "d": "Parse and summarize"
-       },
-       {
-        "t": "Files",
-        "d": "Rename and move"
-       },
-       {
-        "t": "APIs",
-        "d": "Call web services"
-       },
-       {
-        "t": "Reports",
-        "d": "CSV and JSON"
-       }
-      ]
-     },
-     "layout": "title",
-     "kicker": "Mini-course: Python for IT"
-    },
-    {
-     "title": "Values and strings",
-     "bullets": [
-      "int, float, str, bool",
-      "Variables name values",
-      "f-strings insert variables"
-     ],
-     "script": [
-      "Python values have types. Use f-strings to build messages."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "python",
-      "text": "host = \"server01\"\nport = 443\nprint(f\"Checking {host}:{port}\")"
-     }
-    },
-    {
-     "title": "Running a script",
-     "bullets": [
-      "Save as .py",
-      "python file.py",
-      "Errors name the line"
-     ],
-     "script": [
-      "Save your code in a file and run it with Python. If it fails, read the error message from the bottom up."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Write",
-        "d": "check.py"
-       },
-       {
-        "t": "Run",
-        "d": "python check.py"
-       },
-       {
-        "t": "Read output",
-        "d": "or the error"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Virtual environments",
-     "bullets": [
-      "One venv per project",
-      "Activate it first",
-      "Record packages in requirements.txt"
-     ],
-     "script": [
-      "A virtual environment keeps each project's packages separate."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "python -m venv .venv\nsource .venv/bin/activate\npip install requests\npip freeze > requirements.txt"
-     }
-    }
-   ]
-  },
-  {
-   "id": "D2",
-   "short": "Logic and data",
-   "title": "Decisions, loops, lists, dictionaries and functions",
-   "summary": "Control the flow of a script and organize data with lists and dictionaries, then reuse code with functions.",
-   "guide": [
-    {
-     "h": "Decisions and loops",
-     "blocks": [
-      {
-       "p": "<code>if</code>, <code>elif</code> and <code>else</code> choose a path. <code>for</code> repeats over items; <code>while</code> repeats until a condition is false."
-      },
-      {
-       "cmds": [
-        [
-         "if disk &gt; 90:",
-         "Test a condition (end the line with a colon)"
-        ],
-        [
-         "for host in hosts:",
-         "Repeat for each item"
-        ],
-        [
-         "while retries &gt; 0:",
-         "Repeat while true"
-        ],
-        [
-         "break / continue",
-         "Leave the loop / skip to the next item"
-        ]
-       ],
-       "head": [
-        "Statement",
-        "Use"
-       ]
-      }
-     ]
-    },
-    {
-     "h": "Lists and dictionaries",
-     "blocks": [
-      {
-       "table": {
-        "head": [
-         "Structure",
-         "Example",
-         "Use"
-        ],
-        "rows": [
-         [
-          "list",
-          "<code>hosts = [\"web1\", \"web2\"]</code>",
-          "Ordered items, access by position <code>hosts[0]</code>"
-         ],
-         [
-          "dict",
-          "<code>server = {\"name\": \"web1\", \"ip\": \"10.0.0.5\"}</code>",
-          "Key to value, access by key <code>server[\"ip\"]</code>"
-         ],
-         [
-          "tuple",
-          "<code>(1, 2)</code>",
-          "Fixed list that cannot change"
-         ],
-         [
-          "set",
-          "<code>{1, 2}</code>",
-          "Unique items"
-         ]
-        ]
-       }
-      },
-      {
-       "p": "Add with <code>hosts.append(\"web3\")</code>. Loop over a dictionary with <code>for key, value in server.items():</code>. Comprehensions such as <code>[h.upper() for h in hosts]</code> build lists in one line."
-      }
-     ]
-    },
-    {
-     "h": "Functions",
-     "blocks": [
-      {
-       "p": "A <b>function</b> packages steps you reuse. Define it with <code>def</code>, give it parameters and <code>return</code> a result."
-      },
-      {
-       "cmds": [
-        [
-         "def percent(used, total):",
-         "Define a function"
-        ],
-        [
-         "    return used / total * 100",
-         "Return a value (indented)"
-        ],
-        [
-         "print(percent(45, 60))",
-         "Call it"
-        ]
-       ],
-       "head": [
-        "Code",
-        "Meaning"
-       ]
-      },
-      {
-       "note": "Keep functions small and named for what they do: <code>is_port_open()</code>, <code>parse_line()</code>.",
-       "kind": "tip"
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "A single <code>=</code> assigns; <code>==</code> compares. Mixing them up is a classic bug.",
-    "Do not change a list while looping over it; build a new list instead.",
-    "Use dictionaries when you look things up by name, lists when order matters."
-   ],
-   "terms": [
-    [
-     "Condition",
-     "A test that is True or False, such as <code>cpu &gt; 80</code>."
-    ],
-    [
-     "Loop",
-     "Repeats code for each item or until a condition changes."
-    ],
-    [
-     "List",
-     "An ordered, changeable collection."
-    ],
-    [
-     "Dictionary",
-     "Key-value pairs for lookups."
-    ],
-    [
-     "Function",
-     "Reusable block defined with <code>def</code>."
-    ],
-    [
-     "Parameter",
-     "A named input to a function."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Making decisions",
-     "bullets": [
-      "if, elif, else",
-      "Colon and indentation",
-      "Comparison operators"
-     ],
-     "script": [
-      "Use if statements to choose what your script does."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "python",
-      "text": "disk = 93\nif disk > 90:\n    print(\"Critical\")\nelif disk > 75:\n    print(\"Warning\")\nelse:\n    print(\"OK\")"
-     },
-     "layout": "title",
-     "kicker": "Logic and data"
-    },
-    {
-     "title": "Loops",
-     "bullets": [
-      "for over a list",
-      "while until false",
-      "break and continue"
-     ],
-     "script": [
-      "A for loop repeats code for each item in a list."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "python",
-      "text": "for host in [\"web1\", \"web2\", \"db1\"]:\n    print(\"Pinging\", host)"
-     }
-    },
-    {
-     "title": "Lists and dictionaries",
-     "bullets": [
-      "List: ordered items",
-      "Dict: key to value",
-      "Index and key access"
-     ],
-     "script": [
-      "Lists hold ordered items. Dictionaries look up values by key."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Type",
-       "Example"
       ],
-      "rows": [
-       [
-        "list",
-        "[\"web1\", \"web2\"]"
-       ],
-       [
-        "dict",
-        "{\"name\": \"web1\", \"ip\": \"10.0.0.5\"}"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Functions",
-     "bullets": [
-      "def names the function",
-      "Parameters in, return out",
-      "Reuse instead of copy"
-     ],
-     "script": [
-      "Wrap repeated logic in a function so you can reuse and test it."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "python",
-      "text": "def percent(used, total):\n    return used / total * 100\n\nprint(percent(45, 60))"
-     }
-    }
-   ]
-  },
-  {
-   "id": "D3",
-   "short": "Files and text",
-   "title": "Files, text processing and structured data",
-   "summary": "Read and write files, parse log lines and work with CSV and JSON.",
-   "guide": [
-    {
-     "h": "Reading and writing files",
-     "blocks": [
-      {
-       "p": "Open files with a <code>with</code> block so they close automatically."
-      },
-      {
-       "cmds": [
-        [
-         "with open(\"log.txt\") as f:",
-         "Open for reading (default)"
-        ],
-        [
-         "    for line in f:",
-         "Loop over lines"
-        ],
-        [
-         "with open(\"out.txt\", \"w\") as f:",
-         "Write (replaces the file)"
-        ],
-        [
-         "with open(\"out.txt\", \"a\") as f:",
-         "Append"
-        ]
-       ],
-       "head": [
-        "Code",
-        "Meaning"
-       ]
-      },
-      {
-       "note": "Mode <code>\"w\"</code> erases the existing file. Use <code>\"a\"</code> to append.",
-       "kind": "warn"
-      }
-     ]
-    },
-    {
-     "h": "Parsing text",
-     "blocks": [
-      {
-       "p": "Strings have helpful methods: <code>line.strip()</code>, <code>line.split()</code>, <code>\"ERROR\" in line</code>, <code>line.startswith(...)</code>, <code>.replace()</code>. For patterns, the <code>re</code> module handles regular expressions."
-      },
-      {
-       "cmds": [
-        [
-         "parts = line.split()",
-         "Split on spaces into a list"
-        ],
-        [
-         "ip = parts[0]",
-         "Take the first piece"
-        ],
-        [
-         "if \" 500 \" in line:",
-         "Substring test"
-        ],
-        [
-         "import re; re.findall(r\"\\d+\\.\\d+\\.\\d+\\.\\d+\", line)",
-         "Find IPv4-like strings"
-        ]
-       ],
-       "head": [
-        "Code",
-        "What it does"
-       ]
-      }
-     ]
-    },
-    {
-     "h": "CSV and JSON",
-     "blocks": [
-      {
-       "p": "The standard library reads both. CSV is rows and columns; JSON is nested data from APIs and config files."
-      },
-      {
-       "cmds": [
-        [
-         "import csv",
-         "Read rows with <code>csv.DictReader(f)</code>"
-        ],
-        [
-         "import json",
-         "<code>json.load(f)</code> and <code>json.dump(data, f, indent=2)</code>"
-        ],
-        [
-         "from pathlib import Path",
-         "<code>Path(\"logs\").glob(\"*.log\")</code> lists files"
-        ]
-       ],
-       "head": [
-        "Module",
-        "Use"
-       ]
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Always handle files with <code>with</code>; never leave them open.",
-    "Count with a dictionary: <code>counts[ip] = counts.get(ip, 0) + 1</code>.",
-    "Test on a small copy of the data first."
-   ],
-   "terms": [
-    [
-     "File handle",
-     "The object returned by <code>open()</code> that you read from or write to."
-    ],
-    [
-     "with statement",
-     "Ensures a file is closed when the block ends."
-    ],
-    [
-     "CSV",
-     "Comma-separated values, one record per line."
-    ],
-    [
-     "JSON",
-     "Text format for nested data, common in APIs."
-    ],
-    [
-     "Regular expression",
-     "A pattern for matching text."
-    ],
-    [
-     "pathlib",
-     "Module for working with file paths in an OS-independent way."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Read a log",
-     "bullets": [
-      "with open(...) as f",
-      "Loop over lines",
-      "strip and split"
-     ],
-     "script": [
-      "A with block opens a file and closes it for you. Loop over the lines to process a log."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "python",
-      "text": "with open(\"access.log\") as f:\n    for line in f:\n        if \" 500 \" in line:\n            print(line.strip())"
-     },
-     "layout": "title",
-     "kicker": "Files and text"
-    },
-    {
-     "title": "Count things",
-     "bullets": [
-      "Dictionary as a counter",
-      "get with a default",
-      "Sort to find the top items"
-     ],
-     "script": [
-      "A dictionary makes a handy counter, for example hits per IP address."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "python",
-      "text": "counts = {}\nfor ip in ips:\n    counts[ip] = counts.get(ip, 0) + 1\nprint(sorted(counts.items(), key=lambda x: x[1], reverse=True)[:5])"
-     }
-    },
-    {
-     "title": "CSV and JSON",
-     "bullets": [
-      "csv.DictReader reads rows",
-      "json.load reads nested data",
-      "Write results back out"
-     ],
-     "script": [
-      "CSV and JSON are the common formats you will read and produce."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Format",
-       "Module",
-       "Typical source"
+      "tips": [
+        "Python uses indentation (usually 4 spaces) to define blocks. Be consistent.",
+        "Use a virtual environment per project so package versions do not clash.",
+        "Read error messages from the bottom up: the last line says what went wrong."
       ],
-      "rows": [
-       [
-        "CSV",
-        "csv",
-        "Spreadsheets, exports"
-       ],
-       [
-        "JSON",
-        "json",
-        "APIs, config files"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Careful with writes",
-     "bullets": [
-      "w erases the file",
-      "a appends",
-      "Test on copies"
-     ],
-     "script": [
-      "Opening a file in write mode replaces it. Use append, or write a new file, when you are not sure."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "w",
-        "d": "Replace"
-       },
-       {
-        "t": "a",
-        "d": "Append"
-       },
-       {
-        "t": "Copy",
-        "d": "Test first"
-       }
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D4",
-   "short": "Automate",
-   "title": "Automating IT tasks safely",
-   "summary": "Run programs, work with the file system, handle errors, accept arguments and call web APIs responsibly.",
-   "guide": [
-    {
-     "h": "Run commands and work with files",
-     "blocks": [
-      {
-       "p": "<code>subprocess.run</code> launches other programs and captures their output. <code>shutil</code> copies and moves files, and <code>os</code> / <code>pathlib</code> handle paths."
-      },
-      {
-       "cmds": [
+      "terms": [
         [
-         "subprocess.run([\"ping\", \"-c\", \"1\", host], capture_output=True, text=True)",
-         "Run a program (pass arguments as a list)"
+          "Script",
+          "A text file of Python code that you run."
         ],
         [
-         "result.returncode",
-         "0 means success"
+          "Variable",
+          "A name that refers to a value."
         ],
         [
-         "shutil.copy(src, dst)",
-         "Copy a file"
+          "String",
+          "Text value in quotes."
         ],
         [
-         "shutil.make_archive(\"backup\", \"zip\", \"data\")",
-         "Create a zip"
+          "f-string",
+          "A string with <code>{values}</code> inserted, written <code>f\"...\"</code>."
         ],
         [
-         "Path(\"x\").exists()",
-         "Check before acting"
+          "Virtual environment",
+          "An isolated folder of packages for one project (venv)."
+        ],
+        [
+          "pip",
+          "Python's package installer."
         ]
-       ],
-       "head": [
-        "Code",
-        "Meaning"
-       ]
-      },
-      {
-       "note": "Avoid building shell commands from user input with <code>shell=True</code>: it invites command injection. Pass an argument list instead.",
-       "kind": "warn"
-      }
-     ]
+      ],
+      "slides": [
+        {
+          "title": "Python for IT work",
+          "bullets": [
+            "Readable and cross-platform",
+            "Great for automation and logs",
+            "Run files with python script.py"
+          ],
+          "script": [
+            "Python is a friendly language that IT teams use to automate repetitive work."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Logs",
+                "d": "Parse and summarize"
+              },
+              {
+                "t": "Files",
+                "d": "Rename and move"
+              },
+              {
+                "t": "APIs",
+                "d": "Call web services"
+              },
+              {
+                "t": "Reports",
+                "d": "CSV and JSON"
+              }
+            ]
+          },
+          "layout": "title",
+          "kicker": "Mini-course: Python for IT"
+        },
+        {
+          "title": "Values and strings",
+          "bullets": [
+            "int, float, str, bool",
+            "Variables name values",
+            "f-strings insert variables"
+          ],
+          "script": [
+            "Python values have types. Use f-strings to build messages."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "python",
+            "text": "host = \"server01\"\nport = 443\nprint(f\"Checking {host}:{port}\")"
+          }
+        },
+        {
+          "title": "Running a script",
+          "bullets": [
+            "Save as .py",
+            "python file.py",
+            "Errors name the line"
+          ],
+          "script": [
+            "Save your code in a file and run it with Python. If it fails, read the error message from the bottom up."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Write",
+                "d": "check.py"
+              },
+              {
+                "t": "Run",
+                "d": "python check.py"
+              },
+              {
+                "t": "Read output",
+                "d": "or the error"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Virtual environments",
+          "bullets": [
+            "One venv per project",
+            "Activate it first",
+            "Record packages in requirements.txt"
+          ],
+          "script": [
+            "A virtual environment keeps each project's packages separate."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "python -m venv .venv\nsource .venv/bin/activate\npip install requests\npip freeze > requirements.txt"
+          }
+        }
+      ]
     },
     {
-     "h": "Errors and arguments",
-     "blocks": [
-      {
-       "p": "Wrap risky steps in <code>try</code> / <code>except</code> and catch specific errors, such as <code>FileNotFoundError</code>. Use <code>argparse</code> to let people pass options when they run your script: <code>python check.py --host web1</code>. Use the <code>logging</code> module instead of lots of <code>print</code> calls."
-      },
-      {
-       "table": {
-        "head": [
-         "Tool",
-         "Use"
+      "id": "D2",
+      "short": "Logic and data",
+      "title": "Decisions, loops, lists, dictionaries and functions",
+      "summary": "Control the flow of a script and organize data with lists and dictionaries, then reuse code with functions.",
+      "guide": [
+        {
+          "h": "Decisions and loops",
+          "blocks": [
+            {
+              "p": "<code>if</code>, <code>elif</code> and <code>else</code> choose a path. <code>for</code> repeats over items; <code>while</code> repeats until a condition is false."
+            },
+            {
+              "cmds": [
+                [
+                  "if disk &gt; 90:",
+                  "Test a condition (end the line with a colon)"
+                ],
+                [
+                  "for host in hosts:",
+                  "Repeat for each item"
+                ],
+                [
+                  "while retries &gt; 0:",
+                  "Repeat while true"
+                ],
+                [
+                  "break / continue",
+                  "Leave the loop / skip to the next item"
+                ]
+              ],
+              "head": [
+                "Statement",
+                "Use"
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Lists and dictionaries",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Structure",
+                  "Example",
+                  "Use"
+                ],
+                "rows": [
+                  [
+                    "list",
+                    "<code>hosts = [\"web1\", \"web2\"]</code>",
+                    "Ordered items, access by position <code>hosts[0]</code>"
+                  ],
+                  [
+                    "dict",
+                    "<code>server = {\"name\": \"web1\", \"ip\": \"10.0.0.5\"}</code>",
+                    "Key to value, access by key <code>server[\"ip\"]</code>"
+                  ],
+                  [
+                    "tuple",
+                    "<code>(1, 2)</code>",
+                    "Fixed list that cannot change"
+                  ],
+                  [
+                    "set",
+                    "<code>{1, 2}</code>",
+                    "Unique items"
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "Add with <code>hosts.append(\"web3\")</code>. Loop over a dictionary with <code>for key, value in server.items():</code>. Comprehensions such as <code>[h.upper() for h in hosts]</code> build lists in one line."
+            }
+          ]
+        },
+        {
+          "h": "Functions",
+          "blocks": [
+            {
+              "p": "A <b>function</b> packages steps you reuse. Define it with <code>def</code>, give it parameters and <code>return</code> a result."
+            },
+            {
+              "cmds": [
+                [
+                  "def percent(used, total):",
+                  "Define a function"
+                ],
+                [
+                  "    return used / total * 100",
+                  "Return a value (indented)"
+                ],
+                [
+                  "print(percent(45, 60))",
+                  "Call it"
+                ]
+              ],
+              "head": [
+                "Code",
+                "Meaning"
+              ]
+            },
+            {
+              "note": "Keep functions small and named for what they do: <code>is_port_open()</code>, <code>parse_line()</code>.",
+              "kind": "tip"
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "A single <code>=</code> assigns; <code>==</code> compares. Mixing them up is a classic bug.",
+        "Do not change a list while looping over it; build a new list instead.",
+        "Use dictionaries when you look things up by name, lists when order matters."
+      ],
+      "terms": [
+        [
+          "Condition",
+          "A test that is True or False, such as <code>cpu &gt; 80</code>."
         ],
-        "rows": [
-         [
-          "try / except",
-          "Handle errors without crashing"
-         ],
-         [
+        [
+          "Loop",
+          "Repeats code for each item or until a condition changes."
+        ],
+        [
+          "List",
+          "An ordered, changeable collection."
+        ],
+        [
+          "Dictionary",
+          "Key-value pairs for lookups."
+        ],
+        [
+          "Function",
+          "Reusable block defined with <code>def</code>."
+        ],
+        [
+          "Parameter",
+          "A named input to a function."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Making decisions",
+          "bullets": [
+            "if, elif, else",
+            "Colon and indentation",
+            "Comparison operators"
+          ],
+          "script": [
+            "Use if statements to choose what your script does."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "python",
+            "text": "disk = 93\nif disk > 90:\n    print(\"Critical\")\nelif disk > 75:\n    print(\"Warning\")\nelse:\n    print(\"OK\")"
+          },
+          "layout": "title",
+          "kicker": "Logic and data"
+        },
+        {
+          "title": "Loops",
+          "bullets": [
+            "for over a list",
+            "while until false",
+            "break and continue"
+          ],
+          "script": [
+            "A for loop repeats code for each item in a list."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "python",
+            "text": "for host in [\"web1\", \"web2\", \"db1\"]:\n    print(\"Pinging\", host)"
+          }
+        },
+        {
+          "title": "Lists and dictionaries",
+          "bullets": [
+            "List: ordered items",
+            "Dict: key to value",
+            "Index and key access"
+          ],
+          "script": [
+            "Lists hold ordered items. Dictionaries look up values by key."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Type",
+              "Example"
+            ],
+            "rows": [
+              [
+                "list",
+                "[\"web1\", \"web2\"]"
+              ],
+              [
+                "dict",
+                "{\"name\": \"web1\", \"ip\": \"10.0.0.5\"}"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Functions",
+          "bullets": [
+            "def names the function",
+            "Parameters in, return out",
+            "Reuse instead of copy"
+          ],
+          "script": [
+            "Wrap repeated logic in a function so you can reuse and test it."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "python",
+            "text": "def percent(used, total):\n    return used / total * 100\n\nprint(percent(45, 60))"
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "short": "Files and text",
+      "title": "Files, text processing and structured data",
+      "summary": "Read and write files, parse log lines and work with CSV and JSON.",
+      "guide": [
+        {
+          "h": "Reading and writing files",
+          "blocks": [
+            {
+              "p": "Open files with a <code>with</code> block so they close automatically."
+            },
+            {
+              "cmds": [
+                [
+                  "with open(\"log.txt\") as f:",
+                  "Open for reading (default)"
+                ],
+                [
+                  "    for line in f:",
+                  "Loop over lines"
+                ],
+                [
+                  "with open(\"out.txt\", \"w\") as f:",
+                  "Write (replaces the file)"
+                ],
+                [
+                  "with open(\"out.txt\", \"a\") as f:",
+                  "Append"
+                ]
+              ],
+              "head": [
+                "Code",
+                "Meaning"
+              ]
+            },
+            {
+              "note": "Mode <code>\"w\"</code> erases the existing file. Use <code>\"a\"</code> to append.",
+              "kind": "warn"
+            }
+          ]
+        },
+        {
+          "h": "Parsing text",
+          "blocks": [
+            {
+              "p": "Strings have helpful methods: <code>line.strip()</code>, <code>line.split()</code>, <code>\"ERROR\" in line</code>, <code>line.startswith(...)</code>, <code>.replace()</code>. For patterns, the <code>re</code> module handles regular expressions."
+            },
+            {
+              "cmds": [
+                [
+                  "parts = line.split()",
+                  "Split on spaces into a list"
+                ],
+                [
+                  "ip = parts[0]",
+                  "Take the first piece"
+                ],
+                [
+                  "if \" 500 \" in line:",
+                  "Substring test"
+                ],
+                [
+                  "import re; re.findall(r\"\\d+\\.\\d+\\.\\d+\\.\\d+\", line)",
+                  "Find IPv4-like strings"
+                ]
+              ],
+              "head": [
+                "Code",
+                "What it does"
+              ]
+            }
+          ]
+        },
+        {
+          "h": "CSV and JSON",
+          "blocks": [
+            {
+              "p": "The standard library reads both. CSV is rows and columns; JSON is nested data from APIs and config files."
+            },
+            {
+              "cmds": [
+                [
+                  "import csv",
+                  "Read rows with <code>csv.DictReader(f)</code>"
+                ],
+                [
+                  "import json",
+                  "<code>json.load(f)</code> and <code>json.dump(data, f, indent=2)</code>"
+                ],
+                [
+                  "from pathlib import Path",
+                  "<code>Path(\"logs\").glob(\"*.log\")</code> lists files"
+                ]
+              ],
+              "head": [
+                "Module",
+                "Use"
+              ]
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Always handle files with <code>with</code>; never leave them open.",
+        "Count with a dictionary: <code>counts[ip] = counts.get(ip, 0) + 1</code>.",
+        "Test on a small copy of the data first."
+      ],
+      "terms": [
+        [
+          "File handle",
+          "The object returned by <code>open()</code> that you read from or write to."
+        ],
+        [
+          "with statement",
+          "Ensures a file is closed when the block ends."
+        ],
+        [
+          "CSV",
+          "Comma-separated values, one record per line."
+        ],
+        [
+          "JSON",
+          "Text format for nested data, common in APIs."
+        ],
+        [
+          "Regular expression",
+          "A pattern for matching text."
+        ],
+        [
+          "pathlib",
+          "Module for working with file paths in an OS-independent way."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Read a log",
+          "bullets": [
+            "with open(...) as f",
+            "Loop over lines",
+            "strip and split"
+          ],
+          "script": [
+            "A with block opens a file and closes it for you. Loop over the lines to process a log."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "python",
+            "text": "with open(\"access.log\") as f:\n    for line in f:\n        if \" 500 \" in line:\n            print(line.strip())"
+          },
+          "layout": "title",
+          "kicker": "Files and text"
+        },
+        {
+          "title": "Count things",
+          "bullets": [
+            "Dictionary as a counter",
+            "get with a default",
+            "Sort to find the top items"
+          ],
+          "script": [
+            "A dictionary makes a handy counter, for example hits per IP address."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "python",
+            "text": "counts = {}\nfor ip in ips:\n    counts[ip] = counts.get(ip, 0) + 1\nprint(sorted(counts.items(), key=lambda x: x[1], reverse=True)[:5])"
+          }
+        },
+        {
+          "title": "CSV and JSON",
+          "bullets": [
+            "csv.DictReader reads rows",
+            "json.load reads nested data",
+            "Write results back out"
+          ],
+          "script": [
+            "CSV and JSON are the common formats you will read and produce."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Format",
+              "Module",
+              "Typical source"
+            ],
+            "rows": [
+              [
+                "CSV",
+                "csv",
+                "Spreadsheets, exports"
+              ],
+              [
+                "JSON",
+                "json",
+                "APIs, config files"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Careful with writes",
+          "bullets": [
+            "w erases the file",
+            "a appends",
+            "Test on copies"
+          ],
+          "script": [
+            "Opening a file in write mode replaces it. Use append, or write a new file, when you are not sure."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "w",
+                "d": "Replace"
+              },
+              {
+                "t": "a",
+                "d": "Append"
+              },
+              {
+                "t": "Copy",
+                "d": "Test first"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "short": "Automate",
+      "title": "Automating IT tasks safely",
+      "summary": "Run programs, work with the file system, handle errors, accept arguments and call web APIs responsibly.",
+      "guide": [
+        {
+          "h": "Run commands and work with files",
+          "blocks": [
+            {
+              "p": "<code>subprocess.run</code> launches other programs and captures their output. <code>shutil</code> copies and moves files, and <code>os</code> / <code>pathlib</code> handle paths."
+            },
+            {
+              "cmds": [
+                [
+                  "subprocess.run([\"ping\", \"-c\", \"1\", host], capture_output=True, text=True)",
+                  "Run a program (pass arguments as a list)"
+                ],
+                [
+                  "result.returncode",
+                  "0 means success"
+                ],
+                [
+                  "shutil.copy(src, dst)",
+                  "Copy a file"
+                ],
+                [
+                  "shutil.make_archive(\"backup\", \"zip\", \"data\")",
+                  "Create a zip"
+                ],
+                [
+                  "Path(\"x\").exists()",
+                  "Check before acting"
+                ]
+              ],
+              "head": [
+                "Code",
+                "Meaning"
+              ]
+            },
+            {
+              "note": "Avoid building shell commands from user input with <code>shell=True</code>: it invites command injection. Pass an argument list instead.",
+              "kind": "warn"
+            }
+          ]
+        },
+        {
+          "h": "Errors and arguments",
+          "blocks": [
+            {
+              "p": "Wrap risky steps in <code>try</code> / <code>except</code> and catch specific errors, such as <code>FileNotFoundError</code>. Use <code>argparse</code> to let people pass options when they run your script: <code>python check.py --host web1</code>. Use the <code>logging</code> module instead of lots of <code>print</code> calls."
+            },
+            {
+              "table": {
+                "head": [
+                  "Tool",
+                  "Use"
+                ],
+                "rows": [
+                  [
+                    "try / except",
+                    "Handle errors without crashing"
+                  ],
+                  [
+                    "argparse",
+                    "Command-line options and help text"
+                  ],
+                  [
+                    "logging",
+                    "Levels such as INFO and ERROR, optionally to a file"
+                  ],
+                  [
+                    "sys.exit(1)",
+                    "Return a non-zero exit code on failure"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "h": "APIs, secrets and scheduling",
+          "blocks": [
+            {
+              "p": "The <code>requests</code> package (install with pip) calls web APIs: <code>requests.get(url, timeout=10)</code>. Always set a timeout and check <code>response.raise_for_status()</code>."
+            },
+            {
+              "list": [
+                "Keep tokens and passwords out of the script: read them from environment variables (<code>os.environ[\"API_TOKEN\"]</code>) or a secrets manager",
+                "Run scripts on a schedule with cron (Linux/macOS) or Task Scheduler (Windows)",
+                "Test with a dry-run option before a script changes or deletes anything"
+              ]
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Add a <code>--dry-run</code> option to any script that changes things.",
+        "Log what the script does so you can audit it later.",
+        "Never hard-code secrets, and never commit them to Git."
+      ],
+      "terms": [
+        [
+          "subprocess",
+          "Module for running external programs."
+        ],
+        [
+          "Exception",
+          "An error raised while code runs; handled with try/except."
+        ],
+        [
           "argparse",
-          "Command-line options and help text"
-         ],
-         [
-          "logging",
-          "Levels such as INFO and ERROR, optionally to a file"
-         ],
-         [
-          "sys.exit(1)",
-          "Return a non-zero exit code on failure"
-         ]
+          "Module for command-line arguments."
+        ],
+        [
+          "Exit code",
+          "A number returned to the OS; 0 means success."
+        ],
+        [
+          "API",
+          "An interface for programs to talk to a service, often over HTTP."
+        ],
+        [
+          "Environment variable",
+          "A setting provided by the OS, used for secrets and configuration."
         ]
-       }
-      }
-     ]
-    },
-    {
-     "h": "APIs, secrets and scheduling",
-     "blocks": [
-      {
-       "p": "The <code>requests</code> package (install with pip) calls web APIs: <code>requests.get(url, timeout=10)</code>. Always set a timeout and check <code>response.raise_for_status()</code>."
-      },
-      {
-       "list": [
-        "Keep tokens and passwords out of the script: read them from environment variables (<code>os.environ[\"API_TOKEN\"]</code>) or a secrets manager",
-        "Run scripts on a schedule with cron (Linux/macOS) or Task Scheduler (Windows)",
-        "Test with a dry-run option before a script changes or deletes anything"
-       ]
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Add a <code>--dry-run</code> option to any script that changes things.",
-    "Log what the script does so you can audit it later.",
-    "Never hard-code secrets, and never commit them to Git."
-   ],
-   "terms": [
-    [
-     "subprocess",
-     "Module for running external programs."
-    ],
-    [
-     "Exception",
-     "An error raised while code runs; handled with try/except."
-    ],
-    [
-     "argparse",
-     "Module for command-line arguments."
-    ],
-    [
-     "Exit code",
-     "A number returned to the OS; 0 means success."
-    ],
-    [
-     "API",
-     "An interface for programs to talk to a service, often over HTTP."
-    ],
-    [
-     "Environment variable",
-     "A setting provided by the OS, used for secrets and configuration."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Run other programs",
-     "bullets": [
-      "subprocess.run",
-      "Pass arguments as a list",
-      "Check the return code"
-     ],
-     "script": [
-      "Python can run any command-line tool and read its output."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "python",
-      "text": "import subprocess\nr = subprocess.run([\"ping\", \"-c\", \"1\", \"web1\"], capture_output=True, text=True)\nprint(r.returncode)"
-     },
-     "layout": "title",
-     "kicker": "Automate"
-    },
-    {
-     "title": "Handle errors",
-     "bullets": [
-      "try and except",
-      "Catch specific errors",
-      "Exit non-zero on failure"
-     ],
-     "script": [
-      "Handle expected errors so a script fails clearly instead of crashing."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "python",
-      "text": "try:\n    with open(\"hosts.txt\") as f:\n        data = f.read()\nexcept FileNotFoundError:\n    print(\"hosts.txt is missing\")\n    raise SystemExit(1)"
-     }
-    },
-    {
-     "title": "Call an API",
-     "bullets": [
-      "requests.get with a timeout",
-      "raise_for_status",
-      "Token from environment variable"
-     ],
-     "script": [
-      "Use requests to call a web API. Always set a timeout and read secrets from the environment."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "python",
-      "text": "import os, requests\nr = requests.get(url, headers={\"Authorization\": os.environ[\"API_TOKEN\"]}, timeout=10)\nr.raise_for_status()\nprint(r.json())"
-     }
-    },
-    {
-     "title": "Automate responsibly",
-     "bullets": [
-      "Dry-run option",
-      "Log actions",
-      "Schedule with cron or Task Scheduler"
-     ],
-     "script": [
-      "Test with a dry run, log what you do and only then schedule the script."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Dry run",
-        "d": "preview"
-       },
-       {
-        "t": "Log",
-        "d": "audit trail"
-       },
-       {
-        "t": "Schedule",
-        "d": "cron or Task Scheduler"
-       }
+      ],
+      "slides": [
+        {
+          "title": "Run other programs",
+          "bullets": [
+            "subprocess.run",
+            "Pass arguments as a list",
+            "Check the return code"
+          ],
+          "script": [
+            "Python can run any command-line tool and read its output."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "python",
+            "text": "import subprocess\nr = subprocess.run([\"ping\", \"-c\", \"1\", \"web1\"], capture_output=True, text=True)\nprint(r.returncode)"
+          },
+          "layout": "title",
+          "kicker": "Automate"
+        },
+        {
+          "title": "Handle errors",
+          "bullets": [
+            "try and except",
+            "Catch specific errors",
+            "Exit non-zero on failure"
+          ],
+          "script": [
+            "Handle expected errors so a script fails clearly instead of crashing."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "python",
+            "text": "try:\n    with open(\"hosts.txt\") as f:\n        data = f.read()\nexcept FileNotFoundError:\n    print(\"hosts.txt is missing\")\n    raise SystemExit(1)"
+          }
+        },
+        {
+          "title": "Call an API",
+          "bullets": [
+            "requests.get with a timeout",
+            "raise_for_status",
+            "Token from environment variable"
+          ],
+          "script": [
+            "Use requests to call a web API. Always set a timeout and read secrets from the environment."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "python",
+            "text": "import os, requests\nr = requests.get(url, headers={\"Authorization\": os.environ[\"API_TOKEN\"]}, timeout=10)\nr.raise_for_status()\nprint(r.json())"
+          }
+        },
+        {
+          "title": "Automate responsibly",
+          "bullets": [
+            "Dry-run option",
+            "Log actions",
+            "Schedule with cron or Task Scheduler"
+          ],
+          "script": [
+            "Test with a dry run, log what you do and only then schedule the script."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Dry run",
+                "d": "preview"
+              },
+              {
+                "t": "Log",
+                "d": "audit trail"
+              },
+              {
+                "t": "Schedule",
+                "d": "cron or Task Scheduler"
+              }
+            ]
+          }
+        }
       ]
-     }
     }
-   ]
-  }
- ]
+  ]
 }

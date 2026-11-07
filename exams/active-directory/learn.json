@@ -1,1064 +1,1069 @@
 {
- "intro": "Four modules take you through the Active Directory skills an IT support technician uses: how AD DS is built and what it depends on, managing users, groups and OUs, Group Policy, and day-to-day operations and troubleshooting. Practice in the labs, including a simulated Active Directory Users and Computers console.",
- "updated": "2026-11-07",
- "sources": [
-  {
-   "title": "Active Directory Domain Services overview (Microsoft Learn)",
-   "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview",
-   "note": "Free, official"
+  "intro": "Four modules take you through the Active Directory skills an IT support technician uses: how AD DS is built and what it depends on, managing users, groups and OUs, Group Policy, and day-to-day operations and troubleshooting. Practice in the labs, including a simulated Active Directory Users and Computers console.",
+  "narration": {
+    "src": "media/{id}-{n}.mp3",
+    "perSlide": true,
+    "credit": "Andrew (standard Neural)"
   },
-  {
-   "title": "Group Policy overview (Microsoft Learn)",
-   "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview",
-   "note": "Free, official"
-  }
- ],
- "modules": [
-  {
-   "id": "D1",
-   "short": "AD basics",
-   "title": "Active Directory fundamentals",
-   "summary": "Understand what Active Directory Domain Services does, its building blocks and how it relates to DNS, Kerberos and Microsoft Entra ID.",
-   "guide": [
+  "updated": "2026-11-07",
+  "sources": [
     {
-     "h": "What AD DS is",
-     "blocks": [
-      {
-       "p": "<b>Active Directory Domain Services (AD DS)</b> is Microsoft's directory service. It stores information about users, computers, groups and other resources in one database and lets people sign in once (<b>single sign-on</b>) and get access to what they are allowed to use. A <b>domain controller (DC)</b> is a server that holds a copy of the directory and answers sign-in requests."
-      },
-      {
-       "list": [
-        "<b>Authentication:</b> proves who you are (Kerberos, with NTLM as fallback)",
-        "<b>Authorization:</b> decides what you can access (groups and permissions)",
-        "<b>Management:</b> applies settings centrally (Group Policy)"
-       ]
-      }
-     ]
+      "title": "Active Directory Domain Services overview (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview",
+      "note": "Free, official"
     },
     {
-     "h": "Structure: domain, tree, forest, OU",
-     "blocks": [
-      {
-       "table": {
-        "head": [
-         "Term",
-         "What it is"
+      "title": "Group Policy overview (Microsoft Learn)",
+      "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-overview",
+      "note": "Free, official"
+    }
+  ],
+  "modules": [
+    {
+      "id": "D1",
+      "short": "AD basics",
+      "title": "Active Directory fundamentals",
+      "summary": "Understand what Active Directory Domain Services does, its building blocks and how it relates to DNS, Kerberos and Microsoft Entra ID.",
+      "guide": [
+        {
+          "h": "What AD DS is",
+          "blocks": [
+            {
+              "p": "<b>Active Directory Domain Services (AD DS)</b> is Microsoft's directory service. It stores information about users, computers, groups and other resources in one database and lets people sign in once (<b>single sign-on</b>) and get access to what they are allowed to use. A <b>domain controller (DC)</b> is a server that holds a copy of the directory and answers sign-in requests."
+            },
+            {
+              "list": [
+                "<b>Authentication:</b> proves who you are (Kerberos, with NTLM as fallback)",
+                "<b>Authorization:</b> decides what you can access (groups and permissions)",
+                "<b>Management:</b> applies settings centrally (Group Policy)"
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Structure: domain, tree, forest, OU",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Term",
+                  "What it is"
+                ],
+                "rows": [
+                  [
+                    "Domain",
+                    "A boundary for administration and policy, named like <code>corp.example.com</code>"
+                  ],
+                  [
+                    "Tree",
+                    "Domains that share a contiguous DNS namespace"
+                  ],
+                  [
+                    "Forest",
+                    "One or more trees sharing a schema and the global catalog; the top security boundary"
+                  ],
+                  [
+                    "Organizational unit (OU)",
+                    "A container for organizing objects and applying policy or delegating control"
+                  ],
+                  [
+                    "Object",
+                    "A user, computer, group, printer, etc., with attributes"
+                  ]
+                ]
+              }
+            },
+            {
+              "note": "An OU is for organizing, delegating and applying policy. Security groups are for granting access. Do not use OUs to grant permissions.",
+              "kind": "tip"
+            }
+          ]
+        },
+        {
+          "h": "What AD depends on",
+          "blocks": [
+            {
+              "p": "<b>DNS</b> is essential: clients find domain controllers through DNS SRV records, so clients must use the domain's DNS servers (not a public one). <b>Time</b> matters too: Kerberos rejects tickets if a client's clock differs from the DC by more than <b>5 minutes</b>."
+            },
+            {
+              "table": {
+                "head": [
+                  "Service",
+                  "Port"
+                ],
+                "rows": [
+                  [
+                    "Kerberos",
+                    "88"
+                  ],
+                  [
+                    "LDAP",
+                    "389 (636 for LDAPS)"
+                  ],
+                  [
+                    "Global catalog",
+                    "3268 (3269 secure)"
+                  ],
+                  [
+                    "DNS",
+                    "53"
+                  ],
+                  [
+                    "SMB (SYSVOL, file shares)",
+                    "445"
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "<b>Microsoft Entra ID</b> (formerly Azure AD) is the cloud identity service. It is not the same as AD DS, but many organizations connect the two (hybrid identity) so one account works in both."
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Clients and servers must use the domain's DNS servers to find domain controllers.",
+        "A time difference over 5 minutes breaks Kerberos sign-in.",
+        "Remember: AD DS is on-premises; Entra ID is cloud. They are different, but often linked."
+      ],
+      "terms": [
+        [
+          "Domain controller (DC)",
+          "A server that stores AD DS and authenticates users."
         ],
-        "rows": [
-         [
-          "Domain",
-          "A boundary for administration and policy, named like <code>corp.example.com</code>"
-         ],
-         [
-          "Tree",
-          "Domains that share a contiguous DNS namespace"
-         ],
-         [
+        [
           "Forest",
-          "One or more trees sharing a schema and the global catalog; the top security boundary"
-         ],
-         [
+          "The top-level container sharing one schema and global catalog."
+        ],
+        [
           "Organizational unit (OU)",
-          "A container for organizing objects and applying policy or delegating control"
-         ],
-         [
-          "Object",
-          "A user, computer, group, printer, etc., with attributes"
-         ]
-        ]
-       }
-      },
-      {
-       "note": "An OU is for organizing, delegating and applying policy. Security groups are for granting access. Do not use OUs to grant permissions.",
-       "kind": "tip"
-      }
-     ]
-    },
-    {
-     "h": "What AD depends on",
-     "blocks": [
-      {
-       "p": "<b>DNS</b> is essential: clients find domain controllers through DNS SRV records, so clients must use the domain's DNS servers (not a public one). <b>Time</b> matters too: Kerberos rejects tickets if a client's clock differs from the DC by more than <b>5 minutes</b>."
-      },
-      {
-       "table": {
-        "head": [
-         "Service",
-         "Port"
+          "A container for organizing and delegating objects."
         ],
-        "rows": [
-         [
+        [
           "Kerberos",
-          "88"
-         ],
-         [
+          "The ticket-based authentication protocol AD uses."
+        ],
+        [
           "LDAP",
-          "389 (636 for LDAPS)"
-         ],
-         [
+          "Protocol for querying and modifying directory data."
+        ],
+        [
           "Global catalog",
-          "3268 (3269 secure)"
-         ],
-         [
-          "DNS",
-          "53"
-         ],
-         [
-          "SMB (SYSVOL, file shares)",
-          "445"
-         ]
+          "A partial, searchable copy of all objects in the forest."
         ]
-       }
-      },
-      {
-       "p": "<b>Microsoft Entra ID</b> (formerly Azure AD) is the cloud identity service. It is not the same as AD DS, but many organizations connect the two (hybrid identity) so one account works in both."
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Clients and servers must use the domain's DNS servers to find domain controllers.",
-    "A time difference over 5 minutes breaks Kerberos sign-in.",
-    "Remember: AD DS is on-premises; Entra ID is cloud. They are different, but often linked."
-   ],
-   "terms": [
-    [
-     "Domain controller (DC)",
-     "A server that stores AD DS and authenticates users."
-    ],
-    [
-     "Forest",
-     "The top-level container sharing one schema and global catalog."
-    ],
-    [
-     "Organizational unit (OU)",
-     "A container for organizing and delegating objects."
-    ],
-    [
-     "Kerberos",
-     "The ticket-based authentication protocol AD uses."
-    ],
-    [
-     "LDAP",
-     "Protocol for querying and modifying directory data."
-    ],
-    [
-     "Global catalog",
-     "A partial, searchable copy of all objects in the forest."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "What AD DS provides",
-     "bullets": [
-      "One directory of identities",
-      "Single sign-on",
-      "Central management"
-     ],
-     "script": [
-      "Active Directory keeps users, computers and groups in one place and lets people sign in once."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Authenticate",
-        "d": "Who are you"
-       },
-       {
-        "t": "Authorize",
-        "d": "What can you use"
-       },
-       {
-        "t": "Manage",
-        "d": "Group Policy"
-       }
-      ]
-     },
-     "layout": "title",
-     "kicker": "Mini-course: Active Directory"
-    },
-    {
-     "title": "Domain structure",
-     "bullets": [
-      "Forest contains domains",
-      "Domains contain OUs",
-      "OUs contain objects"
-     ],
-     "script": [
-      "Objects live in OUs inside domains, and domains live in a forest."
-     ],
-     "visual": {
-      "type": "tree",
-      "levels": [
-       [
-        "Forest"
-       ],
-       [
-        "corp.example.com",
-        "branch.example.com"
-       ],
-       [
-        "OU: Sales",
-        "OU: IT",
-        "OU: Servers"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Depends on DNS and time",
-     "bullets": [
-      "Clients find DCs through DNS",
-      "Use the domain's DNS servers",
-      "Clock skew over 5 minutes breaks Kerberos"
-     ],
-     "script": [
-      "Two things quietly break AD: wrong DNS settings and clocks that are out of sync."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "DNS",
-        "d": "SRV records locate DCs"
-       },
-       {
-        "t": "Time",
-        "d": "5 minute limit"
-       },
-       {
-        "t": "Ports",
-        "d": "88, 389, 445"
-       }
-      ]
-     }
-    },
-    {
-     "title": "AD DS versus Entra ID",
-     "bullets": [
-      "AD DS: on-premises",
-      "Entra ID: cloud identity",
-      "Hybrid links them"
-     ],
-     "script": [
-      "Active Directory Domain Services runs on your servers. Microsoft Entra ID is the cloud service, and many companies connect the two."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "",
-       "AD DS",
-       "Entra ID"
       ],
-      "rows": [
-       [
-        "Where",
-        "Your servers",
-        "Microsoft cloud"
-       ],
-       [
-        "Protocols",
-        "Kerberos, LDAP",
-        "OAuth, SAML, OpenID"
-       ],
-       [
-        "Policy",
-        "Group Policy",
-        "Conditional Access, Intune"
-       ]
+      "slides": [
+        {
+          "title": "What AD DS provides",
+          "bullets": [
+            "One directory of identities",
+            "Single sign-on",
+            "Central management"
+          ],
+          "script": [
+            "Active Directory keeps users, computers and groups in one place and lets people sign in once."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Authenticate",
+                "d": "Who are you"
+              },
+              {
+                "t": "Authorize",
+                "d": "What can you use"
+              },
+              {
+                "t": "Manage",
+                "d": "Group Policy"
+              }
+            ]
+          },
+          "layout": "title",
+          "kicker": "Mini-course: Active Directory"
+        },
+        {
+          "title": "Domain structure",
+          "bullets": [
+            "Forest contains domains",
+            "Domains contain OUs",
+            "OUs contain objects"
+          ],
+          "script": [
+            "Objects live in OUs inside domains, and domains live in a forest."
+          ],
+          "visual": {
+            "type": "tree",
+            "levels": [
+              [
+                "Forest"
+              ],
+              [
+                "corp.example.com",
+                "branch.example.com"
+              ],
+              [
+                "OU: Sales",
+                "OU: IT",
+                "OU: Servers"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Depends on DNS and time",
+          "bullets": [
+            "Clients find DCs through DNS",
+            "Use the domain's DNS servers",
+            "Clock skew over 5 minutes breaks Kerberos"
+          ],
+          "script": [
+            "Two things quietly break AD: wrong DNS settings and clocks that are out of sync."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "DNS",
+                "d": "SRV records locate DCs"
+              },
+              {
+                "t": "Time",
+                "d": "5 minute limit"
+              },
+              {
+                "t": "Ports",
+                "d": "88, 389, 445"
+              }
+            ]
+          }
+        },
+        {
+          "title": "AD DS versus Entra ID",
+          "bullets": [
+            "AD DS: on-premises",
+            "Entra ID: cloud identity",
+            "Hybrid links them"
+          ],
+          "script": [
+            "Active Directory Domain Services runs on your servers. Microsoft Entra ID is the cloud service, and many companies connect the two."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "",
+              "AD DS",
+              "Entra ID"
+            ],
+            "rows": [
+              [
+                "Where",
+                "Your servers",
+                "Microsoft cloud"
+              ],
+              [
+                "Protocols",
+                "Kerberos, LDAP",
+                "OAuth, SAML, OpenID"
+              ],
+              [
+                "Policy",
+                "Group Policy",
+                "Conditional Access, Intune"
+              ]
+            ]
+          }
+        }
       ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D2",
-   "short": "Users and groups",
-   "title": "Users, groups and OUs",
-   "summary": "Create and manage accounts, choose the right group type and scope, and organize objects with OUs.",
-   "guide": [
-    {
-     "h": "Everyday account tasks",
-     "blocks": [
-      {
-       "p": "Most help desk work happens in <b>Active Directory Users and Computers</b> (ADUC) or with PowerShell."
-      },
-      {
-       "cmds": [
-        [
-         "Get-ADUser jlopez -Properties *",
-         "Show an account's details"
-        ],
-        [
-         "New-ADUser -Name \"Jordan Lopez\" -SamAccountName jlopez -Enabled $true -AccountPassword (Read-Host -AsSecureString)",
-         "Create a user"
-        ],
-        [
-         "Set-ADAccountPassword jlopez -Reset",
-         "Reset a password"
-        ],
-        [
-         "Unlock-ADAccount jlopez",
-         "Unlock a locked-out account"
-        ],
-        [
-         "Enable-ADAccount / Disable-ADAccount jlopez",
-         "Enable or disable"
-        ],
-        [
-         "Search-ADAccount -LockedOut",
-         "Find locked accounts"
-        ],
-        [
-         "Add-ADGroupMember -Identity Sales -Members jlopez",
-         "Add to a group"
-        ]
-       ],
-       "head": [
-        "PowerShell",
-        "What it does"
-       ]
-      },
-      {
-       "note": "Locked out and disabled are different. A <b>lockout</b> is automatic after too many bad passwords; a <b>disabled</b> account was turned off by an administrator.",
-       "kind": "tip"
-      }
-     ]
     },
     {
-     "h": "Group type and scope",
-     "blocks": [
-      {
-       "table": {
-        "head": [
-         "Type",
-         "Purpose"
-        ],
-        "rows": [
-         [
-          "Security",
-          "Used to assign permissions (and can be used for email)"
-         ],
-         [
-          "Distribution",
-          "Email lists only; cannot grant access"
-         ]
-        ]
-       }
-      },
-      {
-       "table": {
-        "head": [
-         "Scope",
-         "Can contain",
-         "Used to grant access in"
-        ],
-        "rows": [
-         [
-          "Domain local",
-          "Users and groups from any domain in the forest",
-          "Its own domain"
-         ],
-         [
-          "Global",
-          "Users and groups from its own domain",
-          "Any domain in the forest"
-         ],
-         [
-          "Universal",
-          "Users and groups from any domain",
-          "Any domain in the forest"
-         ]
-        ]
-       }
-      },
-      {
-       "p": "A common best practice is <b>AGDLP</b>: put <b>A</b>ccounts in <b>G</b>lobal groups, put those into <b>D</b>omain <b>L</b>ocal groups, and assign <b>P</b>ermissions to the domain local group."
-      }
-     ]
-    },
-    {
-     "h": "OUs and delegation",
-     "blocks": [
-      {
-       "p": "Design OUs around how you administer, for example by department, location or object type, and keep the structure simple. <b>Delegation</b> lets you give a team limited rights over an OU, such as resetting passwords for the Sales OU only, without making them Domain Admins."
-      },
-      {
-       "list": [
-        "Follow least privilege: grant only the rights needed",
-        "Keep admin accounts separate from everyday accounts",
-        "Disable (not delete) accounts of people who leave, move them to a holding OU, and delete after your retention period"
-       ]
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Assign permissions to groups, never to individual users.",
-    "Reset passwords only after verifying the caller's identity.",
-    "Moving a user to another OU can change which Group Policy applies to them."
-   ],
-   "terms": [
-    [
-     "Security group",
-     "A group that can be given permissions."
-    ],
-    [
-     "AGDLP",
-     "Accounts in Global groups, in Domain Local groups, which receive Permissions."
-    ],
-    [
-     "Delegation",
-     "Giving limited administrative rights over an OU."
-    ],
-    [
-     "Lockout",
-     "Temporary block after too many failed sign-in attempts."
-    ],
-    [
-     "SamAccountName",
-     "The pre-Windows 2000 sign-in name, such as <code>jlopez</code>."
-    ],
-    [
-     "UPN",
-     "User principal name, like <code>jlopez@corp.example.com</code>."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Everyday account work",
-     "bullets": [
-      "Create, reset, unlock, disable",
-      "ADUC or PowerShell",
-      "Verify the user first"
-     ],
-     "script": [
-      "The help desk spends most of its AD time creating accounts, unlocking them and resetting passwords."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Reset",
-        "d": "Verify identity"
-       },
-       {
-        "t": "Unlock",
-        "d": "After lockout"
-       },
-       {
-        "t": "Disable",
-        "d": "Leavers"
-       }
-      ]
-     },
-     "layout": "title",
-     "kicker": "Users and groups"
-    },
-    {
-     "title": "Group types and scopes",
-     "bullets": [
-      "Security groups grant access",
-      "Distribution groups are for email",
-      "Domain local, global, universal"
-     ],
-     "script": [
-      "Security groups assign permissions. Scope decides who can be a member and where the group can be used."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Scope",
-       "Members from",
-       "Used in"
+      "id": "D2",
+      "short": "Users and groups",
+      "title": "Users, groups and OUs",
+      "summary": "Create and manage accounts, choose the right group type and scope, and organize objects with OUs.",
+      "guide": [
+        {
+          "h": "Everyday account tasks",
+          "blocks": [
+            {
+              "p": "Most help desk work happens in <b>Active Directory Users and Computers</b> (ADUC) or with PowerShell."
+            },
+            {
+              "cmds": [
+                [
+                  "Get-ADUser jlopez -Properties *",
+                  "Show an account's details"
+                ],
+                [
+                  "New-ADUser -Name \"Jordan Lopez\" -SamAccountName jlopez -Enabled $true -AccountPassword (Read-Host -AsSecureString)",
+                  "Create a user"
+                ],
+                [
+                  "Set-ADAccountPassword jlopez -Reset",
+                  "Reset a password"
+                ],
+                [
+                  "Unlock-ADAccount jlopez",
+                  "Unlock a locked-out account"
+                ],
+                [
+                  "Enable-ADAccount / Disable-ADAccount jlopez",
+                  "Enable or disable"
+                ],
+                [
+                  "Search-ADAccount -LockedOut",
+                  "Find locked accounts"
+                ],
+                [
+                  "Add-ADGroupMember -Identity Sales -Members jlopez",
+                  "Add to a group"
+                ]
+              ],
+              "head": [
+                "PowerShell",
+                "What it does"
+              ]
+            },
+            {
+              "note": "Locked out and disabled are different. A <b>lockout</b> is automatic after too many bad passwords; a <b>disabled</b> account was turned off by an administrator.",
+              "kind": "tip"
+            }
+          ]
+        },
+        {
+          "h": "Group type and scope",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Type",
+                  "Purpose"
+                ],
+                "rows": [
+                  [
+                    "Security",
+                    "Used to assign permissions (and can be used for email)"
+                  ],
+                  [
+                    "Distribution",
+                    "Email lists only; cannot grant access"
+                  ]
+                ]
+              }
+            },
+            {
+              "table": {
+                "head": [
+                  "Scope",
+                  "Can contain",
+                  "Used to grant access in"
+                ],
+                "rows": [
+                  [
+                    "Domain local",
+                    "Users and groups from any domain in the forest",
+                    "Its own domain"
+                  ],
+                  [
+                    "Global",
+                    "Users and groups from its own domain",
+                    "Any domain in the forest"
+                  ],
+                  [
+                    "Universal",
+                    "Users and groups from any domain",
+                    "Any domain in the forest"
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "A common best practice is <b>AGDLP</b>: put <b>A</b>ccounts in <b>G</b>lobal groups, put those into <b>D</b>omain <b>L</b>ocal groups, and assign <b>P</b>ermissions to the domain local group."
+            }
+          ]
+        },
+        {
+          "h": "OUs and delegation",
+          "blocks": [
+            {
+              "p": "Design OUs around how you administer, for example by department, location or object type, and keep the structure simple. <b>Delegation</b> lets you give a team limited rights over an OU, such as resetting passwords for the Sales OU only, without making them Domain Admins."
+            },
+            {
+              "list": [
+                "Follow least privilege: grant only the rights needed",
+                "Keep admin accounts separate from everyday accounts",
+                "Disable (not delete) accounts of people who leave, move them to a holding OU, and delete after your retention period"
+              ]
+            }
+          ]
+        }
       ],
-      "rows": [
-       [
-        "Domain local",
-        "Any domain",
-        "Own domain"
-       ],
-       [
-        "Global",
-        "Own domain",
-        "Any domain"
-       ],
-       [
-        "Universal",
-        "Any domain",
-        "Any domain"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "AGDLP",
-     "bullets": [
-      "Accounts into Global groups",
-      "Global into Domain Local",
-      "Permissions on the Domain Local group"
-     ],
-     "script": [
-      "AGDLP keeps permissions manageable. You change who is in a group instead of editing permissions."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "A",
-        "d": "accounts"
-       },
-       {
-        "t": "G",
-        "d": "global group"
-       },
-       {
-        "t": "DL",
-        "d": "domain local group"
-       },
-       {
-        "t": "P",
-        "d": "permissions"
-       }
-      ]
-     }
-    },
-    {
-     "title": "OUs and least privilege",
-     "bullets": [
-      "Organize by how you manage",
-      "Delegate narrowly",
-      "Separate admin accounts"
-     ],
-     "script": [
-      "Use OUs to organize and delegate, and give people only the rights they need."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "OUs",
-        "d": "Organize and delegate"
-       },
-       {
-        "t": "Groups",
-        "d": "Grant access"
-       },
-       {
-        "t": "Least privilege",
-        "d": "No Domain Admin by default"
-       }
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D3",
-   "short": "Group Policy",
-   "title": "Group Policy",
-   "summary": "Understand how Group Policy Objects configure users and computers and how to troubleshoot what applies.",
-   "guide": [
-    {
-     "h": "What Group Policy does",
-     "blocks": [
-      {
-       "p": "<b>Group Policy</b> applies settings to users and computers centrally: password rules, drive mappings, firewall settings, software restrictions, desktop wallpaper and more. A <b>Group Policy Object (GPO)</b> is a collection of settings that you <b>link</b> to a site, domain or OU. It has a Computer Configuration part (applied at startup) and a User Configuration part (applied at sign-in)."
-      },
-      {
-       "note": "Group Policy is configured with the Group Policy Management Console (GPMC). Default refresh for clients is about every 90 minutes.",
-       "kind": "tip"
-      }
-     ]
-    },
-    {
-     "h": "Processing order",
-     "blocks": [
-      {
-       "p": "Policies apply in this order, and later ones win a conflict: <b>L</b>ocal, <b>S</b>ite, <b>D</b>omain, <b>OU</b> (<b>LSDOU</b>). Within nested OUs, the closest OU applies last."
-      },
-      {
-       "table": {
-        "head": [
-         "Setting",
-         "Effect"
+      "tips": [
+        "Assign permissions to groups, never to individual users.",
+        "Reset passwords only after verifying the caller's identity.",
+        "Moving a user to another OU can change which Group Policy applies to them."
+      ],
+      "terms": [
+        [
+          "Security group",
+          "A group that can be given permissions."
         ],
-        "rows": [
-         [
+        [
+          "AGDLP",
+          "Accounts in Global groups, in Domain Local groups, which receive Permissions."
+        ],
+        [
+          "Delegation",
+          "Giving limited administrative rights over an OU."
+        ],
+        [
+          "Lockout",
+          "Temporary block after too many failed sign-in attempts."
+        ],
+        [
+          "SamAccountName",
+          "The pre-Windows 2000 sign-in name, such as <code>jlopez</code>."
+        ],
+        [
+          "UPN",
+          "User principal name, like <code>jlopez@corp.example.com</code>."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Everyday account work",
+          "bullets": [
+            "Create, reset, unlock, disable",
+            "ADUC or PowerShell",
+            "Verify the user first"
+          ],
+          "script": [
+            "The help desk spends most of its AD time creating accounts, unlocking them and resetting passwords."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Reset",
+                "d": "Verify identity"
+              },
+              {
+                "t": "Unlock",
+                "d": "After lockout"
+              },
+              {
+                "t": "Disable",
+                "d": "Leavers"
+              }
+            ]
+          },
+          "layout": "title",
+          "kicker": "Users and groups"
+        },
+        {
+          "title": "Group types and scopes",
+          "bullets": [
+            "Security groups grant access",
+            "Distribution groups are for email",
+            "Domain local, global, universal"
+          ],
+          "script": [
+            "Security groups assign permissions. Scope decides who can be a member and where the group can be used."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Scope",
+              "Members from",
+              "Used in"
+            ],
+            "rows": [
+              [
+                "Domain local",
+                "Any domain",
+                "Own domain"
+              ],
+              [
+                "Global",
+                "Own domain",
+                "Any domain"
+              ],
+              [
+                "Universal",
+                "Any domain",
+                "Any domain"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "AGDLP",
+          "bullets": [
+            "Accounts into Global groups",
+            "Global into Domain Local",
+            "Permissions on the Domain Local group"
+          ],
+          "script": [
+            "AGDLP keeps permissions manageable. You change who is in a group instead of editing permissions."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "A",
+                "d": "accounts"
+              },
+              {
+                "t": "G",
+                "d": "global group"
+              },
+              {
+                "t": "DL",
+                "d": "domain local group"
+              },
+              {
+                "t": "P",
+                "d": "permissions"
+              }
+            ]
+          }
+        },
+        {
+          "title": "OUs and least privilege",
+          "bullets": [
+            "Organize by how you manage",
+            "Delegate narrowly",
+            "Separate admin accounts"
+          ],
+          "script": [
+            "Use OUs to organize and delegate, and give people only the rights they need."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "OUs",
+                "d": "Organize and delegate"
+              },
+              {
+                "t": "Groups",
+                "d": "Grant access"
+              },
+              {
+                "t": "Least privilege",
+                "d": "No Domain Admin by default"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "short": "Group Policy",
+      "title": "Group Policy",
+      "summary": "Understand how Group Policy Objects configure users and computers and how to troubleshoot what applies.",
+      "guide": [
+        {
+          "h": "What Group Policy does",
+          "blocks": [
+            {
+              "p": "<b>Group Policy</b> applies settings to users and computers centrally: password rules, drive mappings, firewall settings, software restrictions, desktop wallpaper and more. A <b>Group Policy Object (GPO)</b> is a collection of settings that you <b>link</b> to a site, domain or OU. It has a Computer Configuration part (applied at startup) and a User Configuration part (applied at sign-in)."
+            },
+            {
+              "note": "Group Policy is configured with the Group Policy Management Console (GPMC). Default refresh for clients is about every 90 minutes.",
+              "kind": "tip"
+            }
+          ]
+        },
+        {
+          "h": "Processing order",
+          "blocks": [
+            {
+              "p": "Policies apply in this order, and later ones win a conflict: <b>L</b>ocal, <b>S</b>ite, <b>D</b>omain, <b>OU</b> (<b>LSDOU</b>). Within nested OUs, the closest OU applies last."
+            },
+            {
+              "table": {
+                "head": [
+                  "Setting",
+                  "Effect"
+                ],
+                "rows": [
+                  [
+                    "Enforced",
+                    "The GPO cannot be overridden by lower-level GPOs"
+                  ],
+                  [
+                    "Block inheritance",
+                    "An OU ignores GPOs from higher levels (but not Enforced ones)"
+                  ],
+                  [
+                    "Security filtering",
+                    "Limits a GPO to chosen users, computers or groups"
+                  ],
+                  [
+                    "Link order",
+                    "Among GPOs on the same container, the lowest number is applied last and wins"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "h": "Troubleshooting Group Policy",
+          "blocks": [
+            {
+              "cmds": [
+                [
+                  "gpupdate /force",
+                  "Reapply policy now"
+                ],
+                [
+                  "gpresult /r",
+                  "Summary of policies applied to this user and computer"
+                ],
+                [
+                  "gpresult /h report.html",
+                  "Detailed HTML report"
+                ],
+                [
+                  "Resultant Set of Policy (rsop.msc)",
+                  "Graphical view of applied settings"
+                ]
+              ],
+              "head": [
+                "Tool",
+                "Use"
+              ]
+            },
+            {
+              "list": [
+                "Is the object in the OU the GPO is linked to?",
+                "Is the GPO linked and enabled?",
+                "Does security filtering include the user or computer?",
+                "Can the client reach a DC and SYSVOL (DNS and network problems break GPO)?",
+                "Has the client rebooted or refreshed, for settings that apply at startup?"
+              ]
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Many policy problems are really DNS or network problems: check connectivity to the DC first.",
+        "Test a new GPO on a small test OU before linking it widely.",
+        "Use <code>gpresult</code> to see what actually applied, not what you think applied."
+      ],
+      "terms": [
+        [
+          "GPO",
+          "A set of policy settings that can be linked to a site, domain or OU."
+        ],
+        [
+          "LSDOU",
+          "Policy order: Local, Site, Domain, OU."
+        ],
+        [
           "Enforced",
-          "The GPO cannot be overridden by lower-level GPOs"
-         ],
-         [
-          "Block inheritance",
-          "An OU ignores GPOs from higher levels (but not Enforced ones)"
-         ],
-         [
+          "A link setting that stops lower GPOs overriding the policy."
+        ],
+        [
           "Security filtering",
-          "Limits a GPO to chosen users, computers or groups"
-         ],
-         [
-          "Link order",
-          "Among GPOs on the same container, the lowest number is applied last and wins"
-         ]
+          "Applying a GPO only to selected users, computers or groups."
+        ],
+        [
+          "SYSVOL",
+          "The shared folder on DCs that stores policy files and scripts."
+        ],
+        [
+          "gpresult",
+          "Command that shows which policies applied."
         ]
-       }
-      }
-     ]
-    },
-    {
-     "h": "Troubleshooting Group Policy",
-     "blocks": [
-      {
-       "cmds": [
-        [
-         "gpupdate /force",
-         "Reapply policy now"
-        ],
-        [
-         "gpresult /r",
-         "Summary of policies applied to this user and computer"
-        ],
-        [
-         "gpresult /h report.html",
-         "Detailed HTML report"
-        ],
-        [
-         "Resultant Set of Policy (rsop.msc)",
-         "Graphical view of applied settings"
-        ]
-       ],
-       "head": [
-        "Tool",
-        "Use"
-       ]
-      },
-      {
-       "list": [
-        "Is the object in the OU the GPO is linked to?",
-        "Is the GPO linked and enabled?",
-        "Does security filtering include the user or computer?",
-        "Can the client reach a DC and SYSVOL (DNS and network problems break GPO)?",
-        "Has the client rebooted or refreshed, for settings that apply at startup?"
-       ]
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Many policy problems are really DNS or network problems: check connectivity to the DC first.",
-    "Test a new GPO on a small test OU before linking it widely.",
-    "Use <code>gpresult</code> to see what actually applied, not what you think applied."
-   ],
-   "terms": [
-    [
-     "GPO",
-     "A set of policy settings that can be linked to a site, domain or OU."
-    ],
-    [
-     "LSDOU",
-     "Policy order: Local, Site, Domain, OU."
-    ],
-    [
-     "Enforced",
-     "A link setting that stops lower GPOs overriding the policy."
-    ],
-    [
-     "Security filtering",
-     "Applying a GPO only to selected users, computers or groups."
-    ],
-    [
-     "SYSVOL",
-     "The shared folder on DCs that stores policy files and scripts."
-    ],
-    [
-     "gpresult",
-     "Command that shows which policies applied."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Group Policy",
-     "bullets": [
-      "Central settings",
-      "GPOs linked to site, domain or OU",
-      "User and computer parts"
-     ],
-     "script": [
-      "Group Policy lets you manage thousands of PCs from one place."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Computer",
-        "d": "At startup"
-       },
-       {
-        "t": "User",
-        "d": "At sign-in"
-       },
-       {
-        "t": "Refresh",
-        "d": "About 90 minutes"
-       }
-      ]
-     },
-     "layout": "title",
-     "kicker": "Group Policy"
-    },
-    {
-     "title": "Order of processing",
-     "bullets": [
-      "Local, Site, Domain, OU",
-      "Later wins conflicts",
-      "Closest OU is last"
-     ],
-     "script": [
-      "Group Policy applies from the local policy outward to the OU, and the later setting wins."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Local",
-        "d": ""
-       },
-       {
-        "t": "Site",
-        "d": ""
-       },
-       {
-        "t": "Domain",
-        "d": ""
-       },
-       {
-        "t": "OU",
-        "d": "wins"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Controlling scope",
-     "bullets": [
-      "Enforced",
-      "Block inheritance",
-      "Security filtering"
-     ],
-     "script": [
-      "Use these settings to control where a GPO applies."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Setting",
-       "Effect"
       ],
-      "rows": [
-       [
-        "Enforced",
-        "Cannot be overridden"
-       ],
-       [
-        "Block inheritance",
-        "Ignore higher GPOs"
-       ],
-       [
-        "Security filtering",
-        "Only chosen objects"
-       ]
+      "slides": [
+        {
+          "title": "Group Policy",
+          "bullets": [
+            "Central settings",
+            "GPOs linked to site, domain or OU",
+            "User and computer parts"
+          ],
+          "script": [
+            "Group Policy lets you manage thousands of PCs from one place."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Computer",
+                "d": "At startup"
+              },
+              {
+                "t": "User",
+                "d": "At sign-in"
+              },
+              {
+                "t": "Refresh",
+                "d": "About 90 minutes"
+              }
+            ]
+          },
+          "layout": "title",
+          "kicker": "Group Policy"
+        },
+        {
+          "title": "Order of processing",
+          "bullets": [
+            "Local, Site, Domain, OU",
+            "Later wins conflicts",
+            "Closest OU is last"
+          ],
+          "script": [
+            "Group Policy applies from the local policy outward to the OU, and the later setting wins."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Local",
+                "d": ""
+              },
+              {
+                "t": "Site",
+                "d": ""
+              },
+              {
+                "t": "Domain",
+                "d": ""
+              },
+              {
+                "t": "OU",
+                "d": "wins"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Controlling scope",
+          "bullets": [
+            "Enforced",
+            "Block inheritance",
+            "Security filtering"
+          ],
+          "script": [
+            "Use these settings to control where a GPO applies."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Setting",
+              "Effect"
+            ],
+            "rows": [
+              [
+                "Enforced",
+                "Cannot be overridden"
+              ],
+              [
+                "Block inheritance",
+                "Ignore higher GPOs"
+              ],
+              [
+                "Security filtering",
+                "Only chosen objects"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Troubleshooting",
+          "bullets": [
+            "gpupdate /force",
+            "gpresult /r",
+            "Check DNS and DC access"
+          ],
+          "script": [
+            "Refresh policy, check what applied, and remember that DNS or network problems often look like policy problems."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bat",
+            "text": "gpupdate /force\ngpresult /r"
+          }
+        }
       ]
-     }
     },
     {
-     "title": "Troubleshooting",
-     "bullets": [
-      "gpupdate /force",
-      "gpresult /r",
-      "Check DNS and DC access"
-     ],
-     "script": [
-      "Refresh policy, check what applied, and remember that DNS or network problems often look like policy problems."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bat",
-      "text": "gpupdate /force\ngpresult /r"
-     }
-    }
-   ]
-  },
-  {
-   "id": "D4",
-   "short": "Operations",
-   "title": "Running AD safely",
-   "summary": "Keep AD healthy: replication, FSMO roles, backup, secure administration and the problems that reach the help desk.",
-   "guide": [
-    {
-     "h": "Health and replication",
-     "blocks": [
-      {
-       "p": "Most organizations run at least two domain controllers. Changes made on one DC <b>replicate</b> to the others. Problems with DNS, time or network links cause replication failures. Useful checks: <code>dcdiag</code> (DC health), <code>repadmin /replsummary</code> (replication status) and <code>nltest /dsgetdc:corp.example.com</code> (which DC a client uses)."
-      },
-      {
-       "table": {
-        "head": [
-         "FSMO role",
-         "Scope",
-         "Job"
-        ],
-        "rows": [
-         [
-          "Schema Master",
-          "Forest",
-          "Controls schema changes"
-         ],
-         [
-          "Domain Naming Master",
-          "Forest",
-          "Adds or removes domains"
-         ],
-         [
-          "PDC Emulator",
-          "Domain",
-          "Time source, password changes and lockouts, GPO edits"
-         ],
-         [
-          "RID Master",
-          "Domain",
-          "Hands out pools of IDs for new objects"
-         ],
-         [
-          "Infrastructure Master",
-          "Domain",
-          "Cross-domain references"
-         ]
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "h": "Common help desk problems",
-     "blocks": [
-      {
-       "table": {
-        "head": [
-         "Symptom",
-         "Likely cause",
-         "Fix"
-        ],
-        "rows": [
-         [
-          "\"The trust relationship between this workstation and the primary domain failed\"",
-          "Computer account password out of sync",
-          "Rejoin the PC to the domain or reset the computer account"
-         ],
-         [
-          "User keeps getting locked out",
-          "Old password saved on a phone, mapped drive or service",
-          "Find the source in the DC's security log (event 4740) and update the saved password"
-         ],
-         [
-          "Sign-in is slow or fails after a change",
-          "Client using wrong DNS, time out of sync, or no DC reachable",
-          "Check DNS settings, time, and connectivity to the DC"
-         ],
-         [
-          "Group Policy not applying",
-          "Link, filtering or connectivity",
-          "See the Group Policy module"
-         ],
-         [
-          "Cannot join the domain",
-          "DNS wrong, no network path, or lacking rights",
-          "Use the domain's DNS and an account allowed to join"
-         ]
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "h": "Secure administration",
-     "blocks": [
-      {
-       "list": [
-        "Use separate admin accounts, and do not browse the web or read email with them",
-        "Limit membership of <b>Domain Admins</b>, <b>Enterprise Admins</b> and <b>Schema Admins</b>; use delegation instead",
-        "Require strong passwords and multifactor authentication where possible",
-        "Enable the <b>AD Recycle Bin</b> so deleted objects can be restored",
-        "Back up domain controllers (system state) regularly and test restores",
-        "Keep DCs patched, and physically and logically protected"
-       ]
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Never log into workstations with a domain admin account: credentials can be stolen from memory.",
-    "A user who keeps locking out usually has a saved old password somewhere.",
-    "If a restore is needed, the AD Recycle Bin is much easier than an authoritative restore from backup."
-   ],
-   "terms": [
-    [
-     "FSMO roles",
-     "Five special DC roles that a single DC performs."
-    ],
-    [
-     "Replication",
-     "Copying directory changes between domain controllers."
-    ],
-    [
-     "Trust relationship failure",
-     "A computer's secure channel with the domain is broken."
-    ],
-    [
-     "AD Recycle Bin",
-     "Feature that lets you restore deleted AD objects."
-    ],
-    [
-     "Tiered administration",
-     "Separating admin accounts by the systems they manage."
-    ],
-    [
-     "dcdiag",
-     "Tool that tests domain controller health."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Keeping AD healthy",
-     "bullets": [
-      "Multiple DCs",
-      "Replication",
-      "DNS and time"
-     ],
-     "script": [
-      "A healthy domain has more than one domain controller, working replication, correct DNS and synchronized clocks."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "2+ DCs",
-        "d": "Redundancy"
-       },
-       {
-        "t": "Replication",
-        "d": "repadmin"
-       },
-       {
-        "t": "DNS and time",
-        "d": "Foundations"
-       }
-      ]
-     },
-     "layout": "title",
-     "kicker": "Operations"
-    },
-    {
-     "title": "The five FSMO roles",
-     "bullets": [
-      "Schema Master",
-      "Domain Naming Master",
-      "PDC Emulator, RID Master, Infrastructure Master"
-     ],
-     "script": [
-      "Five special roles are held by individual DCs. The PDC Emulator is the one you notice most, for time, lockouts and password changes."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Role",
-       "Scope"
+      "id": "D4",
+      "short": "Operations",
+      "title": "Running AD safely",
+      "summary": "Keep AD healthy: replication, FSMO roles, backup, secure administration and the problems that reach the help desk.",
+      "guide": [
+        {
+          "h": "Health and replication",
+          "blocks": [
+            {
+              "p": "Most organizations run at least two domain controllers. Changes made on one DC <b>replicate</b> to the others. Problems with DNS, time or network links cause replication failures. Useful checks: <code>dcdiag</code> (DC health), <code>repadmin /replsummary</code> (replication status) and <code>nltest /dsgetdc:corp.example.com</code> (which DC a client uses)."
+            },
+            {
+              "table": {
+                "head": [
+                  "FSMO role",
+                  "Scope",
+                  "Job"
+                ],
+                "rows": [
+                  [
+                    "Schema Master",
+                    "Forest",
+                    "Controls schema changes"
+                  ],
+                  [
+                    "Domain Naming Master",
+                    "Forest",
+                    "Adds or removes domains"
+                  ],
+                  [
+                    "PDC Emulator",
+                    "Domain",
+                    "Time source, password changes and lockouts, GPO edits"
+                  ],
+                  [
+                    "RID Master",
+                    "Domain",
+                    "Hands out pools of IDs for new objects"
+                  ],
+                  [
+                    "Infrastructure Master",
+                    "Domain",
+                    "Cross-domain references"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "h": "Common help desk problems",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Symptom",
+                  "Likely cause",
+                  "Fix"
+                ],
+                "rows": [
+                  [
+                    "\"The trust relationship between this workstation and the primary domain failed\"",
+                    "Computer account password out of sync",
+                    "Rejoin the PC to the domain or reset the computer account"
+                  ],
+                  [
+                    "User keeps getting locked out",
+                    "Old password saved on a phone, mapped drive or service",
+                    "Find the source in the DC's security log (event 4740) and update the saved password"
+                  ],
+                  [
+                    "Sign-in is slow or fails after a change",
+                    "Client using wrong DNS, time out of sync, or no DC reachable",
+                    "Check DNS settings, time, and connectivity to the DC"
+                  ],
+                  [
+                    "Group Policy not applying",
+                    "Link, filtering or connectivity",
+                    "See the Group Policy module"
+                  ],
+                  [
+                    "Cannot join the domain",
+                    "DNS wrong, no network path, or lacking rights",
+                    "Use the domain's DNS and an account allowed to join"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "h": "Secure administration",
+          "blocks": [
+            {
+              "list": [
+                "Use separate admin accounts, and do not browse the web or read email with them",
+                "Limit membership of <b>Domain Admins</b>, <b>Enterprise Admins</b> and <b>Schema Admins</b>; use delegation instead",
+                "Require strong passwords and multifactor authentication where possible",
+                "Enable the <b>AD Recycle Bin</b> so deleted objects can be restored",
+                "Back up domain controllers (system state) regularly and test restores",
+                "Keep DCs patched, and physically and logically protected"
+              ]
+            }
+          ]
+        }
       ],
-      "rows": [
-       [
-        "Schema Master",
-        "Forest"
-       ],
-       [
-        "Domain Naming Master",
-        "Forest"
-       ],
-       [
-        "PDC Emulator",
-        "Domain"
-       ],
-       [
-        "RID Master",
-        "Domain"
-       ],
-       [
-        "Infrastructure Master",
-        "Domain"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Common tickets",
-     "bullets": [
-      "Trust relationship failed",
-      "Repeated lockouts",
-      "Slow sign-in"
-     ],
-     "script": [
-      "Most AD tickets fit a few patterns. Learn the cause behind each one."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Symptom",
-       "Cause"
+      "tips": [
+        "Never log into workstations with a domain admin account: credentials can be stolen from memory.",
+        "A user who keeps locking out usually has a saved old password somewhere.",
+        "If a restore is needed, the AD Recycle Bin is much easier than an authoritative restore from backup."
       ],
-      "rows": [
-       [
-        "Trust relationship failed",
-        "Computer password out of sync"
-       ],
-       [
-        "Repeated lockouts",
-        "Saved old password"
-       ],
-       [
-        "Slow sign-in",
-        "DNS, time or DC reachability"
-       ]
+      "terms": [
+        [
+          "FSMO roles",
+          "Five special DC roles that a single DC performs."
+        ],
+        [
+          "Replication",
+          "Copying directory changes between domain controllers."
+        ],
+        [
+          "Trust relationship failure",
+          "A computer's secure channel with the domain is broken."
+        ],
+        [
+          "AD Recycle Bin",
+          "Feature that lets you restore deleted AD objects."
+        ],
+        [
+          "Tiered administration",
+          "Separating admin accounts by the systems they manage."
+        ],
+        [
+          "dcdiag",
+          "Tool that tests domain controller health."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Keeping AD healthy",
+          "bullets": [
+            "Multiple DCs",
+            "Replication",
+            "DNS and time"
+          ],
+          "script": [
+            "A healthy domain has more than one domain controller, working replication, correct DNS and synchronized clocks."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "2+ DCs",
+                "d": "Redundancy"
+              },
+              {
+                "t": "Replication",
+                "d": "repadmin"
+              },
+              {
+                "t": "DNS and time",
+                "d": "Foundations"
+              }
+            ]
+          },
+          "layout": "title",
+          "kicker": "Operations"
+        },
+        {
+          "title": "The five FSMO roles",
+          "bullets": [
+            "Schema Master",
+            "Domain Naming Master",
+            "PDC Emulator, RID Master, Infrastructure Master"
+          ],
+          "script": [
+            "Five special roles are held by individual DCs. The PDC Emulator is the one you notice most, for time, lockouts and password changes."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Role",
+              "Scope"
+            ],
+            "rows": [
+              [
+                "Schema Master",
+                "Forest"
+              ],
+              [
+                "Domain Naming Master",
+                "Forest"
+              ],
+              [
+                "PDC Emulator",
+                "Domain"
+              ],
+              [
+                "RID Master",
+                "Domain"
+              ],
+              [
+                "Infrastructure Master",
+                "Domain"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Common tickets",
+          "bullets": [
+            "Trust relationship failed",
+            "Repeated lockouts",
+            "Slow sign-in"
+          ],
+          "script": [
+            "Most AD tickets fit a few patterns. Learn the cause behind each one."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Symptom",
+              "Cause"
+            ],
+            "rows": [
+              [
+                "Trust relationship failed",
+                "Computer password out of sync"
+              ],
+              [
+                "Repeated lockouts",
+                "Saved old password"
+              ],
+              [
+                "Slow sign-in",
+                "DNS, time or DC reachability"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Secure administration",
+          "bullets": [
+            "Separate admin accounts",
+            "Limit privileged groups",
+            "Recycle Bin and backups"
+          ],
+          "script": [
+            "Keep privileged access small and separate, and make sure you can recover from mistakes."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Separate",
+                "d": "Admin and everyday accounts"
+              },
+              {
+                "t": "Limit",
+                "d": "Domain Admins"
+              },
+              {
+                "t": "Recover",
+                "d": "Recycle Bin, backups"
+              }
+            ]
+          }
+        }
       ]
-     }
-    },
-    {
-     "title": "Secure administration",
-     "bullets": [
-      "Separate admin accounts",
-      "Limit privileged groups",
-      "Recycle Bin and backups"
-     ],
-     "script": [
-      "Keep privileged access small and separate, and make sure you can recover from mistakes."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Separate",
-        "d": "Admin and everyday accounts"
-       },
-       {
-        "t": "Limit",
-        "d": "Domain Admins"
-       },
-       {
-        "t": "Recover",
-        "d": "Recycle Bin, backups"
-       }
-      ]
-     }
     }
-   ]
-  }
- ]
+  ]
 }

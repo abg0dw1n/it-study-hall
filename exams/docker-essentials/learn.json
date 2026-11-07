@@ -1,927 +1,932 @@
 {
- "intro": "Four modules cover the practical Docker skills an IT professional needs: containers and images, running and inspecting containers, building images, and Compose with networking and housekeeping. Practice in the labs and use the Reference tab as a cheat sheet.",
- "updated": "2026-11-07",
- "sources": [
-  {
-   "title": "Docker documentation (get started)",
-   "url": "https://docs.docker.com/get-started/",
-   "note": "Free, official"
+  "intro": "Four modules cover the practical Docker skills an IT professional needs: containers and images, running and inspecting containers, building images, and Compose with networking and housekeeping. Practice in the labs and use the Reference tab as a cheat sheet.",
+  "narration": {
+    "src": "media/{id}-{n}.mp3",
+    "perSlide": true,
+    "credit": "Andrew (standard Neural)"
   },
-  {
-   "title": "Dockerfile reference",
-   "url": "https://docs.docker.com/reference/dockerfile/",
-   "note": "Free, official"
-  }
- ],
- "modules": [
-  {
-   "id": "D1",
-   "short": "Containers",
-   "title": "Containers, images and registries",
-   "summary": "Understand what a container is, how it differs from a virtual machine, and how images and registries fit together.",
-   "guide": [
+  "updated": "2026-11-07",
+  "sources": [
     {
-     "h": "What is a container?",
-     "blocks": [
-      {
-       "p": "A <b>container</b> is a normal process on a host that is isolated from other processes and given its own view of the file system, network and users. It carries the application and everything it needs (libraries, runtime) so it runs the same on a laptop, a server or the cloud. Containers share the host's operating system <b>kernel</b>, which makes them small and fast to start."
-      },
-      {
-       "table": {
-        "head": [
-         "",
-         "Container",
-         "Virtual machine"
-        ],
-        "rows": [
-         [
-          "Isolation",
-          "Process-level, shared kernel",
-          "Full OS with its own kernel"
-         ],
-         [
-          "Size",
-          "Megabytes",
-          "Gigabytes"
-         ],
-         [
-          "Startup",
-          "Seconds or less",
-          "Minutes"
-         ],
-         [
-          "Best for",
-          "Packaging and running apps",
-          "Different operating systems, strong isolation"
-         ]
-        ]
-       }
-      }
-     ]
+      "title": "Docker documentation (get started)",
+      "url": "https://docs.docker.com/get-started/",
+      "note": "Free, official"
     },
     {
-     "h": "Images and containers",
-     "blocks": [
-      {
-       "p": "An <b>image</b> is a read-only template made of layers: base operating system files, then your app. A <b>container</b> is a running (or stopped) instance of an image, with a thin writable layer on top. One image can start many containers."
-      },
-      {
-       "note": "Image = recipe and ingredients. Container = the meal being cooked. Delete the container and the image is untouched.",
-       "kind": "tip"
-      }
-     ]
-    },
-    {
-     "h": "Registries and tags",
-     "blocks": [
-      {
-       "p": "A <b>registry</b> stores images. Docker Hub is the default public one; companies often run private registries (Azure Container Registry, Amazon ECR, GitHub Container Registry). An image name looks like <code>registry/namespace/name:tag</code>, for example <code>nginx:1.27</code>. If you leave off the tag you get <code>latest</code>, which is a moving target, so pin a version for anything important."
-      },
-      {
-       "cmds": [
-        [
-         "docker pull nginx:1.27",
-         "Download an image"
-        ],
-        [
-         "docker images",
-         "List local images"
-        ],
-        [
-         "docker rmi IMAGE",
-         "Remove an image"
-        ]
-       ],
-       "head": [
-        "Command",
-        "What it does"
-       ]
-      }
-     ]
+      "title": "Dockerfile reference",
+      "url": "https://docs.docker.com/reference/dockerfile/",
+      "note": "Free, official"
     }
-   ],
-   "tips": [
-    "Containers are not tiny VMs: they share the host kernel.",
-    "Pin image tags (<code>nginx:1.27</code>) instead of relying on <code>latest</code>.",
-    "Only pull images from sources you trust; images can contain malware or outdated software."
-   ],
-   "terms": [
-    [
-     "Container",
-     "An isolated running process created from an image."
-    ],
-    [
-     "Image",
-     "A read-only, layered template used to create containers."
-    ],
-    [
-     "Registry",
-     "A service that stores and distributes images, such as Docker Hub."
-    ],
-    [
-     "Tag",
-     "A label for an image version, like <code>1.27</code> or <code>latest</code>."
-    ],
-    [
-     "Container engine",
-     "Software that builds and runs containers, such as Docker or Podman."
-    ],
-    [
-     "Layer",
-     "One step of an image; layers are cached and shared."
-    ]
-   ],
-   "slides": [
+  ],
+  "modules": [
     {
-     "title": "What a container is",
-     "bullets": [
-      "An isolated process",
-      "Packages the app and its libraries",
-      "Shares the host kernel"
-     ],
-     "script": [
-      "A container is an isolated process that carries everything the application needs. It shares the host's kernel, so it is light and fast."
-     ],
-     "visual": {
-      "type": "layers",
-      "items": [
-       {
-        "t": "Your app",
-        "d": "in the container"
-       },
-       {
-        "t": "Libraries and runtime",
-        "d": "packaged in the image"
-       },
-       {
-        "t": "Container engine",
-        "d": "Docker or Podman"
-       },
-       {
-        "t": "Host OS kernel",
-        "d": "shared"
-       }
-      ]
-     },
-     "layout": "title",
-     "kicker": "Mini-course: Docker"
-    },
-    {
-     "title": "Containers versus VMs",
-     "bullets": [
-      "Containers share a kernel",
-      "VMs include a whole OS",
-      "Containers start in seconds"
-     ],
-     "script": [
-      "Virtual machines each carry an operating system. Containers share one kernel, so they are smaller and start faster."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "",
-       "Container",
-       "VM"
+      "id": "D1",
+      "short": "Containers",
+      "title": "Containers, images and registries",
+      "summary": "Understand what a container is, how it differs from a virtual machine, and how images and registries fit together.",
+      "guide": [
+        {
+          "h": "What is a container?",
+          "blocks": [
+            {
+              "p": "A <b>container</b> is a normal process on a host that is isolated from other processes and given its own view of the file system, network and users. It carries the application and everything it needs (libraries, runtime) so it runs the same on a laptop, a server or the cloud. Containers share the host's operating system <b>kernel</b>, which makes them small and fast to start."
+            },
+            {
+              "table": {
+                "head": [
+                  "",
+                  "Container",
+                  "Virtual machine"
+                ],
+                "rows": [
+                  [
+                    "Isolation",
+                    "Process-level, shared kernel",
+                    "Full OS with its own kernel"
+                  ],
+                  [
+                    "Size",
+                    "Megabytes",
+                    "Gigabytes"
+                  ],
+                  [
+                    "Startup",
+                    "Seconds or less",
+                    "Minutes"
+                  ],
+                  [
+                    "Best for",
+                    "Packaging and running apps",
+                    "Different operating systems, strong isolation"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "h": "Images and containers",
+          "blocks": [
+            {
+              "p": "An <b>image</b> is a read-only template made of layers: base operating system files, then your app. A <b>container</b> is a running (or stopped) instance of an image, with a thin writable layer on top. One image can start many containers."
+            },
+            {
+              "note": "Image = recipe and ingredients. Container = the meal being cooked. Delete the container and the image is untouched.",
+              "kind": "tip"
+            }
+          ]
+        },
+        {
+          "h": "Registries and tags",
+          "blocks": [
+            {
+              "p": "A <b>registry</b> stores images. Docker Hub is the default public one; companies often run private registries (Azure Container Registry, Amazon ECR, GitHub Container Registry). An image name looks like <code>registry/namespace/name:tag</code>, for example <code>nginx:1.27</code>. If you leave off the tag you get <code>latest</code>, which is a moving target, so pin a version for anything important."
+            },
+            {
+              "cmds": [
+                [
+                  "docker pull nginx:1.27",
+                  "Download an image"
+                ],
+                [
+                  "docker images",
+                  "List local images"
+                ],
+                [
+                  "docker rmi IMAGE",
+                  "Remove an image"
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            }
+          ]
+        }
       ],
-      "rows": [
-       [
-        "Size",
-        "MB",
-        "GB"
-       ],
-       [
-        "Startup",
-        "Seconds",
-        "Minutes"
-       ],
-       [
-        "Kernel",
-        "Shared",
-        "Own"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Image to container",
-     "bullets": [
-      "Image is read-only",
-      "Container is a running copy",
-      "Many containers per image"
-     ],
-     "script": [
-      "You build or pull an image, then start one or many containers from it."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Registry",
-        "d": "docker pull"
-       },
-       {
-        "t": "Image",
-        "d": "read-only layers"
-       },
-       {
-        "t": "Container",
-        "d": "docker run"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Names and tags",
-     "bullets": [
-      "registry/namespace/name:tag",
-      "latest is a moving target",
-      "Pin versions"
-     ],
-     "script": [
-      "Image names include a tag. Latest can change at any time, so pin a version for repeatable results."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "docker pull nginx:1.27\ndocker images"
-     }
-    }
-   ]
-  },
-  {
-   "id": "D2",
-   "short": "Run containers",
-   "title": "Running and managing containers",
-   "summary": "Start containers, publish ports, set environment variables, persist data with volumes and inspect what is running.",
-   "guide": [
-    {
-     "h": "Run a container",
-     "blocks": [
-      {
-       "cmds": [
-        [
-         "docker run hello-world",
-         "Run a container from an image (pulls it if needed)"
-        ],
-        [
-         "docker run -d --name web -p 8080:80 nginx",
-         "Run in the background, name it, map host port 8080 to container port 80"
-        ],
-        [
-         "docker run -it ubuntu bash",
-         "Interactive shell inside a new container"
-        ],
-        [
-         "docker run --rm IMAGE",
-         "Delete the container when it exits"
-        ]
-       ],
-       "head": [
-        "Command",
-        "What it does"
-       ]
-      },
-      {
-       "note": "<code>-p HOST:CONTAINER</code>: the first number is the port on your machine, the second is inside the container. <code>-p 8080:80</code> means browse to <code>http://localhost:8080</code>.",
-       "kind": "tip"
-      }
-     ]
-    },
-    {
-     "h": "Look at and control containers",
-     "blocks": [
-      {
-       "cmds": [
-        [
-         "docker ps",
-         "Running containers (<code>-a</code> includes stopped)"
-        ],
-        [
-         "docker logs web",
-         "Show a container's output (<code>-f</code> follows)"
-        ],
-        [
-         "docker exec -it web sh",
-         "Open a shell in a running container"
-        ],
-        [
-         "docker stop web / docker start web",
-         "Stop or start it"
-        ],
-        [
-         "docker rm web",
-         "Remove a stopped container"
-        ],
-        [
-         "docker inspect web",
-         "Full details as JSON"
-        ]
-       ],
-       "head": [
-        "Command",
-        "What it does"
-       ]
-      }
-     ]
-    },
-    {
-     "h": "Settings and persistent data",
-     "blocks": [
-      {
-       "p": "Pass configuration with environment variables: <code>-e DB_HOST=db.example.com</code>. A container's writable layer disappears when the container is removed, so keep data you care about in a <b>volume</b> (<code>-v dbdata:/var/lib/mysql</code>) or a <b>bind mount</b> (<code>-v /srv/site:/usr/share/nginx/html</code>)."
-      },
-      {
-       "note": "Never put passwords in an image or commit them to Git. Pass secrets at run time or use a secrets manager.",
-       "kind": "warn"
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "<code>docker ps -a</code> shows stopped containers too: use it when something \"disappeared\".",
-    "Use <code>docker logs</code> first when a container exits immediately.",
-    "Use <code>--rm</code> for throwaway test containers so they do not pile up."
-   ],
-   "terms": [
-    [
-     "Port mapping",
-     "<code>-p host:container</code>: forwards a host port into a container."
-    ],
-    [
-     "Volume",
-     "Docker-managed storage that outlives containers."
-    ],
-    [
-     "Bind mount",
-     "A host folder mounted into a container."
-    ],
-    [
-     "Detached mode",
-     "<code>-d</code>: run in the background."
-    ],
-    [
-     "Exec",
-     "Run a command inside a running container."
-    ],
-    [
-     "Environment variable",
-     "A setting passed to the container, <code>-e NAME=value</code>."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Start a container",
-     "bullets": [
-      "docker run creates and starts",
-      "-d runs in the background",
-      "--name gives it a name"
-     ],
-     "script": [
-      "Docker run creates a container from an image and starts it. Add detached to run it in the background."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "docker run -d --name web -p 8080:80 nginx"
-     },
-     "layout": "title",
-     "kicker": "Running containers"
-    },
-    {
-     "title": "Publish a port",
-     "bullets": [
-      "-p host:container",
-      "Left is your machine",
-      "Right is inside the container"
-     ],
-     "script": [
-      "The port option forwards a port on your machine to a port in the container."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Browser",
-        "d": "localhost:8080"
-       },
-       {
-        "t": "Host port 8080",
-        "d": "-p 8080:80"
-       },
-       {
-        "t": "Container",
-        "d": "port 80"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Inspect and troubleshoot",
-     "bullets": [
-      "ps lists containers",
-      "logs shows output",
-      "exec opens a shell"
-     ],
-     "script": [
-      "Use ps to see what is running, logs to read output and exec to look inside."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "docker ps -a\ndocker logs web\ndocker exec -it web sh"
-     }
-    },
-    {
-     "title": "Keep your data",
-     "bullets": [
-      "Container storage is temporary",
-      "Volumes persist",
-      "Do not bake in secrets"
-     ],
-     "script": [
-      "The writable layer disappears with the container. Use volumes for data and pass secrets at run time."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Volume",
-        "d": "Managed by Docker"
-       },
-       {
-        "t": "Bind mount",
-        "d": "Host folder"
-       },
-       {
-        "t": "Secrets",
-        "d": "Never in the image"
-       }
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D3",
-   "short": "Build images",
-   "title": "Building images with a Dockerfile",
-   "summary": "Write a simple Dockerfile, build and tag an image, and understand layers and caching.",
-   "guide": [
-    {
-     "h": "A Dockerfile",
-     "blocks": [
-      {
-       "p": "A <b>Dockerfile</b> is a text recipe that builds an image, one instruction per layer."
-      },
-      {
-       "cmds": [
-        [
-         "FROM python:3.12-slim",
-         "Start from a base image"
-        ],
-        [
-         "WORKDIR /app",
-         "Set the working folder"
-        ],
-        [
-         "COPY requirements.txt .",
-         "Copy a file from your project into the image"
-        ],
-        [
-         "RUN pip install -r requirements.txt",
-         "Run a command at build time"
-        ],
-        [
-         "COPY . .",
-         "Copy the rest of the code"
-        ],
-        [
-         "EXPOSE 8000",
-         "Document the port the app listens on"
-        ],
-        [
-         "CMD [\"python\", \"app.py\"]",
-         "The default command when a container starts"
-        ]
-       ],
-       "head": [
-        "Instruction",
-        "What it does"
-       ]
-      }
-     ]
-    },
-    {
-     "h": "Build, tag and run",
-     "blocks": [
-      {
-       "cmds": [
-        [
-         "docker build -t myapp:1.0 .",
-         "Build an image from the Dockerfile in this folder"
-        ],
-        [
-         "docker run -d -p 8000:8000 myapp:1.0",
-         "Run it"
-        ],
-        [
-         "docker tag myapp:1.0 registry.example.com/team/myapp:1.0",
-         "Add a registry name"
-        ],
-        [
-         "docker push registry.example.com/team/myapp:1.0",
-         "Upload it"
-        ]
-       ],
-       "head": [
-        "Command",
-        "What it does"
-       ]
-      }
-     ]
-    },
-    {
-     "h": "Layers, cache and small images",
-     "blocks": [
-      {
-       "p": "Each instruction creates a layer and Docker caches layers that did not change. Put things that change rarely (installing dependencies) <b>before</b> things that change often (your source code) so rebuilds are fast. Smaller images start faster and have fewer vulnerabilities."
-      },
-      {
-       "list": [
-        "Use a slim or minimal base image",
-        "Add a <code>.dockerignore</code> file to keep <code>.git</code>, logs and secrets out of the build",
-        "Run as a non-root user (<code>USER app</code>)",
-        "Use multi-stage builds so build tools are not in the final image"
-       ]
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Order matters: copy dependency files first, install, then copy the code.",
-    "<code>CMD</code> is the default command; <code>RUN</code> happens at build time only.",
-    "Scan images for known vulnerabilities before you ship them."
-   ],
-   "terms": [
-    [
-     "Dockerfile",
-     "Text file of instructions for building an image."
-    ],
-    [
-     "Build context",
-     "The folder of files sent to Docker during <code>docker build</code>."
-    ],
-    [
-     "Layer cache",
-     "Reuse of unchanged layers to speed up builds."
-    ],
-    [
-     "ENTRYPOINT / CMD",
-     "What runs when a container starts."
-    ],
-    [
-     "Multi-stage build",
-     "Using one stage to build and another, smaller one to run."
-    ],
-    [
-     ".dockerignore",
-     "Lists files to exclude from the build context."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Dockerfile basics",
-     "bullets": [
-      "FROM picks a base",
-      "COPY and RUN add layers",
-      "CMD sets the start command"
-     ],
-     "script": [
-      "A Dockerfile lists steps that build your image. Each step is a layer."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "dockerfile",
-      "text": "FROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install -r requirements.txt\nCOPY . .\nCMD [\"python\", \"app.py\"]"
-     },
-     "layout": "title",
-     "kicker": "Building images"
-    },
-    {
-     "title": "Build and tag",
-     "bullets": [
-      "docker build -t name:tag .",
-      "The dot is the build context",
-      "Tag with a version"
-     ],
-     "script": [
-      "Run docker build in the folder with the Dockerfile and give the image a name and tag."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "docker build -t myapp:1.0 .\ndocker run -d -p 8000:8000 myapp:1.0"
-     }
-    },
-    {
-     "title": "Use the cache",
-     "bullets": [
-      "Rarely changed steps first",
-      "Dependencies before code",
-      "Rebuilds get faster"
-     ],
-     "script": [
-      "Docker reuses unchanged layers. Install dependencies before copying the code that changes often."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Base image",
-        "d": "rarely changes"
-       },
-       {
-        "t": "Dependencies",
-        "d": "change sometimes"
-       },
-       {
-        "t": "Your code",
-        "d": "changes often"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Smaller and safer",
-     "bullets": [
-      "Slim base images",
-      "Non-root user",
-      "No secrets in the image"
-     ],
-     "script": [
-      "Keep images small, run as a non-root user and keep secrets out of the build."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Slim",
-        "d": "Less to patch"
-       },
-       {
-        "t": "Non-root",
-        "d": "Limit damage"
-       },
-       {
-        "t": "Ignore",
-        "d": "Keep secrets out"
-       }
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D4",
-   "short": "Compose and ops",
-   "title": "Compose, networking and housekeeping",
-   "summary": "Run multi-container apps with Compose, understand container networking and keep a Docker host tidy and secure.",
-   "guide": [
-    {
-     "h": "Docker Compose",
-     "blocks": [
-      {
-       "p": "<b>Compose</b> describes a multi-container application in one YAML file, usually <code>compose.yaml</code>, and starts everything with one command."
-      },
-      {
-       "cmds": [
-        [
-         "docker compose up -d",
-         "Create and start all services in the background"
-        ],
-        [
-         "docker compose ps",
-         "Show the services"
-        ],
-        [
-         "docker compose logs -f",
-         "Follow logs of all services"
-        ],
-        [
-         "docker compose down",
-         "Stop and remove them (add <code>-v</code> to remove volumes too)"
-        ]
-       ],
-       "head": [
-        "Command",
-        "What it does"
-       ]
-      },
-      {
-       "note": "A service can reach another by its service name, for example <code>db:5432</code>, because Compose creates a network with built-in name resolution.",
-       "kind": "tip"
-      }
-     ]
-    },
-    {
-     "h": "Networking basics",
-     "blocks": [
-      {
-       "table": {
-        "head": [
-         "Network type",
-         "What it does"
-        ],
-        "rows": [
-         [
-          "bridge (default)",
-          "Private network on the host; containers talk to each other and use NAT to reach out"
-         ],
-         [
-          "host",
-          "Container shares the host's network stack"
-         ],
-         [
-          "none",
-          "No networking"
-         ],
-         [
-          "user-defined bridge",
-          "Containers resolve each other by name"
-         ]
-        ]
-       }
-      },
-      {
-       "p": "Only <b>published</b> ports (<code>-p</code>) are reachable from outside the host. Everything else stays private."
-      }
-     ]
-    },
-    {
-     "h": "Housekeeping and safety",
-     "blocks": [
-      {
-       "cmds": [
-        [
-         "docker system df",
-         "How much space Docker uses"
-        ],
-        [
-         "docker system prune",
-         "Remove stopped containers, unused networks and dangling images"
-        ],
-        [
-         "docker volume ls",
-         "List volumes"
-        ],
-        [
-         "docker stats",
-         "Live CPU and memory use"
-        ]
-       ],
-       "head": [
-        "Command",
-        "What it does"
-       ]
-      },
-      {
-       "list": [
-        "Keep the host and images patched",
-        "Do not run containers with <code>--privileged</code> unless you must",
-        "Never expose the Docker socket (<code>/var/run/docker.sock</code>) to containers or the network: it gives root-level control",
-        "Limit resources with <code>--memory</code> and <code>--cpus</code>"
-       ]
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Compose is for development and small deployments; production fleets usually use an orchestrator such as Kubernetes.",
-    "<code>docker compose down -v</code> deletes volumes and their data.",
-    "Read the Compose file first: it documents every service, port and volume."
-   ],
-   "terms": [
-    [
-     "Compose",
-     "A tool and file format for running multi-container apps."
-    ],
-    [
-     "Service",
-     "One container definition in a Compose file."
-    ],
-    [
-     "Bridge network",
-     "The default private network for containers on a host."
-    ],
-    [
-     "Prune",
-     "Delete unused Docker objects to free space."
-    ],
-    [
-     "Docker socket",
-     "The API endpoint that controls Docker; treat it like root access."
-    ],
-    [
-     "Orchestrator",
-     "Software such as Kubernetes that schedules containers across many hosts."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Compose in one file",
-     "bullets": [
-      "One YAML file for the app",
-      "up starts everything",
-      "down tears it down"
-     ],
-     "script": [
-      "Compose lets you define a web app and a database together and start both with one command."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "yaml",
-      "text": "services:\n  web:\n    image: nginx:1.27\n    ports: [\"8080:80\"]\n  db:\n    image: postgres:16\n    volumes: [\"dbdata:/var/lib/postgresql/data\"]\nvolumes:\n  dbdata:"
-     },
-     "layout": "title",
-     "kicker": "Compose and operations"
-    },
-    {
-     "title": "Container networking",
-     "bullets": [
-      "Bridge is the default",
-      "Published ports reach the outside",
-      "Services resolve by name"
-     ],
-     "script": [
-      "Containers on a bridge network can talk to each other. Only published ports are reachable from outside."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Network",
-       "Use"
+      "tips": [
+        "Containers are not tiny VMs: they share the host kernel.",
+        "Pin image tags (<code>nginx:1.27</code>) instead of relying on <code>latest</code>.",
+        "Only pull images from sources you trust; images can contain malware or outdated software."
       ],
-      "rows": [
-       [
-        "bridge",
-        "Default, private"
-       ],
-       [
-        "host",
-        "Share host network"
-       ],
-       [
-        "none",
-        "No network"
-       ]
+      "terms": [
+        [
+          "Container",
+          "An isolated running process created from an image."
+        ],
+        [
+          "Image",
+          "A read-only, layered template used to create containers."
+        ],
+        [
+          "Registry",
+          "A service that stores and distributes images, such as Docker Hub."
+        ],
+        [
+          "Tag",
+          "A label for an image version, like <code>1.27</code> or <code>latest</code>."
+        ],
+        [
+          "Container engine",
+          "Software that builds and runs containers, such as Docker or Podman."
+        ],
+        [
+          "Layer",
+          "One step of an image; layers are cached and shared."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "What a container is",
+          "bullets": [
+            "An isolated process",
+            "Packages the app and its libraries",
+            "Shares the host kernel"
+          ],
+          "script": [
+            "A container is an isolated process that carries everything the application needs. It shares the host's kernel, so it is light and fast."
+          ],
+          "visual": {
+            "type": "layers",
+            "items": [
+              {
+                "t": "Your app",
+                "d": "in the container"
+              },
+              {
+                "t": "Libraries and runtime",
+                "d": "packaged in the image"
+              },
+              {
+                "t": "Container engine",
+                "d": "Docker or Podman"
+              },
+              {
+                "t": "Host OS kernel",
+                "d": "shared"
+              }
+            ]
+          },
+          "layout": "title",
+          "kicker": "Mini-course: Docker"
+        },
+        {
+          "title": "Containers versus VMs",
+          "bullets": [
+            "Containers share a kernel",
+            "VMs include a whole OS",
+            "Containers start in seconds"
+          ],
+          "script": [
+            "Virtual machines each carry an operating system. Containers share one kernel, so they are smaller and start faster."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "",
+              "Container",
+              "VM"
+            ],
+            "rows": [
+              [
+                "Size",
+                "MB",
+                "GB"
+              ],
+              [
+                "Startup",
+                "Seconds",
+                "Minutes"
+              ],
+              [
+                "Kernel",
+                "Shared",
+                "Own"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Image to container",
+          "bullets": [
+            "Image is read-only",
+            "Container is a running copy",
+            "Many containers per image"
+          ],
+          "script": [
+            "You build or pull an image, then start one or many containers from it."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Registry",
+                "d": "docker pull"
+              },
+              {
+                "t": "Image",
+                "d": "read-only layers"
+              },
+              {
+                "t": "Container",
+                "d": "docker run"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Names and tags",
+          "bullets": [
+            "registry/namespace/name:tag",
+            "latest is a moving target",
+            "Pin versions"
+          ],
+          "script": [
+            "Image names include a tag. Latest can change at any time, so pin a version for repeatable results."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "docker pull nginx:1.27\ndocker images"
+          }
+        }
       ]
-     }
     },
     {
-     "title": "Keep it tidy",
-     "bullets": [
-      "system df shows usage",
-      "prune removes unused objects",
-      "stats shows live load"
-     ],
-     "script": [
-      "Docker can use a lot of disk. Check usage and prune carefully."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "docker system df\ndocker system prune\ndocker stats"
-     }
+      "id": "D2",
+      "short": "Run containers",
+      "title": "Running and managing containers",
+      "summary": "Start containers, publish ports, set environment variables, persist data with volumes and inspect what is running.",
+      "guide": [
+        {
+          "h": "Run a container",
+          "blocks": [
+            {
+              "cmds": [
+                [
+                  "docker run hello-world",
+                  "Run a container from an image (pulls it if needed)"
+                ],
+                [
+                  "docker run -d --name web -p 8080:80 nginx",
+                  "Run in the background, name it, map host port 8080 to container port 80"
+                ],
+                [
+                  "docker run -it ubuntu bash",
+                  "Interactive shell inside a new container"
+                ],
+                [
+                  "docker run --rm IMAGE",
+                  "Delete the container when it exits"
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "note": "<code>-p HOST:CONTAINER</code>: the first number is the port on your machine, the second is inside the container. <code>-p 8080:80</code> means browse to <code>http://localhost:8080</code>.",
+              "kind": "tip"
+            }
+          ]
+        },
+        {
+          "h": "Look at and control containers",
+          "blocks": [
+            {
+              "cmds": [
+                [
+                  "docker ps",
+                  "Running containers (<code>-a</code> includes stopped)"
+                ],
+                [
+                  "docker logs web",
+                  "Show a container's output (<code>-f</code> follows)"
+                ],
+                [
+                  "docker exec -it web sh",
+                  "Open a shell in a running container"
+                ],
+                [
+                  "docker stop web / docker start web",
+                  "Stop or start it"
+                ],
+                [
+                  "docker rm web",
+                  "Remove a stopped container"
+                ],
+                [
+                  "docker inspect web",
+                  "Full details as JSON"
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Settings and persistent data",
+          "blocks": [
+            {
+              "p": "Pass configuration with environment variables: <code>-e DB_HOST=db.example.com</code>. A container's writable layer disappears when the container is removed, so keep data you care about in a <b>volume</b> (<code>-v dbdata:/var/lib/mysql</code>) or a <b>bind mount</b> (<code>-v /srv/site:/usr/share/nginx/html</code>)."
+            },
+            {
+              "note": "Never put passwords in an image or commit them to Git. Pass secrets at run time or use a secrets manager.",
+              "kind": "warn"
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "<code>docker ps -a</code> shows stopped containers too: use it when something \"disappeared\".",
+        "Use <code>docker logs</code> first when a container exits immediately.",
+        "Use <code>--rm</code> for throwaway test containers so they do not pile up."
+      ],
+      "terms": [
+        [
+          "Port mapping",
+          "<code>-p host:container</code>: forwards a host port into a container."
+        ],
+        [
+          "Volume",
+          "Docker-managed storage that outlives containers."
+        ],
+        [
+          "Bind mount",
+          "A host folder mounted into a container."
+        ],
+        [
+          "Detached mode",
+          "<code>-d</code>: run in the background."
+        ],
+        [
+          "Exec",
+          "Run a command inside a running container."
+        ],
+        [
+          "Environment variable",
+          "A setting passed to the container, <code>-e NAME=value</code>."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Start a container",
+          "bullets": [
+            "docker run creates and starts",
+            "-d runs in the background",
+            "--name gives it a name"
+          ],
+          "script": [
+            "Docker run creates a container from an image and starts it. Add detached to run it in the background."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "docker run -d --name web -p 8080:80 nginx"
+          },
+          "layout": "title",
+          "kicker": "Running containers"
+        },
+        {
+          "title": "Publish a port",
+          "bullets": [
+            "-p host:container",
+            "Left is your machine",
+            "Right is inside the container"
+          ],
+          "script": [
+            "The port option forwards a port on your machine to a port in the container."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Browser",
+                "d": "localhost:8080"
+              },
+              {
+                "t": "Host port 8080",
+                "d": "-p 8080:80"
+              },
+              {
+                "t": "Container",
+                "d": "port 80"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Inspect and troubleshoot",
+          "bullets": [
+            "ps lists containers",
+            "logs shows output",
+            "exec opens a shell"
+          ],
+          "script": [
+            "Use ps to see what is running, logs to read output and exec to look inside."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "docker ps -a\ndocker logs web\ndocker exec -it web sh"
+          }
+        },
+        {
+          "title": "Keep your data",
+          "bullets": [
+            "Container storage is temporary",
+            "Volumes persist",
+            "Do not bake in secrets"
+          ],
+          "script": [
+            "The writable layer disappears with the container. Use volumes for data and pass secrets at run time."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Volume",
+                "d": "Managed by Docker"
+              },
+              {
+                "t": "Bind mount",
+                "d": "Host folder"
+              },
+              {
+                "t": "Secrets",
+                "d": "Never in the image"
+              }
+            ]
+          }
+        }
+      ]
     },
     {
-     "title": "Security basics",
-     "bullets": [
-      "Patch hosts and images",
-      "Avoid --privileged",
-      "Protect the Docker socket"
-     ],
-     "script": [
-      "Treat access to the Docker socket like root access, and avoid giving containers more privilege than they need."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Patch",
-        "d": "Hosts and images"
-       },
-       {
-        "t": "Least privilege",
-        "d": "No --privileged"
-       },
-       {
-        "t": "Socket",
-        "d": "Never expose"
-       }
+      "id": "D3",
+      "short": "Build images",
+      "title": "Building images with a Dockerfile",
+      "summary": "Write a simple Dockerfile, build and tag an image, and understand layers and caching.",
+      "guide": [
+        {
+          "h": "A Dockerfile",
+          "blocks": [
+            {
+              "p": "A <b>Dockerfile</b> is a text recipe that builds an image, one instruction per layer."
+            },
+            {
+              "cmds": [
+                [
+                  "FROM python:3.12-slim",
+                  "Start from a base image"
+                ],
+                [
+                  "WORKDIR /app",
+                  "Set the working folder"
+                ],
+                [
+                  "COPY requirements.txt .",
+                  "Copy a file from your project into the image"
+                ],
+                [
+                  "RUN pip install -r requirements.txt",
+                  "Run a command at build time"
+                ],
+                [
+                  "COPY . .",
+                  "Copy the rest of the code"
+                ],
+                [
+                  "EXPOSE 8000",
+                  "Document the port the app listens on"
+                ],
+                [
+                  "CMD [\"python\", \"app.py\"]",
+                  "The default command when a container starts"
+                ]
+              ],
+              "head": [
+                "Instruction",
+                "What it does"
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Build, tag and run",
+          "blocks": [
+            {
+              "cmds": [
+                [
+                  "docker build -t myapp:1.0 .",
+                  "Build an image from the Dockerfile in this folder"
+                ],
+                [
+                  "docker run -d -p 8000:8000 myapp:1.0",
+                  "Run it"
+                ],
+                [
+                  "docker tag myapp:1.0 registry.example.com/team/myapp:1.0",
+                  "Add a registry name"
+                ],
+                [
+                  "docker push registry.example.com/team/myapp:1.0",
+                  "Upload it"
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Layers, cache and small images",
+          "blocks": [
+            {
+              "p": "Each instruction creates a layer and Docker caches layers that did not change. Put things that change rarely (installing dependencies) <b>before</b> things that change often (your source code) so rebuilds are fast. Smaller images start faster and have fewer vulnerabilities."
+            },
+            {
+              "list": [
+                "Use a slim or minimal base image",
+                "Add a <code>.dockerignore</code> file to keep <code>.git</code>, logs and secrets out of the build",
+                "Run as a non-root user (<code>USER app</code>)",
+                "Use multi-stage builds so build tools are not in the final image"
+              ]
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Order matters: copy dependency files first, install, then copy the code.",
+        "<code>CMD</code> is the default command; <code>RUN</code> happens at build time only.",
+        "Scan images for known vulnerabilities before you ship them."
+      ],
+      "terms": [
+        [
+          "Dockerfile",
+          "Text file of instructions for building an image."
+        ],
+        [
+          "Build context",
+          "The folder of files sent to Docker during <code>docker build</code>."
+        ],
+        [
+          "Layer cache",
+          "Reuse of unchanged layers to speed up builds."
+        ],
+        [
+          "ENTRYPOINT / CMD",
+          "What runs when a container starts."
+        ],
+        [
+          "Multi-stage build",
+          "Using one stage to build and another, smaller one to run."
+        ],
+        [
+          ".dockerignore",
+          "Lists files to exclude from the build context."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Dockerfile basics",
+          "bullets": [
+            "FROM picks a base",
+            "COPY and RUN add layers",
+            "CMD sets the start command"
+          ],
+          "script": [
+            "A Dockerfile lists steps that build your image. Each step is a layer."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "dockerfile",
+            "text": "FROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install -r requirements.txt\nCOPY . .\nCMD [\"python\", \"app.py\"]"
+          },
+          "layout": "title",
+          "kicker": "Building images"
+        },
+        {
+          "title": "Build and tag",
+          "bullets": [
+            "docker build -t name:tag .",
+            "The dot is the build context",
+            "Tag with a version"
+          ],
+          "script": [
+            "Run docker build in the folder with the Dockerfile and give the image a name and tag."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "docker build -t myapp:1.0 .\ndocker run -d -p 8000:8000 myapp:1.0"
+          }
+        },
+        {
+          "title": "Use the cache",
+          "bullets": [
+            "Rarely changed steps first",
+            "Dependencies before code",
+            "Rebuilds get faster"
+          ],
+          "script": [
+            "Docker reuses unchanged layers. Install dependencies before copying the code that changes often."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Base image",
+                "d": "rarely changes"
+              },
+              {
+                "t": "Dependencies",
+                "d": "change sometimes"
+              },
+              {
+                "t": "Your code",
+                "d": "changes often"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Smaller and safer",
+          "bullets": [
+            "Slim base images",
+            "Non-root user",
+            "No secrets in the image"
+          ],
+          "script": [
+            "Keep images small, run as a non-root user and keep secrets out of the build."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Slim",
+                "d": "Less to patch"
+              },
+              {
+                "t": "Non-root",
+                "d": "Limit damage"
+              },
+              {
+                "t": "Ignore",
+                "d": "Keep secrets out"
+              }
+            ]
+          }
+        }
       ]
-     }
+    },
+    {
+      "id": "D4",
+      "short": "Compose and ops",
+      "title": "Compose, networking and housekeeping",
+      "summary": "Run multi-container apps with Compose, understand container networking and keep a Docker host tidy and secure.",
+      "guide": [
+        {
+          "h": "Docker Compose",
+          "blocks": [
+            {
+              "p": "<b>Compose</b> describes a multi-container application in one YAML file, usually <code>compose.yaml</code>, and starts everything with one command."
+            },
+            {
+              "cmds": [
+                [
+                  "docker compose up -d",
+                  "Create and start all services in the background"
+                ],
+                [
+                  "docker compose ps",
+                  "Show the services"
+                ],
+                [
+                  "docker compose logs -f",
+                  "Follow logs of all services"
+                ],
+                [
+                  "docker compose down",
+                  "Stop and remove them (add <code>-v</code> to remove volumes too)"
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "note": "A service can reach another by its service name, for example <code>db:5432</code>, because Compose creates a network with built-in name resolution.",
+              "kind": "tip"
+            }
+          ]
+        },
+        {
+          "h": "Networking basics",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Network type",
+                  "What it does"
+                ],
+                "rows": [
+                  [
+                    "bridge (default)",
+                    "Private network on the host; containers talk to each other and use NAT to reach out"
+                  ],
+                  [
+                    "host",
+                    "Container shares the host's network stack"
+                  ],
+                  [
+                    "none",
+                    "No networking"
+                  ],
+                  [
+                    "user-defined bridge",
+                    "Containers resolve each other by name"
+                  ]
+                ]
+              }
+            },
+            {
+              "p": "Only <b>published</b> ports (<code>-p</code>) are reachable from outside the host. Everything else stays private."
+            }
+          ]
+        },
+        {
+          "h": "Housekeeping and safety",
+          "blocks": [
+            {
+              "cmds": [
+                [
+                  "docker system df",
+                  "How much space Docker uses"
+                ],
+                [
+                  "docker system prune",
+                  "Remove stopped containers, unused networks and dangling images"
+                ],
+                [
+                  "docker volume ls",
+                  "List volumes"
+                ],
+                [
+                  "docker stats",
+                  "Live CPU and memory use"
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "list": [
+                "Keep the host and images patched",
+                "Do not run containers with <code>--privileged</code> unless you must",
+                "Never expose the Docker socket (<code>/var/run/docker.sock</code>) to containers or the network: it gives root-level control",
+                "Limit resources with <code>--memory</code> and <code>--cpus</code>"
+              ]
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Compose is for development and small deployments; production fleets usually use an orchestrator such as Kubernetes.",
+        "<code>docker compose down -v</code> deletes volumes and their data.",
+        "Read the Compose file first: it documents every service, port and volume."
+      ],
+      "terms": [
+        [
+          "Compose",
+          "A tool and file format for running multi-container apps."
+        ],
+        [
+          "Service",
+          "One container definition in a Compose file."
+        ],
+        [
+          "Bridge network",
+          "The default private network for containers on a host."
+        ],
+        [
+          "Prune",
+          "Delete unused Docker objects to free space."
+        ],
+        [
+          "Docker socket",
+          "The API endpoint that controls Docker; treat it like root access."
+        ],
+        [
+          "Orchestrator",
+          "Software such as Kubernetes that schedules containers across many hosts."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Compose in one file",
+          "bullets": [
+            "One YAML file for the app",
+            "up starts everything",
+            "down tears it down"
+          ],
+          "script": [
+            "Compose lets you define a web app and a database together and start both with one command."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "yaml",
+            "text": "services:\n  web:\n    image: nginx:1.27\n    ports: [\"8080:80\"]\n  db:\n    image: postgres:16\n    volumes: [\"dbdata:/var/lib/postgresql/data\"]\nvolumes:\n  dbdata:"
+          },
+          "layout": "title",
+          "kicker": "Compose and operations"
+        },
+        {
+          "title": "Container networking",
+          "bullets": [
+            "Bridge is the default",
+            "Published ports reach the outside",
+            "Services resolve by name"
+          ],
+          "script": [
+            "Containers on a bridge network can talk to each other. Only published ports are reachable from outside."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Network",
+              "Use"
+            ],
+            "rows": [
+              [
+                "bridge",
+                "Default, private"
+              ],
+              [
+                "host",
+                "Share host network"
+              ],
+              [
+                "none",
+                "No network"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Keep it tidy",
+          "bullets": [
+            "system df shows usage",
+            "prune removes unused objects",
+            "stats shows live load"
+          ],
+          "script": [
+            "Docker can use a lot of disk. Check usage and prune carefully."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "docker system df\ndocker system prune\ndocker stats"
+          }
+        },
+        {
+          "title": "Security basics",
+          "bullets": [
+            "Patch hosts and images",
+            "Avoid --privileged",
+            "Protect the Docker socket"
+          ],
+          "script": [
+            "Treat access to the Docker socket like root access, and avoid giving containers more privilege than they need."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Patch",
+                "d": "Hosts and images"
+              },
+              {
+                "t": "Least privilege",
+                "d": "No --privileged"
+              },
+              {
+                "t": "Socket",
+                "d": "Never expose"
+              }
+            ]
+          }
+        }
+      ]
     }
-   ]
-  }
- ]
+  ]
 }

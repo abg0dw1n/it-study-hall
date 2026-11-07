@@ -1,923 +1,928 @@
 {
- "intro": "Four modules take you from your first commit to a confident team workflow: how Git tracks work, branching and merging, remotes and pull requests, and safe ways to undo mistakes. Practice in the labs and keep the Reference tab open as a cheat sheet.",
- "updated": "2026-11-07",
- "sources": [
-  {
-   "title": "Pro Git (free book, official)",
-   "url": "https://git-scm.com/book",
-   "note": "Free"
+  "intro": "Four modules take you from your first commit to a confident team workflow: how Git tracks work, branching and merging, remotes and pull requests, and safe ways to undo mistakes. Practice in the labs and keep the Reference tab open as a cheat sheet.",
+  "narration": {
+    "src": "media/{id}-{n}.mp3",
+    "perSlide": true,
+    "credit": "Andrew (standard Neural)"
   },
-  {
-   "title": "Git documentation",
-   "url": "https://git-scm.com/docs",
-   "note": "Free reference"
-  }
- ],
- "modules": [
-  {
-   "id": "D1",
-   "short": "Git basics",
-   "title": "Version control and the Git workflow",
-   "summary": "Understand what Git tracks and the three places your work lives, then make your first repository, commits and history.",
-   "guide": [
+  "updated": "2026-11-07",
+  "sources": [
     {
-     "h": "Why version control",
-     "blocks": [
-      {
-       "p": "Git records snapshots of a project over time. Every snapshot (a <b>commit</b>) has an author, a message and a unique ID, so you can see what changed, why, and go back. It works offline: your computer holds the whole history in a <b>repository</b>."
-      },
-      {
-       "list": [
-        "Undo a mistake without losing other work",
-        "Work on a feature without breaking the main code",
-        "See who changed a line and why (<code>git blame</code>, <code>git log</code>)",
-        "Share changes with a team"
-       ]
-      }
-     ]
+      "title": "Pro Git (free book, official)",
+      "url": "https://git-scm.com/book",
+      "note": "Free"
     },
     {
-     "h": "Working tree, staging area and repository",
-     "blocks": [
-      {
-       "p": "Changes move through three places. You edit files in the <b>working tree</b>, choose what goes into the next commit by adding it to the <b>staging area</b> (also called the index), and <b>commit</b> to save the staged snapshot in the repository."
-      },
-      {
-       "steps": [
+      "title": "Git documentation",
+      "url": "https://git-scm.com/docs",
+      "note": "Free reference"
+    }
+  ],
+  "modules": [
+    {
+      "id": "D1",
+      "short": "Git basics",
+      "title": "Version control and the Git workflow",
+      "summary": "Understand what Git tracks and the three places your work lives, then make your first repository, commits and history.",
+      "guide": [
         {
-         "t": "Edit",
-         "d": "Change files in your folder (working tree)."
+          "h": "Why version control",
+          "blocks": [
+            {
+              "p": "Git records snapshots of a project over time. Every snapshot (a <b>commit</b>) has an author, a message and a unique ID, so you can see what changed, why, and go back. It works offline: your computer holds the whole history in a <b>repository</b>."
+            },
+            {
+              "list": [
+                "Undo a mistake without losing other work",
+                "Work on a feature without breaking the main code",
+                "See who changed a line and why (<code>git blame</code>, <code>git log</code>)",
+                "Share changes with a team"
+              ]
+            }
+          ]
         },
         {
-         "t": "Stage",
-         "d": "<code>git add file</code> picks the changes for the next commit."
+          "h": "Working tree, staging area and repository",
+          "blocks": [
+            {
+              "p": "Changes move through three places. You edit files in the <b>working tree</b>, choose what goes into the next commit by adding it to the <b>staging area</b> (also called the index), and <b>commit</b> to save the staged snapshot in the repository."
+            },
+            {
+              "steps": [
+                {
+                  "t": "Edit",
+                  "d": "Change files in your folder (working tree)."
+                },
+                {
+                  "t": "Stage",
+                  "d": "<code>git add file</code> picks the changes for the next commit."
+                },
+                {
+                  "t": "Commit",
+                  "d": "<code>git commit -m \"message\"</code> records the staged snapshot."
+                }
+              ]
+            }
+          ]
         },
         {
-         "t": "Commit",
-         "d": "<code>git commit -m \"message\"</code> records the staged snapshot."
+          "h": "Everyday first commands",
+          "blocks": [
+            {
+              "cmds": [
+                [
+                  "git init",
+                  "Start a new repository in the current folder"
+                ],
+                [
+                  "git clone URL",
+                  "Copy an existing repository, with its history"
+                ],
+                [
+                  "git status",
+                  "What is changed, staged or untracked"
+                ],
+                [
+                  "git add FILE",
+                  "Stage a file (<code>git add .</code> stages everything here)"
+                ],
+                [
+                  "git commit -m \"msg\"",
+                  "Save the staged changes"
+                ],
+                [
+                  "git log --oneline",
+                  "Short history, one line per commit"
+                ],
+                [
+                  "git diff",
+                  "Unstaged changes (<code>--staged</code> for staged ones)"
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            },
+            {
+              "note": "Set your identity once: <code>git config --global user.name \"Your Name\"</code> and <code>git config --global user.email you@example.com</code>. Every commit records it.",
+              "kind": "tip"
+            }
+          ]
         }
-       ]
-      }
-     ]
-    },
-    {
-     "h": "Everyday first commands",
-     "blocks": [
-      {
-       "cmds": [
+      ],
+      "tips": [
+        "Run <code>git status</code> often. It tells you what state you are in and what to do next.",
+        "Write commit messages that say why, in the imperative: \"Fix login timeout\", not \"stuff\".",
+        "Commit small, related changes. Small commits are easy to review and to undo."
+      ],
+      "terms": [
         [
-         "git init",
-         "Start a new repository in the current folder"
+          "Repository (repo)",
+          "The folder's tracked files plus their full history, stored in a hidden <code>.git</code> folder."
         ],
         [
-         "git clone URL",
-         "Copy an existing repository, with its history"
+          "Commit",
+          "A saved snapshot with an ID, author, date and message."
         ],
         [
-         "git status",
-         "What is changed, staged or untracked"
+          "Working tree",
+          "The files you see and edit on disk."
         ],
         [
-         "git add FILE",
-         "Stage a file (<code>git add .</code> stages everything here)"
+          "Staging area (index)",
+          "Where you collect the changes that will go into the next commit."
         ],
         [
-         "git commit -m \"msg\"",
-         "Save the staged changes"
+          "HEAD",
+          "A pointer to the commit you currently have checked out."
         ],
         [
-         "git log --oneline",
-         "Short history, one line per commit"
-        ],
-        [
-         "git diff",
-         "Unstaged changes (<code>--staged</code> for staged ones)"
+          "Hash (SHA)",
+          "The unique ID of a commit, such as <code>a1b2c3d</code>."
         ]
-       ],
-       "head": [
-        "Command",
-        "What it does"
-       ]
-      },
-      {
-       "note": "Set your identity once: <code>git config --global user.name \"Your Name\"</code> and <code>git config --global user.email you@example.com</code>. Every commit records it.",
-       "kind": "tip"
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Run <code>git status</code> often. It tells you what state you are in and what to do next.",
-    "Write commit messages that say why, in the imperative: \"Fix login timeout\", not \"stuff\".",
-    "Commit small, related changes. Small commits are easy to review and to undo."
-   ],
-   "terms": [
-    [
-     "Repository (repo)",
-     "The folder's tracked files plus their full history, stored in a hidden <code>.git</code> folder."
-    ],
-    [
-     "Commit",
-     "A saved snapshot with an ID, author, date and message."
-    ],
-    [
-     "Working tree",
-     "The files you see and edit on disk."
-    ],
-    [
-     "Staging area (index)",
-     "Where you collect the changes that will go into the next commit."
-    ],
-    [
-     "HEAD",
-     "A pointer to the commit you currently have checked out."
-    ],
-    [
-     "Hash (SHA)",
-     "The unique ID of a commit, such as <code>a1b2c3d</code>."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Git in one picture",
-     "bullets": [
-      "Three places: working tree, staging area, repository",
-      "add stages, commit saves",
-      "History is a chain of snapshots"
-     ],
-     "script": [
-      "Git tracks snapshots of your project. Your changes flow from the working tree, to the staging area, to the repository."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Working tree",
-        "d": "edit files"
-       },
-       {
-        "t": "Staging area",
-        "d": "git add"
-       },
-       {
-        "t": "Repository",
-        "d": "git commit"
-       }
-      ]
-     },
-     "layout": "title",
-     "kicker": "Mini-course: Git"
-    },
-    {
-     "title": "Your first repository",
-     "bullets": [
-      "Initialize or clone",
-      "Stage, then commit",
-      "Check state with status"
-     ],
-     "script": [
-      "Start with git init in a folder, or clone an existing project. Then add and commit your changes."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "git init\ngit add README.md\ngit commit -m \"Add readme\"\ngit status"
-     }
-    },
-    {
-     "title": "Reading history",
-     "bullets": [
-      "git log shows commits",
-      "--oneline for a short view",
-      "git diff shows what changed"
-     ],
-     "script": [
-      "Git log lists commits newest first. Use the oneline option when you only need a quick overview."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "git log --oneline\n a1b2c3d Fix login timeout\n 9f8e7d6 Add readme"
-     }
-    },
-    {
-     "title": "Good commits",
-     "bullets": [
-      "One idea per commit",
-      "Imperative, clear message",
-      "Never commit passwords or keys"
-     ],
-     "script": [
-      "Small, focused commits with clear messages make history useful. Never commit secrets such as passwords or access keys."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Small",
-        "d": "One logical change"
-       },
-       {
-        "t": "Clear",
-        "d": "Say why"
-       },
-       {
-        "t": "Safe",
-        "d": "No secrets"
-       }
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D2",
-   "short": "Branches",
-   "title": "Branching and merging",
-   "summary": "Use branches to work in parallel, then bring the work back together and resolve conflicts.",
-   "guide": [
-    {
-     "h": "What a branch is",
-     "blocks": [
-      {
-       "p": "A <b>branch</b> is just a movable pointer to a commit. Creating one is instant and cheap, so you can try an idea on its own line of work without touching the main code. The default branch is usually called <code>main</code>."
-      },
-      {
-       "cmds": [
-        [
-         "git branch",
-         "List branches (the current one is starred)"
-        ],
-        [
-         "git switch -c feature-x",
-         "Create a branch and move to it"
-        ],
-        [
-         "git switch main",
-         "Move back to main"
-        ],
-        [
-         "git branch -d feature-x",
-         "Delete a merged branch"
-        ]
-       ],
-       "head": [
-        "Command",
-        "What it does"
-       ]
-      }
-     ]
-    },
-    {
-     "h": "Merging",
-     "blocks": [
-      {
-       "p": "<code>git merge feature-x</code> brings that branch's commits into the one you are on. If main has not moved, Git simply slides the pointer forward (a <b>fast-forward</b>). If both have new commits, Git creates a <b>merge commit</b> with two parents."
-      },
-      {
-       "table": {
-        "head": [
-         "Situation",
-         "Result"
-        ],
-        "rows": [
-         [
-          "main has no new commits",
-          "Fast-forward: no merge commit"
-         ],
-         [
-          "Both sides changed different lines",
-          "Automatic merge commit"
-         ],
-         [
-          "Both sides changed the same lines",
-          "Conflict: you decide"
-         ]
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "h": "Resolving a conflict",
-     "blocks": [
-      {
-       "p": "A conflict means Git cannot decide between two edits. It marks the file with <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> lines."
-      },
-      {
-       "steps": [
+      ],
+      "slides": [
         {
-         "t": "Open the file",
-         "d": "Find the markers and choose or combine the right text."
+          "title": "Git in one picture",
+          "bullets": [
+            "Three places: working tree, staging area, repository",
+            "add stages, commit saves",
+            "History is a chain of snapshots"
+          ],
+          "script": [
+            "Git tracks snapshots of your project. Your changes flow from the working tree, to the staging area, to the repository."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Working tree",
+                "d": "edit files"
+              },
+              {
+                "t": "Staging area",
+                "d": "git add"
+              },
+              {
+                "t": "Repository",
+                "d": "git commit"
+              }
+            ]
+          },
+          "layout": "title",
+          "kicker": "Mini-course: Git"
         },
         {
-         "t": "Remove the markers",
-         "d": "The file must be exactly what you want."
+          "title": "Your first repository",
+          "bullets": [
+            "Initialize or clone",
+            "Stage, then commit",
+            "Check state with status"
+          ],
+          "script": [
+            "Start with git init in a folder, or clone an existing project. Then add and commit your changes."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "git init\ngit add README.md\ngit commit -m \"Add readme\"\ngit status"
+          }
         },
         {
-         "t": "Stage it",
-         "d": "<code>git add file</code> marks it resolved."
+          "title": "Reading history",
+          "bullets": [
+            "git log shows commits",
+            "--oneline for a short view",
+            "git diff shows what changed"
+          ],
+          "script": [
+            "Git log lists commits newest first. Use the oneline option when you only need a quick overview."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "git log --oneline\n a1b2c3d Fix login timeout\n 9f8e7d6 Add readme"
+          }
         },
         {
-         "t": "Finish",
-         "d": "<code>git commit</code> (or <code>git merge --continue</code>)."
+          "title": "Good commits",
+          "bullets": [
+            "One idea per commit",
+            "Imperative, clear message",
+            "Never commit passwords or keys"
+          ],
+          "script": [
+            "Small, focused commits with clear messages make history useful. Never commit secrets such as passwords or access keys."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Small",
+                "d": "One logical change"
+              },
+              {
+                "t": "Clear",
+                "d": "Say why"
+              },
+              {
+                "t": "Safe",
+                "d": "No secrets"
+              }
+            ]
+          }
         }
-       ]
-      },
-      {
-       "note": "To back out of a merge you do not want: <code>git merge --abort</code>.",
-       "kind": "tip"
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Make a new branch for every task. Keep <code>main</code> working.",
-    "Pull the latest main into your branch regularly so conflicts stay small.",
-    "Read the conflict markers carefully. Never just keep one side without looking."
-   ],
-   "terms": [
-    [
-     "Branch",
-     "A lightweight pointer to a commit, used for parallel lines of work."
-    ],
-    [
-     "Merge",
-     "Combine another branch's history into the current branch."
-    ],
-    [
-     "Fast-forward",
-     "A merge where Git only moves the pointer because there is nothing to combine."
-    ],
-    [
-     "Conflict",
-     "Two changes to the same lines that Git cannot combine automatically."
-    ],
-    [
-     "Rebase",
-     "Replay your commits on top of another branch for a linear history."
-    ],
-    [
-     "Feature branch",
-     "A short-lived branch for one task or fix."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Branches are pointers",
-     "bullets": [
-      "Cheap and instant",
-      "main stays stable",
-      "One branch per task"
-     ],
-     "script": [
-      "A branch is only a pointer to a commit, so creating one is instant. Keep main stable and do your work on a feature branch."
-     ],
-     "visual": {
-      "type": "tree",
-      "levels": [
-       [
-        "main"
-       ],
-       [
-        "feature-login",
-        "fix-typo"
-       ]
       ]
-     }
     },
     {
-     "title": "Create, switch, merge",
-     "bullets": [
-      "switch -c creates",
-      "merge brings work back",
-      "delete when done"
-     ],
-     "script": [
-      "Create a branch, commit on it, switch back to main and merge it in."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "git switch -c feature-login\n# edit, add, commit\ngit switch main\ngit merge feature-login\ngit branch -d feature-login"
-     }
-    },
-    {
-     "title": "Fast-forward or merge commit",
-     "bullets": [
-      "No new work on main: fast-forward",
-      "Both moved: merge commit",
-      "Same lines changed: conflict"
-     ],
-     "script": [
-      "Git picks the simplest outcome. Only when both sides edit the same lines does it need your decision."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Case",
-       "Result"
-      ],
-      "rows": [
-       [
-        "main unchanged",
-        "Fast-forward"
-       ],
-       [
-        "Both changed",
-        "Merge commit"
-       ],
-       [
-        "Same lines",
-        "Conflict"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Fixing a conflict",
-     "bullets": [
-      "Edit out the markers",
-      "git add the file",
-      "Commit to finish"
-     ],
-     "script": [
-      "Open the file, choose the right text, delete the marker lines, stage the file and commit. Use merge abort if you want to start over."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Edit",
-        "d": "remove markers"
-       },
-       {
-        "t": "Add",
-        "d": "git add file"
-       },
-       {
-        "t": "Commit",
-        "d": "finish merge"
-       }
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D3",
-   "short": "Remotes",
-   "title": "Remotes and collaboration",
-   "summary": "Share work through a remote such as GitHub: fetch, pull, push and review changes with pull requests.",
-   "guide": [
-    {
-     "h": "Remotes",
-     "blocks": [
-      {
-       "p": "A <b>remote</b> is another copy of the repository, usually on a server such as GitHub, GitLab or Azure DevOps. The default remote created by <code>git clone</code> is called <code>origin</code>. Your local branches and the remote's branches are separate until you sync them."
-      },
-      {
-       "cmds": [
-        [
-         "git remote -v",
-         "Show remotes and their URLs"
-        ],
-        [
-         "git fetch",
-         "Download new commits without changing your files"
-        ],
-        [
-         "git pull",
-         "Fetch, then merge into your current branch"
-        ],
-        [
-         "git push",
-         "Upload your commits to the remote"
-        ],
-        [
-         "git push -u origin feature-x",
-         "Push a new branch and remember it"
-        ]
-       ],
-       "head": [
-        "Command",
-        "What it does"
-       ]
-      }
-     ]
-    },
-    {
-     "h": "A typical team workflow",
-     "blocks": [
-      {
-       "steps": [
+      "id": "D2",
+      "short": "Branches",
+      "title": "Branching and merging",
+      "summary": "Use branches to work in parallel, then bring the work back together and resolve conflicts.",
+      "guide": [
         {
-         "t": "Update",
-         "d": "<code>git switch main</code> and <code>git pull</code>."
+          "h": "What a branch is",
+          "blocks": [
+            {
+              "p": "A <b>branch</b> is just a movable pointer to a commit. Creating one is instant and cheap, so you can try an idea on its own line of work without touching the main code. The default branch is usually called <code>main</code>."
+            },
+            {
+              "cmds": [
+                [
+                  "git branch",
+                  "List branches (the current one is starred)"
+                ],
+                [
+                  "git switch -c feature-x",
+                  "Create a branch and move to it"
+                ],
+                [
+                  "git switch main",
+                  "Move back to main"
+                ],
+                [
+                  "git branch -d feature-x",
+                  "Delete a merged branch"
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            }
+          ]
         },
         {
-         "t": "Branch",
-         "d": "<code>git switch -c fix-printer-doc</code>."
+          "h": "Merging",
+          "blocks": [
+            {
+              "p": "<code>git merge feature-x</code> brings that branch's commits into the one you are on. If main has not moved, Git simply slides the pointer forward (a <b>fast-forward</b>). If both have new commits, Git creates a <b>merge commit</b> with two parents."
+            },
+            {
+              "table": {
+                "head": [
+                  "Situation",
+                  "Result"
+                ],
+                "rows": [
+                  [
+                    "main has no new commits",
+                    "Fast-forward: no merge commit"
+                  ],
+                  [
+                    "Both sides changed different lines",
+                    "Automatic merge commit"
+                  ],
+                  [
+                    "Both sides changed the same lines",
+                    "Conflict: you decide"
+                  ]
+                ]
+              }
+            }
+          ]
         },
         {
-         "t": "Work",
-         "d": "Commit small changes on your branch."
-        },
-        {
-         "t": "Push",
-         "d": "<code>git push -u origin fix-printer-doc</code>."
-        },
-        {
-         "t": "Pull request",
-         "d": "Open a pull request so teammates can review."
-        },
-        {
-         "t": "Merge",
-         "d": "After approval, merge and delete the branch."
+          "h": "Resolving a conflict",
+          "blocks": [
+            {
+              "p": "A conflict means Git cannot decide between two edits. It marks the file with <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> lines."
+            },
+            {
+              "steps": [
+                {
+                  "t": "Open the file",
+                  "d": "Find the markers and choose or combine the right text."
+                },
+                {
+                  "t": "Remove the markers",
+                  "d": "The file must be exactly what you want."
+                },
+                {
+                  "t": "Stage it",
+                  "d": "<code>git add file</code> marks it resolved."
+                },
+                {
+                  "t": "Finish",
+                  "d": "<code>git commit</code> (or <code>git merge --continue</code>)."
+                }
+              ]
+            },
+            {
+              "note": "To back out of a merge you do not want: <code>git merge --abort</code>.",
+              "kind": "tip"
+            }
+          ]
         }
-       ]
-      }
-     ]
-    },
-    {
-     "h": "If a push is rejected",
-     "blocks": [
-      {
-       "p": "A rejected push (\"non-fast-forward\") means the remote has commits you do not. Run <code>git pull</code> (or <code>git fetch</code> then merge or rebase), resolve any conflicts, then push again."
-      },
-      {
-       "note": "Avoid <code>git push --force</code> on shared branches: it can erase teammates' work. If you must, use <code>--force-with-lease</code>.",
-       "kind": "warn"
-      },
-      {
-       "note": "Add a <code>.gitignore</code> file so build output, logs and secret files such as <code>.env</code> are never committed.",
-       "kind": "tip"
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "<code>git fetch</code> is always safe. It only downloads; <code>git pull</code> also changes your branch.",
-    "Never push passwords or tokens. If you do, treat them as leaked and rotate them.",
-    "Keep pull requests small and describe what and why."
-   ],
-   "terms": [
-    [
-     "Remote",
-     "A copy of the repository hosted elsewhere."
-    ],
-    [
-     "origin",
-     "The default name for the remote you cloned from."
-    ],
-    [
-     "Fetch",
-     "Download new data from a remote without merging."
-    ],
-    [
-     "Pull",
-     "Fetch and merge in one step."
-    ],
-    [
-     "Push",
-     "Send your local commits to a remote branch."
-    ],
-    [
-     "Pull request",
-     "A request to merge a branch, with review and discussion."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Local and remote",
-     "bullets": [
-      "Every clone has full history",
-      "origin is the usual remote",
-      "Sync with fetch, pull and push"
-     ],
-     "script": [
-      "Your repository and the remote are separate copies. You sync them with fetch, pull and push."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Local repo",
-        "d": "your commits"
-       },
-       {
-        "t": "Push",
-        "d": "upload"
-       },
-       {
-        "t": "origin",
-        "d": "shared remote"
-       }
-      ]
-     },
-     "layout": "title",
-     "kicker": "Collaboration"
-    },
-    {
-     "title": "Pull versus fetch",
-     "bullets": [
-      "Fetch downloads only",
-      "Pull = fetch + merge",
-      "Fetch first when unsure"
-     ],
-     "script": [
-      "Fetch downloads new commits and leaves your files alone. Pull also merges them into your branch."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Command",
-       "Changes your files?"
       ],
-      "rows": [
-       [
-        "git fetch",
-        "No"
-       ],
-       [
-        "git pull",
-        "Yes (merges)"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Branch, push, pull request",
-     "bullets": [
-      "Branch per task",
-      "Push the branch",
-      "Review, then merge"
-     ],
-     "script": [
-      "Work on a branch, push it, and open a pull request. A teammate reviews before it is merged."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "git switch -c fix-typo\ngit commit -am \"Fix typo\"\ngit push -u origin fix-typo"
-     }
-    },
-    {
-     "title": "Safe sharing",
-     "bullets": [
-      "Use .gitignore",
-      "Never commit secrets",
-      "No force-push to shared branches"
-     ],
-     "script": [
-      "Ignore files that should never be shared and never commit credentials. Avoid force pushing on shared branches."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Ignore",
-        "d": "logs, builds, .env"
-       },
-       {
-        "t": "Secrets",
-        "d": "rotate if leaked"
-       },
-       {
-        "t": "No force",
-        "d": "protect teammates"
-       }
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D4",
-   "short": "Undo safely",
-   "title": "Undoing mistakes and recovering work",
-   "summary": "Choose the right undo for the situation: restore files, amend, revert, reset, stash and reflog.",
-   "guide": [
-    {
-     "h": "Pick the right undo",
-     "blocks": [
-      {
-       "table": {
-        "head": [
-         "Situation",
-         "Command"
-        ],
-        "rows": [
-         [
-          "Discard edits to a file (not staged)",
-          "<code>git restore file</code>"
-         ],
-         [
-          "Unstage a file, keep the edits",
-          "<code>git restore --staged file</code>"
-         ],
-         [
-          "Fix the last commit's message or contents",
-          "<code>git commit --amend</code> (only if not pushed)"
-         ],
-         [
-          "Undo a pushed commit safely",
-          "<code>git revert &lt;hash&gt;</code> (adds a new commit)"
-         ],
-         [
-          "Move your branch back locally",
-          "<code>git reset</code>"
-         ],
-         [
-          "Set work aside for a moment",
-          "<code>git stash</code> and <code>git stash pop</code>"
-         ]
-        ]
-       }
-      }
-     ]
-    },
-    {
-     "h": "Reset modes",
-     "blocks": [
-      {
-       "table": {
-        "head": [
-         "Mode",
-         "Moves branch",
-         "Staging area",
-         "Working files"
-        ],
-        "rows": [
-         [
-          "<code>--soft</code>",
-          "Yes",
-          "Kept",
-          "Kept"
-         ],
-         [
-          "<code>--mixed</code> (default)",
-          "Yes",
-          "Cleared",
-          "Kept"
-         ],
-         [
-          "<code>--hard</code>",
-          "Yes",
-          "Cleared",
-          "<b>Overwritten (changes lost)</b>"
-         ]
-        ]
-       }
-      },
-      {
-       "note": "<code>git reset --hard</code> can destroy uncommitted work. Check <code>git status</code> first. Do not reset commits that others already pulled; use <code>git revert</code> instead.",
-       "kind": "warn"
-      }
-     ]
-    },
-    {
-     "h": "Recovering \"lost\" commits",
-     "blocks": [
-      {
-       "p": "Git remembers where HEAD has been. <code>git reflog</code> lists those moves, including commits that are no longer on any branch. Find the hash and run <code>git switch -c rescue &lt;hash&gt;</code> to get it back. Reflog entries are local and expire after a few weeks."
-      },
-      {
-       "note": "If a secret was committed, removing it in a new commit is not enough: it stays in history. Rotate the secret, then clean history with an approved tool (for example <code>git filter-repo</code>) and coordinate with your team.",
-       "kind": "warn"
-      }
-     ]
-    }
-   ],
-   "tips": [
-    "Rule of thumb: rewrite history only on commits nobody else has. Otherwise revert.",
-    "<code>git stash</code> is great when you must switch branches in the middle of work.",
-    "Before anything risky, create a backup branch: <code>git branch backup</code>."
-   ],
-   "terms": [
-    [
-     "restore",
-     "Discard or unstage changes to files."
-    ],
-    [
-     "revert",
-     "Create a new commit that undoes an earlier one, without rewriting history."
-    ],
-    [
-     "reset",
-     "Move the current branch (and optionally the index and files) to another commit."
-    ],
-    [
-     "amend",
-     "Replace the last commit with an updated one."
-    ],
-    [
-     "stash",
-     "Temporarily shelve uncommitted changes."
-    ],
-    [
-     "reflog",
-     "A local log of where HEAD has pointed, used to recover commits."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Undo toolbox",
-     "bullets": [
-      "restore for files",
-      "revert for pushed commits",
-      "reset for local cleanup"
-     ],
-     "script": [
-      "Different mistakes need different tools. Start by asking whether the commit is already shared."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "restore",
-        "d": "Undo file edits"
-       },
-       {
-        "t": "revert",
-        "d": "Safe, shared undo"
-       },
-       {
-        "t": "reset",
-        "d": "Local rewind"
-       },
-       {
-        "t": "stash",
-        "d": "Set aside"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Reset, carefully",
-     "bullets": [
-      "soft keeps staged",
-      "mixed keeps files",
-      "hard discards changes"
-     ],
-     "script": [
-      "Reset moves your branch back. The hard mode also overwrites your working files, so use it with care."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Mode",
-       "Files"
+      "tips": [
+        "Make a new branch for every task. Keep <code>main</code> working.",
+        "Pull the latest main into your branch regularly so conflicts stay small.",
+        "Read the conflict markers carefully. Never just keep one side without looking."
       ],
-      "rows": [
-       [
-        "--soft",
-        "kept, staged"
-       ],
-       [
-        "--mixed",
-        "kept, unstaged"
-       ],
-       [
-        "--hard",
-        "overwritten"
-       ]
+      "terms": [
+        [
+          "Branch",
+          "A lightweight pointer to a commit, used for parallel lines of work."
+        ],
+        [
+          "Merge",
+          "Combine another branch's history into the current branch."
+        ],
+        [
+          "Fast-forward",
+          "A merge where Git only moves the pointer because there is nothing to combine."
+        ],
+        [
+          "Conflict",
+          "Two changes to the same lines that Git cannot combine automatically."
+        ],
+        [
+          "Rebase",
+          "Replay your commits on top of another branch for a linear history."
+        ],
+        [
+          "Feature branch",
+          "A short-lived branch for one task or fix."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Branches are pointers",
+          "bullets": [
+            "Cheap and instant",
+            "main stays stable",
+            "One branch per task"
+          ],
+          "script": [
+            "A branch is only a pointer to a commit, so creating one is instant. Keep main stable and do your work on a feature branch."
+          ],
+          "visual": {
+            "type": "tree",
+            "levels": [
+              [
+                "main"
+              ],
+              [
+                "feature-login",
+                "fix-typo"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Create, switch, merge",
+          "bullets": [
+            "switch -c creates",
+            "merge brings work back",
+            "delete when done"
+          ],
+          "script": [
+            "Create a branch, commit on it, switch back to main and merge it in."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "git switch -c feature-login\n# edit, add, commit\ngit switch main\ngit merge feature-login\ngit branch -d feature-login"
+          }
+        },
+        {
+          "title": "Fast-forward or merge commit",
+          "bullets": [
+            "No new work on main: fast-forward",
+            "Both moved: merge commit",
+            "Same lines changed: conflict"
+          ],
+          "script": [
+            "Git picks the simplest outcome. Only when both sides edit the same lines does it need your decision."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Case",
+              "Result"
+            ],
+            "rows": [
+              [
+                "main unchanged",
+                "Fast-forward"
+              ],
+              [
+                "Both changed",
+                "Merge commit"
+              ],
+              [
+                "Same lines",
+                "Conflict"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Fixing a conflict",
+          "bullets": [
+            "Edit out the markers",
+            "git add the file",
+            "Commit to finish"
+          ],
+          "script": [
+            "Open the file, choose the right text, delete the marker lines, stage the file and commit. Use merge abort if you want to start over."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Edit",
+                "d": "remove markers"
+              },
+              {
+                "t": "Add",
+                "d": "git add file"
+              },
+              {
+                "t": "Commit",
+                "d": "finish merge"
+              }
+            ]
+          }
+        }
       ]
-     }
     },
     {
-     "title": "Revert a bad commit",
-     "bullets": [
-      "Adds a new undo commit",
-      "History stays intact",
-      "Safe on shared branches"
-     ],
-     "script": [
-      "Revert creates a new commit that reverses the old one. It is the safe choice when others already have the commit."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "git log --oneline\ngit revert a1b2c3d\ngit push"
-     }
+      "id": "D3",
+      "short": "Remotes",
+      "title": "Remotes and collaboration",
+      "summary": "Share work through a remote such as GitHub: fetch, pull, push and review changes with pull requests.",
+      "guide": [
+        {
+          "h": "Remotes",
+          "blocks": [
+            {
+              "p": "A <b>remote</b> is another copy of the repository, usually on a server such as GitHub, GitLab or Azure DevOps. The default remote created by <code>git clone</code> is called <code>origin</code>. Your local branches and the remote's branches are separate until you sync them."
+            },
+            {
+              "cmds": [
+                [
+                  "git remote -v",
+                  "Show remotes and their URLs"
+                ],
+                [
+                  "git fetch",
+                  "Download new commits without changing your files"
+                ],
+                [
+                  "git pull",
+                  "Fetch, then merge into your current branch"
+                ],
+                [
+                  "git push",
+                  "Upload your commits to the remote"
+                ],
+                [
+                  "git push -u origin feature-x",
+                  "Push a new branch and remember it"
+                ]
+              ],
+              "head": [
+                "Command",
+                "What it does"
+              ]
+            }
+          ]
+        },
+        {
+          "h": "A typical team workflow",
+          "blocks": [
+            {
+              "steps": [
+                {
+                  "t": "Update",
+                  "d": "<code>git switch main</code> and <code>git pull</code>."
+                },
+                {
+                  "t": "Branch",
+                  "d": "<code>git switch -c fix-printer-doc</code>."
+                },
+                {
+                  "t": "Work",
+                  "d": "Commit small changes on your branch."
+                },
+                {
+                  "t": "Push",
+                  "d": "<code>git push -u origin fix-printer-doc</code>."
+                },
+                {
+                  "t": "Pull request",
+                  "d": "Open a pull request so teammates can review."
+                },
+                {
+                  "t": "Merge",
+                  "d": "After approval, merge and delete the branch."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "If a push is rejected",
+          "blocks": [
+            {
+              "p": "A rejected push (\"non-fast-forward\") means the remote has commits you do not. Run <code>git pull</code> (or <code>git fetch</code> then merge or rebase), resolve any conflicts, then push again."
+            },
+            {
+              "note": "Avoid <code>git push --force</code> on shared branches: it can erase teammates' work. If you must, use <code>--force-with-lease</code>.",
+              "kind": "warn"
+            },
+            {
+              "note": "Add a <code>.gitignore</code> file so build output, logs and secret files such as <code>.env</code> are never committed.",
+              "kind": "tip"
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "<code>git fetch</code> is always safe. It only downloads; <code>git pull</code> also changes your branch.",
+        "Never push passwords or tokens. If you do, treat them as leaked and rotate them.",
+        "Keep pull requests small and describe what and why."
+      ],
+      "terms": [
+        [
+          "Remote",
+          "A copy of the repository hosted elsewhere."
+        ],
+        [
+          "origin",
+          "The default name for the remote you cloned from."
+        ],
+        [
+          "Fetch",
+          "Download new data from a remote without merging."
+        ],
+        [
+          "Pull",
+          "Fetch and merge in one step."
+        ],
+        [
+          "Push",
+          "Send your local commits to a remote branch."
+        ],
+        [
+          "Pull request",
+          "A request to merge a branch, with review and discussion."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Local and remote",
+          "bullets": [
+            "Every clone has full history",
+            "origin is the usual remote",
+            "Sync with fetch, pull and push"
+          ],
+          "script": [
+            "Your repository and the remote are separate copies. You sync them with fetch, pull and push."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Local repo",
+                "d": "your commits"
+              },
+              {
+                "t": "Push",
+                "d": "upload"
+              },
+              {
+                "t": "origin",
+                "d": "shared remote"
+              }
+            ]
+          },
+          "layout": "title",
+          "kicker": "Collaboration"
+        },
+        {
+          "title": "Pull versus fetch",
+          "bullets": [
+            "Fetch downloads only",
+            "Pull = fetch + merge",
+            "Fetch first when unsure"
+          ],
+          "script": [
+            "Fetch downloads new commits and leaves your files alone. Pull also merges them into your branch."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Command",
+              "Changes your files?"
+            ],
+            "rows": [
+              [
+                "git fetch",
+                "No"
+              ],
+              [
+                "git pull",
+                "Yes (merges)"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Branch, push, pull request",
+          "bullets": [
+            "Branch per task",
+            "Push the branch",
+            "Review, then merge"
+          ],
+          "script": [
+            "Work on a branch, push it, and open a pull request. A teammate reviews before it is merged."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "git switch -c fix-typo\ngit commit -am \"Fix typo\"\ngit push -u origin fix-typo"
+          }
+        },
+        {
+          "title": "Safe sharing",
+          "bullets": [
+            "Use .gitignore",
+            "Never commit secrets",
+            "No force-push to shared branches"
+          ],
+          "script": [
+            "Ignore files that should never be shared and never commit credentials. Avoid force pushing on shared branches."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Ignore",
+                "d": "logs, builds, .env"
+              },
+              {
+                "t": "Secrets",
+                "d": "rotate if leaked"
+              },
+              {
+                "t": "No force",
+                "d": "protect teammates"
+              }
+            ]
+          }
+        }
+      ]
     },
     {
-     "title": "Find lost work",
-     "bullets": [
-      "reflog lists past HEAD positions",
-      "Create a branch at the hash",
-      "Rotate leaked secrets"
-     ],
-     "script": [
-      "Reflog helps you find commits that seem lost. If you ever commit a secret, rotate it right away."
-     ],
-     "visual": {
-      "type": "code",
-      "lang": "bash",
-      "text": "git reflog\ngit switch -c rescue 9f8e7d6"
-     }
+      "id": "D4",
+      "short": "Undo safely",
+      "title": "Undoing mistakes and recovering work",
+      "summary": "Choose the right undo for the situation: restore files, amend, revert, reset, stash and reflog.",
+      "guide": [
+        {
+          "h": "Pick the right undo",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Situation",
+                  "Command"
+                ],
+                "rows": [
+                  [
+                    "Discard edits to a file (not staged)",
+                    "<code>git restore file</code>"
+                  ],
+                  [
+                    "Unstage a file, keep the edits",
+                    "<code>git restore --staged file</code>"
+                  ],
+                  [
+                    "Fix the last commit's message or contents",
+                    "<code>git commit --amend</code> (only if not pushed)"
+                  ],
+                  [
+                    "Undo a pushed commit safely",
+                    "<code>git revert &lt;hash&gt;</code> (adds a new commit)"
+                  ],
+                  [
+                    "Move your branch back locally",
+                    "<code>git reset</code>"
+                  ],
+                  [
+                    "Set work aside for a moment",
+                    "<code>git stash</code> and <code>git stash pop</code>"
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "h": "Reset modes",
+          "blocks": [
+            {
+              "table": {
+                "head": [
+                  "Mode",
+                  "Moves branch",
+                  "Staging area",
+                  "Working files"
+                ],
+                "rows": [
+                  [
+                    "<code>--soft</code>",
+                    "Yes",
+                    "Kept",
+                    "Kept"
+                  ],
+                  [
+                    "<code>--mixed</code> (default)",
+                    "Yes",
+                    "Cleared",
+                    "Kept"
+                  ],
+                  [
+                    "<code>--hard</code>",
+                    "Yes",
+                    "Cleared",
+                    "<b>Overwritten (changes lost)</b>"
+                  ]
+                ]
+              }
+            },
+            {
+              "note": "<code>git reset --hard</code> can destroy uncommitted work. Check <code>git status</code> first. Do not reset commits that others already pulled; use <code>git revert</code> instead.",
+              "kind": "warn"
+            }
+          ]
+        },
+        {
+          "h": "Recovering \"lost\" commits",
+          "blocks": [
+            {
+              "p": "Git remembers where HEAD has been. <code>git reflog</code> lists those moves, including commits that are no longer on any branch. Find the hash and run <code>git switch -c rescue &lt;hash&gt;</code> to get it back. Reflog entries are local and expire after a few weeks."
+            },
+            {
+              "note": "If a secret was committed, removing it in a new commit is not enough: it stays in history. Rotate the secret, then clean history with an approved tool (for example <code>git filter-repo</code>) and coordinate with your team.",
+              "kind": "warn"
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Rule of thumb: rewrite history only on commits nobody else has. Otherwise revert.",
+        "<code>git stash</code> is great when you must switch branches in the middle of work.",
+        "Before anything risky, create a backup branch: <code>git branch backup</code>."
+      ],
+      "terms": [
+        [
+          "restore",
+          "Discard or unstage changes to files."
+        ],
+        [
+          "revert",
+          "Create a new commit that undoes an earlier one, without rewriting history."
+        ],
+        [
+          "reset",
+          "Move the current branch (and optionally the index and files) to another commit."
+        ],
+        [
+          "amend",
+          "Replace the last commit with an updated one."
+        ],
+        [
+          "stash",
+          "Temporarily shelve uncommitted changes."
+        ],
+        [
+          "reflog",
+          "A local log of where HEAD has pointed, used to recover commits."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Undo toolbox",
+          "bullets": [
+            "restore for files",
+            "revert for pushed commits",
+            "reset for local cleanup"
+          ],
+          "script": [
+            "Different mistakes need different tools. Start by asking whether the commit is already shared."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "restore",
+                "d": "Undo file edits"
+              },
+              {
+                "t": "revert",
+                "d": "Safe, shared undo"
+              },
+              {
+                "t": "reset",
+                "d": "Local rewind"
+              },
+              {
+                "t": "stash",
+                "d": "Set aside"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Reset, carefully",
+          "bullets": [
+            "soft keeps staged",
+            "mixed keeps files",
+            "hard discards changes"
+          ],
+          "script": [
+            "Reset moves your branch back. The hard mode also overwrites your working files, so use it with care."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Mode",
+              "Files"
+            ],
+            "rows": [
+              [
+                "--soft",
+                "kept, staged"
+              ],
+              [
+                "--mixed",
+                "kept, unstaged"
+              ],
+              [
+                "--hard",
+                "overwritten"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Revert a bad commit",
+          "bullets": [
+            "Adds a new undo commit",
+            "History stays intact",
+            "Safe on shared branches"
+          ],
+          "script": [
+            "Revert creates a new commit that reverses the old one. It is the safe choice when others already have the commit."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "git log --oneline\ngit revert a1b2c3d\ngit push"
+          }
+        },
+        {
+          "title": "Find lost work",
+          "bullets": [
+            "reflog lists past HEAD positions",
+            "Create a branch at the hash",
+            "Rotate leaked secrets"
+          ],
+          "script": [
+            "Reflog helps you find commits that seem lost. If you ever commit a secret, rotate it right away."
+          ],
+          "visual": {
+            "type": "code",
+            "lang": "bash",
+            "text": "git reflog\ngit switch -c rescue 9f8e7d6"
+          }
+        }
+      ]
     }
-   ]
-  }
- ]
+  ]
 }
