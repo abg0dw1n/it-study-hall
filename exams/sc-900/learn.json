@@ -1,599 +1,603 @@
 {
- "intro": "Four modules follow the SC-900 skills measured: security concepts, Microsoft Entra, Microsoft security solutions and Microsoft compliance solutions.",
- "narration": "",
- "updated": "2026-11-08",
- "sources": [
-  {
-   "title": "Microsoft Learn: Study guide for Exam SC-900",
-   "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900"
-  }
- ],
- "modules": [
-  {
-   "id": "D1",
-   "short": "Security concepts",
-   "title": "Concepts of security, compliance, and identity",
-   "summary": "Zero Trust, shared responsibility, defense in depth, encryption, and identity basics.",
-   "guide": [
-    {
-     "h": "What this domain covers",
-     "html": "<p>About <b>10–15%</b> of SC-900: the ideas the rest of the exam builds on.</p>"
-    },
-    {
-     "h": "Core security ideas",
-     "html": "<p><b>Zero Trust</b> follows three principles: verify explicitly, use least privilege access, and assume breach. <b>Defense in depth</b> uses layers (physical, identity, perimeter, network, compute, application, data). The <b>CIA triad</b> is confidentiality, integrity and availability. Under <b>shared responsibility</b> the customer always owns data, accounts and devices.</p>"
-    },
-    {
-     "h": "Encryption and hashing",
-     "html": "<p><b>Encryption at rest</b> protects stored data; <b>encryption in transit</b> protects data moving across a network. <b>Symmetric</b> encryption uses one key; <b>asymmetric</b> uses a public/private pair. <b>Hashing</b> produces a fixed fingerprint and cannot be reversed; it is used to store passwords and check integrity.</p>"
-    },
-    {
-     "h": "Identity fundamentals",
-     "html": "<p><b>Authentication</b> proves who you are; <b>authorization</b> decides what you can do. An <b>identity provider</b> creates and manages identities. <b>Federation</b> lets one identity provider be trusted by another, enabling <b>single sign-on</b>. Common protocols include SAML, OAuth and OpenID Connect.</p>"
-    }
-   ],
-   "tips": [
-    "Authentication is who you are; authorization is what you may do.",
-    "Hashes cannot be decrypted.",
-    "Assume breach is a Zero Trust principle."
-   ],
-   "terms": [
-    [
-     "Zero Trust",
-     "Never trust, always verify, assume breach."
-    ],
-    [
-     "Defense in depth",
-     "Layered protection so one failure is not fatal."
-    ],
-    [
-     "Hashing",
-     "One-way fingerprint of data."
-    ],
-    [
-     "Federation",
-     "Trust between identity providers."
-    ],
-    [
-     "Authentication",
-     "Proving who a user is."
-    ],
-    [
-     "Authorization",
-     "Deciding what an authenticated user can access."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Zero Trust",
-     "bullets": [
-      "Verify explicitly",
-      "Least privilege",
-      "Assume breach"
-     ],
-     "script": [
-      "Zero Trust removes implicit trust based on network location."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Verify explicitly",
-        "d": "Use all signals"
-       },
-       {
-        "t": "Least privilege",
-        "d": "Just enough access"
-       },
-       {
-        "t": "Assume breach",
-        "d": "Limit blast radius"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Defense in depth",
-     "bullets": [
-      "Layers of protection",
-      "Data at the core",
-      "Failure of one layer is tolerable"
-     ],
-     "script": [
-      "Each layer slows an attacker."
-     ],
-     "visual": {
-      "type": "layers",
-      "items": [
-       {
-        "t": "Data",
-        "d": "Encryption"
-       },
-       {
-        "t": "Application",
-        "d": "Secure code"
-       },
-       {
-        "t": "Compute",
-        "d": "Patching"
-       },
-       {
-        "t": "Network",
-        "d": "Segmentation"
-       },
-       {
-        "t": "Identity",
-        "d": "MFA"
-       },
-       {
-        "t": "Physical",
-        "d": "Locks"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Identity basics",
-     "bullets": [
-      "Authentication",
-      "Authorization",
-      "Federation and SSO"
-     ],
-     "script": [
-      "Identity is the new perimeter."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Sign in",
-        "d": "Authenticate"
-       },
-       {
-        "t": "Token",
-        "d": "Issued"
-       },
-       {
-        "t": "Access",
-        "d": "Authorize"
-       }
-      ]
-     }
-    }
-   ]
+  "intro": "Four modules follow the SC-900 skills measured: security concepts, Microsoft Entra, Microsoft security solutions and Microsoft compliance solutions.",
+  "narration": {
+    "src": "media/{id}-{n}.mp3",
+    "perSlide": true,
+    "credit": "Andrew (standard Neural)"
   },
-  {
-   "id": "D2",
-   "short": "Microsoft Entra",
-   "title": "Capabilities of Microsoft Entra",
-   "summary": "Entra ID, authentication methods, Conditional Access, governance and identity protection.",
-   "guide": [
+  "updated": "2026-11-08",
+  "sources": [
     {
-     "h": "What this domain covers",
-     "html": "<p>About <b>25–30%</b>. Entra is Microsoft's identity and access product family.</p>"
-    },
-    {
-     "h": "Entra ID and authentication",
-     "html": "<p><b>Microsoft Entra ID</b> is the cloud directory. Identity types include users, groups, workload identities, devices and external identities. Authentication methods include passwords, <b>MFA</b>, <b>passwordless</b> (Windows Hello, FIDO2 security keys, Microsoft Authenticator) and <b>self-service password reset (SSPR)</b>. <b>Hybrid identity</b> syncs on-premises Active Directory using Entra Connect.</p>"
-    },
-    {
-     "h": "Conditional Access and protection",
-     "html": "<p><b>Conditional Access</b> is the Zero Trust policy engine: if signals (user, device, location, risk) match, then grant, require MFA or block. <b>Entra ID Protection</b> detects risky sign-ins and users. <b>Global Administrator</b> is the highest-privilege role.</p>"
-    },
-    {
-     "h": "Governance",
-     "html": "<p><b>Privileged Identity Management (PIM)</b> gives just-in-time, approved, time-limited elevated roles. <b>Access reviews</b> periodically confirm who still needs access. <b>Entitlement management</b> packages access for requests. <b>Lifecycle workflows</b> automate joiner, mover and leaver tasks.</p>"
+      "title": "Microsoft Learn: Study guide for Exam SC-900",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900"
     }
-   ],
-   "tips": [
-    "Conditional Access is if-then; PIM is just-in-time.",
-    "Passwordless options are FIDO2, Windows Hello and Authenticator.",
-    "Access reviews remove stale access."
-   ],
-   "terms": [
-    [
-     "Conditional Access",
-     "If-then policies that gate access using signals."
-    ],
-    [
-     "MFA",
-     "Requires two or more proofs of identity."
-    ],
-    [
-     "PIM",
-     "Just-in-time privileged role activation."
-    ],
-    [
-     "Access review",
-     "Periodic recertification of access."
-    ],
-    [
-     "SSPR",
-     "Users reset their own passwords."
-    ],
-    [
-     "Entra ID Protection",
-     "Detects and responds to identity risk."
-    ]
-   ],
-   "slides": [
+  ],
+  "modules": [
     {
-     "title": "Conditional Access",
-     "bullets": [
-      "Signals in",
-      "Decision out",
-      "Grant, MFA or block"
-     ],
-     "script": [
-      "Policies combine signals and enforce a decision."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Signals",
-        "d": "User, device, location, risk"
-       },
-       {
-        "t": "Decision",
-        "d": "Policy evaluates"
-       },
-       {
-        "t": "Enforce",
-        "d": "Allow, MFA, block"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Passwordless",
-     "bullets": [
-      "Windows Hello",
-      "FIDO2 key",
-      "Authenticator app"
-     ],
-     "script": [
-      "Passwordless reduces phishing risk."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Windows Hello",
-        "d": "Biometric or PIN"
-       },
-       {
-        "t": "FIDO2",
-        "d": "Hardware key"
-       },
-       {
-        "t": "Authenticator",
-        "d": "Phone prompt"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Governance",
-     "bullets": [
-      "PIM",
-      "Access reviews",
-      "Entitlement management"
-     ],
-     "script": [
-      "Governance keeps access appropriate over time."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Feature",
-       "Purpose"
+      "id": "D1",
+      "short": "Security concepts",
+      "title": "Concepts of security, compliance, and identity",
+      "summary": "Zero Trust, shared responsibility, defense in depth, encryption, and identity basics.",
+      "guide": [
+        {
+          "h": "What this domain covers",
+          "html": "<p>About <b>10–15%</b> of SC-900: the ideas the rest of the exam builds on.</p>"
+        },
+        {
+          "h": "Core security ideas",
+          "html": "<p><b>Zero Trust</b> follows three principles: verify explicitly, use least privilege access, and assume breach. <b>Defense in depth</b> uses layers (physical, identity, perimeter, network, compute, application, data). The <b>CIA triad</b> is confidentiality, integrity and availability. Under <b>shared responsibility</b> the customer always owns data, accounts and devices.</p>"
+        },
+        {
+          "h": "Encryption and hashing",
+          "html": "<p><b>Encryption at rest</b> protects stored data; <b>encryption in transit</b> protects data moving across a network. <b>Symmetric</b> encryption uses one key; <b>asymmetric</b> uses a public/private pair. <b>Hashing</b> produces a fixed fingerprint and cannot be reversed; it is used to store passwords and check integrity.</p>"
+        },
+        {
+          "h": "Identity fundamentals",
+          "html": "<p><b>Authentication</b> proves who you are; <b>authorization</b> decides what you can do. An <b>identity provider</b> creates and manages identities. <b>Federation</b> lets one identity provider be trusted by another, enabling <b>single sign-on</b>. Common protocols include SAML, OAuth and OpenID Connect.</p>"
+        }
       ],
-      "rows": [
-       [
-        "PIM",
-        "Just-in-time roles"
-       ],
-       [
-        "Access reviews",
-        "Recertify access"
-       ],
-       [
-        "Entitlement mgmt",
-        "Access packages"
-       ],
-       [
-        "Lifecycle workflows",
-        "Joiner/mover/leaver"
-       ]
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D3",
-   "short": "Security solutions",
-   "title": "Capabilities of Microsoft security solutions",
-   "summary": "Network and platform protection, Defender, Sentinel and the Defender portal.",
-   "guide": [
-    {
-     "h": "What this domain covers",
-     "html": "<p>The largest domain at <b>35–40%</b>.</p>"
-    },
-    {
-     "h": "Azure security services",
-     "html": "<p><b>Azure DDoS Protection</b> defends against volumetric attacks. <b>Azure Firewall</b> is a managed network firewall. <b>Web Application Firewall (WAF)</b> protects web apps from attacks like SQL injection. <b>Network security groups</b> filter traffic by rules; <b>Azure Bastion</b> gives browser-based RDP/SSH without public IPs. <b>Key Vault</b> stores secrets, keys and certificates.</p>"
-    },
-    {
-     "h": "Defender and Defender for Cloud",
-     "html": "<p><b>Microsoft Defender for Cloud</b> provides <b>CSPM</b> (posture, secure score, recommendations) and <b>CWPP</b> (workload protection) across Azure, other clouds and on-premises. The Defender XDR family covers: <b>Defender for Endpoint</b> (devices), <b>Defender for Office 365</b> (email and collaboration), <b>Defender for Identity</b> (on-premises AD signals), <b>Defender for Cloud Apps</b> (a CASB) and <b>Defender Vulnerability Management</b>.</p>"
-    },
-    {
-     "h": "Microsoft Sentinel",
-     "html": "<p><b>Microsoft Sentinel</b> is a cloud SIEM and SOAR. It collects data with <b>connectors</b>, detects threats with <b>analytics rules</b>, groups alerts into <b>incidents</b>, automates responses with <b>playbooks</b> (Logic Apps), supports <b>threat hunting</b> with KQL queries, and visualizes data with <b>workbooks</b>.</p>"
-    }
-   ],
-   "tips": [
-    "SIEM collects and detects; SOAR automates response.",
-    "Secure score measures posture.",
-    "WAF is for web attacks; Firewall is for network traffic."
-   ],
-   "terms": [
-    [
-     "Microsoft Sentinel",
-     "Cloud-native SIEM and SOAR."
-    ],
-    [
-     "Defender for Cloud",
-     "Posture management and workload protection."
-    ],
-    [
-     "Secure score",
-     "A measure of security posture."
-    ],
-    [
-     "WAF",
-     "Protects web apps from common exploits."
-    ],
-    [
-     "CASB",
-     "Controls and monitors cloud app use."
-    ],
-    [
-     "Playbook",
-     "Automated response workflow in Sentinel."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Network defenses",
-     "bullets": [
-      "DDoS Protection",
-      "Firewall and WAF",
-      "NSGs and Bastion"
-     ],
-     "script": [
-      "Layer network controls."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Service",
-       "Protects against"
+      "tips": [
+        "Authentication is who you are; authorization is what you may do.",
+        "Hashes cannot be decrypted.",
+        "Assume breach is a Zero Trust principle."
       ],
-      "rows": [
-       [
-        "DDoS Protection",
-        "Volumetric floods"
-       ],
-       [
-        "Azure Firewall",
-        "Unwanted network traffic"
-       ],
-       [
-        "WAF",
-        "Web exploits"
-       ],
-       [
-        "NSG",
-        "Subnet/NIC traffic"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Defender family",
-     "bullets": [
-      "Endpoint",
-      "Office 365",
-      "Identity",
-      "Cloud Apps"
-     ],
-     "script": [
-      "XDR correlates signals across these products."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Endpoint",
-        "d": "Devices"
-       },
-       {
-        "t": "Office 365",
-        "d": "Email"
-       },
-       {
-        "t": "Identity",
-        "d": "On-prem AD"
-       },
-       {
-        "t": "Cloud Apps",
-        "d": "SaaS use"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Sentinel flow",
-     "bullets": [
-      "Connect",
-      "Detect",
-      "Investigate",
-      "Respond"
-     ],
-     "script": [
-      "Sentinel turns raw logs into incidents and automated responses."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Connect",
-        "d": "Data connectors"
-       },
-       {
-        "t": "Detect",
-        "d": "Analytics rules"
-       },
-       {
-        "t": "Investigate",
-        "d": "Incidents, hunting"
-       },
-       {
-        "t": "Respond",
-        "d": "Playbooks"
-       }
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D4",
-   "short": "Compliance solutions",
-   "title": "Capabilities of Microsoft compliance solutions",
-   "summary": "Service Trust Portal, Purview, information protection, data loss prevention, eDiscovery and insider risk.",
-   "guide": [
-    {
-     "h": "What this domain covers",
-     "html": "<p>About <b>20–25%</b>. Microsoft Purview is the compliance and data governance portfolio.</p>"
-    },
-    {
-     "h": "Compliance basics",
-     "html": "<p>The <b>Service Trust Portal</b> publishes audit reports and compliance documents. <b>Compliance Manager</b> scores your compliance posture and suggests improvement actions. <b>Privacy principles</b> and <b>data residency</b> concerns drive where data is stored.</p>"
-    },
-    {
-     "h": "Information protection",
-     "html": "<p><b>Sensitivity labels</b> classify and protect content, optionally encrypting it. <b>Data loss prevention (DLP)</b> policies block or warn when sensitive data is shared. <b>Retention policies and labels</b> keep or delete content for set periods. <b>Records management</b> locks records. <b>Data Map and Unified Catalog</b> help discover and govern data.</p>"
-    },
-    {
-     "h": "Investigation and risk",
-     "html": "<p><b>eDiscovery</b> finds content for legal cases, with holds. <b>Audit</b> records user and admin activity. <b>Communication Compliance</b> detects policy-violating messages. <b>Insider Risk Management</b> flags risky user behavior such as data theft. <b>Information barriers</b> prevent groups from communicating.</p>"
-    }
-   ],
-   "tips": [
-    "Labels classify; DLP prevents sharing; retention keeps or deletes.",
-    "Audit shows who did what.",
-    "eDiscovery is for legal searches."
-   ],
-   "terms": [
-    [
-     "Sensitivity label",
-     "Classifies and protects content."
-    ],
-    [
-     "DLP",
-     "Prevents sensitive data from being shared inappropriately."
-    ],
-    [
-     "Retention label",
-     "Defines how long content is kept."
-    ],
-    [
-     "eDiscovery",
-     "Search and hold of content for legal needs."
-    ],
-    [
-     "Compliance Manager",
-     "Scores compliance and recommends actions."
-    ],
-    [
-     "Insider Risk Management",
-     "Detects risky internal activity."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Protect and govern data",
-     "bullets": [
-      "Label",
-      "Prevent leaks",
-      "Retain or delete"
-     ],
-     "script": [
-      "Purview controls apply across the data lifecycle."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Discover",
-        "d": "Find data"
-       },
-       {
-        "t": "Classify",
-        "d": "Sensitivity labels"
-       },
-       {
-        "t": "Protect",
-        "d": "DLP, encryption"
-       },
-       {
-        "t": "Retain",
-        "d": "Retention"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Investigations",
-     "bullets": [
-      "eDiscovery",
-      "Audit",
-      "Communication Compliance"
-     ],
-     "script": [
-      "Use the right tool for the question being asked."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Tool",
-       "Answers"
+      "terms": [
+        [
+          "Zero Trust",
+          "Never trust, always verify, assume breach."
+        ],
+        [
+          "Defense in depth",
+          "Layered protection so one failure is not fatal."
+        ],
+        [
+          "Hashing",
+          "One-way fingerprint of data."
+        ],
+        [
+          "Federation",
+          "Trust between identity providers."
+        ],
+        [
+          "Authentication",
+          "Proving who a user is."
+        ],
+        [
+          "Authorization",
+          "Deciding what an authenticated user can access."
+        ]
       ],
-      "rows": [
-       [
-        "Audit",
-        "Who did what?"
-       ],
-       [
-        "eDiscovery",
-        "What content matches the case?"
-       ],
-       [
-        "Comm Compliance",
-        "Is communication violating policy?"
-       ],
-       [
-        "Insider Risk",
-        "Is someone behaving riskily?"
-       ]
+      "slides": [
+        {
+          "title": "Zero Trust",
+          "bullets": [
+            "Verify explicitly",
+            "Least privilege",
+            "Assume breach"
+          ],
+          "script": [
+            "Zero Trust removes implicit trust based on network location."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Verify explicitly",
+                "d": "Use all signals"
+              },
+              {
+                "t": "Least privilege",
+                "d": "Just enough access"
+              },
+              {
+                "t": "Assume breach",
+                "d": "Limit blast radius"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Defense in depth",
+          "bullets": [
+            "Layers of protection",
+            "Data at the core",
+            "Failure of one layer is tolerable"
+          ],
+          "script": [
+            "Each layer slows an attacker."
+          ],
+          "visual": {
+            "type": "layers",
+            "items": [
+              {
+                "t": "Data",
+                "d": "Encryption"
+              },
+              {
+                "t": "Application",
+                "d": "Secure code"
+              },
+              {
+                "t": "Compute",
+                "d": "Patching"
+              },
+              {
+                "t": "Network",
+                "d": "Segmentation"
+              },
+              {
+                "t": "Identity",
+                "d": "MFA"
+              },
+              {
+                "t": "Physical",
+                "d": "Locks"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Identity basics",
+          "bullets": [
+            "Authentication",
+            "Authorization",
+            "Federation and SSO"
+          ],
+          "script": [
+            "Identity is the new perimeter."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Sign in",
+                "d": "Authenticate"
+              },
+              {
+                "t": "Token",
+                "d": "Issued"
+              },
+              {
+                "t": "Access",
+                "d": "Authorize"
+              }
+            ]
+          }
+        }
       ]
-     }
+    },
+    {
+      "id": "D2",
+      "short": "Microsoft Entra",
+      "title": "Capabilities of Microsoft Entra",
+      "summary": "Entra ID, authentication methods, Conditional Access, governance and identity protection.",
+      "guide": [
+        {
+          "h": "What this domain covers",
+          "html": "<p>About <b>25–30%</b>. Entra is Microsoft's identity and access product family.</p>"
+        },
+        {
+          "h": "Entra ID and authentication",
+          "html": "<p><b>Microsoft Entra ID</b> is the cloud directory. Identity types include users, groups, workload identities, devices and external identities. Authentication methods include passwords, <b>MFA</b>, <b>passwordless</b> (Windows Hello, FIDO2 security keys, Microsoft Authenticator) and <b>self-service password reset (SSPR)</b>. <b>Hybrid identity</b> syncs on-premises Active Directory using Entra Connect.</p>"
+        },
+        {
+          "h": "Conditional Access and protection",
+          "html": "<p><b>Conditional Access</b> is the Zero Trust policy engine: if signals (user, device, location, risk) match, then grant, require MFA or block. <b>Entra ID Protection</b> detects risky sign-ins and users. <b>Global Administrator</b> is the highest-privilege role.</p>"
+        },
+        {
+          "h": "Governance",
+          "html": "<p><b>Privileged Identity Management (PIM)</b> gives just-in-time, approved, time-limited elevated roles. <b>Access reviews</b> periodically confirm who still needs access. <b>Entitlement management</b> packages access for requests. <b>Lifecycle workflows</b> automate joiner, mover and leaver tasks.</p>"
+        }
+      ],
+      "tips": [
+        "Conditional Access is if-then; PIM is just-in-time.",
+        "Passwordless options are FIDO2, Windows Hello and Authenticator.",
+        "Access reviews remove stale access."
+      ],
+      "terms": [
+        [
+          "Conditional Access",
+          "If-then policies that gate access using signals."
+        ],
+        [
+          "MFA",
+          "Requires two or more proofs of identity."
+        ],
+        [
+          "PIM",
+          "Just-in-time privileged role activation."
+        ],
+        [
+          "Access review",
+          "Periodic recertification of access."
+        ],
+        [
+          "SSPR",
+          "Users reset their own passwords."
+        ],
+        [
+          "Entra ID Protection",
+          "Detects and responds to identity risk."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Conditional Access",
+          "bullets": [
+            "Signals in",
+            "Decision out",
+            "Grant, MFA or block"
+          ],
+          "script": [
+            "Policies combine signals and enforce a decision."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Signals",
+                "d": "User, device, location, risk"
+              },
+              {
+                "t": "Decision",
+                "d": "Policy evaluates"
+              },
+              {
+                "t": "Enforce",
+                "d": "Allow, MFA, block"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Passwordless",
+          "bullets": [
+            "Windows Hello",
+            "FIDO2 key",
+            "Authenticator app"
+          ],
+          "script": [
+            "Passwordless reduces phishing risk."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Windows Hello",
+                "d": "Biometric or PIN"
+              },
+              {
+                "t": "FIDO2",
+                "d": "Hardware key"
+              },
+              {
+                "t": "Authenticator",
+                "d": "Phone prompt"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Governance",
+          "bullets": [
+            "PIM",
+            "Access reviews",
+            "Entitlement management"
+          ],
+          "script": [
+            "Governance keeps access appropriate over time."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Feature",
+              "Purpose"
+            ],
+            "rows": [
+              [
+                "PIM",
+                "Just-in-time roles"
+              ],
+              [
+                "Access reviews",
+                "Recertify access"
+              ],
+              [
+                "Entitlement mgmt",
+                "Access packages"
+              ],
+              [
+                "Lifecycle workflows",
+                "Joiner/mover/leaver"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "short": "Security solutions",
+      "title": "Capabilities of Microsoft security solutions",
+      "summary": "Network and platform protection, Defender, Sentinel and the Defender portal.",
+      "guide": [
+        {
+          "h": "What this domain covers",
+          "html": "<p>The largest domain at <b>35–40%</b>.</p>"
+        },
+        {
+          "h": "Azure security services",
+          "html": "<p><b>Azure DDoS Protection</b> defends against volumetric attacks. <b>Azure Firewall</b> is a managed network firewall. <b>Web Application Firewall (WAF)</b> protects web apps from attacks like SQL injection. <b>Network security groups</b> filter traffic by rules; <b>Azure Bastion</b> gives browser-based RDP/SSH without public IPs. <b>Key Vault</b> stores secrets, keys and certificates.</p>"
+        },
+        {
+          "h": "Defender and Defender for Cloud",
+          "html": "<p><b>Microsoft Defender for Cloud</b> provides <b>CSPM</b> (posture, secure score, recommendations) and <b>CWPP</b> (workload protection) across Azure, other clouds and on-premises. The Defender XDR family covers: <b>Defender for Endpoint</b> (devices), <b>Defender for Office 365</b> (email and collaboration), <b>Defender for Identity</b> (on-premises AD signals), <b>Defender for Cloud Apps</b> (a CASB) and <b>Defender Vulnerability Management</b>.</p>"
+        },
+        {
+          "h": "Microsoft Sentinel",
+          "html": "<p><b>Microsoft Sentinel</b> is a cloud SIEM and SOAR. It collects data with <b>connectors</b>, detects threats with <b>analytics rules</b>, groups alerts into <b>incidents</b>, automates responses with <b>playbooks</b> (Logic Apps), supports <b>threat hunting</b> with KQL queries, and visualizes data with <b>workbooks</b>.</p>"
+        }
+      ],
+      "tips": [
+        "SIEM collects and detects; SOAR automates response.",
+        "Secure score measures posture.",
+        "WAF is for web attacks; Firewall is for network traffic."
+      ],
+      "terms": [
+        [
+          "Microsoft Sentinel",
+          "Cloud-native SIEM and SOAR."
+        ],
+        [
+          "Defender for Cloud",
+          "Posture management and workload protection."
+        ],
+        [
+          "Secure score",
+          "A measure of security posture."
+        ],
+        [
+          "WAF",
+          "Protects web apps from common exploits."
+        ],
+        [
+          "CASB",
+          "Controls and monitors cloud app use."
+        ],
+        [
+          "Playbook",
+          "Automated response workflow in Sentinel."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Network defenses",
+          "bullets": [
+            "DDoS Protection",
+            "Firewall and WAF",
+            "NSGs and Bastion"
+          ],
+          "script": [
+            "Layer network controls."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Service",
+              "Protects against"
+            ],
+            "rows": [
+              [
+                "DDoS Protection",
+                "Volumetric floods"
+              ],
+              [
+                "Azure Firewall",
+                "Unwanted network traffic"
+              ],
+              [
+                "WAF",
+                "Web exploits"
+              ],
+              [
+                "NSG",
+                "Subnet/NIC traffic"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Defender family",
+          "bullets": [
+            "Endpoint",
+            "Office 365",
+            "Identity",
+            "Cloud Apps"
+          ],
+          "script": [
+            "XDR correlates signals across these products."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Endpoint",
+                "d": "Devices"
+              },
+              {
+                "t": "Office 365",
+                "d": "Email"
+              },
+              {
+                "t": "Identity",
+                "d": "On-prem AD"
+              },
+              {
+                "t": "Cloud Apps",
+                "d": "SaaS use"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Sentinel flow",
+          "bullets": [
+            "Connect",
+            "Detect",
+            "Investigate",
+            "Respond"
+          ],
+          "script": [
+            "Sentinel turns raw logs into incidents and automated responses."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Connect",
+                "d": "Data connectors"
+              },
+              {
+                "t": "Detect",
+                "d": "Analytics rules"
+              },
+              {
+                "t": "Investigate",
+                "d": "Incidents, hunting"
+              },
+              {
+                "t": "Respond",
+                "d": "Playbooks"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "short": "Compliance solutions",
+      "title": "Capabilities of Microsoft compliance solutions",
+      "summary": "Service Trust Portal, Purview, information protection, data loss prevention, eDiscovery and insider risk.",
+      "guide": [
+        {
+          "h": "What this domain covers",
+          "html": "<p>About <b>20–25%</b>. Microsoft Purview is the compliance and data governance portfolio.</p>"
+        },
+        {
+          "h": "Compliance basics",
+          "html": "<p>The <b>Service Trust Portal</b> publishes audit reports and compliance documents. <b>Compliance Manager</b> scores your compliance posture and suggests improvement actions. <b>Privacy principles</b> and <b>data residency</b> concerns drive where data is stored.</p>"
+        },
+        {
+          "h": "Information protection",
+          "html": "<p><b>Sensitivity labels</b> classify and protect content, optionally encrypting it. <b>Data loss prevention (DLP)</b> policies block or warn when sensitive data is shared. <b>Retention policies and labels</b> keep or delete content for set periods. <b>Records management</b> locks records. <b>Data Map and Unified Catalog</b> help discover and govern data.</p>"
+        },
+        {
+          "h": "Investigation and risk",
+          "html": "<p><b>eDiscovery</b> finds content for legal cases, with holds. <b>Audit</b> records user and admin activity. <b>Communication Compliance</b> detects policy-violating messages. <b>Insider Risk Management</b> flags risky user behavior such as data theft. <b>Information barriers</b> prevent groups from communicating.</p>"
+        }
+      ],
+      "tips": [
+        "Labels classify; DLP prevents sharing; retention keeps or deletes.",
+        "Audit shows who did what.",
+        "eDiscovery is for legal searches."
+      ],
+      "terms": [
+        [
+          "Sensitivity label",
+          "Classifies and protects content."
+        ],
+        [
+          "DLP",
+          "Prevents sensitive data from being shared inappropriately."
+        ],
+        [
+          "Retention label",
+          "Defines how long content is kept."
+        ],
+        [
+          "eDiscovery",
+          "Search and hold of content for legal needs."
+        ],
+        [
+          "Compliance Manager",
+          "Scores compliance and recommends actions."
+        ],
+        [
+          "Insider Risk Management",
+          "Detects risky internal activity."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Protect and govern data",
+          "bullets": [
+            "Label",
+            "Prevent leaks",
+            "Retain or delete"
+          ],
+          "script": [
+            "Purview controls apply across the data lifecycle."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Discover",
+                "d": "Find data"
+              },
+              {
+                "t": "Classify",
+                "d": "Sensitivity labels"
+              },
+              {
+                "t": "Protect",
+                "d": "DLP, encryption"
+              },
+              {
+                "t": "Retain",
+                "d": "Retention"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Investigations",
+          "bullets": [
+            "eDiscovery",
+            "Audit",
+            "Communication Compliance"
+          ],
+          "script": [
+            "Use the right tool for the question being asked."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Tool",
+              "Answers"
+            ],
+            "rows": [
+              [
+                "Audit",
+                "Who did what?"
+              ],
+              [
+                "eDiscovery",
+                "What content matches the case?"
+              ],
+              [
+                "Comm Compliance",
+                "Is communication violating policy?"
+              ],
+              [
+                "Insider Risk",
+                "Is someone behaving riskily?"
+              ]
+            ]
+          }
+        }
+      ]
     }
-   ]
-  }
- ]
+  ]
 }

@@ -1,506 +1,510 @@
 {
- "intro": "Three modules follow the AZ-900 skills measured: cloud concepts, Azure architecture and services, and management and governance.",
- "narration": "",
- "updated": "2026-11-08",
- "sources": [
-  {
-   "title": "Microsoft Learn: Study guide for Exam AZ-900",
-   "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900"
-  }
- ],
- "modules": [
-  {
-   "id": "D1",
-   "short": "Cloud concepts",
-   "title": "Describe cloud concepts",
-   "summary": "Cloud computing, shared responsibility, deployment models and service types, and the consumption-based model.",
-   "guide": [
-    {
-     "h": "What this domain covers",
-     "html": "<p>About <b>25–30%</b> of AZ-900. It tests the vocabulary of cloud computing: why organizations move to the cloud, what they pay for, and who is responsible for what.</p>"
-    },
-    {
-     "h": "Cloud models and service types",
-     "html": "<p><b>Public</b> cloud is owned by a provider and shared by many customers. <b>Private</b> cloud serves one organization. <b>Hybrid</b> mixes cloud and on-premises. The three service types are <b>IaaS</b> (you manage the OS and up, such as virtual machines), <b>PaaS</b> (the provider manages the platform, such as App Service) and <b>SaaS</b> (you just use the software, such as Microsoft 365). <b>Serverless</b> runs code without you managing servers, billed per execution.</p>"
-    },
-    {
-     "h": "Shared responsibility",
-     "html": "<p>The provider always owns the <b>physical</b> datacenter, hosts and network. You always own your <b>data</b>, identities and devices. Everything in between shifts with the service type: with IaaS you patch the operating system, with PaaS the provider does, and with SaaS you mostly manage data and access.</p>"
-    },
-    {
-     "h": "Economics: CapEx, OpEx and scale",
-     "html": "<p>On-premises hardware is <b>capital expenditure (CapEx)</b>, paid up front. Cloud is <b>operational expenditure (OpEx)</b>, pay as you go. Benefits tested: <b>high availability</b>, <b>scalability</b> (scale up/out), <b>elasticity</b> (scale automatically with demand), <b>reliability</b>, <b>predictability</b>, <b>security</b>, <b>governance</b> and <b>manageability</b>. A consumption-based model charges only for what you use.</p>"
-    }
-   ],
-   "tips": [
-    "Scale up adds power to one machine; scale out adds more machines.",
-    "Data is always the customer's responsibility.",
-    "Hybrid cloud is public plus private or on-premises, not just two public clouds."
-   ],
-   "terms": [
-    [
-     "IaaS",
-     "Rent virtual infrastructure; you manage the OS and applications."
-    ],
-    [
-     "PaaS",
-     "The provider manages the platform; you manage the app and data."
-    ],
-    [
-     "SaaS",
-     "Finished software delivered over the internet."
-    ],
-    [
-     "CapEx",
-     "Up-front spending on physical assets."
-    ],
-    [
-     "OpEx",
-     "Ongoing pay-as-you-go spending."
-    ],
-    [
-     "Elasticity",
-     "Automatically adding or removing resources as demand changes."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Cloud computing basics",
-     "bullets": [
-      "Pay for what you use",
-      "Rapid scale",
-      "Provider runs the datacenter"
-     ],
-     "script": [
-      "Cloud computing delivers servers, storage and services over the internet with consumption-based pricing."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Public",
-        "d": "Shared provider cloud"
-       },
-       {
-        "t": "Private",
-        "d": "One organization"
-       },
-       {
-        "t": "Hybrid",
-        "d": "Both together"
-       }
-      ]
-     }
-    },
-    {
-     "title": "IaaS, PaaS, SaaS",
-     "bullets": [
-      "More control with IaaS",
-      "Less admin with PaaS",
-      "SaaS is ready to use"
-     ],
-     "script": [
-      "As you move from IaaS to SaaS you manage less and the provider manages more."
-     ],
-     "visual": {
-      "type": "layers",
-      "items": [
-       {
-        "t": "SaaS",
-        "d": "Microsoft 365"
-       },
-       {
-        "t": "PaaS",
-        "d": "App Service, SQL Database"
-       },
-       {
-        "t": "IaaS",
-        "d": "Virtual machines"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Shared responsibility",
-     "bullets": [
-      "Provider: physical",
-      "Customer: data and identity",
-      "Shifts by service type"
-     ],
-     "script": [
-      "Physical security is always the provider's. Your data and accounts are always yours."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Item",
-       "IaaS",
-       "PaaS",
-       "SaaS"
-      ],
-      "rows": [
-       [
-        "Data",
-        "You",
-        "You",
-        "You"
-       ],
-       [
-        "OS",
-        "You",
-        "Provider",
-        "Provider"
-       ],
-       [
-        "Physical",
-        "Provider",
-        "Provider",
-        "Provider"
-       ]
-      ]
-     }
-    }
-   ]
+  "intro": "Three modules follow the AZ-900 skills measured: cloud concepts, Azure architecture and services, and management and governance.",
+  "narration": {
+    "src": "media/{id}-{n}.mp3",
+    "perSlide": true,
+    "credit": "Andrew (standard Neural)"
   },
-  {
-   "id": "D2",
-   "short": "Architecture and services",
-   "title": "Describe Azure architecture and services",
-   "summary": "Regions, availability zones, resource hierarchy, compute, networking, storage, identity and security.",
-   "guide": [
+  "updated": "2026-11-08",
+  "sources": [
     {
-     "h": "What this domain covers",
-     "html": "<p>The biggest domain at <b>35–40%</b>. Know the building blocks of Azure and which service fits a need.</p>"
-    },
-    {
-     "h": "Global infrastructure and hierarchy",
-     "html": "<p>A <b>region</b> is a set of datacenters in one geography. <b>Availability zones</b> are separate datacenters inside a region, protecting against datacenter failure. A <b>region pair</b> is a second region in the same geography for disaster recovery. Resources live in <b>resource groups</b> inside <b>subscriptions</b>, which sit under <b>management groups</b>.</p>"
-    },
-    {
-     "h": "Compute and networking",
-     "html": "<p><b>Virtual Machines</b> give full OS control. <b>Virtual Machine Scale Sets</b> add or remove identical VMs automatically. <b>App Service</b> hosts web apps without servers to manage. <b>Azure Functions</b> run event-driven serverless code. <b>Containers</b> use Container Instances (simple) or Kubernetes Service (orchestrated). A <b>virtual network</b> connects resources privately; <b>VPN Gateway</b> and <b>ExpressRoute</b> connect on-premises (ExpressRoute is a private, dedicated link). <b>Azure DNS</b> hosts domains.</p>"
-    },
-    {
-     "h": "Storage, identity and security",
-     "html": "<p>Storage account services: <b>Blob</b> (objects), <b>Files</b> (SMB shares), <b>Queue</b> (messages), <b>Table</b> (NoSQL). Redundancy options: LRS, ZRS, GRS, GZRS. Access tiers are hot, cool, cold and archive. <b>Microsoft Entra ID</b> is the cloud identity service, with single sign-on, MFA, Conditional Access and passwordless options. <b>Zero Trust</b> means never trust, always verify. <b>Defense in depth</b> layers protections.</p>"
+      "title": "Microsoft Learn: Study guide for Exam AZ-900",
+      "url": "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900"
     }
-   ],
-   "tips": [
-    "Availability zones protect within a region; region pairs protect across regions.",
-    "Archive is the cheapest tier but needs hours to rehydrate.",
-    "ExpressRoute does not use the public internet."
-   ],
-   "terms": [
-    [
-     "Region",
-     "A geographic area containing datacenters."
-    ],
-    [
-     "Availability zone",
-     "A physically separate datacenter within a region."
-    ],
-    [
-     "Resource group",
-     "A logical container for related resources."
-    ],
-    [
-     "Azure Functions",
-     "Serverless, event-driven compute."
-    ],
-    [
-     "ExpressRoute",
-     "A private dedicated connection to Azure."
-    ],
-    [
-     "Microsoft Entra ID",
-     "Microsoft's cloud identity and access service."
-    ]
-   ],
-   "slides": [
+  ],
+  "modules": [
     {
-     "title": "Regions and zones",
-     "bullets": [
-      "Regions hold datacenters",
-      "Zones are separate sites",
-      "Pairs enable recovery"
-     ],
-     "script": [
-      "Spread workloads across zones for resilience inside a region."
-     ],
-     "visual": {
-      "type": "tree",
-      "levels": [
-       [
-        "Geography"
-       ],
-       [
-        "Region",
-        "Region pair"
-       ],
-       [
-        "Availability zones"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Hierarchy",
-     "bullets": [
-      "Management groups",
-      "Subscriptions",
-      "Resource groups"
-     ],
-     "script": [
-      "Governance and billing flow down this hierarchy."
-     ],
-     "visual": {
-      "type": "layers",
-      "items": [
-       {
-        "t": "Resources",
-        "d": "VMs, storage, databases"
-       },
-       {
-        "t": "Resource group",
-        "d": "Lifecycle container"
-       },
-       {
-        "t": "Subscription",
-        "d": "Billing boundary"
-       },
-       {
-        "t": "Management group",
-        "d": "Policy scope"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Compute choices",
-     "bullets": [
-      "VMs: full control",
-      "App Service: web apps",
-      "Functions: event code"
-     ],
-     "script": [
-      "Pick the least-admin option that meets the need."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Need",
-       "Service"
+      "id": "D1",
+      "short": "Cloud concepts",
+      "title": "Describe cloud concepts",
+      "summary": "Cloud computing, shared responsibility, deployment models and service types, and the consumption-based model.",
+      "guide": [
+        {
+          "h": "What this domain covers",
+          "html": "<p>About <b>25–30%</b> of AZ-900. It tests the vocabulary of cloud computing: why organizations move to the cloud, what they pay for, and who is responsible for what.</p>"
+        },
+        {
+          "h": "Cloud models and service types",
+          "html": "<p><b>Public</b> cloud is owned by a provider and shared by many customers. <b>Private</b> cloud serves one organization. <b>Hybrid</b> mixes cloud and on-premises. The three service types are <b>IaaS</b> (you manage the OS and up, such as virtual machines), <b>PaaS</b> (the provider manages the platform, such as App Service) and <b>SaaS</b> (you just use the software, such as Microsoft 365). <b>Serverless</b> runs code without you managing servers, billed per execution.</p>"
+        },
+        {
+          "h": "Shared responsibility",
+          "html": "<p>The provider always owns the <b>physical</b> datacenter, hosts and network. You always own your <b>data</b>, identities and devices. Everything in between shifts with the service type: with IaaS you patch the operating system, with PaaS the provider does, and with SaaS you mostly manage data and access.</p>"
+        },
+        {
+          "h": "Economics: CapEx, OpEx and scale",
+          "html": "<p>On-premises hardware is <b>capital expenditure (CapEx)</b>, paid up front. Cloud is <b>operational expenditure (OpEx)</b>, pay as you go. Benefits tested: <b>high availability</b>, <b>scalability</b> (scale up/out), <b>elasticity</b> (scale automatically with demand), <b>reliability</b>, <b>predictability</b>, <b>security</b>, <b>governance</b> and <b>manageability</b>. A consumption-based model charges only for what you use.</p>"
+        }
       ],
-      "rows": [
-       [
-        "Full OS control",
-        "Virtual Machines"
-       ],
-       [
-        "Host a web app",
-        "App Service"
-       ],
-       [
-        "Run code on an event",
-        "Functions"
-       ],
-       [
-        "Orchestrate containers",
-        "Kubernetes Service"
-       ]
-      ]
-     }
-    },
-    {
-     "title": "Storage redundancy",
-     "bullets": [
-      "LRS: one datacenter",
-      "ZRS: across zones",
-      "GRS: another region"
-     ],
-     "script": [
-      "Redundancy trades cost for resilience."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Option",
-       "Copies kept"
+      "tips": [
+        "Scale up adds power to one machine; scale out adds more machines.",
+        "Data is always the customer's responsibility.",
+        "Hybrid cloud is public plus private or on-premises, not just two public clouds."
       ],
-      "rows": [
-       [
-        "LRS",
-        "3 in one datacenter"
-       ],
-       [
-        "ZRS",
-        "3 across zones"
-       ],
-       [
-        "GRS",
-        "LRS plus a paired region"
-       ],
-       [
-        "GZRS",
-        "ZRS plus a paired region"
-       ]
-      ]
-     }
-    }
-   ]
-  },
-  {
-   "id": "D3",
-   "short": "Management",
-   "title": "Describe Azure management and governance",
-   "summary": "Cost management, governance and compliance tools, and the tools for deploying and monitoring resources.",
-   "guide": [
-    {
-     "h": "What this domain covers",
-     "html": "<p>About <b>30–35%</b>. Cost tools, governance features, and how you manage Azure.</p>"
-    },
-    {
-     "h": "Cost management",
-     "html": "<p>Factors that affect cost: resource type, consumption, region, bandwidth and subscription type. The <b>Pricing calculator</b> estimates new workloads; the <b>Total Cost of Ownership (TCO) calculator</b> compares on-premises to Azure; <b>Cost Management</b> tracks and budgets real spending; <b>tags</b> label resources for cost reporting. Reservations and savings plans lower cost for committed use.</p>"
-    },
-    {
-     "h": "Governance and compliance",
-     "html": "<p><b>Azure Policy</b> enforces rules (for example allowed regions). <b>Resource locks</b> prevent deletion (CanNotDelete) or change (ReadOnly). <b>Role-based access control (RBAC)</b> grants permissions. <b>Microsoft Purview</b> supports data governance and compliance; <b>Service Trust Portal</b> publishes compliance documents. <b>Azure Blueprints</b>-style patterns have been replaced by template specs and deployment stacks.</p>"
-    },
-    {
-     "h": "Management tools",
-     "html": "<p>Use the <b>Azure portal</b> (web), <b>Azure CLI</b> and <b>PowerShell</b> (command line), <b>Cloud Shell</b> (browser terminal), and <b>ARM templates</b> or <b>Bicep</b> (infrastructure as code). <b>Azure Arc</b> extends management to on-premises and other clouds. <b>Azure Monitor</b> collects metrics and logs; <b>Azure Advisor</b> gives recommendations; <b>Service Health</b> reports Azure incidents affecting you.</p>"
-    }
-   ],
-   "tips": [
-    "Policy says what is allowed; RBAC says who can act; locks stop accidents.",
-    "Pricing calculator = new Azure estimates; TCO = compare with on-premises.",
-    "Advisor recommends; Monitor measures."
-   ],
-   "terms": [
-    [
-     "Azure Policy",
-     "Evaluates and enforces rules on resources."
-    ],
-    [
-     "Resource lock",
-     "Prevents accidental deletion or modification."
-    ],
-    [
-     "Tag",
-     "A name/value label on a resource."
-    ],
-    [
-     "Cost Management",
-     "Tracks, analyzes and budgets Azure spending."
-    ],
-    [
-     "Azure Arc",
-     "Extends Azure management to other environments."
-    ],
-    [
-     "Bicep",
-     "A declarative language for deploying Azure resources."
-    ]
-   ],
-   "slides": [
-    {
-     "title": "Cost tools",
-     "bullets": [
-      "Pricing calculator",
-      "TCO calculator",
-      "Cost Management"
-     ],
-     "script": [
-      "Estimate before you deploy, then track what you spend."
-     ],
-     "visual": {
-      "type": "flow",
-      "steps": [
-       {
-        "t": "Estimate",
-        "d": "Pricing calculator"
-       },
-       {
-        "t": "Compare",
-        "d": "TCO calculator"
-       },
-       {
-        "t": "Track",
-        "d": "Cost Management"
-       },
-       {
-        "t": "Optimize",
-        "d": "Advisor"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Governance",
-     "bullets": [
-      "Policy: rules",
-      "RBAC: access",
-      "Locks: protection"
-     ],
-     "script": [
-      "Governance features work together at different scopes."
-     ],
-     "visual": {
-      "type": "cards",
-      "items": [
-       {
-        "t": "Policy",
-        "d": "Enforce standards"
-       },
-       {
-        "t": "RBAC",
-        "d": "Who can do what"
-       },
-       {
-        "t": "Locks",
-        "d": "Stop deletes"
-       }
-      ]
-     }
-    },
-    {
-     "title": "Managing Azure",
-     "bullets": [
-      "Portal, CLI, PowerShell",
-      "Templates and Bicep",
-      "Monitor and Advisor"
-     ],
-     "script": [
-      "Choose interactive or automated tools depending on the task."
-     ],
-     "visual": {
-      "type": "table",
-      "head": [
-       "Tool",
-       "Use"
+      "terms": [
+        [
+          "IaaS",
+          "Rent virtual infrastructure; you manage the OS and applications."
+        ],
+        [
+          "PaaS",
+          "The provider manages the platform; you manage the app and data."
+        ],
+        [
+          "SaaS",
+          "Finished software delivered over the internet."
+        ],
+        [
+          "CapEx",
+          "Up-front spending on physical assets."
+        ],
+        [
+          "OpEx",
+          "Ongoing pay-as-you-go spending."
+        ],
+        [
+          "Elasticity",
+          "Automatically adding or removing resources as demand changes."
+        ]
       ],
-      "rows": [
-       [
-        "Portal",
-        "Graphical management"
-       ],
-       [
-        "CLI / PowerShell",
-        "Scripts"
-       ],
-       [
-        "Bicep / ARM",
-        "Repeatable deployments"
-       ],
-       [
-        "Azure Arc",
-        "Hybrid management"
-       ]
+      "slides": [
+        {
+          "title": "Cloud computing basics",
+          "bullets": [
+            "Pay for what you use",
+            "Rapid scale",
+            "Provider runs the datacenter"
+          ],
+          "script": [
+            "Cloud computing delivers servers, storage and services over the internet with consumption-based pricing."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Public",
+                "d": "Shared provider cloud"
+              },
+              {
+                "t": "Private",
+                "d": "One organization"
+              },
+              {
+                "t": "Hybrid",
+                "d": "Both together"
+              }
+            ]
+          }
+        },
+        {
+          "title": "IaaS, PaaS, SaaS",
+          "bullets": [
+            "More control with IaaS",
+            "Less admin with PaaS",
+            "SaaS is ready to use"
+          ],
+          "script": [
+            "As you move from IaaS to SaaS you manage less and the provider manages more."
+          ],
+          "visual": {
+            "type": "layers",
+            "items": [
+              {
+                "t": "SaaS",
+                "d": "Microsoft 365"
+              },
+              {
+                "t": "PaaS",
+                "d": "App Service, SQL Database"
+              },
+              {
+                "t": "IaaS",
+                "d": "Virtual machines"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Shared responsibility",
+          "bullets": [
+            "Provider: physical",
+            "Customer: data and identity",
+            "Shifts by service type"
+          ],
+          "script": [
+            "Physical security is always the provider's. Your data and accounts are always yours."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Item",
+              "IaaS",
+              "PaaS",
+              "SaaS"
+            ],
+            "rows": [
+              [
+                "Data",
+                "You",
+                "You",
+                "You"
+              ],
+              [
+                "OS",
+                "You",
+                "Provider",
+                "Provider"
+              ],
+              [
+                "Physical",
+                "Provider",
+                "Provider",
+                "Provider"
+              ]
+            ]
+          }
+        }
       ]
-     }
+    },
+    {
+      "id": "D2",
+      "short": "Architecture and services",
+      "title": "Describe Azure architecture and services",
+      "summary": "Regions, availability zones, resource hierarchy, compute, networking, storage, identity and security.",
+      "guide": [
+        {
+          "h": "What this domain covers",
+          "html": "<p>The biggest domain at <b>35–40%</b>. Know the building blocks of Azure and which service fits a need.</p>"
+        },
+        {
+          "h": "Global infrastructure and hierarchy",
+          "html": "<p>A <b>region</b> is a set of datacenters in one geography. <b>Availability zones</b> are separate datacenters inside a region, protecting against datacenter failure. A <b>region pair</b> is a second region in the same geography for disaster recovery. Resources live in <b>resource groups</b> inside <b>subscriptions</b>, which sit under <b>management groups</b>.</p>"
+        },
+        {
+          "h": "Compute and networking",
+          "html": "<p><b>Virtual Machines</b> give full OS control. <b>Virtual Machine Scale Sets</b> add or remove identical VMs automatically. <b>App Service</b> hosts web apps without servers to manage. <b>Azure Functions</b> run event-driven serverless code. <b>Containers</b> use Container Instances (simple) or Kubernetes Service (orchestrated). A <b>virtual network</b> connects resources privately; <b>VPN Gateway</b> and <b>ExpressRoute</b> connect on-premises (ExpressRoute is a private, dedicated link). <b>Azure DNS</b> hosts domains.</p>"
+        },
+        {
+          "h": "Storage, identity and security",
+          "html": "<p>Storage account services: <b>Blob</b> (objects), <b>Files</b> (SMB shares), <b>Queue</b> (messages), <b>Table</b> (NoSQL). Redundancy options: LRS, ZRS, GRS, GZRS. Access tiers are hot, cool, cold and archive. <b>Microsoft Entra ID</b> is the cloud identity service, with single sign-on, MFA, Conditional Access and passwordless options. <b>Zero Trust</b> means never trust, always verify. <b>Defense in depth</b> layers protections.</p>"
+        }
+      ],
+      "tips": [
+        "Availability zones protect within a region; region pairs protect across regions.",
+        "Archive is the cheapest tier but needs hours to rehydrate.",
+        "ExpressRoute does not use the public internet."
+      ],
+      "terms": [
+        [
+          "Region",
+          "A geographic area containing datacenters."
+        ],
+        [
+          "Availability zone",
+          "A physically separate datacenter within a region."
+        ],
+        [
+          "Resource group",
+          "A logical container for related resources."
+        ],
+        [
+          "Azure Functions",
+          "Serverless, event-driven compute."
+        ],
+        [
+          "ExpressRoute",
+          "A private dedicated connection to Azure."
+        ],
+        [
+          "Microsoft Entra ID",
+          "Microsoft's cloud identity and access service."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Regions and zones",
+          "bullets": [
+            "Regions hold datacenters",
+            "Zones are separate sites",
+            "Pairs enable recovery"
+          ],
+          "script": [
+            "Spread workloads across zones for resilience inside a region."
+          ],
+          "visual": {
+            "type": "tree",
+            "levels": [
+              [
+                "Geography"
+              ],
+              [
+                "Region",
+                "Region pair"
+              ],
+              [
+                "Availability zones"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Hierarchy",
+          "bullets": [
+            "Management groups",
+            "Subscriptions",
+            "Resource groups"
+          ],
+          "script": [
+            "Governance and billing flow down this hierarchy."
+          ],
+          "visual": {
+            "type": "layers",
+            "items": [
+              {
+                "t": "Resources",
+                "d": "VMs, storage, databases"
+              },
+              {
+                "t": "Resource group",
+                "d": "Lifecycle container"
+              },
+              {
+                "t": "Subscription",
+                "d": "Billing boundary"
+              },
+              {
+                "t": "Management group",
+                "d": "Policy scope"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Compute choices",
+          "bullets": [
+            "VMs: full control",
+            "App Service: web apps",
+            "Functions: event code"
+          ],
+          "script": [
+            "Pick the least-admin option that meets the need."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Need",
+              "Service"
+            ],
+            "rows": [
+              [
+                "Full OS control",
+                "Virtual Machines"
+              ],
+              [
+                "Host a web app",
+                "App Service"
+              ],
+              [
+                "Run code on an event",
+                "Functions"
+              ],
+              [
+                "Orchestrate containers",
+                "Kubernetes Service"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Storage redundancy",
+          "bullets": [
+            "LRS: one datacenter",
+            "ZRS: across zones",
+            "GRS: another region"
+          ],
+          "script": [
+            "Redundancy trades cost for resilience."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Option",
+              "Copies kept"
+            ],
+            "rows": [
+              [
+                "LRS",
+                "3 in one datacenter"
+              ],
+              [
+                "ZRS",
+                "3 across zones"
+              ],
+              [
+                "GRS",
+                "LRS plus a paired region"
+              ],
+              [
+                "GZRS",
+                "ZRS plus a paired region"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "short": "Management",
+      "title": "Describe Azure management and governance",
+      "summary": "Cost management, governance and compliance tools, and the tools for deploying and monitoring resources.",
+      "guide": [
+        {
+          "h": "What this domain covers",
+          "html": "<p>About <b>30–35%</b>. Cost tools, governance features, and how you manage Azure.</p>"
+        },
+        {
+          "h": "Cost management",
+          "html": "<p>Factors that affect cost: resource type, consumption, region, bandwidth and subscription type. The <b>Pricing calculator</b> estimates new workloads; the <b>Total Cost of Ownership (TCO) calculator</b> compares on-premises to Azure; <b>Cost Management</b> tracks and budgets real spending; <b>tags</b> label resources for cost reporting. Reservations and savings plans lower cost for committed use.</p>"
+        },
+        {
+          "h": "Governance and compliance",
+          "html": "<p><b>Azure Policy</b> enforces rules (for example allowed regions). <b>Resource locks</b> prevent deletion (CanNotDelete) or change (ReadOnly). <b>Role-based access control (RBAC)</b> grants permissions. <b>Microsoft Purview</b> supports data governance and compliance; <b>Service Trust Portal</b> publishes compliance documents. <b>Azure Blueprints</b>-style patterns have been replaced by template specs and deployment stacks.</p>"
+        },
+        {
+          "h": "Management tools",
+          "html": "<p>Use the <b>Azure portal</b> (web), <b>Azure CLI</b> and <b>PowerShell</b> (command line), <b>Cloud Shell</b> (browser terminal), and <b>ARM templates</b> or <b>Bicep</b> (infrastructure as code). <b>Azure Arc</b> extends management to on-premises and other clouds. <b>Azure Monitor</b> collects metrics and logs; <b>Azure Advisor</b> gives recommendations; <b>Service Health</b> reports Azure incidents affecting you.</p>"
+        }
+      ],
+      "tips": [
+        "Policy says what is allowed; RBAC says who can act; locks stop accidents.",
+        "Pricing calculator = new Azure estimates; TCO = compare with on-premises.",
+        "Advisor recommends; Monitor measures."
+      ],
+      "terms": [
+        [
+          "Azure Policy",
+          "Evaluates and enforces rules on resources."
+        ],
+        [
+          "Resource lock",
+          "Prevents accidental deletion or modification."
+        ],
+        [
+          "Tag",
+          "A name/value label on a resource."
+        ],
+        [
+          "Cost Management",
+          "Tracks, analyzes and budgets Azure spending."
+        ],
+        [
+          "Azure Arc",
+          "Extends Azure management to other environments."
+        ],
+        [
+          "Bicep",
+          "A declarative language for deploying Azure resources."
+        ]
+      ],
+      "slides": [
+        {
+          "title": "Cost tools",
+          "bullets": [
+            "Pricing calculator",
+            "TCO calculator",
+            "Cost Management"
+          ],
+          "script": [
+            "Estimate before you deploy, then track what you spend."
+          ],
+          "visual": {
+            "type": "flow",
+            "steps": [
+              {
+                "t": "Estimate",
+                "d": "Pricing calculator"
+              },
+              {
+                "t": "Compare",
+                "d": "TCO calculator"
+              },
+              {
+                "t": "Track",
+                "d": "Cost Management"
+              },
+              {
+                "t": "Optimize",
+                "d": "Advisor"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Governance",
+          "bullets": [
+            "Policy: rules",
+            "RBAC: access",
+            "Locks: protection"
+          ],
+          "script": [
+            "Governance features work together at different scopes."
+          ],
+          "visual": {
+            "type": "cards",
+            "items": [
+              {
+                "t": "Policy",
+                "d": "Enforce standards"
+              },
+              {
+                "t": "RBAC",
+                "d": "Who can do what"
+              },
+              {
+                "t": "Locks",
+                "d": "Stop deletes"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Managing Azure",
+          "bullets": [
+            "Portal, CLI, PowerShell",
+            "Templates and Bicep",
+            "Monitor and Advisor"
+          ],
+          "script": [
+            "Choose interactive or automated tools depending on the task."
+          ],
+          "visual": {
+            "type": "table",
+            "head": [
+              "Tool",
+              "Use"
+            ],
+            "rows": [
+              [
+                "Portal",
+                "Graphical management"
+              ],
+              [
+                "CLI / PowerShell",
+                "Scripts"
+              ],
+              [
+                "Bicep / ARM",
+                "Repeatable deployments"
+              ],
+              [
+                "Azure Arc",
+                "Hybrid management"
+              ]
+            ]
+          }
+        }
+      ]
     }
-   ]
-  }
- ]
+  ]
 }
