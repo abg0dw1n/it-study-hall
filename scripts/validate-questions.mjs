@@ -58,6 +58,36 @@ for (const entry of index.filter((e) => !only || e.slug === only)) {
     if (!(ref.sheets?.length || ref.trainer)) errors.push('reference.json has no sheets and no trainer');
     if (entry.reference != null && entry.reference !== (ref.sheets?.length || 0) + (ref.trainer ? 1 : 0)) errors.push('index.json reference count is stale (run node scripts/stamp-updated.mjs)');
   }
+  // Performance-based questions (pbq.json): same activity format as the Labs "tasks" kind.
+  if (fs.existsSync(path.join(root, 'exams', entry.slug, 'pbq.json'))) {
+    const pbq = JSON.parse(fs.readFileSync(path.join(root, 'exams', entry.slug, 'pbq.json'), 'utf8'));
+    const pids = new Set();
+    for (const q of pbq.questions || []) {
+      const at = `pbq ${q.id}`;
+      if (!q.id || pids.has(q.id)) errors.push(`${at}: missing or duplicate id`);
+      pids.add(q.id);
+      if (!q.title || !q.scenario || !q.explanation) errors.push(`${at}: needs title, scenario and explanation`);
+      if (q.domain && !exam.domains[q.domain]) errors.push(`${at}: unknown domain ${q.domain}`);
+      if (!q.activities?.length) errors.push(`${at}: no activities`);
+      (q.activities || []).forEach((a, i) => {
+        const w = `${at} activity ${i + 1}`;
+        if (a.type === 'match') {
+          if (!a.categories?.length || !a.items?.length) errors.push(`${w}: match needs categories and items`);
+          for (const it of a.items || []) if (!it.text || !(it.cat >= 0 && it.cat < (a.categories || []).length)) errors.push(`${w}: bad item ${JSON.stringify(it)}`);
+          for (let c = 0; c < (a.categories || []).length; c++) if (!(a.items || []).some((it) => it.cat === c)) errors.push(`${w}: category "${a.categories[c]}" has no items`);
+        } else if (a.type === 'order') {
+          if ((a.items?.length || 0) < 2) errors.push(`${w}: order needs at least 2 items`);
+        } else if (a.type === 'fill') {
+          if (!a.rows?.length || a.rows.some((r) => !r.label || !(Array.isArray(r.answer) ? r.answer.length : r.answer))) errors.push(`${w}: fill rows need a label and an answer`);
+        } else if (a.type === 'rules') {
+          if (!a.tests?.length || a.tests.some((t) => !t.label || !t.packet || !['allow', 'deny'].includes(t.expect))) errors.push(`${w}: rules tests need label, packet, expect allow|deny`);
+        } else errors.push(`${w}: unknown type ${a.type}`);
+        if (!a.prompt) errors.push(`${w}: missing prompt`);
+      });
+    }
+    if ((pbq.questions || []).length < 3) errors.push('pbq.json needs at least 3 questions');
+    if (entry.pbq != null && entry.pbq !== (pbq.questions || []).length) errors.push('index.json pbq count is stale (run node scripts/stamp-updated.mjs)');
+  }
   const perDomain = Object.keys(exam.domains).map((d) => `${d}: ${questions.filter((q) => q.domain === d).length}`).join(', ');
   console.log(`${exam.code} (${entry.slug}): ${questions.length} questions (${perDomain})`);
   if (errors.length) { failed = true; console.error('  ' + errors.join('\n  ')); }

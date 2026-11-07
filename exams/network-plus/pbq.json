@@ -1,0 +1,489 @@
+{
+ "intro": "Exam-style performance-based tasks for Network+: ports, cabling, subnetting, firewall rules, Wi-Fi and troubleshooting.",
+ "minutesPerQuestion": 8,
+ "questions": [
+  {
+   "id": "np-ports-secure",
+   "title": "Services, ports and secure replacements",
+   "domain": "D1",
+   "scenario": "<p>A client's audit lists several services running on their network. You need to identify each one by its port and recommend the encrypted replacement for the insecure ones.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match each port to its service",
+     "prompt": "Drag each port to the service that uses it by default.",
+     "categories": [
+      "POP3",
+      "IMAP",
+      "SNMP",
+      "LDAP",
+      "NTP",
+      "Syslog"
+     ],
+     "items": [
+      {
+       "text": "110",
+       "cat": 0
+      },
+      {
+       "text": "143",
+       "cat": 1
+      },
+      {
+       "text": "161",
+       "cat": 2
+      },
+      {
+       "text": "389",
+       "cat": 3
+      },
+      {
+       "text": "123",
+       "cat": 4
+      },
+      {
+       "text": "514",
+       "cat": 5
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Name the secure replacement",
+     "prompt": "Type the protocol or version that replaces each insecure one.",
+     "rows": [
+      {
+       "label": "Telnet",
+       "answer": [
+        "SSH"
+       ]
+      },
+      {
+       "label": "HTTP",
+       "answer": [
+        "HTTPS"
+       ]
+      },
+      {
+       "label": "FTP (file transfer over an encrypted channel)",
+       "answer": [
+        "SFTP",
+        "FTPS"
+       ]
+      },
+      {
+       "label": "LDAP",
+       "answer": [
+        "LDAPS"
+       ]
+      },
+      {
+       "label": "SNMPv2c",
+       "answer": [
+        "SNMPv3",
+        "v3",
+        "3"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "Know the well-known ports: POP3 110, IMAP 143, SNMP 161 (traps 162), LDAP 389, NTP 123 (UDP), syslog 514 (UDP). Replace Telnet with SSH, HTTP with HTTPS, FTP with SFTP (SSH, port 22) or FTPS, LDAP with LDAPS (636), and SNMPv1/v2c with SNMPv3, which adds authentication and encryption."
+  },
+  {
+   "id": "np-media",
+   "title": "Pick the right cable for each run",
+   "domain": "D2",
+   "scenario": "<p>You are cabling a new office, a server room and a link to the building next door. Choose media that meets the speed and distance for each run.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match the requirement to the media",
+     "prompt": "Drag each requirement to the cable type that fits.",
+     "categories": [
+      "Cat 6a",
+      "Single-mode fiber",
+      "Multimode fiber",
+      "Coaxial",
+      "Plenum-rated cable"
+     ],
+     "items": [
+      {
+       "text": "10 Gbps to a desk, 90 m run",
+       "cat": 0
+      },
+      {
+       "text": "Link to another building 8 km away",
+       "cat": 1
+      },
+      {
+       "text": "10 Gbps between server racks 200 m apart",
+       "cat": 2
+      },
+      {
+       "text": "Cable modem to the wall outlet",
+       "cat": 3
+      },
+      {
+       "text": "Run through the air-handling space above the ceiling tiles",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Put the CompTIA troubleshooting methodology in order",
+     "prompt": "Drag the steps into the correct order (or use the arrows).",
+     "items": [
+      "Identify the problem",
+      "Establish a theory of probable cause",
+      "Test the theory to determine the cause",
+      "Establish a plan of action and identify potential effects",
+      "Implement the solution or escalate",
+      "Verify full system functionality and implement preventive measures",
+      "Document findings, actions and outcomes"
+     ]
+    }
+   ],
+   "explanation": "Cat 6a carries 10 Gbps for 100 m (Cat 6 only 55 m). Single-mode fiber covers kilometers. Multimode fiber (OM3/OM4) reaches 300 to 400 m at 10 Gbps. Coax feeds cable modems. Plenum-rated jackets are required in air-handling spaces because they produce less smoke. The seven troubleshooting steps always run in this order."
+  },
+  {
+   "id": "np-subnet-vlsm",
+   "title": "Subnet a block and size a VLSM plan",
+   "domain": "D1",
+   "scenario": "<p>Document the subnet for a host address, then split a /24 into the right sizes for four departments.</p>",
+   "activities": [
+    {
+     "type": "fill",
+     "title": "Document the subnet of 172.16.45.200/21",
+     "prompt": "Fill in each value.",
+     "rows": [
+      {
+       "label": "Subnet mask",
+       "answer": [
+        "255.255.248.0"
+       ]
+      },
+      {
+       "label": "Network address",
+       "answer": [
+        "172.16.40.0"
+       ]
+      },
+      {
+       "label": "Broadcast address",
+       "answer": [
+        "172.16.47.255"
+       ]
+      },
+      {
+       "label": "First usable host",
+       "answer": [
+        "172.16.40.1"
+       ]
+      },
+      {
+       "label": "Last usable host",
+       "answer": [
+        "172.16.47.254"
+       ]
+      },
+      {
+       "label": "Usable hosts",
+       "answer": [
+        "2046",
+        "2,046"
+       ]
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Choose the smallest prefix for each department",
+     "prompt": "Pick the longest prefix that still fits the hosts (for example /26).",
+     "rows": [
+      {
+       "label": "Sales: 120 hosts",
+       "answer": [
+        "/25",
+        "25"
+       ],
+       "placeholder": "/__"
+      },
+      {
+       "label": "Engineering: 28 hosts",
+       "answer": [
+        "/27",
+        "27"
+       ],
+       "placeholder": "/__"
+      },
+      {
+       "label": "Management: 6 hosts",
+       "answer": [
+        "/29",
+        "29"
+       ],
+       "placeholder": "/__"
+      },
+      {
+       "label": "WAN link: 2 hosts",
+       "answer": [
+        "/30",
+        "30",
+        "/31",
+        "31"
+       ],
+       "placeholder": "/__"
+      }
+     ]
+    }
+   ],
+   "explanation": "/21 means a block of 8 in the third octet: 45 falls in 40-47, so the network is 172.16.40.0 and the broadcast 172.16.47.255; hosts = 2^11 - 2 = 2046. For VLSM, find the smallest 2^h - 2 that fits: 120 -> /25 (126), 28 -> /27 (30), 6 -> /29 (6), 2 -> /30 (2)."
+  },
+  {
+   "id": "np-dmz-rules",
+   "title": "Write the DMZ firewall rules",
+   "domain": "D4",
+   "scenario": "<p>A web server (10.10.10.20) and a mail server (10.10.10.25) sit in a DMZ. Right now the firewall allows everything. Rewrite the rule set so that only the required traffic is allowed.</p>",
+   "activities": [
+    {
+     "type": "rules",
+     "title": "Edit the inbound rule set",
+     "prompt": "Edit, add, delete and reorder rules. Use <b>Any</b>, a single IP, or CIDR like <code>10.1.1.0/24</code>. Ports can be a number, a range (<code>8000-8080</code>) or a list (<code>80,443</code>). Everything not allowed is denied. Requirements: anyone may reach the web server on HTTP and HTTPS; anyone may deliver mail to the mail server over SMTP (25); only the admin subnet 192.168.1.0/24 may use SSH to the DMZ; nothing else.",
+     "start": [
+      {
+       "action": "Allow",
+       "proto": "Any",
+       "src": "Any",
+       "dst": "Any",
+       "port": "Any"
+      }
+     ],
+     "tests": [
+      {
+       "label": "Internet to web server TCP 443",
+       "packet": {
+        "proto": "TCP",
+        "src": "198.51.100.23",
+        "dst": "10.10.10.20",
+        "port": 443
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Internet to web server TCP 80",
+       "packet": {
+        "proto": "TCP",
+        "src": "203.0.113.77",
+        "dst": "10.10.10.20",
+        "port": 80
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Internet to mail server TCP 25",
+       "packet": {
+        "proto": "TCP",
+        "src": "198.51.100.40",
+        "dst": "10.10.10.25",
+        "port": 25
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Admin 192.168.1.15 to web server TCP 22",
+       "packet": {
+        "proto": "TCP",
+        "src": "192.168.1.15",
+        "dst": "10.10.10.20",
+        "port": 22
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Internet to web server TCP 22",
+       "packet": {
+        "proto": "TCP",
+        "src": "198.51.100.23",
+        "dst": "10.10.10.20",
+        "port": 22
+       },
+       "expect": "deny"
+      },
+      {
+       "label": "Internet to mail server TCP 443",
+       "packet": {
+        "proto": "TCP",
+        "src": "198.51.100.23",
+        "dst": "10.10.10.25",
+        "port": 443
+       },
+       "expect": "deny"
+      },
+      {
+       "label": "Other LAN 192.168.2.9 to mail server TCP 22",
+       "packet": {
+        "proto": "TCP",
+        "src": "192.168.2.9",
+        "dst": "10.10.10.25",
+        "port": 22
+       },
+       "expect": "deny"
+      },
+      {
+       "label": "Internet to web server UDP 53",
+       "packet": {
+        "proto": "UDP",
+        "src": "198.51.100.23",
+        "dst": "10.10.10.20",
+        "port": 53
+       },
+       "expect": "deny"
+      }
+     ]
+    }
+   ],
+   "explanation": "Least privilege: allow TCP 80 and 443 to the web server from Any, TCP 25 to the mail server from Any, and TCP 22 from 192.168.1.0/24 to the DMZ. The implicit deny at the end blocks everything else, and the rule that allowed all traffic had to be removed or moved below."
+  },
+  {
+   "id": "np-wireless",
+   "title": "Wi-Fi standards, channels and security",
+   "domain": "D2",
+   "scenario": "<p>You are planning a wireless survey for a small office and need to pick equipment and settings.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match each standard to the bands it supports",
+     "prompt": "Drag each standard to the group that describes its bands.",
+     "categories": [
+      "2.4 GHz only",
+      "5 GHz only",
+      "2.4 and 5 GHz",
+      "Includes 6 GHz"
+     ],
+     "items": [
+      {
+       "text": "802.11b",
+       "cat": 0
+      },
+      {
+       "text": "802.11g",
+       "cat": 0
+      },
+      {
+       "text": "802.11a",
+       "cat": 1
+      },
+      {
+       "text": "802.11ac (Wi-Fi 5)",
+       "cat": 1
+      },
+      {
+       "text": "802.11n (Wi-Fi 4)",
+       "cat": 2
+      },
+      {
+       "text": "802.11ax (Wi-Fi 6)",
+       "cat": 2
+      },
+      {
+       "text": "Wi-Fi 6E",
+       "cat": 3
+      },
+      {
+       "text": "802.11be (Wi-Fi 7)",
+       "cat": 3
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Wireless facts",
+     "prompt": "Fill in each answer.",
+     "rows": [
+      {
+       "label": "Three non-overlapping 2.4 GHz channels in the US (separate with commas)",
+       "answer": [
+        "1,6,11",
+        "1, 6, 11",
+        "1 6 11",
+        "1/6/11",
+        "1, 6 and 11"
+       ]
+      },
+      {
+       "label": "WPA3 replaces the pre-shared-key handshake with this exchange (acronym)",
+       "answer": [
+        "SAE"
+       ]
+      },
+      {
+       "label": "Port-based network access control standard used with RADIUS",
+       "answer": [
+        "802.1X",
+        "802.1x",
+        "dot1x"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "802.11b/g are 2.4 GHz only, 802.11a and ac are 5 GHz only, n and ax use 2.4 and 5 GHz, and 6E and Wi-Fi 7 add the 6 GHz band. Channels 1, 6 and 11 do not overlap on 2.4 GHz. WPA3 uses SAE (Simultaneous Authentication of Equals), and 802.1X with RADIUS gives each user their own credentials."
+  },
+  {
+   "id": "np-symptoms",
+   "title": "Diagnose the symptom",
+   "domain": "D5",
+   "scenario": "<p>Five tickets arrived at once. Match each symptom to its most likely cause, then record the DHCP exchange in order.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match symptom to cause",
+     "prompt": "Drag each symptom to the most likely cause.",
+     "categories": [
+      "DHCP failure",
+      "DNS problem",
+      "Duplex mismatch",
+      "Wrong VLAN",
+      "Default gateway problem"
+     ],
+     "items": [
+      {
+       "text": "Client has a 169.254.x.x address",
+       "cat": 0
+      },
+      {
+       "text": "Ping to 8.8.8.8 works, but ping to a hostname fails",
+       "cat": 1
+      },
+      {
+       "text": "Slow link with CRC errors and late collisions",
+       "cat": 2
+      },
+      {
+       "text": "A phone gets an address from the data subnet",
+       "cat": 3
+      },
+      {
+       "text": "Can reach local hosts but nothing outside the subnet",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Order the DHCP exchange",
+     "prompt": "Put the four DHCP messages in the order they occur.",
+     "items": [
+      "Discover",
+      "Offer",
+      "Request",
+      "Acknowledge"
+     ]
+    }
+   ],
+   "explanation": "169.254.0.0/16 (APIPA) means no DHCP answer. Name resolution failing while IP connectivity works points to DNS. CRC errors and late collisions are classic duplex mismatch symptoms. A device in the wrong VLAN gets the wrong subnet. Reaching only local hosts means the gateway is missing or wrong. DHCP is DORA: Discover, Offer, Request, Acknowledge."
+  }
+ ]
+}

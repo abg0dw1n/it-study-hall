@@ -1705,3 +1705,24 @@ a.icon-btn { display: inline-flex; align-items: center; justify-content: center;
   .ref-note { background: #f2f2f2 !important; border-color: #888; color: #000; }
   .ref-foot { color: #444 !important; }
 }
+
+/* Performance-based practice (js/pbq.js) */
+.pbq-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 14px; }
+.pbq-timer { display: inline-flex; align-items: center; gap: 6px; font: 700 15px var(--mono); }
+.pbq-timer.low { color: var(--bad-text); }
+.pbq-dots { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; min-width: 0; }
+.pbq-dot { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text); font: 700 13px var(--font); cursor: pointer; }
+.pbq-dot.done { border-color: var(--ok-text); }
+.pbq-dot.on { background: color-mix(in srgb, var(--azure) 18%, var(--panel-2)); border-color: var(--azure-text); }
+.pbq-nav, .pbq-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
+.pbq-actions { justify-content: flex-start; }
+.pbq-sizes { display: flex; flex-wrap: wrap; gap: 8px; }
+.pbq-scenario { color: var(--text-2); line-height: 1.55; }
+.pbq-scenario p { margin: 0 0 6px; }
+.pbq-score b { font-size: 2.2rem; font-family: var(--mono); }
+.pbq-review-head { display: flex; justify-content: space-between; gap: 10px; align-items: center; flex-wrap: wrap; }
+.pbq-answer { border: 1px solid var(--border); border-radius: 9px; padding: 8px 12px; background: var(--panel-2); }
+.pbq-answer summary { cursor: pointer; }
+.pbq-answer ul, .pbq-answer ol { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 3px; font-size: 13px; }
+.pbq-explain { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+

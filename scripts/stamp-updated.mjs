@@ -23,6 +23,9 @@ for (const e of exams) {
     const ref = JSON.parse(readFileSync(new URL(`../exams/${e.slug}/reference.json`, import.meta.url), 'utf8'));
     e.reference = (ref.sheets?.length || 0) + (ref.trainer ? 1 : 0);
   } catch { delete e.reference; }
+  try {
+    e.pbq = JSON.parse(readFileSync(new URL(`../exams/${e.slug}/pbq.json`, import.meta.url), 'utf8')).questions?.length || 0;
+  } catch { delete e.pbq; }
   e.questions = JSON.parse(readFileSync(new URL(`../exams/${e.slug}/questions.json`, import.meta.url), 'utf8')).length;
   console.log(`${e.slug.padEnd(20)} ${String(e.questions).padStart(4)} questions  ${e.updated || '(no commits)'}`);
 }

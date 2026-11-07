@@ -1,0 +1,472 @@
+{
+ "intro": "Exam-style performance-based tasks for Security+: controls, forensics, segmentation rules, cryptography, access control and vulnerability management.",
+ "minutesPerQuestion": 8,
+ "questions": [
+  {
+   "id": "sp-controls",
+   "title": "Categorize security controls",
+   "domain": "D1",
+   "scenario": "<p>Your policy review lists many controls. Sort each by its category (what it is) and its type (what it does).</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Sort by control category",
+     "prompt": "Drag each control to its category.",
+     "categories": [
+      "Technical",
+      "Managerial",
+      "Operational",
+      "Physical"
+     ],
+     "items": [
+      {
+       "text": "Next-generation firewall",
+       "cat": 0
+      },
+      {
+       "text": "Disk encryption",
+       "cat": 0
+      },
+      {
+       "text": "Risk assessment",
+       "cat": 1
+      },
+      {
+       "text": "Written acceptable use policy",
+       "cat": 1
+      },
+      {
+       "text": "Security awareness training",
+       "cat": 2
+      },
+      {
+       "text": "Guard at the entrance",
+       "cat": 3
+      },
+      {
+       "text": "Badge reader on the server room",
+       "cat": 3
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Sort by control type",
+     "prompt": "Drag each control to the type that fits best.",
+     "categories": [
+      "Preventive",
+      "Detective",
+      "Corrective",
+      "Deterrent"
+     ],
+     "items": [
+      {
+       "text": "Firewall rule that blocks a port",
+       "cat": 0
+      },
+      {
+       "text": "Patch applied to a server",
+       "cat": 0
+      },
+      {
+       "text": "IDS alert",
+       "cat": 1
+      },
+      {
+       "text": "Security camera recording",
+       "cat": 1
+      },
+      {
+       "text": "Restoring from backup after ransomware",
+       "cat": 2
+      },
+      {
+       "text": "Warning sign about monitoring",
+       "cat": 3
+      }
+     ]
+    }
+   ],
+   "explanation": "Categories describe the implementation: technical (hardware, software), managerial (policy, risk), operational (people and process), physical. Types describe the effect: preventive stops it, detective finds it, corrective repairs it, deterrent discourages it (also directive, compensating)."
+  },
+  {
+   "id": "sp-forensics",
+   "title": "Order of volatility and risk math",
+   "domain": "D4",
+   "scenario": "<p>You are first on scene after a suspected breach, and later you must present the expected loss to management.</p>",
+   "activities": [
+    {
+     "type": "order",
+     "title": "Collect evidence from most to least volatile",
+     "prompt": "Order the sources of evidence, most volatile first.",
+     "items": [
+      "CPU registers and cache",
+      "RAM (running processes, network connections)",
+      "Swap file and temporary files",
+      "Hard drive or SSD contents",
+      "Remote logs and backups",
+      "Archived media"
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Quantitative risk",
+     "prompt": "An asset is worth $200,000. A flood would damage 25% of it and is expected once every two years (ARO 0.5).",
+     "rows": [
+      {
+       "label": "Single loss expectancy (SLE)",
+       "answer": [
+        "50000",
+        "$50000",
+        "50,000",
+        "$50,000"
+       ]
+      },
+      {
+       "label": "Annualized loss expectancy (ALE)",
+       "answer": [
+        "25000",
+        "$25000",
+        "25,000",
+        "$25,000"
+       ]
+      },
+      {
+       "label": "Formula for ALE (two terms, e.g. A x B)",
+       "answer": [
+        "SLE x ARO",
+        "ARO x SLE",
+        "SLE*ARO",
+        "ARO*SLE"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "Collect the most volatile data first: registers and cache, RAM, swap and temp files, disk, remote logs, then archives. SLE = asset value x exposure factor = $200,000 x 0.25 = $50,000. ALE = SLE x ARO = $50,000 x 0.5 = $25,000."
+  },
+  {
+   "id": "sp-screened-subnet",
+   "title": "Screened subnet firewall rules",
+   "domain": "D3",
+   "scenario": "<p>A public web server (10.0.50.10) sits in a screened subnet and queries a database (10.0.60.20) inside the network. Admins work from 10.0.100.5. Replace the permissive rule set.</p>",
+   "activities": [
+    {
+     "type": "rules",
+     "title": "Edit the rule set",
+     "prompt": "Edit, add, delete and reorder rules. Use <b>Any</b>, a single IP, or CIDR like <code>10.1.1.0/24</code>. Ports can be a number, a range (<code>8000-8080</code>) or a list (<code>80,443</code>). Everything not allowed is denied. Requirements: the internet reaches the web server on HTTPS only; the web server may query the database on MySQL (TCP 3306); the admin workstation may use SSH to the database; everything else is blocked.",
+     "start": [
+      {
+       "action": "Allow",
+       "proto": "Any",
+       "src": "Any",
+       "dst": "Any",
+       "port": "Any"
+      }
+     ],
+     "tests": [
+      {
+       "label": "Internet to web server TCP 443",
+       "packet": {
+        "proto": "TCP",
+        "src": "198.51.100.23",
+        "dst": "10.0.50.10",
+        "port": 443
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Internet to web server TCP 80",
+       "packet": {
+        "proto": "TCP",
+        "src": "198.51.100.23",
+        "dst": "10.0.50.10",
+        "port": 80
+       },
+       "expect": "deny"
+      },
+      {
+       "label": "Web server to database TCP 3306",
+       "packet": {
+        "proto": "TCP",
+        "src": "10.0.50.10",
+        "dst": "10.0.60.20",
+        "port": 3306
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Internet to database TCP 3306",
+       "packet": {
+        "proto": "TCP",
+        "src": "203.0.113.9",
+        "dst": "10.0.60.20",
+        "port": 3306
+       },
+       "expect": "deny"
+      },
+      {
+       "label": "Web server to database TCP 22",
+       "packet": {
+        "proto": "TCP",
+        "src": "10.0.50.10",
+        "dst": "10.0.60.20",
+        "port": 22
+       },
+       "expect": "deny"
+      },
+      {
+       "label": "Admin 10.0.100.5 to database TCP 22",
+       "packet": {
+        "proto": "TCP",
+        "src": "10.0.100.5",
+        "dst": "10.0.60.20",
+        "port": 22
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Another workstation 10.0.100.77 to database TCP 22",
+       "packet": {
+        "proto": "TCP",
+        "src": "10.0.100.77",
+        "dst": "10.0.60.20",
+        "port": 22
+       },
+       "expect": "deny"
+      }
+     ]
+    }
+   ],
+   "explanation": "Segmentation with least privilege: only the exact flows required are allowed (443 to the web server, 3306 from the web server to the database, SSH from one admin host), and the final implicit deny blocks the rest. The database must never be reachable directly from the internet."
+  },
+  {
+   "id": "sp-crypto",
+   "title": "Symmetric, asymmetric and hashing",
+   "domain": "D1",
+   "scenario": "<p>A developer asks which cryptographic tool to use for each job. Sort the algorithms, then complete the key-usage facts.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Sort the algorithms",
+     "prompt": "Drag each algorithm to its family.",
+     "categories": [
+      "Symmetric encryption",
+      "Asymmetric (public key)",
+      "Hashing"
+     ],
+     "items": [
+      {
+       "text": "AES",
+       "cat": 0
+      },
+      {
+       "text": "3DES",
+       "cat": 0
+      },
+      {
+       "text": "RSA",
+       "cat": 1
+      },
+      {
+       "text": "ECC",
+       "cat": 1
+      },
+      {
+       "text": "Diffie-Hellman key exchange",
+       "cat": 1
+      },
+      {
+       "text": "SHA-256",
+       "cat": 2
+      },
+      {
+       "text": "bcrypt",
+       "cat": 2
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Key usage",
+     "prompt": "Fill in each blank.",
+     "rows": [
+      {
+       "label": "To digitally sign a message you use your ___ key",
+       "answer": [
+        "private",
+        "private key"
+       ]
+      },
+      {
+       "label": "To verify that signature you use the sender's ___ key",
+       "answer": [
+        "public",
+        "public key"
+       ]
+      },
+      {
+       "label": "A hash value proves this part of the CIA triad (one word)",
+       "answer": [
+        "integrity"
+       ]
+      },
+      {
+       "label": "Adding a unique salt to each password defeats precomputed ___ tables",
+       "answer": [
+        "rainbow"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "AES and 3DES use one shared key (symmetric). RSA, ECC and Diffie-Hellman use key pairs. SHA-256 and bcrypt are one-way hashes. A signature is created with the private key and verified with the public key; hashes provide integrity; salts defeat rainbow tables."
+  },
+  {
+   "id": "sp-iam",
+   "title": "Access control models and authentication factors",
+   "domain": "D1",
+   "scenario": "<p>Match the access scenario to the model, then classify the authentication methods by factor.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match the scenario to the access control model",
+     "prompt": "Drag each scenario to the model it describes.",
+     "categories": [
+      "MAC",
+      "DAC",
+      "RBAC",
+      "ABAC",
+      "Rule-based"
+     ],
+     "items": [
+      {
+       "text": "The operating system enforces Secret and Top Secret labels",
+       "cat": 0
+      },
+      {
+       "text": "The file owner decides who can open the file",
+       "cat": 1
+      },
+      {
+       "text": "Permissions follow the user's job title",
+       "cat": 2
+      },
+      {
+       "text": "Access is allowed only from a managed device during business hours",
+       "cat": 3
+      },
+      {
+       "text": "A firewall ACL applies the same rules to every request",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Classify the authentication factors",
+     "prompt": "Drag each method to its factor.",
+     "categories": [
+      "Something you know",
+      "Something you have",
+      "Something you are",
+      "Somewhere you are"
+     ],
+     "items": [
+      {
+       "text": "PIN",
+       "cat": 0
+      },
+      {
+       "text": "Passphrase",
+       "cat": 0
+      },
+      {
+       "text": "Smart card",
+       "cat": 1
+      },
+      {
+       "text": "Hardware token",
+       "cat": 1
+      },
+      {
+       "text": "Fingerprint",
+       "cat": 2
+      },
+      {
+       "text": "Geofence by IP location",
+       "cat": 3
+      }
+     ]
+    }
+   ],
+   "explanation": "MAC uses labels set by the system, DAC lets owners decide, RBAC grants by role, ABAC evaluates attributes such as device and time, and rule-based control applies fixed rules to all. Factors: knowledge, possession, inherence (biometrics) and location."
+  },
+  {
+   "id": "sp-vuln",
+   "title": "Vulnerability management",
+   "domain": "D2",
+   "scenario": "<p>Your scanner returned a list of findings. Rate them by CVSS v3 severity and put the remediation process in order.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match each CVSS score to its severity",
+     "prompt": "Drag each score to the right rating.",
+     "categories": [
+      "Critical",
+      "High",
+      "Medium",
+      "Low"
+     ],
+     "items": [
+      {
+       "text": "9.8",
+       "cat": 0
+      },
+      {
+       "text": "9.0",
+       "cat": 0
+      },
+      {
+       "text": "8.1",
+       "cat": 1
+      },
+      {
+       "text": "7.0",
+       "cat": 1
+      },
+      {
+       "text": "6.9",
+       "cat": 2
+      },
+      {
+       "text": "4.0",
+       "cat": 2
+      },
+      {
+       "text": "3.9",
+       "cat": 3
+      },
+      {
+       "text": "0.1",
+       "cat": 3
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Order the vulnerability management cycle",
+     "prompt": "Put the steps in order.",
+     "items": [
+      "Scan to identify vulnerabilities",
+      "Analyze and prioritize by severity and exposure",
+      "Remediate or mitigate",
+      "Rescan to verify the fix",
+      "Report and document"
+     ]
+    }
+   ],
+   "explanation": "CVSS v3: 9.0 to 10.0 critical, 7.0 to 8.9 high, 4.0 to 6.9 medium, 0.1 to 3.9 low. Prioritize with severity, exploitability and asset value, fix or compensate, then rescan to confirm."
+  }
+ ]
+}

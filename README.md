@@ -58,6 +58,9 @@ Open the site to pick a course, or go straight to one at `/<folder>` (e.g. `/az-
 
   Module progress (guide read, slides finished, video watched) is saved with the rest of your progress.
 
+- **Reference** – printable cheat sheets and a subnetting trainer (`exams/<folder>/reference.json`). Shown for Network+, CCNA, AZ-104, RHCSA, Linux+, Linux Essentials and the CLI/networking skill paths. Format: `{ "intro", "trainer": true|false, "sheets": [{ "id", "title", "blurb", "blocks": [ {type:"table", head, rows}, {type:"cmds", items}, {type:"list", items}, {type:"note", text} ] }] }`; backticks make inline code and the Print button gives one page per sheet. The trainer (`js/subnet.js`) generates unlimited problems (network, broadcast, usable range, masks, CIDR, host counts, wildcard masks) at three levels, with step-by-step hints and a streak counter.
+- **PBQs** – exam-style performance-based practice (`exams/<folder>/pbq.json`) for Network+, Security+, CCNA and A+ Core 1 and 2. Timed sets (3, 5 or 6 tasks, 8 minutes each by default) with partial credit and answers on the result page, or single tasks with no timer. Format: `{ "intro", "minutesPerQuestion", "questions": [{ "id", "title", "domain", "scenario", "activities": [...], "explanation" }] }`. Activities use the same `match` / `order` / `fill` / `rules` types as lab `tasks` (engine shared with `js/labs.js`, UI in `js/pbq.js`). Guests see a preview.
+
 Progress, flags, and exam history are saved in your browser (localStorage), and the exam timer survives refreshes. The site works offline and can be installed to a phone or desktop home screen.
 
 **Keyboard:** `A`–`F` (or `1`–`6`) answer · `←` `→` navigate · `F` flag · `R` try again (practice).

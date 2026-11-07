@@ -2,14 +2,49 @@
   "note": "Major updates only, newest first. To add one: put a new object at the top of \"releases\" (id = the date, e.g. 2026-11-04). Tags: New, Improved, Changed, Fixed. Keep each item to one plain sentence, and leave small tweaks and fixes out.",
   "releases": [
     {
+      "id": "2026-11-07",
+      "date": "November 7, 2026",
+      "title": "Cheat sheets, a subnetting trainer and performance-based practice",
+      "items": [
+        {
+          "tag": "New",
+          "text": "A Reference tab with one-page printable cheat sheets for Network+, CCNA, AZ-104, RHCSA and the Linux paths."
+        },
+        {
+          "tag": "New",
+          "text": "A subnetting trainer with unlimited generated problems, hints and a streak counter, in the Reference tab for networking exams."
+        },
+        {
+          "tag": "New",
+          "text": "A PBQs tab with exam-style timed performance-based sets (matching, ordering, fill-in and firewall rules) for Network+, Security+, CCNA and A+."
+        },
+        {
+          "tag": "Improved",
+          "text": "One request button now handles both new course requests and feature requests."
+        }
+      ]
+    },
+    {
       "id": "2026-11-03",
       "date": "November 3, 2026",
       "title": "Make it yours: themes, backgrounds and discussions",
       "items": [
-        { "tag": "New", "text": "Question discussions: signed-in users can comment under every practice question, using a display name (never your email)." },
-        { "tag": "New", "text": "68 color themes, each with a light and a dark version, plus an Appearance page (the palette button beside light/dark) to pick one." },
-        { "tag": "New", "text": "Ten animated backgrounds that follow your theme, or turn them off." },
-        { "tag": "New", "text": "Skills & Topics: three non-certification learning paths (CLI and scripting, help desk, networking in practice)." }
+        {
+          "tag": "New",
+          "text": "Question discussions: signed-in users can comment under every practice question, using a display name (never your email)."
+        },
+        {
+          "tag": "New",
+          "text": "68 color themes, each with a light and a dark version, plus an Appearance page (the palette button beside light/dark) to pick one."
+        },
+        {
+          "tag": "New",
+          "text": "Ten animated backgrounds that follow your theme, or turn them off."
+        },
+        {
+          "tag": "New",
+          "text": "Skills & Topics: three non-certification learning paths (CLI and scripting, help desk, networking in practice)."
+        }
       ]
     },
     {
@@ -17,8 +52,14 @@
       "date": "November 2, 2026",
       "title": "Better explanations and course overviews",
       "items": [
-        { "tag": "Improved", "text": "Fuller explanations with verified documentation links across the Microsoft, AWS, Linux and Google courses." },
-        { "tag": "New", "text": "A course overview page for each course; Recents cards open it." }
+        {
+          "tag": "Improved",
+          "text": "Fuller explanations with verified documentation links across the Microsoft, AWS, Linux and Google courses."
+        },
+        {
+          "tag": "New",
+          "text": "A course overview page for each course; Recents cards open it."
+        }
       ]
     },
     {
@@ -26,8 +67,14 @@
       "date": "October 29, 2026",
       "title": "Hands-on labs and Linux courses",
       "items": [
-        { "tag": "New", "text": "Labs: hands-on CLI, configuration and admin-console simulations." },
-        { "tag": "New", "text": "Linux courses: LPI Linux Essentials, CompTIA Linux+ and Red Hat RHCSA, with a Linux lab simulator." }
+        {
+          "tag": "New",
+          "text": "Labs: hands-on CLI, configuration and admin-console simulations."
+        },
+        {
+          "tag": "New",
+          "text": "Linux courses: LPI Linux Essentials, CompTIA Linux+ and Red Hat RHCSA, with a Linux lab simulator."
+        }
       ]
     },
     {
@@ -35,8 +82,14 @@
       "date": "October 28, 2026",
       "title": "The IT Study Hall",
       "items": [
-        { "tag": "Changed", "text": "The site is now The IT Study Hall, with a new logo, the Monokai Pro look and a light/dark switch." },
-        { "tag": "New", "text": "Medical courses: AAPC CPC, NHA CBCS and NHA CMAA." }
+        {
+          "tag": "Changed",
+          "text": "The site is now The IT Study Hall, with a new logo, the Monokai Pro look and a light/dark switch."
+        },
+        {
+          "tag": "New",
+          "text": "Medical courses: AAPC CPC, NHA CBCS and NHA CMAA."
+        }
       ]
     }
   ]

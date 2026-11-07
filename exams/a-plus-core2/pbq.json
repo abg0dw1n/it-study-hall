@@ -1,0 +1,432 @@
+{
+ "intro": "Exam-style performance-based tasks for A+ Core 2: Windows tools and commands, permissions, social engineering, change management and Linux basics.",
+ "minutesPerQuestion": 8,
+ "questions": [
+  {
+   "id": "a2-commands",
+   "title": "Windows command line",
+   "domain": "D1",
+   "scenario": "<p>A user's PC is acting up. Recall the command for each diagnostic or repair task.</p>",
+   "activities": [
+    {
+     "type": "fill",
+     "title": "Type the command",
+     "prompt": "Enter the command with its switch (case does not matter).",
+     "rows": [
+      {
+       "label": "Scan and repair protected system files",
+       "answer": [
+        "sfc /scannow"
+       ]
+      },
+      {
+       "label": "Renew the DHCP lease",
+       "answer": [
+        "ipconfig /renew"
+       ]
+      },
+      {
+       "label": "Force an immediate group policy refresh",
+       "answer": [
+        "gpupdate /force"
+       ]
+      },
+      {
+       "label": "List running processes",
+       "answer": [
+        "tasklist"
+       ]
+      },
+      {
+       "label": "Check a disk for errors and fix them",
+       "answer": [
+        "chkdsk /f",
+        "chkdsk /r",
+        "chkdsk c: /f",
+        "chkdsk c: /r"
+       ]
+      },
+      {
+       "label": "Show the full IP configuration including the MAC address",
+       "answer": [
+        "ipconfig /all"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "sfc /scannow repairs protected files, ipconfig /renew gets a new lease, gpupdate /force refreshes policy, tasklist lists processes, chkdsk /f (or /r) repairs the file system and ipconfig /all shows full configuration including the MAC address."
+  },
+  {
+   "id": "a2-tools",
+   "title": "Windows tools",
+   "domain": "D1",
+   "scenario": "<p>Pick the Windows tool for each job.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match the job to the tool",
+     "prompt": "Drag each job to the tool you would open.",
+     "categories": [
+      "Task Manager",
+      "Device Manager",
+      "Disk Management",
+      "Event Viewer",
+      "Services",
+      "Group Policy Editor"
+     ],
+     "items": [
+      {
+       "text": "End a frozen app and see CPU usage",
+       "cat": 0
+      },
+      {
+       "text": "Roll back a bad driver",
+       "cat": 1
+      },
+      {
+       "text": "Initialize a new disk and create a volume",
+       "cat": 2
+      },
+      {
+       "text": "Read the error logged when a service failed to start",
+       "cat": 3
+      },
+      {
+       "text": "Set a service's startup type to Disabled",
+       "cat": 4
+      },
+      {
+       "text": "Enforce a password policy on a Pro machine",
+       "cat": 5
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Name the console",
+     "prompt": "Type the run command (for example taskmgr).",
+     "rows": [
+      {
+       "label": "Device Manager",
+       "answer": [
+        "devmgmt.msc"
+       ]
+      },
+      {
+       "label": "Services",
+       "answer": [
+        "services.msc"
+       ]
+      },
+      {
+       "label": "Disk Management",
+       "answer": [
+        "diskmgmt.msc"
+       ]
+      },
+      {
+       "label": "Event Viewer",
+       "answer": [
+        "eventvwr.msc",
+        "eventvwr"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "Task Manager manages processes, Device Manager manages drivers, Disk Management handles volumes, Event Viewer shows logs, Services sets startup types and Group Policy Editor (gpedit.msc) applies policy on Pro editions."
+  },
+  {
+   "id": "a2-permissions",
+   "title": "Share and NTFS permissions",
+   "domain": "D2",
+   "scenario": "<p>A folder is shared on the network. Work out the effective permission a user gets over the network, which is the more restrictive of the share and NTFS permissions.</p>",
+   "activities": [
+    {
+     "type": "fill",
+     "title": "Effective permission over the network",
+     "prompt": "Enter Read, Change or Full Control.",
+     "rows": [
+      {
+       "label": "Share: Full Control, NTFS: Read",
+       "answer": [
+        "Read"
+       ]
+      },
+      {
+       "label": "Share: Read, NTFS: Modify",
+       "answer": [
+        "Read"
+       ]
+      },
+      {
+       "label": "Share: Change, NTFS: Full Control",
+       "answer": [
+        "Change",
+        "Modify"
+       ]
+      },
+      {
+       "label": "Share: Full Control, NTFS: Full Control",
+       "answer": [
+        "Full Control",
+        "Full"
+       ]
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Match the term to its meaning",
+     "prompt": "Drag each statement to the term.",
+     "categories": [
+      "Inheritance",
+      "Explicit deny",
+      "Moving to another volume",
+      "Moving within the same volume"
+     ],
+     "items": [
+      {
+       "text": "Child folders receive the parent's permissions",
+       "cat": 0
+      },
+      {
+       "text": "Overrides any allow for the same user or group",
+       "cat": 1
+      },
+      {
+       "text": "The object takes the destination folder's permissions",
+       "cat": 2
+      },
+      {
+       "text": "The object keeps its original permissions",
+       "cat": 3
+      }
+     ]
+    }
+   ],
+   "explanation": "Over the network, the most restrictive of share and NTFS permissions applies. NTFS permissions are inherited; an explicit deny wins. Moving a file within a volume keeps its permissions, while copying or moving to another volume takes the destination's."
+  },
+  {
+   "id": "a2-social",
+   "title": "Recognize the attack",
+   "domain": "D2",
+   "scenario": "<p>Security awareness training starts today. Match each scenario to the attack it describes.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match scenario to attack",
+     "prompt": "Drag each scenario to the attack.",
+     "categories": [
+      "Phishing",
+      "Vishing",
+      "Shoulder surfing",
+      "Tailgating",
+      "Dumpster diving",
+      "Evil twin"
+     ],
+     "items": [
+      {
+       "text": "An email link leads to a fake sign-in page",
+       "cat": 0
+      },
+      {
+       "text": "A caller claims to be the bank's fraud team",
+       "cat": 1
+      },
+      {
+       "text": "Someone watches you type a PIN",
+       "cat": 2
+      },
+      {
+       "text": "A stranger follows an employee through a badge door",
+       "cat": 3
+      },
+      {
+       "text": "Digging through trash for printed account numbers",
+       "cat": 4
+      },
+      {
+       "text": "A Wi-Fi network named like the cafe's, run by an attacker",
+       "cat": 5
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Defences",
+     "prompt": "Name one control that mitigates each (one or two words).",
+     "rows": [
+      {
+       "label": "Stops tailgating at a door (a small vestibule with two doors)",
+       "answer": [
+        "mantrap",
+        "access control vestibule",
+        "vestibule"
+       ]
+      },
+      {
+       "label": "Stops useful data being recovered from paper (destroy it)",
+       "answer": [
+        "shredding",
+        "shredder",
+        "shred",
+        "cross-cut shredder"
+       ]
+      },
+      {
+       "label": "Second login step that defeats a stolen password",
+       "answer": [
+        "MFA",
+        "2FA",
+        "multifactor authentication",
+        "multi-factor authentication",
+        "two-factor authentication"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "Phishing is email, vishing is voice, shoulder surfing is observation, tailgating follows someone through a door, dumpster diving digs through trash, and an evil twin impersonates a trusted access point. Mantraps stop tailgating, shredders handle paper, and MFA limits the damage of stolen passwords."
+  },
+  {
+   "id": "a2-change-mgmt",
+   "title": "Change management and backups",
+   "domain": "D4",
+   "scenario": "<p>You are preparing to patch a production server. Put the change process in order, then match each backup type to its description.</p>",
+   "activities": [
+    {
+     "type": "order",
+     "title": "Order the change management process",
+     "prompt": "Put the steps in order.",
+     "items": [
+      "Define the purpose and scope of the change",
+      "Analyze the risk",
+      "Write the plan, including a backout plan",
+      "Get approval from the change board",
+      "Implement the change",
+      "Document the change and its results"
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Match the backup type",
+     "prompt": "Drag each description to the backup type.",
+     "categories": [
+      "Full",
+      "Incremental",
+      "Differential"
+     ],
+     "items": [
+      {
+       "text": "Copies everything and clears the archive bit",
+       "cat": 0
+      },
+      {
+       "text": "Copies only what changed since the last backup of any kind",
+       "cat": 1
+      },
+      {
+       "text": "Copies everything changed since the last full backup",
+       "cat": 2
+      },
+      {
+       "text": "Fastest to back up but slowest restore (many pieces)",
+       "cat": 1
+      },
+      {
+       "text": "Restore needs only the full and the latest of these",
+       "cat": 2
+      }
+     ]
+    }
+   ],
+   "explanation": "A change moves from request and risk analysis through planning with a rollback plan, approval, implementation and documentation. Incremental backups are quick but restores need the last full plus every increment; differential backups grow each day but restores need only the full plus the latest differential."
+  },
+  {
+   "id": "a2-linux-mac",
+   "title": "Linux and macOS commands",
+   "domain": "D1",
+   "scenario": "<p>Many IT shops mix Windows with Linux and macOS. Match each command to its purpose.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match command to purpose",
+     "prompt": "Drag each command to what it does.",
+     "categories": [
+      "List directory contents",
+      "Change permissions",
+      "Show the current directory",
+      "Search text in files",
+      "Show running processes",
+      "Change the file owner"
+     ],
+     "items": [
+      {
+       "text": "ls",
+       "cat": 0
+      },
+      {
+       "text": "chmod",
+       "cat": 1
+      },
+      {
+       "text": "pwd",
+       "cat": 2
+      },
+      {
+       "text": "grep",
+       "cat": 3
+      },
+      {
+       "text": "ps",
+       "cat": 4
+      },
+      {
+       "text": "chown",
+       "cat": 5
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Type the command",
+     "prompt": "Fill in the command name.",
+     "rows": [
+      {
+       "label": "Run a single command with elevated privileges",
+       "answer": [
+        "sudo"
+       ]
+      },
+      {
+       "label": "Show disk space by file system",
+       "answer": [
+        "df",
+        "df -h"
+       ]
+      },
+      {
+       "label": "Copy files and directories",
+       "answer": [
+        "cp",
+        "cp -r"
+       ]
+      },
+      {
+       "label": "Download and install packages on Ubuntu or Debian",
+       "answer": [
+        "apt",
+        "apt install",
+        "apt-get",
+        "apt-get install"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "ls lists, chmod changes permissions, pwd prints the working directory, grep searches text, ps lists processes and chown changes ownership. sudo elevates, df shows free space, cp copies and apt installs packages on Debian-based systems."
+  }
+ ]
+}

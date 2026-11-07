@@ -273,8 +273,7 @@ function renderTerminal(el) {
 }
 
 // ── Activities (tasks kind) ──────────────────────────────────────────────────
-function shuffleOnce(key, n) {
-  const st = live.w.acts[key] ||= {};
+function shuffleOnce(st, n) {
   if (!st.order) { st.order = [...Array(n).keys()]; for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [st.order[i], st.order[j]] = [st.order[j], st.order[i]]; } }
   return st;
 }
@@ -286,17 +285,21 @@ function renderActivities(el) {
 function drawActivity(i) {
   const a = live.lab.activities[i]; const box = document.querySelector(`[data-act="${i}"] .act-body`);
   const st = live.w.acts[i] ||= {};
-  const changed = () => { ctx.save(); renderSide(true); };
+  mountActivity(box, a, st, { changed: () => { ctx.save(); renderSide(true); }, redraw: () => drawActivity(i) });
+}
+// Draws one task activity (match, order, fill, rules) into `box`, keeping its answers in `st`.
+// Shared with the performance-based practice mode (js/pbq.js).
+export function mountActivity(box, a, st, { changed, redraw }) {
   if (a.type === 'match') {
     st.place ||= {};
     const bank = a.items.map((it, k) => k).filter((k) => st.place[k] == null);
-    shuffleOnce(i, a.items.length);
+    shuffleOnce(st, a.items.length);
     const chip = (k) => `<button type="button" class="drag-item ${st.sel === k ? 'selected' : ''}" draggable="true" data-item="${k}">${esc(a.items[k].text)}</button>`;
     box.innerHTML = `<p class="small muted">Drag each item to the right group, or tap an item and then tap a group. Tap a placed item to send it back.</p>
       <div class="drag-bank" data-zone="bank">${st.order.filter((k) => bank.includes(k)).map(chip).join('') || '<span class="small muted">All items placed.</span>'}</div>
       <div class="drop-grid">${a.categories.map((c, ci) => `<div class="drop-zone" data-zone="${ci}"><b>${esc(c)}</b>
         <div class="drop-items">${a.items.map((_, k) => k).filter((k) => st.place[k] === ci).map(chip).join('')}</div></div>`).join('')}</div>`;
-    const place = (k, zone) => { if (zone === 'bank') delete st.place[k]; else st.place[k] = Number(zone); st.sel = null; drawActivity(i); changed(); };
+    const place = (k, zone) => { if (zone === 'bank') delete st.place[k]; else st.place[k] = Number(zone); st.sel = null; redraw(); changed(); };
     box.querySelectorAll('.drag-item').forEach((b) => {
       b.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text/plain', b.dataset.item); e.dataTransfer.effectAllowed = 'move'; });
       b.addEventListener('click', (e) => {
@@ -304,7 +307,7 @@ function drawActivity(i) {
         // With another item selected, tapping a placed item drops the selection into that group.
         if (st.sel != null && st.sel !== k && st.place[k] != null) return place(st.sel, String(st.place[k]));
         if (st.place[k] != null) return place(k, 'bank');
-        st.sel = st.sel === k ? null : k; drawActivity(i);
+        st.sel = st.sel === k ? null : k; redraw();
       });
     });
     box.querySelectorAll('[data-zone]').forEach((z) => {
@@ -314,12 +317,12 @@ function drawActivity(i) {
       z.addEventListener('click', () => { if (st.sel != null) place(st.sel, z.dataset.zone); });
     });
   } else if (a.type === 'order') {
-    const s2 = shuffleOnce(i, a.items.length);
+    const s2 = shuffleOnce(st, a.items.length);
     box.innerHTML = `<p class="small muted">Drag to reorder, or use the arrows.</p><ol class="order-list">${s2.order.map((k, pos) =>
       `<li draggable="true" data-pos="${pos}"><span class="grip" aria-hidden="true">⋮⋮</span><span class="order-text">${esc(a.items[k])}</span>
         <span class="order-btns"><button type="button" class="icon-btn" data-move="-1" aria-label="Move up" ${pos === 0 ? 'disabled' : ''}>↑</button>
         <button type="button" class="icon-btn" data-move="1" aria-label="Move down" ${pos === s2.order.length - 1 ? 'disabled' : ''}>↓</button></span></li>`).join('')}</ol>`;
-    const move = (from, to) => { const [x] = s2.order.splice(from, 1); s2.order.splice(to, 0, x); drawActivity(i); changed(); };
+    const move = (from, to) => { const [x] = s2.order.splice(from, 1); s2.order.splice(to, 0, x); redraw(); changed(); };
     box.querySelectorAll('li').forEach((li) => {
       const pos = Number(li.dataset.pos);
       li.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', String(pos)));
@@ -350,11 +353,11 @@ function drawActivity(i) {
     box.querySelectorAll('.rules-row[data-r]').forEach((row) => {
       const k = Number(row.dataset.r); const r = st.rules[k];
       row.querySelectorAll('[data-f]').forEach((f) => f.addEventListener('input', () => { r[f.dataset.f] = f.value; st.results = null; changed(); }));
-      row.querySelector('[data-up]').addEventListener('click', () => { [st.rules[k - 1], st.rules[k]] = [st.rules[k], st.rules[k - 1]]; st.results = null; drawActivity(i); changed(); });
-      row.querySelector('[data-down]').addEventListener('click', () => { [st.rules[k + 1], st.rules[k]] = [st.rules[k], st.rules[k + 1]]; st.results = null; drawActivity(i); changed(); });
-      row.querySelector('[data-del]').addEventListener('click', () => { st.rules.splice(k, 1); st.results = null; drawActivity(i); changed(); });
+      row.querySelector('[data-up]').addEventListener('click', () => { [st.rules[k - 1], st.rules[k]] = [st.rules[k], st.rules[k - 1]]; st.results = null; redraw(); changed(); });
+      row.querySelector('[data-down]').addEventListener('click', () => { [st.rules[k + 1], st.rules[k]] = [st.rules[k], st.rules[k + 1]]; st.results = null; redraw(); changed(); });
+      row.querySelector('[data-del]').addEventListener('click', () => { st.rules.splice(k, 1); st.results = null; redraw(); changed(); });
     });
-    box.querySelector('[data-add-rule]').addEventListener('click', () => { st.rules.push({ action: 'Allow', proto: 'TCP', src: 'Any', dst: 'Any', port: 'Any' }); drawActivity(i); changed(); });
+    box.querySelector('[data-add-rule]').addEventListener('click', () => { st.rules.push({ action: 'Allow', proto: 'TCP', src: 'Any', dst: 'Any', port: 'Any' }); redraw(); changed(); });
   }
 }
 const norm = (s) => String(s ?? '').trim().toLowerCase().replace(/\s+/g, '');
@@ -380,8 +383,16 @@ function evalRules(rules, pkt) {
   }
   return 'deny';
 }
-function activityOk(i) {
-  const a = live.lab.activities[i]; const st = live.w.acts[i] || {};
+function activityOk(i) { return activityCorrect(live.lab.activities[i], live.w.acts[i] || {}); }
+// Partial credit for one activity: how many of its parts are right, { got, total }. Used by the performance-based mode.
+export function activityScore(a, st = {}) {
+  if (a.type === 'match') return { got: a.items.filter((it, k) => st.place?.[k] === it.cat).length, total: a.items.length };
+  if (a.type === 'order') return { got: a.items.filter((_, pos) => st.order?.[pos] === pos).length, total: a.items.length };
+  if (a.type === 'fill') return { got: a.rows.filter((r, k) => (Array.isArray(r.answer) ? r.answer : [r.answer]).some((ans) => norm(ans) === norm(st.vals?.[k]))).length, total: a.rows.length };
+  if (a.type === 'rules') { const rules = st.rules || []; const ok = a.tests.filter((t) => evalRules(rules, t.packet) === t.expect).length; return { got: ok, total: a.tests.length }; }
+  return { got: 0, total: 1 };
+}
+export function activityCorrect(a, st) {
   if (a.type === 'match') return a.items.every((it, k) => st.place?.[k] === it.cat);
   if (a.type === 'order') return !!st.order && st.order.every((k, pos) => k === pos);
   if (a.type === 'fill') return a.rows.every((r, k) => (Array.isArray(r.answer) ? r.answer : [r.answer]).some((ans) => norm(ans) === norm(st.vals?.[k])));

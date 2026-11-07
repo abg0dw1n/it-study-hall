@@ -1,0 +1,415 @@
+{
+ "intro": "Exam-style performance-based tasks for A+ Core 1: mobile devices, RAID, small-office networking, hardware repair and troubleshooting.",
+ "minutesPerQuestion": 8,
+ "questions": [
+  {
+   "id": "a1-mobile-setup",
+   "title": "Set up a corporate phone",
+   "domain": "D1",
+   "scenario": "<p>A new employee receives a company-owned smartphone. Walk through setup in a sensible order, then match printer symptoms to causes for a second ticket.</p>",
+   "activities": [
+    {
+     "type": "order",
+     "title": "Order the setup steps",
+     "prompt": "Put the steps in a logical order.",
+     "items": [
+      "Power on and connect to Wi-Fi",
+      "Sign in to the manufacturer account (Apple ID or Google)",
+      "Enroll the device in the company MDM",
+      "Install the email profile and configure the Exchange account",
+      "Set a PIN or biometric lock",
+      "Send and receive a test email"
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Printer symptoms",
+     "prompt": "Drag each symptom to the part or setting most likely at fault.",
+     "categories": [
+      "Fuser",
+      "Pickup roller",
+      "Drum or toner",
+      "Network or driver"
+     ],
+     "items": [
+      {
+       "text": "Toner smears when you touch the page",
+       "cat": 0
+      },
+      {
+       "text": "Several sheets are pulled at once or the tray will not feed",
+       "cat": 1
+      },
+      {
+       "text": "Repeating marks or vertical streaks on every page",
+       "cat": 2
+      },
+      {
+       "text": "Printer is powered on but shows as offline",
+       "cat": 3
+      }
+     ]
+    }
+   ],
+   "explanation": "Enroll in MDM before loading corporate data so policies (encryption, lock, remote wipe) apply from the start. Smearing toner means the fuser is not melting it onto the page; feeding problems point at the pickup roller; repeating marks come from the drum; an offline printer is usually network, port or driver."
+  },
+  {
+   "id": "a1-raid",
+   "title": "RAID capacity and levels",
+   "domain": "D3",
+   "scenario": "<p>A client wants to know how much usable space each array gives. All disks are 2 TB unless stated.</p>",
+   "activities": [
+    {
+     "type": "fill",
+     "title": "Calculate usable capacity (in TB)",
+     "prompt": "Enter just the number.",
+     "rows": [
+      {
+       "label": "RAID 0 with 4 disks",
+       "answer": [
+        "8",
+        "8TB",
+        "8 TB"
+       ]
+      },
+      {
+       "label": "RAID 1 with 2 disks",
+       "answer": [
+        "2",
+        "2TB",
+        "2 TB"
+       ]
+      },
+      {
+       "label": "RAID 5 with 4 disks",
+       "answer": [
+        "6",
+        "6TB",
+        "6 TB"
+       ]
+      },
+      {
+       "label": "RAID 6 with 4 disks",
+       "answer": [
+        "4",
+        "4TB",
+        "4 TB"
+       ]
+      },
+      {
+       "label": "RAID 10 with 4 disks",
+       "answer": [
+        "4",
+        "4TB",
+        "4 TB"
+       ]
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Match the description to the RAID level",
+     "prompt": "Drag each description to the level.",
+     "categories": [
+      "RAID 0",
+      "RAID 1",
+      "RAID 5",
+      "RAID 6",
+      "RAID 10"
+     ],
+     "items": [
+      {
+       "text": "Striping only, no fault tolerance",
+       "cat": 0
+      },
+      {
+       "text": "Mirror of two disks",
+       "cat": 1
+      },
+      {
+       "text": "Striping with single parity, three disks minimum",
+       "cat": 2
+      },
+      {
+       "text": "Double parity, survives two failed disks",
+       "cat": 3
+      },
+      {
+       "text": "Mirrored pairs that are striped, four disks minimum",
+       "cat": 4
+      }
+     ]
+    }
+   ],
+   "explanation": "Usable capacity: RAID 0 = n x size, RAID 1 = one disk, RAID 5 = (n-1) x size, RAID 6 = (n-2) x size, RAID 10 = n/2 x size. RAID 5 survives one failed disk, RAID 6 two, RAID 10 one per mirror pair."
+  },
+  {
+   "id": "a1-soho",
+   "title": "Secure a small-office router",
+   "domain": "D2",
+   "scenario": "<p>A new SOHO router arrives with factory settings. Sort the actions into those you should do and those you must avoid.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Do or don't",
+     "prompt": "Drag each action to the right group.",
+     "categories": [
+      "Do",
+      "Don't"
+     ],
+     "items": [
+      {
+       "text": "Change the default administrator password",
+       "cat": 0
+      },
+      {
+       "text": "Use WPA3 or WPA2 with AES",
+       "cat": 0
+      },
+      {
+       "text": "Disable WPS",
+       "cat": 0
+      },
+      {
+       "text": "Keep the firmware updated",
+       "cat": 0
+      },
+      {
+       "text": "Leave remote administration open to the internet",
+       "cat": 1
+      },
+      {
+       "text": "Use WEP so older devices still connect",
+       "cat": 1
+      },
+      {
+       "text": "Keep the default admin username and password",
+       "cat": 1
+      },
+      {
+       "text": "Broadcast the admin page on the guest network",
+       "cat": 1
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Identify the setting",
+     "prompt": "Name the router feature that fits each need.",
+     "rows": [
+      {
+       "label": "Give a printer the same IP every time without setting it on the printer",
+       "answer": [
+        "DHCP reservation",
+        "reservation"
+       ]
+      },
+      {
+       "label": "Expose an internal web server to the internet on a chosen port",
+       "answer": [
+        "port forwarding",
+        "port forward",
+        "forwarding"
+       ]
+      },
+      {
+       "label": "Separate visitor Wi-Fi from the company network",
+       "answer": [
+        "guest network",
+        "guest wifi",
+        "guest wi-fi",
+        "VLAN"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "Harden defaults: change credentials, use WPA3/WPA2-AES, disable WPS and remote administration, update firmware. DHCP reservations bind an address to a MAC; port forwarding publishes an internal service; a guest network isolates visitors."
+  },
+  {
+   "id": "a1-laptop-ram",
+   "title": "Replace laptop memory",
+   "domain": "D3",
+   "scenario": "<p>A laptop needs more RAM. Put the safe procedure in order, then pick the likely failing component for three symptoms.</p>",
+   "activities": [
+    {
+     "type": "order",
+     "title": "Order the procedure",
+     "prompt": "Put the steps in order.",
+     "items": [
+      "Power off, unplug the charger and remove the battery if possible",
+      "Put on an ESD strap and work on a clean, non-static surface",
+      "Open the service panel",
+      "Release the clips and remove the old module",
+      "Insert the new module at an angle and press it down until the clips lock",
+      "Close the panel, reconnect power and confirm the new size in the BIOS or OS"
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Match the symptom to the part",
+     "prompt": "Drag each symptom to the most likely component.",
+     "categories": [
+      "Power supply or charger",
+      "RAM",
+      "Storage drive",
+      "Cooling"
+     ],
+     "items": [
+      {
+       "text": "No lights or fans at all",
+       "cat": 0
+      },
+      {
+       "text": "Continuous beeps and no display after a memory change",
+       "cat": 1
+      },
+      {
+       "text": "Clicking noise, then 'operating system not found'",
+       "cat": 2
+      },
+      {
+       "text": "Random shutdowns under load with loud fans",
+       "cat": 3
+      }
+     ]
+    }
+   ],
+   "explanation": "Always power down, remove power and use ESD protection. RAM seats at an angle, then clicks down. Beep codes at POST with no video after a change point to RAM; clicking from the drive points at storage; overheating shutdowns point at cooling."
+  },
+  {
+   "id": "a1-network-tools",
+   "title": "Cables, tools and ports",
+   "domain": "D2",
+   "scenario": "<p>A technician's bag holds several tools and the network closet has labelled ports. Match each tool or port to its job.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match the tool to the job",
+     "prompt": "Drag each job to the tool.",
+     "categories": [
+      "Cable tester",
+      "Toner and probe",
+      "Crimper",
+      "Loopback plug",
+      "Wi-Fi analyzer"
+     ],
+     "items": [
+      {
+       "text": "Check continuity and pinout of a patch cable",
+       "cat": 0
+      },
+      {
+       "text": "Trace which wall jack a cable goes to",
+       "cat": 1
+      },
+      {
+       "text": "Attach an RJ-45 connector to a cable",
+       "cat": 2
+      },
+      {
+       "text": "Test whether a network port transmits and receives",
+       "cat": 3
+      },
+      {
+       "text": "Find the least crowded wireless channel",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Match the port to its service",
+     "prompt": "Drag each port number to the service.",
+     "categories": [
+      "HTTPS",
+      "RDP",
+      "SSH",
+      "DNS",
+      "DHCP server"
+     ],
+     "items": [
+      {
+       "text": "443",
+       "cat": 0
+      },
+      {
+       "text": "3389",
+       "cat": 1
+      },
+      {
+       "text": "22",
+       "cat": 2
+      },
+      {
+       "text": "53",
+       "cat": 3
+      },
+      {
+       "text": "67",
+       "cat": 4
+      }
+     ]
+    }
+   ],
+   "explanation": "Cable testers check wiring, toner and probe trace cables, crimpers terminate RJ-45, loopback plugs test ports and Wi-Fi analyzers show channel use. Ports: HTTPS 443, RDP 3389, SSH 22, DNS 53, DHCP server 67 (client 68)."
+  },
+  {
+   "id": "a1-symptoms",
+   "title": "Hardware symptoms",
+   "domain": "D5",
+   "scenario": "<p>Five desktops were reported with different problems. Match each to the most likely component, then order the troubleshooting steps.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Match symptom to component",
+     "prompt": "Drag each symptom to the most likely cause.",
+     "categories": [
+      "Power supply",
+      "RAM",
+      "Display or cable",
+      "CPU cooling",
+      "Storage drive"
+     ],
+     "items": [
+      {
+       "text": "No power, no fans, no lights",
+       "cat": 0
+      },
+      {
+       "text": "Beeps on boot and no display",
+       "cat": 1
+      },
+      {
+       "text": "Fans spin, but the monitor says 'No signal'",
+       "cat": 2
+      },
+      {
+       "text": "Shuts down after a few minutes under load",
+       "cat": 3
+      },
+      {
+       "text": "Slow, clicking, files will not open",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Order the troubleshooting steps",
+     "prompt": "Put the CompTIA steps in order.",
+     "items": [
+      "Identify the problem",
+      "Establish a theory of probable cause",
+      "Test the theory",
+      "Establish a plan of action",
+      "Implement the solution",
+      "Verify functionality",
+      "Document"
+     ]
+    }
+   ],
+   "explanation": "Match the symptom to the component, test your theory, and follow the standard methodology each time. A monitor reporting no signal while fans spin often means a loose cable, wrong input or failed GPU rather than a dead PC."
+  }
+ ]
+}

@@ -1,0 +1,466 @@
+{
+ "intro": "Exam-style performance-based tasks for the CCNA: subnetting, VLANs, ACLs, OSPF, EtherChannel and IPv6.",
+ "minutesPerQuestion": 8,
+ "questions": [
+  {
+   "id": "cc-subnet",
+   "title": "Subnet calculations",
+   "domain": "D1",
+   "scenario": "<p>Document a host's subnet and plan a split of a /24 into four equal subnets.</p>",
+   "activities": [
+    {
+     "type": "fill",
+     "title": "Document 10.20.30.77/27",
+     "prompt": "Fill in each value.",
+     "rows": [
+      {
+       "label": "Subnet mask",
+       "answer": [
+        "255.255.255.224"
+       ]
+      },
+      {
+       "label": "Network address",
+       "answer": [
+        "10.20.30.64"
+       ]
+      },
+      {
+       "label": "Broadcast address",
+       "answer": [
+        "10.20.30.95"
+       ]
+      },
+      {
+       "label": "First usable host",
+       "answer": [
+        "10.20.30.65"
+       ]
+      },
+      {
+       "label": "Last usable host",
+       "answer": [
+        "10.20.30.94"
+       ]
+      },
+      {
+       "label": "Usable hosts",
+       "answer": [
+        "30"
+       ]
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Split 192.168.4.0/24 into four equal subnets",
+     "prompt": "Give the prefix and the network address of each subnet that follows 192.168.4.0.",
+     "rows": [
+      {
+       "label": "New prefix length",
+       "answer": [
+        "/26",
+        "26"
+       ],
+       "placeholder": "/__"
+      },
+      {
+       "label": "Second subnet network address",
+       "answer": [
+        "192.168.4.64"
+       ]
+      },
+      {
+       "label": "Third subnet network address",
+       "answer": [
+        "192.168.4.128"
+       ]
+      },
+      {
+       "label": "Fourth subnet broadcast address",
+       "answer": [
+        "192.168.4.255"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "/27 = block size 32 in the last octet. 77 falls in 64-95, so network .64, broadcast .95, hosts .65 to .94 (30 usable). Four subnets need 2 borrowed bits: /26, blocks of 64 (.0, .64, .128, .192); the last broadcast is .255."
+  },
+  {
+   "id": "cc-vlan-cli",
+   "title": "VLAN and trunk commands",
+   "domain": "D2",
+   "scenario": "<p>You are configuring a new access switch. Recall the IOS commands for each task.</p>",
+   "activities": [
+    {
+     "type": "fill",
+     "title": "Type the command",
+     "prompt": "Enter the full IOS command (abbreviations are accepted where IOS allows them).",
+     "rows": [
+      {
+       "label": "Make interface g0/1 an 802.1Q trunk",
+       "answer": [
+        "switchport mode trunk",
+        "sw mode trunk",
+        "switchport mode tr"
+       ]
+      },
+      {
+       "label": "Place an access port in VLAN 20",
+       "answer": [
+        "switchport access vlan 20",
+        "sw access vlan 20"
+       ]
+      },
+      {
+       "label": "Show a summary of VLANs and their access ports",
+       "answer": [
+        "show vlan brief",
+        "sh vlan brief",
+        "show vlan br",
+        "sh vlan br"
+       ]
+      },
+      {
+       "label": "Show trunk ports with allowed and native VLANs",
+       "answer": [
+        "show interfaces trunk",
+        "show int trunk",
+        "sh int trunk",
+        "sh interfaces trunk"
+       ]
+      },
+      {
+       "label": "Change the trunk native VLAN to 99",
+       "answer": [
+        "switchport trunk native vlan 99",
+        "sw trunk native vlan 99"
+       ]
+      },
+      {
+       "label": "Create VLAN 30 (global configuration)",
+       "answer": [
+        "vlan 30"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "Access ports use switchport mode access and switchport access vlan N. Trunks use switchport mode trunk; the native VLAN is changed with switchport trunk native vlan N and must match on both ends. show vlan brief and show interfaces trunk are the key verification commands."
+  },
+  {
+   "id": "cc-acl",
+   "title": "Build the ACL",
+   "domain": "D4",
+   "scenario": "<p>Server 10.1.1.10 must be protected. The current ACL permits everything. Rewrite it with these requirements: the sales subnet 192.168.10.0/24 may use HTTPS; the help desk subnet 192.168.20.0/24 may ping the server; only host 192.168.30.4 may use SSH; deny everything else.</p>",
+   "activities": [
+    {
+     "type": "rules",
+     "title": "Edit the ACL",
+     "prompt": "Edit, add, delete and reorder rules. Use <b>Any</b>, a single IP, or CIDR like <code>10.1.1.0/24</code>. Ports can be a number, a range (<code>8000-8080</code>) or a list (<code>80,443</code>). Everything not allowed is denied.",
+     "start": [
+      {
+       "action": "Allow",
+       "proto": "Any",
+       "src": "Any",
+       "dst": "Any",
+       "port": "Any"
+      }
+     ],
+     "tests": [
+      {
+       "label": "Sales host to server TCP 443",
+       "packet": {
+        "proto": "TCP",
+        "src": "192.168.10.7",
+        "dst": "10.1.1.10",
+        "port": 443
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Sales host to server TCP 22",
+       "packet": {
+        "proto": "TCP",
+        "src": "192.168.10.7",
+        "dst": "10.1.1.10",
+        "port": 22
+       },
+       "expect": "deny"
+      },
+      {
+       "label": "Help desk host to server TCP 443",
+       "packet": {
+        "proto": "TCP",
+        "src": "192.168.20.9",
+        "dst": "10.1.1.10",
+        "port": 443
+       },
+       "expect": "deny"
+      },
+      {
+       "label": "Help desk host ping (ICMP) to server",
+       "packet": {
+        "proto": "ICMP",
+        "src": "192.168.20.9",
+        "dst": "10.1.1.10",
+        "port": null
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Sales host ping (ICMP) to server",
+       "packet": {
+        "proto": "ICMP",
+        "src": "192.168.10.7",
+        "dst": "10.1.1.10",
+        "port": null
+       },
+       "expect": "deny"
+      },
+      {
+       "label": "Admin 192.168.30.4 to server TCP 22",
+       "packet": {
+        "proto": "TCP",
+        "src": "192.168.30.4",
+        "dst": "10.1.1.10",
+        "port": 22
+       },
+       "expect": "allow"
+      },
+      {
+       "label": "Another host 192.168.30.5 to server TCP 22",
+       "packet": {
+        "proto": "TCP",
+        "src": "192.168.30.5",
+        "dst": "10.1.1.10",
+        "port": 22
+       },
+       "expect": "deny"
+      }
+     ]
+    }
+   ],
+   "explanation": "An ACL is checked top to bottom, first match wins, with an implicit deny at the end. Use TCP 443 for sales, ICMP for the help desk subnet and a host-specific TCP 22 entry for the admin. Extended ACLs go close to the source."
+  },
+  {
+   "id": "cc-ospf",
+   "title": "OSPF neighbor states and timers",
+   "domain": "D3",
+   "scenario": "<p>Two routers will not form an OSPF adjacency. Review how it works.</p>",
+   "activities": [
+    {
+     "type": "order",
+     "title": "Order the OSPF neighbor states",
+     "prompt": "Put the states in the order a neighbor passes through them.",
+     "items": [
+      "Down",
+      "Init",
+      "2-Way",
+      "ExStart",
+      "Exchange",
+      "Loading",
+      "Full"
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "OSPF facts",
+     "prompt": "Fill in each value.",
+     "rows": [
+      {
+       "label": "Default hello interval on a broadcast network (seconds)",
+       "answer": [
+        "10"
+       ]
+      },
+      {
+       "label": "Default dead interval on a broadcast network (seconds)",
+       "answer": [
+        "40"
+       ]
+      },
+      {
+       "label": "Administrative distance of OSPF",
+       "answer": [
+        "110"
+       ]
+      },
+      {
+       "label": "Multicast address for all OSPF routers",
+       "answer": [
+        "224.0.0.5"
+       ]
+      },
+      {
+       "label": "Multicast address for DRs and BDRs",
+       "answer": [
+        "224.0.0.6"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "Neighbors move Down, Init, 2-Way, ExStart, Exchange, Loading, Full. On Ethernet, hello 10 s and dead 40 s must match, as must area, subnet and authentication. OSPF uses 224.0.0.5 (all routers) and 224.0.0.6 (DR/BDR), AD 110."
+  },
+  {
+   "id": "cc-etherchannel-stp",
+   "title": "EtherChannel and spanning tree",
+   "domain": "D2",
+   "scenario": "<p>Plan a link bundle between two switches and harden the access ports.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Does this pair of modes form an EtherChannel?",
+     "prompt": "Drag each combination to the right group.",
+     "categories": [
+      "Forms a channel",
+      "Does not form"
+     ],
+     "items": [
+      {
+       "text": "LACP active - active",
+       "cat": 0
+      },
+      {
+       "text": "LACP active - passive",
+       "cat": 0
+      },
+      {
+       "text": "LACP passive - passive",
+       "cat": 1
+      },
+      {
+       "text": "PAgP desirable - auto",
+       "cat": 0
+      },
+      {
+       "text": "PAgP auto - auto",
+       "cat": 1
+      },
+      {
+       "text": "mode on - on",
+       "cat": 0
+      },
+      {
+       "text": "LACP active - PAgP desirable",
+       "cat": 1
+      },
+      {
+       "text": "mode on - LACP active",
+       "cat": 1
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Spanning tree facts",
+     "prompt": "Fill in each answer.",
+     "rows": [
+      {
+       "label": "Default bridge priority",
+       "answer": [
+        "32768"
+       ]
+      },
+      {
+       "label": "Command to enable Rapid PVST+ (global configuration)",
+       "answer": [
+        "spanning-tree mode rapid-pvst"
+       ]
+      },
+      {
+       "label": "Feature that err-disables a PortFast port if a BPDU arrives (two words)",
+       "answer": [
+        "BPDU guard",
+        "bpduguard"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "Both ends must use the same protocol family: LACP active/passive, PAgP desirable/auto or static on. Two passive or two auto ends never negotiate. The default bridge priority is 32768; BPDU guard protects PortFast edge ports."
+  },
+  {
+   "id": "cc-ipv6",
+   "title": "IPv6 address types and services",
+   "domain": "D1",
+   "scenario": "<p>Sort the addresses found in a routing table, then recall IPv6 basics.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Identify the address type",
+     "prompt": "Drag each address to its type.",
+     "categories": [
+      "Global unicast",
+      "Link-local",
+      "Unique local",
+      "Multicast",
+      "Loopback"
+     ],
+     "items": [
+      {
+       "text": "2001:db8:acad:1::1",
+       "cat": 0
+      },
+      {
+       "text": "2603:1030::10",
+       "cat": 0
+      },
+      {
+       "text": "fe80::1",
+       "cat": 1
+      },
+      {
+       "text": "fd00:12:34::5",
+       "cat": 2
+      },
+      {
+       "text": "ff02::5",
+       "cat": 3
+      },
+      {
+       "text": "ff02::1",
+       "cat": 3
+      },
+      {
+       "text": "::1",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "IPv6 facts",
+     "prompt": "Fill in each answer.",
+     "rows": [
+      {
+       "label": "Protocol that replaces ARP in IPv6 (acronym)",
+       "answer": [
+        "NDP",
+        "neighbor discovery",
+        "neighbor discovery protocol"
+       ]
+      },
+      {
+       "label": "Standard LAN subnet prefix length",
+       "answer": [
+        "/64",
+        "64"
+       ],
+       "placeholder": "/__"
+      },
+      {
+       "label": "Command that enables IPv6 routing on a router",
+       "answer": [
+        "ipv6 unicast-routing"
+       ]
+      }
+     ]
+    }
+   ],
+   "explanation": "2000::/3 global unicast, fe80::/10 link-local, fc00::/7 unique local (fd00::/8 in use), ff00::/8 multicast (ff02::5 is OSPFv3 all routers), ::1 loopback. NDP replaces ARP; LANs use /64; ipv6 unicast-routing turns the router on for IPv6 forwarding."
+  }
+ ]
+}
