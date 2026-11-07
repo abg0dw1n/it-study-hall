@@ -481,5 +481,13 @@
     "labs": 2,
     "reference": 2,
     "updated": "2026-11-07"
+  },
+  {
+    "slug": "cysa-plus",
+    "code": "CS0-004",
+    "name": "CompTIA CySA+",
+    "vendor": "CompTIA",
+    "level": "intermediate",
+    "questions": 68
   }
 ]

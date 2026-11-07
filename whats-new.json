@@ -2,6 +2,29 @@
   "note": "Major updates only, newest first. To add one: put a new object at the top of \"releases\" (id = the date, e.g. 2026-11-04). Tags: New, Improved, Changed, Fixed. Keep each item to one plain sentence, and leave small tweaks and fixes out.",
   "releases": [
     {
+      "id": "2026-11-08",
+      "date": "November 8, 2026",
+      "title": "Flashcards, break-fix labs, new mini-courses and CySA+",
+      "items": [
+        {
+          "tag": "New",
+          "text": "Flashcards built from each module's Key terms, with Got it and Again buttons that schedule cards for review."
+        },
+        {
+          "tag": "New",
+          "text": "Break-it-then-fix-it and troubleshooting labs, such as a web server that will not restart and a user who cannot print."
+        },
+        {
+          "tag": "New",
+          "text": "Five mini-courses without an exam: Git, Docker, Python for IT, DNS and DHCP, and Active Directory."
+        },
+        {
+          "tag": "New",
+          "text": "CompTIA CySA+ (CS0-004) practice questions across all four domains."
+        }
+      ]
+    },
+    {
       "id": "2026-11-07",
       "date": "November 7, 2026",
       "title": "Cheat sheets, a subnetting trainer and performance-based practice",

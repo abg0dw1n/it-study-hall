@@ -1,0 +1,42 @@
+{
+  "slug": "cysa-plus",
+  "code": "CS0-004",
+  "name": "CompTIA CySA+",
+  "vendor": "CompTIA",
+  "domains": {
+    "D1": {
+      "name": "Security operations",
+      "weight": "34%",
+      "pct": 34
+    },
+    "D2": {
+      "name": "Vulnerability management",
+      "weight": "26%",
+      "pct": 26
+    },
+    "D3": {
+      "name": "Incident response and management",
+      "weight": "24%",
+      "pct": 24
+    },
+    "D4": {
+      "name": "Reporting and communication",
+      "weight": "16%",
+      "pct": 16
+    }
+  },
+  "scoring": {
+    "min": 100,
+    "max": 900,
+    "pass": 750
+  },
+  "minutesPerQuestion": 1,
+  "defaultSize": 30,
+  "sizeOptions": [
+    15,
+    30,
+    60
+  ],
+  "realExamNote": "The real exam has up to 85 questions in 165 minutes, including performance-based questions; the practice exams here are multiple choice only. CS0-004 launched June 23, 2026.",
+  "scoreNote": "CompTIA's real scoring is scaled differently, so treat 750+ as a readiness signal, not a guarantee."
+}

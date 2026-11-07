@@ -268,3 +268,10 @@ through Supabase (project `exam-simulator`). It's off until `AUTH_ENABLED` is se
 ## What's new
 
 `/whats-new` lists only the major recent features and changes, newest first, from `whats-new.json` (no code change needed to add an update: put a new release object at the top of `releases` with an `id` such as `2026-11-04`, a `date`, a `title` and `items` tagged New, Improved, Changed or Fixed). The home page shows a small link to the latest release, with a dot until the visitor has opened the page (`itsh:wn-seen` in `localStorage`). The Account page links to it too.
+
+
+## Flashcards and mini-courses
+
+Every Learn module with Key terms has a Flashcards tab, and the module index has a Study flashcards button covering all terms. Cards use a simple Leitner schedule (Got it moves a card to a longer gap, Again resets it) and progress syncs with the rest of the exam state.
+
+Skill paths without an exam: Git, Docker, Python for IT, DNS and DHCP, and Active Directory. Each has Learn modules, labs and a Reference sheet. CompTIA CySA+ (CS0-004) was added as a practice-question exam.

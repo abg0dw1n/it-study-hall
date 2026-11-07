@@ -1,0 +1,1702 @@
+[
+ {
+  "id": 1,
+  "domain": "D1",
+  "scenario": "An analyst sees a workstation beaconing to an external IP every 60 seconds with nearly identical packet sizes. What does this pattern most strongly suggest?",
+  "options": [
+   {
+    "text": "A DNS cache refresh",
+    "note": ""
+   },
+   {
+    "text": "A large file download",
+    "note": ""
+   },
+   {
+    "text": "Normal NTP synchronization",
+    "note": ""
+   },
+   {
+    "text": "Command-and-control beaconing",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "Regular intervals with uniform payload size are the classic signature of C2 beaconing. Humans and normal apps rarely produce such steady traffic."
+ },
+ {
+  "id": 2,
+  "domain": "D1",
+  "scenario": "Which log source is MOST useful for seeing which user ran a specific process and its command line on a Windows endpoint?",
+  "options": [
+   {
+    "text": "Switch port counters",
+    "note": ""
+   },
+   {
+    "text": "Sysmon or process-creation events (4688) with command-line logging",
+    "note": ""
+   },
+   {
+    "text": "Web proxy category logs",
+    "note": ""
+   },
+   {
+    "text": "DHCP lease logs",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Process creation events with command-line auditing, or Sysmon Event ID 1, record the user, parent process and arguments."
+ },
+ {
+  "id": 3,
+  "domain": "D1",
+  "scenario": "A SIEM rule fires on 40 failed logins followed by one success from the same source IP within five minutes. Which attack does this indicate?",
+  "options": [
+   {
+    "text": "Brute force or password spraying that succeeded",
+    "note": ""
+   },
+   {
+    "text": "SQL injection",
+    "note": ""
+   },
+   {
+    "text": "ARP spoofing",
+    "note": ""
+   },
+   {
+    "text": "Cross-site scripting",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Many failures followed by a success is a classic sign of credential guessing that eventually worked."
+ },
+ {
+  "id": 4,
+  "domain": "D1",
+  "scenario": "Which technique detects a threat by comparing activity to a baseline of normal behavior instead of known signatures?",
+  "options": [
+   {
+    "text": "Signature-based detection",
+    "note": ""
+   },
+   {
+    "text": "Port mirroring",
+    "note": ""
+   },
+   {
+    "text": "Anomaly-based detection",
+    "note": ""
+   },
+   {
+    "text": "Hash allow-listing",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "Anomaly detection flags deviations from a learned baseline, which can catch unknown threats but produces more false positives."
+ },
+ {
+  "id": 5,
+  "domain": "D1",
+  "scenario": "An analyst wants to enrich an IP address found in an alert with known malicious-activity reputation. What should they query?",
+  "options": [
+   {
+    "text": "The internal CMDB",
+    "note": ""
+   },
+   {
+    "text": "A threat intelligence platform or feed",
+    "note": ""
+   },
+   {
+    "text": "The patch management console",
+    "note": ""
+   },
+   {
+    "text": "The backup catalog",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Threat intelligence feeds provide reputation, associated campaigns and indicators for external IPs, domains and hashes."
+ },
+ {
+  "id": 6,
+  "domain": "D1",
+  "scenario": "What is the primary purpose of a SOAR platform?",
+  "options": [
+   {
+    "text": "Encrypt data at rest",
+    "note": ""
+   },
+   {
+    "text": "Scan hosts for missing patches",
+    "note": ""
+   },
+   {
+    "text": "Automate and orchestrate response workflows using playbooks",
+    "note": ""
+   },
+   {
+    "text": "Replace the firewall rule base",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "SOAR integrates tools and runs playbooks to automate repetitive triage and response tasks."
+ },
+ {
+  "id": 7,
+  "domain": "D1",
+  "scenario": "Which framework describes attacker behavior as tactics, techniques and procedures in a searchable matrix?",
+  "options": [
+   {
+    "text": "ISO 27001 Annex A",
+    "note": ""
+   },
+   {
+    "text": "MITRE ATT&CK",
+    "note": ""
+   },
+   {
+    "text": "OWASP Top 10",
+    "note": ""
+   },
+   {
+    "text": "CIS Controls",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "ATT&CK catalogs adversary tactics and techniques observed in the wild and is widely used for detection mapping and threat hunting."
+ },
+ {
+  "id": 8,
+  "domain": "D1",
+  "scenario": "In the Diamond Model of intrusion analysis, which four features are linked together?",
+  "options": [
+   {
+    "text": "Reconnaissance, weaponization, delivery, exploitation",
+    "note": ""
+   },
+   {
+    "text": "Adversary, capability, infrastructure, victim",
+    "note": ""
+   },
+   {
+    "text": "Confidentiality, integrity, availability, authenticity",
+    "note": ""
+   },
+   {
+    "text": "Identify, protect, detect, respond",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "The Diamond Model connects adversary, capability, infrastructure and victim to describe each intrusion event."
+ },
+ {
+  "id": 9,
+  "domain": "D1",
+  "scenario": "Which stage of the Cyber Kill Chain involves an attacker sending a malicious attachment to a target?",
+  "options": [
+   {
+    "text": "Reconnaissance",
+    "note": ""
+   },
+   {
+    "text": "Delivery",
+    "note": ""
+   },
+   {
+    "text": "Actions on objectives",
+    "note": ""
+   },
+   {
+    "text": "Installation",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Delivery is transmission of the weapon to the target, for example by phishing email."
+ },
+ {
+  "id": 10,
+  "domain": "D1",
+  "scenario": "A hunter forms a hypothesis that an attacker is using scheduled tasks for persistence and searches endpoint data for new tasks. What is this activity?",
+  "options": [
+   {
+    "text": "Business impact analysis",
+    "note": ""
+   },
+   {
+    "text": "Penetration testing",
+    "note": ""
+   },
+   {
+    "text": "Hypothesis-driven threat hunting",
+    "note": ""
+   },
+   {
+    "text": "Vulnerability scanning",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "Threat hunting proactively searches for undetected threats using hypotheses, often derived from ATT&CK techniques."
+ },
+ {
+  "id": 11,
+  "domain": "D1",
+  "scenario": "Which indicator type is MOST fragile, meaning it is trivially changed by an attacker?",
+  "options": [
+   {
+    "text": "Operational objectives",
+    "note": ""
+   },
+   {
+    "text": "Tactics, techniques and procedures",
+    "note": ""
+   },
+   {
+    "text": "File hash",
+    "note": ""
+   },
+   {
+    "text": "Attacker tooling behavior",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "In the Pyramid of Pain, hashes are at the bottom: a single byte change produces a new hash. TTPs are at the top and hardest to change."
+ },
+ {
+  "id": 12,
+  "domain": "D1",
+  "scenario": "An analyst needs to examine suspicious malware safely. What is the BEST environment?",
+  "options": [
+   {
+    "text": "The analyst's daily workstation",
+    "note": ""
+   },
+   {
+    "text": "An isolated sandbox with no production network access",
+    "note": ""
+   },
+   {
+    "text": "A domain controller snapshot",
+    "note": ""
+   },
+   {
+    "text": "A shared file server",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Detonating samples in an isolated sandbox prevents lateral movement and lets analysts observe behavior safely."
+ },
+ {
+  "id": 13,
+  "domain": "D1",
+  "scenario": "Which command shows listening ports and the owning process on a Linux host?",
+  "options": [
+   {
+    "text": "whoami /groups",
+    "note": ""
+   },
+   {
+    "text": "chmod -R 755",
+    "note": ""
+   },
+   {
+    "text": "ss -tulpn",
+    "note": ""
+   },
+   {
+    "text": "nslookup -type=mx",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "ss -tulpn (or netstat -tulpn) lists listening TCP/UDP sockets and the owning process IDs."
+ },
+ {
+  "id": 14,
+  "domain": "D1",
+  "scenario": "Which Windows event ID records a successful logon?",
+  "options": [
+   {
+    "text": "4688",
+    "note": ""
+   },
+   {
+    "text": "4624",
+    "note": ""
+   },
+   {
+    "text": "1102",
+    "note": ""
+   },
+   {
+    "text": "4625",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "4624 is a successful logon, 4625 is a failed logon, 4688 is process creation, and 1102 means the audit log was cleared."
+ },
+ {
+  "id": 15,
+  "domain": "D1",
+  "scenario": "A DNS log shows a host making thousands of queries for long random-looking subdomains of one domain. What is the MOST likely activity?",
+  "options": [
+   {
+    "text": "DNS tunneling or a domain generation algorithm",
+    "note": ""
+   },
+   {
+    "text": "Windows Update",
+    "note": ""
+   },
+   {
+    "text": "A misconfigured printer",
+    "note": ""
+   },
+   {
+    "text": "Normal CDN behavior",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Long high-entropy subdomains in bulk suggest data exfiltration over DNS or DGA-based C2."
+ },
+ {
+  "id": 16,
+  "domain": "D1",
+  "scenario": "What does a high false positive rate in a detection rule usually require?",
+  "options": [
+   {
+    "text": "Tuning the rule and thresholds",
+    "note": ""
+   },
+   {
+    "text": "Disabling logging",
+    "note": ""
+   },
+   {
+    "text": "Removing the SIEM",
+    "note": ""
+   },
+   {
+    "text": "Raising all severities",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Tuning with exceptions, thresholds and context reduces alert fatigue while preserving detection value."
+ },
+ {
+  "id": 17,
+  "domain": "D1",
+  "scenario": "Which tool class collects and analyzes endpoint telemetry and can isolate a host remotely?",
+  "options": [
+   {
+    "text": "DLP gateway",
+    "note": ""
+   },
+   {
+    "text": "EDR",
+    "note": ""
+   },
+   {
+    "text": "Load balancer",
+    "note": ""
+   },
+   {
+    "text": "WAF",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Endpoint detection and response gathers process, file and network telemetry and supports containment such as host isolation."
+ },
+ {
+  "id": 18,
+  "domain": "D1",
+  "scenario": "An email header analysis shows the Return-Path domain differs from the From domain, and SPF fails. What is the likely conclusion?",
+  "options": [
+   {
+    "text": "The message was delayed",
+    "note": ""
+   },
+   {
+    "text": "The recipient mailbox is full",
+    "note": ""
+   },
+   {
+    "text": "The message was spoofed",
+    "note": ""
+   },
+   {
+    "text": "The message is encrypted",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "SPF failure with mismatched domains indicates spoofing; DKIM and DMARC results provide further confirmation."
+ },
+ {
+  "id": 19,
+  "domain": "D1",
+  "scenario": "Which log would show that an attacker cleared evidence on a Linux server?",
+  "options": [
+   {
+    "text": "The BIOS settings",
+    "note": ""
+   },
+   {
+    "text": "The DHCP scope",
+    "note": ""
+   },
+   {
+    "text": "Missing or truncated /var/log entries and auth logs, shipped copies in a SIEM",
+    "note": ""
+   },
+   {
+    "text": "The monitor firmware",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "Centralized log forwarding preserves evidence even if local logs are wiped; gaps and truncation are themselves indicators."
+ },
+ {
+  "id": 20,
+  "domain": "D1",
+  "scenario": "What is the advantage of using YARA rules?",
+  "options": [
+   {
+    "text": "Auditing user permissions",
+    "note": ""
+   },
+   {
+    "text": "Patching vulnerabilities",
+    "note": ""
+   },
+   {
+    "text": "Encrypting network traffic",
+    "note": ""
+   },
+   {
+    "text": "Pattern-matching files or memory for malware families",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "YARA identifies and classifies malware by text, byte and condition patterns."
+ },
+ {
+  "id": 21,
+  "domain": "D1",
+  "scenario": "Which protocol would an analyst capture to inspect full packet contents for a suspected exfiltration event?",
+  "options": [
+   {
+    "text": "Packet capture with a tool such as Wireshark or tcpdump",
+    "note": ""
+   },
+   {
+    "text": "Syslog severity counts",
+    "note": ""
+   },
+   {
+    "text": "SNMP polling",
+    "note": ""
+   },
+   {
+    "text": "NetFlow only",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "NetFlow gives metadata only; full packet capture preserves payloads for deep inspection."
+ },
+ {
+  "id": 22,
+  "domain": "D2",
+  "scenario": "A vulnerability has a CVSS base score of 9.8 but the affected system is isolated and holds no sensitive data. Which factor adjusts its priority?",
+  "options": [
+   {
+    "text": "The CVE publication date",
+    "note": ""
+   },
+   {
+    "text": "The scanner vendor",
+    "note": ""
+   },
+   {
+    "text": "Environmental and contextual risk",
+    "note": ""
+   },
+   {
+    "text": "The ticket number",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "Priority combines base severity with asset criticality, exposure and exploitability in the environment."
+ },
+ {
+  "id": 23,
+  "domain": "D2",
+  "scenario": "Which scan type logs into the target with credentials to enumerate installed software and patch levels?",
+  "options": [
+   {
+    "text": "Credentialed scan",
+    "note": ""
+   },
+   {
+    "text": "Non-credentialed scan",
+    "note": ""
+   },
+   {
+    "text": "Passive sniffing only",
+    "note": ""
+   },
+   {
+    "text": "Port knock",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Credentialed scans give deeper, more accurate results with fewer false positives."
+ },
+ {
+  "id": 24,
+  "domain": "D2",
+  "scenario": "A scanner reports a critical flaw that the analyst confirms does not exist after manual inspection. What is this?",
+  "options": [
+   {
+    "text": "True negative",
+    "note": ""
+   },
+   {
+    "text": "False positive",
+    "note": ""
+   },
+   {
+    "text": "True positive",
+    "note": ""
+   },
+   {
+    "text": "False negative",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "A false positive is a reported issue that is not actually present."
+ },
+ {
+  "id": 25,
+  "domain": "D2",
+  "scenario": "Which metric estimates the probability that a vulnerability will be exploited in the wild within 30 days?",
+  "options": [
+   {
+    "text": "CPE string",
+    "note": ""
+   },
+   {
+    "text": "EPSS",
+    "note": ""
+   },
+   {
+    "text": "CVSS base score",
+    "note": ""
+   },
+   {
+    "text": "CWE ID",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "The Exploit Prediction Scoring System gives a probability of exploitation to help prioritization."
+ },
+ {
+  "id": 26,
+  "domain": "D2",
+  "scenario": "Which catalog lists vulnerabilities known to be actively exploited, helping prioritize remediation?",
+  "options": [
+   {
+    "text": "CISA Known Exploited Vulnerabilities (KEV)",
+    "note": ""
+   },
+   {
+    "text": "OWASP Cheat Sheet Series",
+    "note": ""
+   },
+   {
+    "text": "RFC index",
+    "note": ""
+   },
+   {
+    "text": "Bugtraq archive only",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "KEV is a curated list of CVEs with evidence of active exploitation, widely used to rank patching."
+ },
+ {
+  "id": 27,
+  "domain": "D2",
+  "scenario": "Which vulnerability lets an attacker inject database commands via user input?",
+  "options": [
+   {
+    "text": "SQL injection",
+    "note": ""
+   },
+   {
+    "text": "Clickjacking",
+    "note": ""
+   },
+   {
+    "text": "Directory listing",
+    "note": ""
+   },
+   {
+    "text": "Cross-site request forgery",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "SQL injection exploits unsanitized input to alter queries. Parameterized queries are the primary defense."
+ },
+ {
+  "id": 28,
+  "domain": "D2",
+  "scenario": "What is the BEST defense against cross-site scripting (XSS)?",
+  "options": [
+   {
+    "text": "Port security",
+    "note": ""
+   },
+   {
+    "text": "Longer passwords",
+    "note": ""
+   },
+   {
+    "text": "Disk encryption",
+    "note": ""
+   },
+   {
+    "text": "Output encoding and input validation",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "Encoding output for its context and validating input prevent injected scripts from running."
+ },
+ {
+  "id": 29,
+  "domain": "D2",
+  "scenario": "A patch cannot be applied to a legacy system for six months. Which is an appropriate compensating approach?",
+  "options": [
+   {
+    "text": "Ignore the finding",
+    "note": ""
+   },
+   {
+    "text": "Expose it to the internet for testing",
+    "note": ""
+   },
+   {
+    "text": "Disable all logging",
+    "note": ""
+   },
+   {
+    "text": "Segment the system and add monitoring or virtual patching",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "Compensating controls such as isolation, WAF/IPS virtual patching and monitoring reduce risk until a patch is possible."
+ },
+ {
+  "id": 30,
+  "domain": "D2",
+  "scenario": "What is the purpose of an SBOM?",
+  "options": [
+   {
+    "text": "Encrypting source code",
+    "note": ""
+   },
+   {
+    "text": "Listing the components and dependencies in software",
+    "note": ""
+   },
+   {
+    "text": "Tracking employee badges",
+    "note": ""
+   },
+   {
+    "text": "Scoring phishing tests",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "A software bill of materials lets teams quickly find which products contain a newly disclosed vulnerable library."
+ },
+ {
+  "id": 31,
+  "domain": "D2",
+  "scenario": "Which control provides defense in depth for an internet-facing web app that cannot be patched immediately?",
+  "options": [
+   {
+    "text": "Web application firewall rule",
+    "note": ""
+   },
+   {
+    "text": "Bigger monitor",
+    "note": ""
+   },
+   {
+    "text": "Longer log retention",
+    "note": ""
+   },
+   {
+    "text": "Screen saver lock",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "A WAF can block known exploit patterns while the underlying flaw awaits remediation."
+ },
+ {
+  "id": 32,
+  "domain": "D2",
+  "scenario": "A scan shows TLS 1.0 enabled on a payment server. What is the appropriate recommendation?",
+  "options": [
+   {
+    "text": "Enable SSLv3",
+    "note": ""
+   },
+   {
+    "text": "Disable TLS 1.0 and 1.1 and require TLS 1.2 or higher",
+    "note": ""
+   },
+   {
+    "text": "Shorten certificate validity only",
+    "note": ""
+   },
+   {
+    "text": "Switch to HTTP",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Legacy TLS versions have known weaknesses and fail compliance requirements such as PCI DSS."
+ },
+ {
+  "id": 33,
+  "domain": "D2",
+  "scenario": "Which term describes a flaw that is unknown to the vendor and has no patch?",
+  "options": [
+   {
+    "text": "Zero-day",
+    "note": ""
+   },
+   {
+    "text": "End-of-life",
+    "note": ""
+   },
+   {
+    "text": "Misconfiguration",
+    "note": ""
+   },
+   {
+    "text": "N-day",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "A zero-day is exploited before the vendor knows or releases a fix."
+ },
+ {
+  "id": 34,
+  "domain": "D2",
+  "scenario": "What does a CVSS attack vector of 'Network' indicate?",
+  "options": [
+   {
+    "text": "The attacker needs physical access",
+    "note": ""
+   },
+   {
+    "text": "The attacker must be local",
+    "note": ""
+   },
+   {
+    "text": "User interaction is always required",
+    "note": ""
+   },
+   {
+    "text": "The flaw is remotely exploitable over the network",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "AV:N means the vulnerable component is bound to the network stack and can be exploited remotely, which raises the score."
+ },
+ {
+  "id": 35,
+  "domain": "D2",
+  "scenario": "Which activity verifies that a remediation actually fixed a vulnerability?",
+  "options": [
+   {
+    "text": "Rebooting the scanner",
+    "note": ""
+   },
+   {
+    "text": "A rescan or validation test after patching",
+    "note": ""
+   },
+   {
+    "text": "Closing the ticket",
+    "note": ""
+   },
+   {
+    "text": "Changing the CVE ID",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Validation by rescanning confirms the finding is gone before closure."
+ },
+ {
+  "id": 36,
+  "domain": "D2",
+  "scenario": "An analyst finds an S3 bucket readable by anyone. What kind of issue is this?",
+  "options": [
+   {
+    "text": "Zero-day exploit",
+    "note": ""
+   },
+   {
+    "text": "Cloud misconfiguration",
+    "note": ""
+   },
+   {
+    "text": "Buffer overflow",
+    "note": ""
+   },
+   {
+    "text": "Rootkit",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Public storage permissions are a common cloud misconfiguration that CSPM tools detect."
+ },
+ {
+  "id": 37,
+  "domain": "D2",
+  "scenario": "Which issue occurs when a program writes data past the end of a buffer?",
+  "options": [
+   {
+    "text": "Buffer overflow",
+    "note": ""
+   },
+   {
+    "text": "Race condition",
+    "note": ""
+   },
+   {
+    "text": "Open redirect",
+    "note": ""
+   },
+   {
+    "text": "Insecure deserialization",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Buffer overflows corrupt adjacent memory and can allow code execution."
+ },
+ {
+  "id": 38,
+  "domain": "D2",
+  "scenario": "Which approach tests running applications from the outside for flaws like injection?",
+  "options": [
+   {
+    "text": "SCA",
+    "note": ""
+   },
+   {
+    "text": "DAST",
+    "note": ""
+   },
+   {
+    "text": "SAST",
+    "note": ""
+   },
+   {
+    "text": "Code review only",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Dynamic application security testing probes a running app; SAST analyzes source code statically."
+ },
+ {
+  "id": 39,
+  "domain": "D2",
+  "scenario": "Which practice inspects dependencies for known-vulnerable open-source libraries?",
+  "options": [
+   {
+    "text": "Fuzzing",
+    "note": ""
+   },
+   {
+    "text": "Packet shaping",
+    "note": ""
+   },
+   {
+    "text": "Load testing",
+    "note": ""
+   },
+   {
+    "text": "Software composition analysis",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "SCA maps third-party components to known CVEs."
+ },
+ {
+  "id": 40,
+  "domain": "D2",
+  "scenario": "What is the correct priority for a vulnerability on an internet-facing, business-critical server that has a public exploit?",
+  "options": [
+   {
+    "text": "Defer to annual review",
+    "note": ""
+   },
+   {
+    "text": "Highest priority, remediate immediately",
+    "note": ""
+   },
+   {
+    "text": "Lowest priority",
+    "note": ""
+   },
+   {
+    "text": "Accept risk without review",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Exposure, criticality and exploit availability combine to make this the top remediation candidate."
+ },
+ {
+  "id": 41,
+  "domain": "D2",
+  "scenario": "Which cloud tool class continuously evaluates configurations against best practices?",
+  "options": [
+   {
+    "text": "CSPM",
+    "note": ""
+   },
+   {
+    "text": "UPS",
+    "note": ""
+   },
+   {
+    "text": "KVM switch",
+    "note": ""
+   },
+   {
+    "text": "VPN concentrator",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Cloud security posture management detects misconfigurations and compliance drift."
+ },
+ {
+  "id": 42,
+  "domain": "D3",
+  "scenario": "Which is the correct order of NIST SP 800-61 incident response phases?",
+  "options": [
+   {
+    "text": "Containment; preparation; analysis; closure",
+    "note": ""
+   },
+   {
+    "text": "Preparation; detection and analysis; containment, eradication and recovery; post-incident activity",
+    "note": ""
+   },
+   {
+    "text": "Recovery; eradication; detection; lessons learned",
+    "note": ""
+   },
+   {
+    "text": "Detection; recovery; preparation; reporting",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "NIST defines four phases, with containment, eradication and recovery grouped together."
+ },
+ {
+  "id": 43,
+  "domain": "D3",
+  "scenario": "A compromised server is actively exfiltrating data. What is the FIRST priority?",
+  "options": [
+   {
+    "text": "Delete the logs",
+    "note": ""
+   },
+   {
+    "text": "Reimage it immediately",
+    "note": ""
+   },
+   {
+    "text": "Contain it, for example by isolating it from the network",
+    "note": ""
+   },
+   {
+    "text": "Email all employees",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "Containment limits damage; evidence-preserving isolation comes before eradication or rebuild."
+ },
+ {
+  "id": 44,
+  "domain": "D3",
+  "scenario": "Which principle governs collecting volatile evidence?",
+  "options": [
+   {
+    "text": "Order of volatility, most volatile first",
+    "note": ""
+   },
+   {
+    "text": "Largest file first",
+    "note": ""
+   },
+   {
+    "text": "Alphabetical order",
+    "note": ""
+   },
+   {
+    "text": "Oldest file first",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Memory and running state disappear first, so they are captured before disk and archival media."
+ },
+ {
+  "id": 45,
+  "domain": "D3",
+  "scenario": "Why is a chain of custody maintained?",
+  "options": [
+   {
+    "text": "To prove evidence was not altered and show who handled it",
+    "note": ""
+   },
+   {
+    "text": "To encrypt backups",
+    "note": ""
+   },
+   {
+    "text": "To lower storage costs",
+    "note": ""
+   },
+   {
+    "text": "To speed up scans",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "It documents collection, transfer and storage so evidence remains admissible and trustworthy."
+ },
+ {
+  "id": 46,
+  "domain": "D3",
+  "scenario": "What is the purpose of hashing a forensic disk image?",
+  "options": [
+   {
+    "text": "Verifying integrity of the copy against the original",
+    "note": ""
+   },
+   {
+    "text": "Anonymizing users",
+    "note": ""
+   },
+   {
+    "text": "Encrypting the image",
+    "note": ""
+   },
+   {
+    "text": "Compressing the image",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Matching hashes demonstrate the image is bit-for-bit identical and unchanged."
+ },
+ {
+  "id": 47,
+  "domain": "D3",
+  "scenario": "Which phase includes removing malware and closing the exploited vulnerability?",
+  "options": [
+   {
+    "text": "Preparation",
+    "note": ""
+   },
+   {
+    "text": "Eradication",
+    "note": ""
+   },
+   {
+    "text": "Lessons learned",
+    "note": ""
+   },
+   {
+    "text": "Identification",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Eradication removes the root cause and artifacts of the compromise before recovery."
+ },
+ {
+  "id": 48,
+  "domain": "D3",
+  "scenario": "A lessons-learned meeting is held after an incident. What is its main output?",
+  "options": [
+   {
+    "text": "A new firewall purchase by default",
+    "note": ""
+   },
+   {
+    "text": "Punishment of staff",
+    "note": ""
+   },
+   {
+    "text": "Improvements to processes, detections and playbooks",
+    "note": ""
+   },
+   {
+    "text": "Deletion of incident records",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "The goal is organizational learning, documented and tracked as action items."
+ },
+ {
+  "id": 49,
+  "domain": "D3",
+  "scenario": "Which team document defines roles, severity levels and escalation paths for incidents?",
+  "options": [
+   {
+    "text": "Acceptable use policy",
+    "note": ""
+   },
+   {
+    "text": "Change log",
+    "note": ""
+   },
+   {
+    "text": "Data retention schedule",
+    "note": ""
+   },
+   {
+    "text": "Incident response plan",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "The IR plan establishes how the organization prepares for and responds to incidents."
+ },
+ {
+  "id": 50,
+  "domain": "D3",
+  "scenario": "Ransomware encrypts file shares. Which control MOST improves recovery?",
+  "options": [
+   {
+    "text": "Longer passwords only",
+    "note": ""
+   },
+   {
+    "text": "Offline or immutable backups tested regularly",
+    "note": ""
+   },
+   {
+    "text": "Bigger monitors",
+    "note": ""
+   },
+   {
+    "text": "More screen locks",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Immutable or air-gapped backups survive encryption attacks and allow restoration without paying."
+ },
+ {
+  "id": 51,
+  "domain": "D3",
+  "scenario": "After identifying a phishing campaign, which action helps contain the spread across mailboxes?",
+  "options": [
+   {
+    "text": "Purge the message from all mailboxes and block the sender and URLs",
+    "note": ""
+   },
+   {
+    "text": "Delete only the reported copy",
+    "note": ""
+   },
+   {
+    "text": "Wait for users to report",
+    "note": ""
+   },
+   {
+    "text": "Disable the mail server",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Mail platform search-and-purge plus indicator blocking stops other recipients from being affected."
+ },
+ {
+  "id": 52,
+  "domain": "D3",
+  "scenario": "Which is an example of a precursor rather than an indicator of compromise?",
+  "options": [
+   {
+    "text": "A port scan or vulnerability scan of the network",
+    "note": ""
+   },
+   {
+    "text": "A confirmed malware infection",
+    "note": ""
+   },
+   {
+    "text": "Data found on a paste site",
+    "note": ""
+   },
+   {
+    "text": "Ransom note on desktops",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "Precursors suggest an incident may occur in the future; indicators show one may be happening or has happened."
+ },
+ {
+  "id": 53,
+  "domain": "D3",
+  "scenario": "A user's account shows impossible travel logins. What is the BEST first response?",
+  "options": [
+   {
+    "text": "Delete the mailbox",
+    "note": ""
+   },
+   {
+    "text": "Grant admin rights",
+    "note": ""
+   },
+   {
+    "text": "Reset credentials, revoke sessions and review the account's activity",
+    "note": ""
+   },
+   {
+    "text": "Ignore it as VPN noise",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "Likely credential compromise requires revoking tokens, resetting the password and checking for persistence such as mail rules."
+ },
+ {
+  "id": 54,
+  "domain": "D3",
+  "scenario": "What is the main reason to use a legal hold during an investigation?",
+  "options": [
+   {
+    "text": "Speed up backups",
+    "note": ""
+   },
+   {
+    "text": "Preserve relevant data from deletion",
+    "note": ""
+   },
+   {
+    "text": "Disable monitoring",
+    "note": ""
+   },
+   {
+    "text": "Reduce licensing costs",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "A legal hold suspends normal retention and deletion for data that may be needed in litigation."
+ },
+ {
+  "id": 55,
+  "domain": "D3",
+  "scenario": "Which is a recovery objective expressing the maximum tolerable data loss?",
+  "options": [
+   {
+    "text": "MTBF",
+    "note": ""
+   },
+   {
+    "text": "RTO",
+    "note": ""
+   },
+   {
+    "text": "SLA",
+    "note": ""
+   },
+   {
+    "text": "RPO",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "Recovery point objective defines how much data, measured in time, can be lost. RTO defines tolerable downtime."
+ },
+ {
+  "id": 56,
+  "domain": "D3",
+  "scenario": "What is the role of a runbook during an incident?",
+  "options": [
+   {
+    "text": "Quarterly financial reports",
+    "note": ""
+   },
+   {
+    "text": "Marketing plans",
+    "note": ""
+   },
+   {
+    "text": "Step-by-step procedures for specific response tasks",
+    "note": ""
+   },
+   {
+    "text": "Employee onboarding forms",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "Runbooks standardize and speed response to known scenarios."
+ },
+ {
+  "id": 57,
+  "domain": "D4",
+  "scenario": "Who should receive a high-level incident summary focused on business impact?",
+  "options": [
+   {
+    "text": "Only the press by default",
+    "note": ""
+   },
+   {
+    "text": "Only the SOC analysts",
+    "note": ""
+   },
+   {
+    "text": "Executive leadership",
+    "note": ""
+   },
+   {
+    "text": "Only the vendor",
+    "note": ""
+   }
+  ],
+  "answer": 2,
+  "explanation": "Executives need business impact, risk and decisions required, not packet-level detail."
+ },
+ {
+  "id": 58,
+  "domain": "D4",
+  "scenario": "Which metric tracks the average time from detection to containment?",
+  "options": [
+   {
+    "text": "Uptime percentage",
+    "note": ""
+   },
+   {
+    "text": "Patch count",
+    "note": ""
+   },
+   {
+    "text": "Mean time between failures",
+    "note": ""
+   },
+   {
+    "text": "Mean time to respond or contain",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "MTTR style metrics show how quickly the team contains and resolves incidents."
+ },
+ {
+  "id": 59,
+  "domain": "D4",
+  "scenario": "A vulnerability report to system owners should MOST prominently include what?",
+  "options": [
+   {
+    "text": "Analyst lunch preferences",
+    "note": ""
+   },
+   {
+    "text": "Affected assets, severity, risk and remediation guidance",
+    "note": ""
+   },
+   {
+    "text": "Raw packet dumps",
+    "note": ""
+   },
+   {
+    "text": "Scanner license keys",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Owners need to know what is affected, how bad it is and how to fix it."
+ },
+ {
+  "id": 60,
+  "domain": "D4",
+  "scenario": "What is the purpose of a service-level agreement for remediation?",
+  "options": [
+   {
+    "text": "Encrypt backups",
+    "note": ""
+   },
+   {
+    "text": "Rename vulnerabilities",
+    "note": ""
+   },
+   {
+    "text": "Replace the SIEM",
+    "note": ""
+   },
+   {
+    "text": "Set expected timeframes for fixing issues by severity",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "SLAs define time-to-remediate targets so reporting can measure compliance."
+ },
+ {
+  "id": 61,
+  "domain": "D4",
+  "scenario": "Why should incident communications be limited to need-to-know?",
+  "options": [
+   {
+    "text": "To save bandwidth",
+    "note": ""
+   },
+   {
+    "text": "To avoid documentation",
+    "note": ""
+   },
+   {
+    "text": "To hide the incident from regulators",
+    "note": ""
+   },
+   {
+    "text": "To protect the investigation and sensitive information",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "Restricting distribution prevents tipping off attackers and leaking details."
+ },
+ {
+  "id": 62,
+  "domain": "D4",
+  "scenario": "Which regulation requires notifying authorities of certain personal data breaches within 72 hours?",
+  "options": [
+   {
+    "text": "FERPA",
+    "note": ""
+   },
+   {
+    "text": "PCI DSS",
+    "note": ""
+   },
+   {
+    "text": "SOX",
+    "note": ""
+   },
+   {
+    "text": "GDPR",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "GDPR requires notifying the supervisory authority within 72 hours of becoming aware of a qualifying breach."
+ },
+ {
+  "id": 63,
+  "domain": "D4",
+  "scenario": "Which KPI shows how many vulnerabilities remain open past their SLA?",
+  "options": [
+   {
+    "text": "Backup size",
+    "note": ""
+   },
+   {
+    "text": "SLA breach or overdue vulnerability count",
+    "note": ""
+   },
+   {
+    "text": "Phishing click rate",
+    "note": ""
+   },
+   {
+    "text": "Badge swipes",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Overdue items measure remediation program health."
+ },
+ {
+  "id": 64,
+  "domain": "D4",
+  "scenario": "A dashboard for the SOC lead should emphasize which information?",
+  "options": [
+   {
+    "text": "Marketing leads",
+    "note": ""
+   },
+   {
+    "text": "Employee birthdays",
+    "note": ""
+   },
+   {
+    "text": "Printer toner levels",
+    "note": ""
+   },
+   {
+    "text": "Alert volume, triage times, open incidents and trends",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "Operational dashboards track workload, speed and quality of detection and response."
+ },
+ {
+  "id": 65,
+  "domain": "D4",
+  "scenario": "What is the benefit of a root cause analysis in a report?",
+  "options": [
+   {
+    "text": "Identifies the underlying failure so recurrence can be prevented",
+    "note": ""
+   },
+   {
+    "text": "Removes the need for fixes",
+    "note": ""
+   },
+   {
+    "text": "Shortens the report",
+    "note": ""
+   },
+   {
+    "text": "Assigns blame",
+    "note": ""
+   }
+  ],
+  "answer": 0,
+  "explanation": "RCA drives corrective actions that address why the incident happened, not just what happened."
+ },
+ {
+  "id": 66,
+  "domain": "D4",
+  "scenario": "Which type of risk response is it when management formally acknowledges a vulnerability and chooses not to fix it?",
+  "options": [
+   {
+    "text": "Risk transfer",
+    "note": ""
+   },
+   {
+    "text": "Risk acceptance",
+    "note": ""
+   },
+   {
+    "text": "Risk avoidance",
+    "note": ""
+   },
+   {
+    "text": "Risk mitigation",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "Acceptance is a documented decision to live with a risk, ideally with an owner and review date."
+ },
+ {
+  "id": 67,
+  "domain": "D4",
+  "scenario": "Which term describes a documented, time-limited approval to deviate from a security standard?",
+  "options": [
+   {
+    "text": "Retention schedule",
+    "note": ""
+   },
+   {
+    "text": "Playbook",
+    "note": ""
+   },
+   {
+    "text": "Baseline",
+    "note": ""
+   },
+   {
+    "text": "Exception or waiver",
+    "note": ""
+   }
+  ],
+  "answer": 3,
+  "explanation": "Exceptions record compensating controls and expiry so deviations are tracked."
+ },
+ {
+  "id": 68,
+  "domain": "D4",
+  "scenario": "What should a post-incident report's timeline contain?",
+  "options": [
+   {
+    "text": "A list of unrelated tickets",
+    "note": ""
+   },
+   {
+    "text": "Chronological events with timestamps from detection through recovery",
+    "note": ""
+   },
+   {
+    "text": "Only the final cost",
+    "note": ""
+   },
+   {
+    "text": "Only the analyst's name",
+    "note": ""
+   }
+  ],
+  "answer": 1,
+  "explanation": "A clear timeline supports analysis, legal needs and process improvement."
+ }
+]
