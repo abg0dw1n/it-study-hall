@@ -1,0 +1,233 @@
+{
+ "intro": "Practice the Git workflow with matching, ordering and fill-in tasks. No repository needed; everything is graded in your browser.",
+ "labs": [
+  {
+   "id": "git-workflow",
+   "title": "The everyday Git workflow",
+   "domain": "D1",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Match commands to jobs, put a normal workflow in order and complete the commands.",
+   "scenario": "<p>You joined a team and need to recognise the core commands. Show you know what each does and the order of a normal change.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Command to purpose",
+     "prompt": "Drag each command to what it does.",
+     "categories": [
+      "Start a repo",
+      "Stage changes",
+      "Save a snapshot",
+      "Show history",
+      "See what changed"
+     ],
+     "items": [
+      {
+       "text": "git init",
+       "cat": 0
+      },
+      {
+       "text": "git add .",
+       "cat": 1
+      },
+      {
+       "text": "git commit -m \"msg\"",
+       "cat": 2
+      },
+      {
+       "text": "git log --oneline",
+       "cat": 3
+      },
+      {
+       "text": "git diff",
+       "cat": 4
+      },
+      {
+       "text": "git clone URL",
+       "cat": 0
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Make and share a change",
+     "prompt": "Put the steps in order.",
+     "items": [
+      "Pull the latest main",
+      "Create a branch for your task",
+      "Edit files and commit",
+      "Push the branch",
+      "Open a pull request"
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Fill in the command",
+     "prompt": "Type each command.",
+     "rows": [
+      {
+       "label": "Show the state of your working tree",
+       "answer": [
+        "git status"
+       ]
+      },
+      {
+       "label": "Stage every change in the current folder",
+       "answer": [
+        "git add ."
+       ]
+      },
+      {
+       "label": "Create a branch called fix-dns and switch to it",
+       "answer": [
+        "git switch -c fix-dns",
+        "git checkout -b fix-dns"
+       ]
+      },
+      {
+       "label": "Download new commits without merging",
+       "answer": [
+        "git fetch"
+       ]
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Command to purpose",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Make and share a change",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Fill in the command",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "init and clone both begin a repository; add stages and commit saves.",
+    "A branch comes before the work; the pull request comes after the push."
+   ],
+   "review": "<p>The core loop is edit, stage, commit, then share through a branch and pull request.</p>"
+  },
+  {
+   "id": "git-undo",
+   "title": "Choose the right undo",
+   "domain": "D4",
+   "kind": "tasks",
+   "level": "intermediate",
+   "minutes": 12,
+   "summary": "Pick the safest undo for each situation and order a recovery.",
+   "scenario": "<p>Five things just went wrong. Choose the safest fix for each, then put a recovery in order.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Situation to fix",
+     "prompt": "Drag each situation to the best command.",
+     "categories": [
+      "git restore file",
+      "git restore --staged file",
+      "git revert HASH",
+      "git commit --amend",
+      "git stash"
+     ],
+     "items": [
+      {
+       "text": "Throw away unsaved edits to one file",
+       "cat": 0
+      },
+      {
+       "text": "Unstage a file but keep the edits",
+       "cat": 1
+      },
+      {
+       "text": "Undo a commit that is already pushed and shared",
+       "cat": 2
+      },
+      {
+       "text": "Fix a typo in the last (unpushed) commit message",
+       "cat": 3
+      },
+      {
+       "text": "Put work aside to switch branches",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Recover a commit that disappeared after a reset",
+     "prompt": "Order the steps.",
+     "items": [
+      "Run git reflog",
+      "Find the hash of the lost commit",
+      "Create a branch at that hash",
+      "Check the files are back"
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Fill in",
+     "prompt": "Type the answer.",
+     "rows": [
+      {
+       "label": "The reset mode that discards working file changes (flag)",
+       "answer": [
+        "--hard",
+        "hard"
+       ]
+      },
+      {
+       "label": "Command that lists where HEAD has been",
+       "answer": [
+        "git reflog"
+       ]
+      },
+      {
+       "label": "Safe undo for a pushed commit (command name)",
+       "answer": [
+        "git revert",
+        "revert"
+       ]
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Situation to fix",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Recover a commit that disappeared after a reset",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Fill in",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Pushed and shared means revert, not reset.",
+    "reflog first, then a branch at the hash."
+   ],
+   "review": "<p>Match the tool to the situation: restore for files, revert for shared history, reset for local cleanup, reflog to recover.</p>"
+  }
+ ]
+}

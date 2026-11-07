@@ -1,0 +1,276 @@
+{
+ "intro": "Practice Python concepts with matching, ordering and fill-in tasks. Everything is graded in your browser.",
+ "labs": [
+  {
+   "id": "py-basics",
+   "title": "Python building blocks",
+   "domain": "D2",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Identify data types, complete statements and order a script.",
+   "scenario": "<p>You are reviewing a teammate's first script. Show that you can read and finish it.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Value to type",
+     "prompt": "Drag each value to its Python type.",
+     "categories": [
+      "int",
+      "float",
+      "str",
+      "bool",
+      "list",
+      "dict"
+     ],
+     "items": [
+      {
+       "text": "42",
+       "cat": 0
+      },
+      {
+       "text": "3.14",
+       "cat": 1
+      },
+      {
+       "text": "\"server01\"",
+       "cat": 2
+      },
+      {
+       "text": "True",
+       "cat": 3
+      },
+      {
+       "text": "[\"web1\", \"web2\"]",
+       "cat": 4
+      },
+      {
+       "text": "{\"ip\": \"10.0.0.5\"}",
+       "cat": 5
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Complete the code",
+     "prompt": "Type what is missing.",
+     "rows": [
+      {
+       "label": "Keyword that starts a loop over each item",
+       "answer": [
+        "for"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Keyword that defines a function",
+       "answer": [
+        "def"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Comparison operator that tests equality (symbol)",
+       "answer": [
+        "=="
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Function that prints to the screen",
+       "answer": [
+        "print",
+        "print()"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Method that adds an item to the end of a list",
+       "answer": [
+        "append",
+        ".append",
+        ".append()",
+        "append()"
+       ],
+       "placeholder": "..."
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Order a small script",
+     "prompt": "Put the steps in a sensible order.",
+     "items": [
+      "Open the log file with a with block",
+      "Loop over each line",
+      "Test for the word ERROR",
+      "Count the matching lines",
+      "Print the total"
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Value to type",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Complete the code",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Order a small script",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "== compares; = assigns.",
+    "Open, loop, test, count, print."
+   ],
+   "review": "<p>Reading code is as important as writing it: know the types, the loop and function keywords, and the flow of a simple log-counting script.</p>"
+  },
+  {
+   "id": "py-automation",
+   "title": "Safe automation habits",
+   "domain": "D4",
+   "kind": "tasks",
+   "level": "intermediate",
+   "minutes": 12,
+   "summary": "Pick the safe approach for each automation task and complete the module names.",
+   "scenario": "<p>A script will delete old backups and call an inventory API every night. Review how it is written.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Task to tool",
+     "prompt": "Drag each job to the Python tool.",
+     "categories": [
+      "subprocess",
+      "shutil",
+      "argparse",
+      "logging",
+      "requests"
+     ],
+     "items": [
+      {
+       "text": "Run the ping command",
+       "cat": 0
+      },
+      {
+       "text": "Copy a file to a backup folder",
+       "cat": 1
+      },
+      {
+       "text": "Accept a --host option when the script runs",
+       "cat": 2
+      },
+      {
+       "text": "Record INFO and ERROR messages to a file",
+       "cat": 3
+      },
+      {
+       "text": "Call a web API",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "match",
+     "title": "Safe or unsafe",
+     "prompt": "Is each practice safe?",
+     "categories": [
+      "Safe",
+      "Unsafe"
+     ],
+     "items": [
+      {
+       "text": "Read the API token from an environment variable",
+       "cat": 0
+      },
+      {
+       "text": "Hard-code the password in the script and commit it",
+       "cat": 1
+      },
+      {
+       "text": "Add a --dry-run option before deleting files",
+       "cat": 0
+      },
+      {
+       "text": "Build a shell command from user input with shell=True",
+       "cat": 1
+      },
+      {
+       "text": "Set a timeout on web requests",
+       "cat": 0
+      }
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Module names",
+     "prompt": "Type the module.",
+     "rows": [
+      {
+       "label": "Module for JSON data",
+       "answer": [
+        "json"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Module for CSV files",
+       "answer": [
+        "csv"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Module for OS-independent file paths",
+       "answer": [
+        "pathlib"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Module for regular expressions",
+       "answer": [
+        "re"
+       ],
+       "placeholder": "..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Task to tool",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Safe or unsafe",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Module names",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Secrets belong outside the code.",
+    "A dry run previews without changing anything."
+   ],
+   "review": "<p>Safe automation keeps secrets out of code, previews destructive actions, logs what happens and avoids shell injection.</p>"
+  }
+ ]
+}

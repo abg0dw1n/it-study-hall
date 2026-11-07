@@ -1,0 +1,174 @@
+{
+ "intro": "Active Directory commands, group types and troubleshooting.",
+ "trainer": false,
+ "sheets": [
+  {
+   "id": "powershell",
+   "title": "PowerShell and tools",
+   "blurb": "Daily AD commands.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Accounts and groups",
+     "rows": [
+      [
+       "Get-ADUser NAME -Properties *",
+       "Account details"
+      ],
+      [
+       "Search-ADAccount -LockedOut",
+       "Locked accounts"
+      ],
+      [
+       "Unlock-ADAccount NAME",
+       "Unlock"
+      ],
+      [
+       "Set-ADAccountPassword NAME -Reset",
+       "Reset password"
+      ],
+      [
+       "Enable-ADAccount NAME / Disable-ADAccount NAME",
+       "Enable / disable"
+      ],
+      [
+       "Get-ADGroupMember GROUP",
+       "List members"
+      ],
+      [
+       "Add-ADGroupMember GROUP -Members NAME",
+       "Add a member"
+      ],
+      [
+       "Move-ADObject -Identity DN -TargetPath OU",
+       "Move to an OU"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Health and policy",
+     "rows": [
+      [
+       "gpupdate /force",
+       "Refresh Group Policy"
+      ],
+      [
+       "gpresult /r",
+       "Applied policies"
+      ],
+      [
+       "dcdiag",
+       "Domain controller health"
+      ],
+      [
+       "repadmin /replsummary",
+       "Replication status"
+      ],
+      [
+       "nltest /dsgetdc:DOMAIN",
+       "Which DC am I using?"
+      ],
+      [
+       "klist",
+       "Kerberos tickets"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "concepts",
+   "title": "Concepts",
+   "blurb": "Groups, ports and common faults.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Group scopes",
+     "head": [
+      "Scope",
+      "Members from",
+      "Used in"
+     ],
+     "rows": [
+      [
+       "Domain local",
+       "Any domain",
+       "Own domain"
+      ],
+      [
+       "Global",
+       "Own domain",
+       "Any domain"
+      ],
+      [
+       "Universal",
+       "Any domain",
+       "Any domain"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Ports",
+     "head": [
+      "Service",
+      "Port"
+     ],
+     "rows": [
+      [
+       "Kerberos",
+       "88"
+      ],
+      [
+       "LDAP / LDAPS",
+       "389 / 636"
+      ],
+      [
+       "Global catalog",
+       "3268 / 3269"
+      ],
+      [
+       "DNS",
+       "53"
+      ],
+      [
+       "SMB",
+       "445"
+      ]
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Common faults",
+     "head": [
+      "Symptom",
+      "First check"
+     ],
+     "rows": [
+      [
+       "Trust relationship failed",
+       "Rejoin or reset computer account"
+      ],
+      [
+       "Repeated lockouts",
+       "Saved old password (event 4740)"
+      ],
+      [
+       "Slow sign-in",
+       "DNS settings, time, DC reachable"
+      ],
+      [
+       "GPO not applying",
+       "OU, link, filtering, gpresult"
+      ]
+     ]
+    },
+    {
+     "type": "note",
+     "text": "Policy order: Local, Site, Domain, OU (LSDOU). Kerberos fails if clocks differ by more than 5 minutes."
+    }
+   ]
+  }
+ ]
+}

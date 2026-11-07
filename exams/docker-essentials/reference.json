@@ -1,0 +1,170 @@
+{
+ "intro": "Docker commands, Dockerfile instructions and Compose at a glance.",
+ "trainer": false,
+ "sheets": [
+  {
+   "id": "cli",
+   "title": "Docker commands",
+   "blurb": "Run, inspect, build, clean.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Run and control",
+     "rows": [
+      [
+       "docker run -d --name web -p 8080:80 nginx",
+       "Run in the background with a port"
+      ],
+      [
+       "docker run -it --rm ubuntu bash",
+       "Throwaway interactive shell"
+      ],
+      [
+       "docker ps -a",
+       "All containers"
+      ],
+      [
+       "docker logs -f web",
+       "Follow output"
+      ],
+      [
+       "docker exec -it web sh",
+       "Shell in a running container"
+      ],
+      [
+       "docker stop web && docker rm web",
+       "Stop and remove"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Images",
+     "rows": [
+      [
+       "docker pull nginx:1.27",
+       "Download"
+      ],
+      [
+       "docker images",
+       "List"
+      ],
+      [
+       "docker build -t myapp:1.0 .",
+       "Build"
+      ],
+      [
+       "docker tag myapp:1.0 reg/team/myapp:1.0",
+       "Add a name"
+      ],
+      [
+       "docker push reg/team/myapp:1.0",
+       "Upload"
+      ],
+      [
+       "docker rmi IMAGE",
+       "Remove"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Housekeeping",
+     "rows": [
+      [
+       "docker system df",
+       "Disk use"
+      ],
+      [
+       "docker system prune",
+       "Remove unused objects"
+      ],
+      [
+       "docker volume ls",
+       "Volumes"
+      ],
+      [
+       "docker stats",
+       "Live usage"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "files",
+   "title": "Dockerfile and Compose",
+   "blurb": "Instructions and commands.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Dockerfile instructions",
+     "head": [
+      "Instruction",
+      "Meaning"
+     ],
+     "rows": [
+      [
+       "`FROM`",
+       "Base image"
+      ],
+      [
+       "`WORKDIR`",
+       "Working folder"
+      ],
+      [
+       "`COPY` / `ADD`",
+       "Copy files in"
+      ],
+      [
+       "`RUN`",
+       "Command at build time"
+      ],
+      [
+       "`ENV`",
+       "Environment variable"
+      ],
+      [
+       "`EXPOSE`",
+       "Document a port"
+      ],
+      [
+       "`USER`",
+       "Run as this user"
+      ],
+      [
+       "`CMD` / `ENTRYPOINT`",
+       "Start command"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Compose",
+     "rows": [
+      [
+       "docker compose up -d",
+       "Start all services"
+      ],
+      [
+       "docker compose ps",
+       "List services"
+      ],
+      [
+       "docker compose logs -f",
+       "Follow logs"
+      ],
+      [
+       "docker compose down",
+       "Stop and remove"
+      ]
+     ]
+    },
+    {
+     "type": "note",
+     "text": "Pin image tags, run as a non-root user, keep secrets out of images and never expose `/var/run/docker.sock`."
+    }
+   ]
+  }
+ ]
+}

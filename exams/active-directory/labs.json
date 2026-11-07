@@ -1,0 +1,355 @@
+{
+ "intro": "Practice Active Directory tasks in a simulated console, and test your knowledge with matching and ordering tasks.",
+ "labs": [
+  {
+   "id": "ad-helpdesk",
+   "title": "Handle tickets in Active Directory Users and Computers",
+   "domain": "D2",
+   "kind": "portal",
+   "level": "intermediate",
+   "minutes": 15,
+   "summary": "Work three help desk tickets in a simulated ADUC console: unlock an account, put a new hire in the right groups and offboard a leaver.",
+   "scenario": "<p>Three tickets are in your queue for <b>corp.example.com</b>:</p><ol><li><b>Priya Shah</b> (<code>pshah</code>) is locked out after typing her password wrong. She has been verified. Unlock her account.</li><li><b>Marcus Webb</b> (<code>mwebb</code>) is a new accountant. His account exists but is disabled. Enable it, place it in the <b>Accounting</b> OU and make him a member of <b>Accounting-Users</b> and <b>VPN-Users</b>.</li><li><b>Dana Ortiz</b> (<code>dortiz</code>) left the company today. Disable her account, move it to the <b>Disabled Users</b> OU and remove her from <b>VPN-Users</b> and <b>Sales-Users</b>. Do not delete it.</li></ol><p>Group membership is shown as one Yes/No column per group. Edit the table, then <b>Save changes</b>. Don't change anyone else.</p>",
+   "portal": {
+    "app": "Active Directory Users and Computers",
+    "address": "corp.example.com",
+    "pages": [
+     {
+      "id": "users",
+      "title": "Users",
+      "desc": "corp.example.com",
+      "tables": [
+       {
+        "id": "list",
+        "title": "User accounts",
+        "columns": [
+         {
+          "id": "sam",
+          "label": "Sign-in name"
+         },
+         {
+          "id": "enabled",
+          "label": "Enabled",
+          "type": "select",
+          "options": [
+           "Yes",
+           "No"
+          ]
+         },
+         {
+          "id": "locked",
+          "label": "Locked out",
+          "type": "select",
+          "options": [
+           "No",
+           "Yes"
+          ]
+         },
+         {
+          "id": "ou",
+          "label": "OU",
+          "type": "select",
+          "options": [
+           "Sales",
+           "Accounting",
+           "IT",
+           "Disabled Users"
+          ]
+         },
+         {
+          "id": "sales",
+          "label": "Sales-Users",
+          "type": "select",
+          "options": [
+           "No",
+           "Yes"
+          ]
+         },
+         {
+          "id": "acct",
+          "label": "Accounting-Users",
+          "type": "select",
+          "options": [
+           "No",
+           "Yes"
+          ]
+         },
+         {
+          "id": "vpn",
+          "label": "VPN-Users",
+          "type": "select",
+          "options": [
+           "No",
+           "Yes"
+          ]
+         }
+        ],
+        "rows": [
+         {
+          "sam": "pshah",
+          "enabled": "Yes",
+          "locked": "Yes",
+          "ou": "Sales",
+          "sales": "Yes",
+          "acct": "No",
+          "vpn": "Yes"
+         },
+         {
+          "sam": "mwebb",
+          "enabled": "No",
+          "locked": "No",
+          "ou": "IT",
+          "sales": "No",
+          "acct": "No",
+          "vpn": "No"
+         },
+         {
+          "sam": "dortiz",
+          "enabled": "Yes",
+          "locked": "No",
+          "ou": "Sales",
+          "sales": "Yes",
+          "acct": "No",
+          "vpn": "Yes"
+         },
+         {
+          "sam": "tnguyen",
+          "enabled": "Yes",
+          "locked": "No",
+          "ou": "IT",
+          "sales": "No",
+          "acct": "No",
+          "vpn": "Yes"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "tasks": [
+    {
+     "text": "<code>pshah</code> is unlocked, still enabled and in her groups",
+     "check": {
+      "rows": "users.list",
+      "has": {
+       "sam": "pshah",
+       "locked": "No",
+       "enabled": "Yes",
+       "ou": "Sales",
+       "sales": "Yes",
+       "vpn": "Yes"
+      }
+     }
+    },
+    {
+     "text": "<code>mwebb</code> is enabled and in the Accounting OU",
+     "check": {
+      "rows": "users.list",
+      "has": {
+       "sam": "mwebb",
+       "enabled": "Yes",
+       "ou": "Accounting"
+      }
+     }
+    },
+    {
+     "text": "<code>mwebb</code> is in Accounting-Users and VPN-Users only",
+     "check": {
+      "rows": "users.list",
+      "has": {
+       "sam": "mwebb",
+       "acct": "Yes",
+       "vpn": "Yes",
+       "sales": "No"
+      }
+     }
+    },
+    {
+     "text": "<code>dortiz</code> is disabled and in the Disabled Users OU (not deleted)",
+     "check": {
+      "rows": "users.list",
+      "has": {
+       "sam": "dortiz",
+       "enabled": "No",
+       "ou": "Disabled Users"
+      }
+     }
+    },
+    {
+     "text": "<code>dortiz</code> is removed from VPN-Users and Sales-Users",
+     "check": {
+      "rows": "users.list",
+      "has": {
+       "sam": "dortiz",
+       "vpn": "No",
+       "sales": "No"
+      }
+     }
+    },
+    {
+     "text": "<code>tnguyen</code> is unchanged",
+     "check": {
+      "rows": "users.list",
+      "has": {
+       "sam": "tnguyen",
+       "enabled": "Yes",
+       "locked": "No",
+       "ou": "IT",
+       "vpn": "Yes",
+       "sales": "No",
+       "acct": "No"
+      }
+     }
+    }
+   ],
+   "hints": [
+    "Locked out is a separate column from Enabled.",
+    "Group membership is one Yes/No column per group.",
+    "Leavers are disabled and moved, not deleted, so you can recover data and meet retention rules."
+   ],
+   "solution": "<p>pshah: Locked out No. mwebb: Enabled Yes, OU Accounting, Accounting-Users Yes, VPN-Users Yes. dortiz: Enabled No, OU Disabled Users, VPN-Users No, Sales-Users No. Save.</p>",
+   "review": "<p>Unlock for lockouts, enable for new hires, and disable-and-move for leavers. Match access to the person's role through groups, and never delete an account on the day someone leaves.</p>"
+  },
+  {
+   "id": "ad-concepts",
+   "title": "AD building blocks",
+   "domain": "D1",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Match AD terms, order the GPO processing and AGDLP, and fill in ports and commands.",
+   "scenario": "<p>Review the basics before your first week on the help desk.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Term to meaning",
+     "prompt": "Drag each description to its term.",
+     "categories": [
+      "Domain controller",
+      "OU",
+      "Forest",
+      "GPO",
+      "Global catalog"
+     ],
+     "items": [
+      {
+       "text": "Server that authenticates users and stores the directory",
+       "cat": 0
+      },
+      {
+       "text": "Container used to organize objects and apply policy",
+       "cat": 1
+      },
+      {
+       "text": "Top-level security boundary with a shared schema",
+       "cat": 2
+      },
+      {
+       "text": "A set of settings linked to a site, domain or OU",
+       "cat": 3
+      },
+      {
+       "text": "Searchable partial copy of every object in the forest",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Group Policy processing order",
+     "prompt": "Order from first to last applied.",
+     "items": [
+      "Local policy",
+      "Site GPOs",
+      "Domain GPOs",
+      "OU GPOs (closest OU last)"
+     ]
+    },
+    {
+     "type": "order",
+     "title": "AGDLP",
+     "prompt": "Order the steps of the group strategy.",
+     "items": [
+      "Put user accounts in Global groups",
+      "Put Global groups in Domain Local groups",
+      "Assign permissions to the Domain Local group"
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Fill in",
+     "prompt": "Type each answer.",
+     "rows": [
+      {
+       "label": "Port used by Kerberos",
+       "answer": [
+        "88"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Port used by LDAP",
+       "answer": [
+        "389"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Command that forces a Group Policy refresh",
+       "answer": [
+        "gpupdate /force"
+       ],
+       "placeholder": "gpupdate ..."
+      },
+      {
+       "label": "PowerShell cmdlet that unlocks an account",
+       "answer": [
+        "Unlock-ADAccount"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Maximum clock difference Kerberos tolerates (minutes)",
+       "answer": [
+        "5"
+       ],
+       "placeholder": "..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Term to meaning",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Group Policy processing order",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "AGDLP",
+     "check": {
+      "activity": 2
+     }
+    },
+    {
+     "text": "Fill in",
+     "check": {
+      "activity": 3
+     }
+    }
+   ],
+   "hints": [
+    "Local, Site, Domain, OU: the last one wins.",
+    "Kerberos is on port 88."
+   ],
+   "review": "<p>Know the structure (forest, domain, OU), the policy order, AGDLP, and the ports and commands you will use daily.</p>"
+  }
+ ]
+}

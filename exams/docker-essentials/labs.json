@@ -1,0 +1,245 @@
+{
+ "intro": "Practice container concepts and commands with matching, ordering and fill-in tasks. Everything is graded in your browser.",
+ "labs": [
+  {
+   "id": "docker-commands",
+   "title": "Container commands",
+   "domain": "D2",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Match Docker commands to jobs, order a first deployment, and fill in commands.",
+   "scenario": "<p>A developer hands you a web app image. Show that you know the commands to run and inspect it.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Command to job",
+     "prompt": "Drag each job to the command.",
+     "categories": [
+      "docker run",
+      "docker ps",
+      "docker logs",
+      "docker exec",
+      "docker stop"
+     ],
+     "items": [
+      {
+       "text": "Create and start a container",
+       "cat": 0
+      },
+      {
+       "text": "List running containers",
+       "cat": 1
+      },
+      {
+       "text": "Read a container's output",
+       "cat": 2
+      },
+      {
+       "text": "Open a shell inside a running container",
+       "cat": 3
+      },
+      {
+       "text": "Stop a container",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Deploy a web app",
+     "prompt": "Put the steps in order.",
+     "items": [
+      "Pull or build the image",
+      "Run it detached with a published port",
+      "Check it with docker ps",
+      "Read docker logs if it fails",
+      "Browse to the published port"
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Fill in the command",
+     "prompt": "Type each answer.",
+     "rows": [
+      {
+       "label": "Map host port 8080 to container port 80 (flag with value)",
+       "answer": [
+        "-p 8080:80"
+       ],
+       "placeholder": "-p ..."
+      },
+      {
+       "label": "Run in the background (flag)",
+       "answer": [
+        "-d"
+       ],
+       "placeholder": "-d"
+      },
+      {
+       "label": "List all containers, including stopped (flag after docker ps)",
+       "answer": [
+        "-a"
+       ],
+       "placeholder": "-a"
+      },
+      {
+       "label": "Persist data in a named volume called data (flag with value, mounted at /var/lib/app)",
+       "answer": [
+        "-v data:/var/lib/app"
+       ],
+       "placeholder": "-v ..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Command to job",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "Deploy a web app",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Fill in the command",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Left of the colon is the host; right is the container.",
+    "The image must exist before it can run."
+   ],
+   "review": "<p>The run, ps, logs and exec commands cover most day-to-day container work.</p>"
+  },
+  {
+   "id": "docker-build",
+   "title": "Images, Dockerfiles and Compose",
+   "domain": "D3",
+   "kind": "tasks",
+   "level": "intermediate",
+   "minutes": 12,
+   "summary": "Match Dockerfile instructions, order a Dockerfile and answer concept checks.",
+   "scenario": "<p>Review a Dockerfile and a Compose file before they go to production.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Instruction to meaning",
+     "prompt": "Drag each Dockerfile instruction to its meaning.",
+     "categories": [
+      "Base image",
+      "Run at build time",
+      "Copy files in",
+      "Default start command",
+      "Set working folder"
+     ],
+     "items": [
+      {
+       "text": "FROM",
+       "cat": 0
+      },
+      {
+       "text": "RUN",
+       "cat": 1
+      },
+      {
+       "text": "COPY",
+       "cat": 2
+      },
+      {
+       "text": "CMD",
+       "cat": 3
+      },
+      {
+       "text": "WORKDIR",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "A cache-friendly Dockerfile",
+     "prompt": "Order the steps so dependencies are cached.",
+     "items": [
+      "FROM python:3.12-slim",
+      "WORKDIR /app",
+      "COPY requirements.txt .",
+      "RUN pip install -r requirements.txt",
+      "COPY . .",
+      "CMD [\"python\", \"app.py\"]"
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Concept check",
+     "prompt": "Fill in each answer.",
+     "rows": [
+      {
+       "label": "File that excludes files from the build context (name)",
+       "answer": [
+        ".dockerignore"
+       ],
+       "placeholder": ".docker..."
+      },
+      {
+       "label": "Command that builds an image tagged web:1.0 from this folder",
+       "answer": [
+        "docker build -t web:1.0 ."
+       ],
+       "placeholder": "docker ..."
+      },
+      {
+       "label": "Command that starts every service in compose.yaml in the background",
+       "answer": [
+        "docker compose up -d"
+       ],
+       "placeholder": "docker ..."
+      },
+      {
+       "label": "Never expose this file to containers (it gives root-level control)",
+       "answer": [
+        "docker.sock",
+        "/var/run/docker.sock",
+        "the docker socket",
+        "docker socket"
+       ],
+       "placeholder": ""
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Instruction to meaning",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "A cache-friendly Dockerfile",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Concept check",
+     "check": {
+      "activity": 2
+     }
+    }
+   ],
+   "hints": [
+    "Dependencies change less often than your code.",
+    "Compose v2 is the docker compose plugin."
+   ],
+   "review": "<p>Order Dockerfile steps from least to most frequently changing, and keep secrets and the Docker socket out of containers.</p>"
+  }
+ ]
+}

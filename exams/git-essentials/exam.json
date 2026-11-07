@@ -1,0 +1,29 @@
+{
+  "slug": "git-essentials",
+  "code": "IT Skills",
+  "name": "Git Essentials",
+  "vendor": "IT Skills",
+  "type": "skill",
+  "domains": {
+    "D1": {
+      "name": "Version control and the Git workflow",
+      "weight": "",
+      "pct": 25
+    },
+    "D2": {
+      "name": "Branching and merging",
+      "weight": "",
+      "pct": 25
+    },
+    "D3": {
+      "name": "Remotes and collaboration",
+      "weight": "",
+      "pct": 25
+    },
+    "D4": {
+      "name": "Undoing mistakes and recovering work",
+      "weight": "",
+      "pct": 25
+    }
+  }
+}

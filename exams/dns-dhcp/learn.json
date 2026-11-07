@@ -1,0 +1,1062 @@
+{
+ "intro": "Four modules cover the two services nearly every network depends on: how DNS resolves names and which record types matter, how to troubleshoot it, how DHCP hands out addresses with scopes, leases and relays, and the everyday problems you will fix. Practice in the labs, including simulated DNS and DHCP consoles.",
+ "updated": "2026-11-07",
+ "sources": [
+  {
+   "title": "Cloudflare Learning Center: What is DNS?",
+   "url": "https://www.cloudflare.com/learning/dns/what-is-dns/",
+   "note": "Free"
+  },
+  {
+   "title": "RFC 2131: Dynamic Host Configuration Protocol",
+   "url": "https://www.rfc-editor.org/rfc/rfc2131",
+   "note": "Free reference"
+  }
+ ],
+ "modules": [
+  {
+   "id": "D1",
+   "short": "How DNS works",
+   "title": "How DNS works",
+   "summary": "Follow a name lookup from your PC to the answer, and learn the record types you will manage.",
+   "guide": [
+    {
+     "h": "What DNS does",
+     "blocks": [
+      {
+       "p": "The <b>Domain Name System</b> turns names people remember (<code>www.example.com</code>) into IP addresses computers use. Without it nothing on the internet or in an office network would be reachable by name. DNS is a distributed, hierarchical database: the root, then top-level domains (<code>.com</code>), then domains (<code>example.com</code>), then hosts."
+      },
+      {
+       "table": {
+        "head": [
+         "Part",
+         "Role"
+        ],
+        "rows": [
+         [
+          "Stub resolver (your PC)",
+          "Asks the configured DNS server and caches answers"
+         ],
+         [
+          "Recursive resolver",
+          "Does the searching for the client, caches results (your ISP, or your office DNS server)"
+         ],
+         [
+          "Authoritative server",
+          "Holds the real records for a zone and gives the official answer"
+         ]
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "h": "A lookup step by step",
+     "blocks": [
+      {
+       "steps": [
+        {
+         "t": "1. Local check",
+         "d": "Your PC checks its cache and the <code>hosts</code> file."
+        },
+        {
+         "t": "2. Ask the resolver",
+         "d": "It sends the query to its configured DNS server."
+        },
+        {
+         "t": "3. Walk the hierarchy",
+         "d": "If not cached, the resolver asks a root server, then the <code>.com</code> servers, then the domain's authoritative server."
+        },
+        {
+         "t": "4. Answer and cache",
+         "d": "The answer returns and is cached for the record's <b>TTL</b> (time to live)."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "h": "Common record types",
+     "blocks": [
+      {
+       "table": {
+        "head": [
+         "Record",
+         "Maps",
+         "Example"
+        ],
+        "rows": [
+         [
+          "A",
+          "Name to IPv4 address",
+          "<code>web01 → 10.0.0.20</code>"
+         ],
+         [
+          "AAAA",
+          "Name to IPv6 address",
+          "<code>web01 → 2001:db8::20</code>"
+         ],
+         [
+          "CNAME",
+          "Alias to another name",
+          "<code>www → web01.example.com</code>"
+         ],
+         [
+          "MX",
+          "Mail server for a domain",
+          "<code>10 mail.example.com</code>"
+         ],
+         [
+          "TXT",
+          "Free text (SPF, verification)",
+          "<code>v=spf1 ...</code>"
+         ],
+         [
+          "PTR",
+          "IP address to name (reverse)",
+          "<code>20.0.0.10.in-addr.arpa → web01</code>"
+         ],
+         [
+          "NS",
+          "Authoritative name servers",
+          "<code>ns1.example.com</code>"
+         ],
+         [
+          "SRV",
+          "Service location",
+          "Used by Active Directory"
+         ]
+        ]
+       }
+      },
+      {
+       "note": "DNS uses UDP port 53 for most queries and TCP port 53 for large responses and zone transfers.",
+       "kind": "tip"
+      }
+     ]
+    }
+   ],
+   "tips": [
+    "A CNAME must point to a name, never to an IP address.",
+    "Lower the TTL <b>before</b> a planned change so old answers expire quickly.",
+    "Think of the hosts file as a local override that beats DNS."
+   ],
+   "terms": [
+    [
+     "Resolver",
+     "A DNS server or client component that looks up names on behalf of others."
+    ],
+    [
+     "Authoritative server",
+     "Holds the official records for a zone."
+    ],
+    [
+     "Zone",
+     "The portion of the DNS namespace managed as one unit."
+    ],
+    [
+     "TTL",
+     "How long an answer may be cached, in seconds."
+    ],
+    [
+     "Record",
+     "One entry in a zone, such as an A or MX record."
+    ],
+    [
+     "FQDN",
+     "Fully qualified domain name, like <code>web01.corp.example.com</code>."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "DNS in one sentence",
+     "bullets": [
+      "Names to IP addresses",
+      "Hierarchical and distributed",
+      "Cached for speed"
+     ],
+     "script": [
+      "DNS translates the names people use into the addresses computers need."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "You type",
+        "d": "www.example.com"
+       },
+       {
+        "t": "DNS",
+        "d": "looks it up"
+       },
+       {
+        "t": "Answer",
+        "d": "93.184.216.34"
+       }
+      ]
+     },
+     "layout": "title",
+     "kicker": "Mini-course: DNS and DHCP"
+    },
+    {
+     "title": "Who answers?",
+     "bullets": [
+      "Stub resolver on your PC",
+      "Recursive resolver does the work",
+      "Authoritative server has the truth"
+     ],
+     "script": [
+      "Your PC asks a recursive resolver, which finds the authoritative server and caches the result."
+     ],
+     "visual": {
+      "type": "layers",
+      "items": [
+       {
+        "t": "Authoritative server",
+        "d": "owns the records"
+       },
+       {
+        "t": "Recursive resolver",
+        "d": "searches and caches"
+       },
+       {
+        "t": "Stub resolver",
+        "d": "your PC"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Record types",
+     "bullets": [
+      "A and AAAA: addresses",
+      "CNAME: alias",
+      "MX, TXT, PTR, NS"
+     ],
+     "script": [
+      "Know the common record types and what each maps."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Type",
+       "Maps"
+      ],
+      "rows": [
+       [
+        "A",
+        "name to IPv4"
+       ],
+       [
+        "CNAME",
+        "alias to name"
+       ],
+       [
+        "MX",
+        "mail servers"
+       ],
+       [
+        "PTR",
+        "IP to name"
+       ]
+      ]
+     }
+    },
+    {
+     "title": "TTL and caching",
+     "bullets": [
+      "Answers are cached for the TTL",
+      "Short TTL: changes spread fast",
+      "Lower TTL before changes"
+     ],
+     "script": [
+      "The time to live controls how long an answer is cached. Lower it ahead of a planned change."
+     ],
+     "visual": {
+      "type": "cards",
+      "items": [
+       {
+        "t": "Long TTL",
+        "d": "Fewer queries"
+       },
+       {
+        "t": "Short TTL",
+        "d": "Faster changes"
+       },
+       {
+        "t": "Plan",
+        "d": "Lower it first"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D2",
+   "short": "DNS tools",
+   "title": "Troubleshooting DNS",
+   "summary": "Use nslookup, dig and cache commands to separate name problems from network problems.",
+   "guide": [
+    {
+     "h": "First question: name or network?",
+     "blocks": [
+      {
+       "p": "If you can reach <code>8.8.8.8</code> by IP but not <code>www.example.com</code> by name, the network is fine and DNS is the suspect. If neither works, check addressing, gateway and cabling first."
+      },
+      {
+       "steps": [
+        {
+         "t": "Ping an IP",
+         "d": "<code>ping 8.8.8.8</code>: tests routing without DNS."
+        },
+        {
+         "t": "Ping a name",
+         "d": "<code>ping www.example.com</code>: tests DNS plus routing."
+        },
+        {
+         "t": "Query DNS directly",
+         "d": "<code>nslookup www.example.com</code> shows which server answered."
+        },
+        {
+         "t": "Try another server",
+         "d": "<code>nslookup www.example.com 8.8.8.8</code> compares answers."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "h": "Tools",
+     "blocks": [
+      {
+       "cmds": [
+        [
+         "nslookup NAME",
+         "Query using the PC's DNS server (Windows, Linux, macOS)"
+        ],
+        [
+         "nslookup NAME SERVER",
+         "Query a specific server"
+        ],
+        [
+         "dig NAME A",
+         "Detailed query (Linux/macOS)"
+        ],
+        [
+         "dig @8.8.8.8 NAME MX",
+         "Ask a particular server for a record type"
+        ],
+        [
+         "ipconfig /all",
+         "Shows DNS servers (Windows)"
+        ],
+        [
+         "ipconfig /flushdns",
+         "Clear the Windows DNS cache"
+        ],
+        [
+         "ipconfig /displaydns",
+         "Show the cache"
+        ],
+        [
+         "resolvectl status",
+         "DNS settings on systemd Linux"
+        ]
+       ],
+       "head": [
+        "Command",
+        "What it does"
+       ]
+      }
+     ]
+    },
+    {
+     "h": "Typical failures",
+     "blocks": [
+      {
+       "table": {
+        "head": [
+         "Symptom",
+         "Likely cause",
+         "Fix"
+        ],
+        "rows": [
+         [
+          "Names fail, IPs work",
+          "Wrong or unreachable DNS server on the client",
+          "Correct the DNS setting or DHCP option 6"
+         ],
+         [
+          "Old IP returned",
+          "Cached record or stale hosts entry",
+          "<code>ipconfig /flushdns</code>; check the hosts file"
+         ],
+         [
+          "Only internal names fail",
+          "Using a public DNS server instead of the internal one",
+          "Point clients at the internal DNS"
+         ],
+         [
+          "Works for some users only",
+          "Different resolvers give different answers (stale record, replication)",
+          "Compare with <code>nslookup NAME SERVER</code>"
+         ],
+         [
+          "Server not found by name after rename",
+          "Old record still in DNS",
+          "Remove or update the record"
+         ]
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "tips": [
+    "Always note which server answered: <code>nslookup</code> prints it at the top.",
+    "Flush the cache after you change a record to test the new answer.",
+    "A wrong entry in the <code>hosts</code> file silently beats DNS."
+   ],
+   "terms": [
+    [
+     "nslookup",
+     "Command-line tool to query DNS."
+    ],
+    [
+     "dig",
+     "Detailed DNS query tool for Linux and macOS."
+    ],
+    [
+     "Flush",
+     "Empty a cache so fresh answers are fetched."
+    ],
+    [
+     "hosts file",
+     "A local name-to-IP file checked before DNS."
+    ],
+    [
+     "Split-horizon DNS",
+     "Different answers for internal and external clients."
+    ],
+    [
+     "NXDOMAIN",
+     "Answer meaning the name does not exist."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "Name or network?",
+     "bullets": [
+      "Ping an IP first",
+      "Then ping a name",
+      "Names fail, IPs work: DNS"
+     ],
+     "script": [
+      "A quick way to separate DNS from network problems is to test with an IP address and then a name."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "ping 8.8.8.8",
+        "d": "works?"
+       },
+       {
+        "t": "ping name",
+        "d": "fails?"
+       },
+       {
+        "t": "Suspect",
+        "d": "DNS"
+       }
+      ]
+     },
+     "layout": "title",
+     "kicker": "Troubleshooting DNS"
+    },
+    {
+     "title": "nslookup and dig",
+     "bullets": [
+      "Shows which server answered",
+      "Ask a specific server",
+      "Pick the record type"
+     ],
+     "script": [
+      "nslookup and dig show what a DNS server returns."
+     ],
+     "visual": {
+      "type": "code",
+      "lang": "bash",
+      "text": "nslookup www.example.com\nnslookup www.example.com 8.8.8.8\ndig @8.8.8.8 example.com MX"
+     }
+    },
+    {
+     "title": "Cache and hosts file",
+     "bullets": [
+      "Cache can be stale",
+      "ipconfig /flushdns",
+      "hosts file overrides DNS"
+     ],
+     "script": [
+      "Old cached answers or a hosts entry can send you to the wrong place."
+     ],
+     "visual": {
+      "type": "cards",
+      "items": [
+       {
+        "t": "Cache",
+        "d": "flushdns"
+       },
+       {
+        "t": "hosts",
+        "d": "check overrides"
+       },
+       {
+        "t": "TTL",
+        "d": "wait or flush"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Symptoms and causes",
+     "bullets": [
+      "Names fail, IPs work",
+      "Wrong server or stale record",
+      "Compare resolvers"
+     ],
+     "script": [
+      "Match the symptom to the likely cause."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Symptom",
+       "Cause"
+      ],
+      "rows": [
+       [
+        "Names fail, IP works",
+        "Bad DNS server"
+       ],
+       [
+        "Old IP",
+        "Cache or hosts"
+       ],
+       [
+        "Internal names fail",
+        "Public DNS in use"
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D3",
+   "short": "DHCP",
+   "title": "How DHCP works",
+   "summary": "Understand how clients receive addresses automatically, and how scopes, reservations and relays fit in.",
+   "guide": [
+    {
+     "h": "What DHCP provides",
+     "blocks": [
+      {
+       "p": "<b>DHCP</b> (Dynamic Host Configuration Protocol) gives clients an IP address, subnet mask, default gateway, DNS servers and more, so nobody has to type them by hand. Clients use UDP port 68; servers use UDP 67."
+      },
+      {
+       "steps": [
+        {
+         "t": "Discover",
+         "d": "Client broadcasts: is there a DHCP server?"
+        },
+        {
+         "t": "Offer",
+         "d": "A server offers an address."
+        },
+        {
+         "t": "Request",
+         "d": "Client asks to use the offered address."
+        },
+        {
+         "t": "Acknowledge",
+         "d": "Server confirms and starts the lease."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "h": "Scopes, leases and options",
+     "blocks": [
+      {
+       "table": {
+        "head": [
+         "Term",
+         "Meaning"
+        ],
+        "rows": [
+         [
+          "Scope",
+          "The range of addresses a server hands out for one subnet (for example 192.168.10.100 to .200)"
+         ],
+         [
+          "Lease",
+          "How long a client may use an address; it renews at 50% of the lease time"
+         ],
+         [
+          "Exclusion",
+          "Addresses inside the range the server must not hand out (for static servers and printers)"
+         ],
+         [
+          "Reservation",
+          "A fixed address given to a specific MAC address"
+         ],
+         [
+          "Option 3",
+          "Default gateway"
+         ],
+         [
+          "Option 6",
+          "DNS servers"
+         ],
+         [
+          "Option 15",
+          "DNS domain name"
+         ]
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "h": "Relay and special cases",
+     "blocks": [
+      {
+       "p": "Broadcasts do not cross routers. A <b>DHCP relay agent</b> (on Cisco, <code>ip helper-address</code>) forwards client requests to a DHCP server on another subnet, so one server can serve many VLANs. If a client gets no answer it assigns itself an <b>APIPA</b> address in <code>169.254.0.0/16</code>, which cannot reach other networks."
+      },
+      {
+       "note": "Use reservations for printers and other devices that need a fixed address but are still managed centrally.",
+       "kind": "tip"
+      }
+     ]
+    }
+   ],
+   "tips": [
+    "169.254.x.x on a client means DHCP failed.",
+    "Keep static servers outside the scope or in an exclusion.",
+    "Only authorized DHCP servers should exist on a network; a rogue server hands out bad settings."
+   ],
+   "terms": [
+    [
+     "DHCP",
+     "Protocol that automatically assigns IP settings."
+    ],
+    [
+     "Scope",
+     "A pool of addresses for one subnet."
+    ],
+    [
+     "Lease",
+     "Time a client may keep an address."
+    ],
+    [
+     "Reservation",
+     "A permanent address tied to a MAC address."
+    ],
+    [
+     "Relay agent",
+     "Forwards DHCP broadcasts across routers."
+    ],
+    [
+     "APIPA",
+     "Self-assigned 169.254.0.0/16 address used when DHCP fails."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "DHCP in action",
+     "bullets": [
+      "Automatic IP settings",
+      "Address, mask, gateway, DNS",
+      "Lease with a time limit"
+     ],
+     "script": [
+      "DHCP gives devices their network settings automatically."
+     ],
+     "visual": {
+      "type": "flow",
+      "steps": [
+       {
+        "t": "Discover",
+        "d": "client asks"
+       },
+       {
+        "t": "Offer",
+        "d": "server offers"
+       },
+       {
+        "t": "Request",
+        "d": "client accepts"
+       },
+       {
+        "t": "Acknowledge",
+        "d": "lease starts"
+       }
+      ]
+     },
+     "layout": "title",
+     "kicker": "DHCP"
+    },
+    {
+     "title": "Scope design",
+     "bullets": [
+      "Scope: the address range",
+      "Exclusions for static hosts",
+      "Reservations for printers"
+     ],
+     "script": [
+      "Design the scope so dynamic, static and reserved addresses do not collide."
+     ],
+     "visual": {
+      "type": "layers",
+      "items": [
+       {
+        "t": "Reservations",
+        "d": "printers and phones by MAC"
+       },
+       {
+        "t": "Exclusions",
+        "d": "static servers"
+       },
+       {
+        "t": "Scope",
+        "d": "dynamic pool"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Options",
+     "bullets": [
+      "Option 3: gateway",
+      "Option 6: DNS",
+      "Option 15: domain"
+     ],
+     "script": [
+      "Scope options tell clients about the gateway and DNS servers."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Option",
+       "Gives"
+      ],
+      "rows": [
+       [
+        "3",
+        "Default gateway"
+       ],
+       [
+        "6",
+        "DNS servers"
+       ],
+       [
+        "15",
+        "DNS domain"
+       ]
+      ]
+     }
+    },
+    {
+     "title": "Across subnets",
+     "bullets": [
+      "Broadcasts stop at routers",
+      "Relay forwards them",
+      "No answer: 169.254.x.x"
+     ],
+     "script": [
+      "A relay agent lets one DHCP server serve many subnets. If DHCP fails, clients fall back to APIPA addresses."
+     ],
+     "visual": {
+      "type": "cards",
+      "items": [
+       {
+        "t": "Relay",
+        "d": "ip helper-address"
+       },
+       {
+        "t": "APIPA",
+        "d": "169.254.0.0/16"
+       },
+       {
+        "t": "Rogue server",
+        "d": "Avoid"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "D4",
+   "short": "In practice",
+   "title": "DHCP and DNS together in practice",
+   "summary": "Fix the problems that actually reach the help desk: scope exhaustion, duplicates, stale records and static versus dynamic.",
+   "guide": [
+    {
+     "h": "DHCP problems",
+     "blocks": [
+      {
+       "table": {
+        "head": [
+         "Symptom",
+         "Likely cause",
+         "What to check"
+        ],
+        "rows": [
+         [
+          "169.254.x.x address",
+          "No DHCP reply",
+          "Cable and VLAN, DHCP service, relay, scope exhausted"
+         ],
+         [
+          "Some clients get no address",
+          "Scope full or leases too long",
+          "Lease table; shorten leases or enlarge the scope"
+         ],
+         [
+          "Wrong gateway or DNS",
+          "Rogue DHCP server or wrong options",
+          "<code>ipconfig /all</code> shows the DHCP server address; compare with the real one"
+         ],
+         [
+          "Duplicate IP warning",
+          "A static address inside the dynamic range",
+          "Add exclusions; find the device by MAC"
+         ],
+         [
+          "New device can't get the reserved address",
+          "MAC address mistyped in the reservation",
+          "Compare the device's MAC to the reservation"
+         ]
+        ]
+       }
+      },
+      {
+       "cmds": [
+        [
+         "ipconfig /release",
+         "Give up the lease (Windows)"
+        ],
+        [
+         "ipconfig /renew",
+         "Request a lease again"
+        ],
+        [
+         "ipconfig /all",
+         "Shows DHCP server, lease times and DNS"
+        ]
+       ],
+       "head": [
+        "Command",
+        "What it does"
+       ]
+      }
+     ]
+    },
+    {
+     "h": "DNS records that go wrong",
+     "blocks": [
+      {
+       "p": "When hosts get new addresses, DNS must follow. <b>Dynamic DNS</b> (DDNS) lets DHCP clients or the DHCP server register records automatically; <b>scavenging</b> removes stale ones. Without it you get records that point to the wrong machine, or names that fail after a rename."
+      },
+      {
+       "list": [
+        "Update the A record <b>and</b> the PTR (reverse) record",
+        "Remove records for decommissioned servers",
+        "Use CNAMEs for friendly names (<code>intranet</code> → <code>web01</code>) so only one record changes when the server moves",
+        "Lower the TTL before a migration, raise it after"
+       ]
+      }
+     ]
+    },
+    {
+     "h": "Static or dynamic?",
+     "blocks": [
+      {
+       "table": {
+        "head": [
+         "Use",
+         "Best choice"
+        ],
+        "rows": [
+         [
+          "Laptops, phones, guest devices",
+          "DHCP dynamic"
+         ],
+         [
+          "Printers",
+          "DHCP reservation (or static outside the scope)"
+         ],
+         [
+          "Servers, network gear",
+          "Static address, documented; or reservation"
+         ],
+         [
+          "Anything people need to reach by name",
+          "A DNS record, whatever the address method"
+         ]
+        ]
+       }
+      },
+      {
+       "note": "Document static assignments. Undocumented static IPs cause most duplicate-address problems.",
+       "kind": "warn"
+      }
+     ]
+    }
+   ],
+   "tips": [
+    "Release and renew only works when the adapter uses DHCP.",
+    "Check the DHCP server address in <code>ipconfig /all</code> to spot a rogue server.",
+    "After changing records, flush caches before testing."
+   ],
+   "terms": [
+    [
+     "Scope exhaustion",
+     "All addresses in a scope are leased, so new clients get none."
+    ],
+    [
+     "Rogue DHCP server",
+     "An unauthorized server handing out wrong settings."
+    ],
+    [
+     "DDNS",
+     "Dynamic DNS registration of host records."
+    ],
+    [
+     "Scavenging",
+     "Automatic removal of stale DNS records."
+    ],
+    [
+     "PTR record",
+     "Reverse record mapping an IP address to a name."
+    ],
+    [
+     "Duplicate IP",
+     "Two devices using the same address."
+    ]
+   ],
+   "slides": [
+    {
+     "title": "DHCP symptom guide",
+     "bullets": [
+      "169.254.x.x: no DHCP",
+      "Wrong gateway: rogue server",
+      "Duplicate IP: static in the pool"
+     ],
+     "script": [
+      "Most DHCP problems have a recognisable symptom."
+     ],
+     "visual": {
+      "type": "table",
+      "head": [
+       "Symptom",
+       "Look at"
+      ],
+      "rows": [
+       [
+        "169.254.x.x",
+        "Cable, VLAN, relay, scope"
+       ],
+       [
+        "Wrong gateway/DNS",
+        "ipconfig /all server"
+       ],
+       [
+        "Duplicate IP",
+        "Exclusions, static devices"
+       ]
+      ]
+     },
+     "layout": "title",
+     "kicker": "In practice"
+    },
+    {
+     "title": "Release and renew",
+     "bullets": [
+      "ipconfig /release",
+      "ipconfig /renew",
+      "Read ipconfig /all"
+     ],
+     "script": [
+      "Releasing and renewing forces a new lease and shows whether the server answers."
+     ],
+     "visual": {
+      "type": "code",
+      "lang": "bat",
+      "text": "ipconfig /release\nipconfig /renew\nipconfig /all"
+     }
+    },
+    {
+     "title": "Keep DNS in step",
+     "bullets": [
+      "Update A and PTR records",
+      "Remove stale records",
+      "Use CNAMEs for services"
+     ],
+     "script": [
+      "When addresses change, DNS must change too, including reverse records."
+     ],
+     "visual": {
+      "type": "cards",
+      "items": [
+       {
+        "t": "A and PTR",
+        "d": "Both directions"
+       },
+       {
+        "t": "Cleanup",
+        "d": "Stale records"
+       },
+       {
+        "t": "CNAME",
+        "d": "One place to change"
+       }
+      ]
+     }
+    },
+    {
+     "title": "Static, reserved, dynamic",
+     "bullets": [
+      "Dynamic for clients",
+      "Reservations for printers",
+      "Document every static IP"
+     ],
+     "script": [
+      "Choose the address method that fits the device and document static assignments."
+     ],
+     "visual": {
+      "type": "layers",
+      "items": [
+       {
+        "t": "Static",
+        "d": "servers and gear, documented"
+       },
+       {
+        "t": "Reservation",
+        "d": "printers, managed centrally"
+       },
+       {
+        "t": "Dynamic",
+        "d": "everything else"
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

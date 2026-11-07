@@ -1,0 +1,29 @@
+{
+  "slug": "python-for-it",
+  "code": "IT Skills",
+  "name": "Python for IT",
+  "vendor": "IT Skills",
+  "type": "skill",
+  "domains": {
+    "D1": {
+      "name": "Python basics and running scripts",
+      "weight": "",
+      "pct": 25
+    },
+    "D2": {
+      "name": "Decisions, loops, lists, dictionaries and functions",
+      "weight": "",
+      "pct": 25
+    },
+    "D3": {
+      "name": "Files, text processing and structured data",
+      "weight": "",
+      "pct": 25
+    },
+    "D4": {
+      "name": "Automating IT tasks safely",
+      "weight": "",
+      "pct": 25
+    }
+  }
+}

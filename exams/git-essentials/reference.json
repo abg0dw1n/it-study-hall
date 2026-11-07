@@ -1,0 +1,148 @@
+{
+ "intro": "Quick reference for the commands you will use every day.",
+ "trainer": false,
+ "sheets": [
+  {
+   "id": "daily",
+   "title": "Daily commands",
+   "blurb": "Start, save, branch, share.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Start and save",
+     "rows": [
+      [
+       "git init",
+       "New repository here"
+      ],
+      [
+       "git clone URL",
+       "Copy a repository"
+      ],
+      [
+       "git status",
+       "State of the working tree"
+      ],
+      [
+       "git add FILE",
+       "Stage a file"
+      ],
+      [
+       "git commit -m \"msg\"",
+       "Save staged changes"
+      ],
+      [
+       "git log --oneline",
+       "Short history"
+      ],
+      [
+       "git diff / git diff --staged",
+       "Unstaged / staged changes"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Branch and merge",
+     "rows": [
+      [
+       "git branch",
+       "List branches"
+      ],
+      [
+       "git switch -c NAME",
+       "Create and switch"
+      ],
+      [
+       "git switch NAME",
+       "Switch branch"
+      ],
+      [
+       "git merge NAME",
+       "Merge into current branch"
+      ],
+      [
+       "git merge --abort",
+       "Cancel a conflicted merge"
+      ],
+      [
+       "git branch -d NAME",
+       "Delete a merged branch"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Remotes",
+     "rows": [
+      [
+       "git remote -v",
+       "Show remotes"
+      ],
+      [
+       "git fetch",
+       "Download only"
+      ],
+      [
+       "git pull",
+       "Fetch and merge"
+      ],
+      [
+       "git push -u origin NAME",
+       "Push a new branch"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "undo",
+   "title": "Undo and recover",
+   "blurb": "Pick the safest tool.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Which undo?",
+     "head": [
+      "Situation",
+      "Command"
+     ],
+     "rows": [
+      [
+       "Discard file edits",
+       "`git restore FILE`"
+      ],
+      [
+       "Unstage a file",
+       "`git restore --staged FILE`"
+      ],
+      [
+       "Fix last commit (unpushed)",
+       "`git commit --amend`"
+      ],
+      [
+       "Undo a pushed commit",
+       "`git revert HASH`"
+      ],
+      [
+       "Rewind locally",
+       "`git reset --soft|--mixed|--hard HASH`"
+      ],
+      [
+       "Shelve work",
+       "`git stash` / `git stash pop`"
+      ],
+      [
+       "Find lost commits",
+       "`git reflog`"
+      ]
+     ]
+    },
+    {
+     "type": "note",
+     "text": "`git reset --hard` and `git push --force` can destroy work. Check `git status` first and never force-push shared branches."
+    }
+   ]
+  }
+ ]
+}

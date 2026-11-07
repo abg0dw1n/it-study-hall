@@ -1,0 +1,479 @@
+{
+ "intro": "Practice DNS and DHCP: edit records in a simulated DNS console, configure a DHCP scope, and match symptoms to causes.",
+ "labs": [
+  {
+   "id": "dns-records",
+   "title": "Fix records in a DNS console",
+   "domain": "D1",
+   "kind": "portal",
+   "level": "intermediate",
+   "minutes": 12,
+   "summary": "Use a DNS Manager console to add, correct and remove records after a server migration.",
+   "scenario": "<p>The company's web server moved. The new address is <code>10.0.0.45</code>. Fix the zone <code>corp.example.com</code>:</p><ul><li><b>web01</b> should point to the new address.</li><li><b>www</b> should be a CNAME to <code>web01.corp.example.com</code> (right now it is wrongly an A record to the old address).</li><li>Add an A record for the new file server <b>files02</b> at <code>10.0.0.60</code>.</li><li>The decommissioned <b>oldmail</b> host should be removed.</li><li>Before the next change, set the TTL of <b>web01</b> to <code>300</code> seconds.</li></ul><p>Edit the table, then <b>Save changes</b>.</p>",
+   "portal": {
+    "app": "DNS Manager",
+    "address": "https://dns01.corp.example.com",
+    "pages": [
+     {
+      "id": "zone",
+      "title": "corp.example.com",
+      "desc": "Forward lookup zone",
+      "tables": [
+       {
+        "id": "records",
+        "title": "Records",
+        "columns": [
+         {
+          "id": "name",
+          "label": "Name"
+         },
+         {
+          "id": "type",
+          "label": "Type",
+          "type": "select",
+          "options": [
+           "A",
+           "AAAA",
+           "CNAME",
+           "MX",
+           "TXT",
+           "PTR"
+          ]
+         },
+         {
+          "id": "value",
+          "label": "Data"
+         },
+         {
+          "id": "ttl",
+          "label": "TTL (s)"
+         }
+        ],
+        "rows": [
+         {
+          "name": "web01",
+          "type": "A",
+          "value": "10.0.0.20",
+          "ttl": "3600"
+         },
+         {
+          "name": "www",
+          "type": "A",
+          "value": "10.0.0.20",
+          "ttl": "3600"
+         },
+         {
+          "name": "files01",
+          "type": "A",
+          "value": "10.0.0.30",
+          "ttl": "3600"
+         },
+         {
+          "name": "oldmail",
+          "type": "A",
+          "value": "10.0.0.99",
+          "ttl": "3600"
+         },
+         {
+          "name": "@",
+          "type": "MX",
+          "value": "mail.corp.example.com",
+          "ttl": "3600"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "tasks": [
+    {
+     "text": "<b>web01</b> is an A record to <code>10.0.0.45</code>",
+     "check": {
+      "rows": "zone.records",
+      "has": {
+       "name": "web01",
+       "type": "A",
+       "value": "10.0.0.45"
+      }
+     }
+    },
+    {
+     "text": "<b>www</b> is a CNAME to <code>web01.corp.example.com</code>",
+     "check": {
+      "rows": "zone.records",
+      "has": {
+       "name": "www",
+       "type": "CNAME",
+       "value": "web01.corp.example.com"
+      }
+     }
+    },
+    {
+     "text": "<b>files02</b> exists as an A record to <code>10.0.0.60</code>",
+     "check": {
+      "rows": "zone.records",
+      "has": {
+       "name": "files02",
+       "type": "A",
+       "value": "10.0.0.60"
+      }
+     }
+    },
+    {
+     "text": "<b>oldmail</b> is removed",
+     "check": {
+      "rows": "zone.records",
+      "none": {
+       "name": "oldmail"
+      }
+     }
+    },
+    {
+     "text": "<b>web01</b> TTL is 300",
+     "check": {
+      "rows": "zone.records",
+      "has": {
+       "name": "web01",
+       "ttl": "300"
+      }
+     }
+    },
+    {
+     "text": "Leave <b>files01</b> and the MX record unchanged",
+     "check": {
+      "all": [
+       {
+        "rows": "zone.records",
+        "has": {
+         "name": "files01",
+         "value": "10.0.0.30"
+        }
+       },
+       {
+        "rows": "zone.records",
+        "has": {
+         "type": "MX",
+         "value": "mail.corp.example.com"
+        }
+       }
+      ]
+     }
+    }
+   ],
+   "hints": [
+    "A CNAME's data is a name, not an IP address.",
+    "Change the Type drop-down of the www row to CNAME, then replace the data.",
+    "Use Add row for files02, and the delete button on oldmail."
+   ],
+   "solution": "<p>web01: A 10.0.0.45, TTL 300. www: CNAME web01.corp.example.com. Add files02 A 10.0.0.60. Delete oldmail. Save.</p>",
+   "review": "<p>Moving a service means updating its A record, pointing aliases at the name rather than the address, cleaning up decommissioned hosts and, ideally, lowering the TTL before the change so old answers expire quickly.</p>"
+  },
+  {
+   "id": "dhcp-scope",
+   "title": "Configure a DHCP scope",
+   "domain": "D3",
+   "kind": "portal",
+   "level": "intermediate",
+   "minutes": 12,
+   "summary": "Fix a DHCP scope: correct the range and options, protect static servers with an exclusion and reserve an address for a printer.",
+   "scenario": "<p>The new VLAN <b>Accounting</b> uses <code>192.168.30.0/24</code>. The router is <code>192.168.30.1</code> and the DNS server is <code>192.168.30.5</code>. Static servers use <code>192.168.30.2</code> to <code>192.168.30.20</code>. Clients should get <code>192.168.30.100</code> to <code>192.168.30.200</code>. The printer (MAC <code>AA-BB-CC-11-22-33</code>) must always get <code>192.168.30.150</code>. Leases for office PCs should be 8 hours.</p><p>Fix the scope, then <b>Save changes</b> on each page.</p>",
+   "portal": {
+    "app": "DHCP Server Manager",
+    "address": "https://dhcp01.corp.local",
+    "pages": [
+     {
+      "id": "scope",
+      "title": "Scope",
+      "desc": "Accounting VLAN 192.168.30.0/24",
+      "sections": [
+       {
+        "title": "Address range",
+        "fields": [
+         {
+          "id": "start",
+          "label": "Start address",
+          "type": "text",
+          "value": "192.168.30.1"
+         },
+         {
+          "id": "end",
+          "label": "End address",
+          "type": "text",
+          "value": "192.168.30.254"
+         },
+         {
+          "id": "mask",
+          "label": "Subnet mask",
+          "type": "text",
+          "value": "255.255.255.0"
+         },
+         {
+          "id": "lease",
+          "label": "Lease duration (hours)",
+          "type": "text",
+          "value": "168"
+         }
+        ]
+       },
+       {
+        "title": "Scope options",
+        "fields": [
+         {
+          "id": "router",
+          "label": "003 Router",
+          "type": "text",
+          "value": "192.168.30.254"
+         },
+         {
+          "id": "dns",
+          "label": "006 DNS servers",
+          "type": "text",
+          "value": "8.8.8.8"
+         },
+         {
+          "id": "domain",
+          "label": "015 DNS domain name",
+          "type": "text",
+          "value": ""
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "reservations",
+      "title": "Reservations",
+      "tables": [
+       {
+        "id": "list",
+        "title": "Reservations",
+        "columns": [
+         {
+          "id": "name",
+          "label": "Name"
+         },
+         {
+          "id": "mac",
+          "label": "MAC address"
+         },
+         {
+          "id": "ip",
+          "label": "IP address"
+         }
+        ],
+        "rows": []
+       }
+      ]
+     }
+    ]
+   },
+   "tasks": [
+    {
+     "text": "Dynamic pool is <code>192.168.30.100</code> to <code>192.168.30.200</code>",
+     "check": {
+      "all": [
+       {
+        "field": "scope.start",
+        "eq": "192.168.30.100"
+       },
+       {
+        "field": "scope.end",
+        "eq": "192.168.30.200"
+       }
+      ]
+     }
+    },
+    {
+     "text": "Router option is <code>192.168.30.1</code> and DNS is <code>192.168.30.5</code>",
+     "check": {
+      "all": [
+       {
+        "field": "scope.router",
+        "eq": "192.168.30.1"
+       },
+       {
+        "field": "scope.dns",
+        "eq": "192.168.30.5"
+       }
+      ]
+     }
+    },
+    {
+     "text": "DNS domain is <code>corp.local</code>",
+     "check": {
+      "field": "scope.domain",
+      "eq": "corp.local"
+     }
+    },
+    {
+     "text": "Lease duration is 8 hours",
+     "check": {
+      "field": "scope.lease",
+      "eq": "8"
+     }
+    },
+    {
+     "text": "Reserve <code>192.168.30.150</code> for the printer's MAC <code>AA-BB-CC-11-22-33</code>",
+     "check": {
+      "rows": "reservations.list",
+      "has": {
+       "mac": "AA-BB-CC-11-22-33",
+       "ip": "192.168.30.150"
+      }
+     }
+    }
+   ],
+   "hints": [
+    "The pool starts at .100, so the static servers at .2 to .20 stay out of it.",
+    "Options 003 and 006 are what clients use for their gateway and DNS server.",
+    "Add one row to Reservations and fill in all three columns."
+   ],
+   "solution": "<p>Scope: start .100, end .200, lease 8. Router 192.168.30.1, DNS 192.168.30.5, domain corp.local. Reservation: printer, AA-BB-CC-11-22-33, 192.168.30.150.</p>",
+   "review": "<p>A good scope keeps the dynamic pool away from static addresses, hands out the right gateway and DNS server and uses reservations for devices that need a fixed address. Wrong options are why clients can have an address but no connectivity.</p>"
+  },
+  {
+   "id": "dns-dhcp-symptoms",
+   "title": "Diagnose the symptom",
+   "domain": "D4",
+   "kind": "tasks",
+   "level": "beginner",
+   "minutes": 10,
+   "summary": "Match symptoms to causes and put the DHCP and DNS steps in order.",
+   "scenario": "<p>Four tickets came in. Decide what is wrong for each before you start changing things.</p>",
+   "activities": [
+    {
+     "type": "match",
+     "title": "Symptom to cause",
+     "prompt": "Drag each symptom to the most likely cause.",
+     "categories": [
+      "No DHCP reply",
+      "Bad DNS server",
+      "Stale cache",
+      "Rogue DHCP server",
+      "Duplicate IP"
+     ],
+     "items": [
+      {
+       "text": "Client shows 169.254.77.12",
+       "cat": 0
+      },
+      {
+       "text": "Ping to 8.8.8.8 works but names fail",
+       "cat": 1
+      },
+      {
+       "text": "The site still opens the old server after a move",
+       "cat": 2
+      },
+      {
+       "text": "Clients get an unexpected default gateway from an unknown server",
+       "cat": 3
+      },
+      {
+       "text": "Windows warns that another device uses the same address",
+       "cat": 4
+      }
+     ]
+    },
+    {
+     "type": "order",
+     "title": "DHCP lease steps",
+     "prompt": "Order the four DHCP messages.",
+     "items": [
+      "Discover",
+      "Offer",
+      "Request",
+      "Acknowledge"
+     ]
+    },
+    {
+     "type": "order",
+     "title": "Resolve a name",
+     "prompt": "Order what happens on a normal lookup.",
+     "items": [
+      "PC checks its cache and hosts file",
+      "PC asks its configured DNS server",
+      "Resolver queries up the hierarchy if needed",
+      "Authoritative server answers",
+      "Answer is cached for the TTL"
+     ]
+    },
+    {
+     "type": "fill",
+     "title": "Fill in",
+     "prompt": "Type each answer.",
+     "rows": [
+      {
+       "label": "Command to clear the Windows DNS cache",
+       "answer": [
+        "ipconfig /flushdns"
+       ],
+       "placeholder": "ipconfig ..."
+      },
+      {
+       "label": "Record type for an alias",
+       "answer": [
+        "CNAME"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Record type for the mail server",
+       "answer": [
+        "MX"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Port number DNS uses",
+       "answer": [
+        "53"
+       ],
+       "placeholder": "..."
+      },
+      {
+       "label": "Cisco command that forwards DHCP broadcasts to a server on another subnet (two words)",
+       "answer": [
+        "ip helper-address",
+        "helper-address"
+       ],
+       "placeholder": "ip ..."
+      }
+     ]
+    }
+   ],
+   "tasks": [
+    {
+     "text": "Symptom to cause",
+     "check": {
+      "activity": 0
+     }
+    },
+    {
+     "text": "DHCP lease steps",
+     "check": {
+      "activity": 1
+     }
+    },
+    {
+     "text": "Resolve a name",
+     "check": {
+      "activity": 2
+     }
+    },
+    {
+     "text": "Fill in",
+     "check": {
+      "activity": 3
+     }
+    }
+   ],
+   "hints": [
+    "APIPA addresses start with 169.254.",
+    "TTL controls how long an answer is cached."
+   ],
+   "review": "<p>Match the symptom to the layer first: no address is DHCP, names failing while IPs work is DNS, and old answers are a cache or hosts-file problem.</p>"
+  }
+ ]
+}

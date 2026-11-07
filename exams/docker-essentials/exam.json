@@ -1,0 +1,29 @@
+{
+  "slug": "docker-essentials",
+  "code": "IT Skills",
+  "name": "Docker Essentials",
+  "vendor": "IT Skills",
+  "type": "skill",
+  "domains": {
+    "D1": {
+      "name": "Containers, images and registries",
+      "weight": "",
+      "pct": 25
+    },
+    "D2": {
+      "name": "Running and managing containers",
+      "weight": "",
+      "pct": 25
+    },
+    "D3": {
+      "name": "Building images with a Dockerfile",
+      "weight": "",
+      "pct": 25
+    },
+    "D4": {
+      "name": "Compose, networking and housekeeping",
+      "weight": "",
+      "pct": 25
+    }
+  }
+}

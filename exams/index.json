@@ -389,7 +389,7 @@
     "learningDescription": "Learn how a help desk works: tickets and priorities, a repeatable troubleshooting method, clear communication, and safe handling of everyday issues.",
     "learningModules": 4,
     "questions": 0,
-    "updated": "2026-11-03",
+    "updated": "2026-11-07",
     "labs": 5
   },
   {
@@ -406,5 +406,75 @@
     "updated": "2026-11-07",
     "labs": 4,
     "reference": 4
+  },
+  {
+    "slug": "git-essentials",
+    "code": "IT Skills",
+    "name": "Git Essentials",
+    "vendor": "IT Skills",
+    "type": "skill",
+    "level": "beginner",
+    "learning": true,
+    "learningDescription": "Learn Git from zero: commits and history, branching and merging, working with remotes, and safely undoing mistakes.",
+    "learningModules": 4,
+    "questions": 0,
+    "labs": 2,
+    "reference": 2
+  },
+  {
+    "slug": "docker-essentials",
+    "code": "IT Skills",
+    "name": "Docker Essentials",
+    "vendor": "IT Skills",
+    "type": "skill",
+    "level": "beginner",
+    "learning": true,
+    "learningDescription": "Learn containers from zero: what they are, running and troubleshooting them, building images with a Dockerfile, and using Compose.",
+    "learningModules": 4,
+    "questions": 0,
+    "labs": 2,
+    "reference": 2
+  },
+  {
+    "slug": "python-for-it",
+    "code": "IT Skills",
+    "name": "Python for IT",
+    "vendor": "IT Skills",
+    "type": "skill",
+    "level": "beginner",
+    "learning": true,
+    "learningDescription": "Learn practical Python for IT work: basics, logic and data, files and logs, and safe automation.",
+    "learningModules": 4,
+    "questions": 0,
+    "labs": 2,
+    "reference": 2
+  },
+  {
+    "slug": "dns-dhcp",
+    "code": "IT Skills",
+    "name": "DNS & DHCP Essentials",
+    "vendor": "IT Skills",
+    "type": "skill",
+    "level": "beginner",
+    "learning": true,
+    "learningDescription": "Learn how names and addresses work on a network: DNS lookups and records, troubleshooting, DHCP scopes and leases, and fixing everyday problems.",
+    "learningModules": 4,
+    "questions": 0,
+    "labs": 3,
+    "reference": 2
+  },
+  {
+    "slug": "active-directory",
+    "code": "IT Skills",
+    "name": "Active Directory Essentials",
+    "vendor": "IT Skills",
+    "type": "skill",
+    "level": "intermediate",
+    "learning": true,
+    "learningDescription": "Learn Active Directory for IT support: how AD works, managing users and groups, Group Policy, and keeping a domain healthy.",
+    "learningModules": 4,
+    "questions": 0,
+    "labs": 2,
+    "reference": 2
   }
 ]

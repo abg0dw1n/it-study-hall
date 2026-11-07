@@ -1,0 +1,29 @@
+{
+  "slug": "active-directory",
+  "code": "IT Skills",
+  "name": "Active Directory Essentials",
+  "vendor": "IT Skills",
+  "type": "skill",
+  "domains": {
+    "D1": {
+      "name": "Active Directory fundamentals",
+      "weight": "",
+      "pct": 25
+    },
+    "D2": {
+      "name": "Users, groups and OUs",
+      "weight": "",
+      "pct": 25
+    },
+    "D3": {
+      "name": "Group Policy",
+      "weight": "",
+      "pct": 25
+    },
+    "D4": {
+      "name": "Running AD safely",
+      "weight": "",
+      "pct": 25
+    }
+  }
+}

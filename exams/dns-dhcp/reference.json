@@ -1,0 +1,159 @@
+{
+ "intro": "DNS record types, tools and DHCP basics.",
+ "trainer": false,
+ "sheets": [
+  {
+   "id": "dns",
+   "title": "DNS",
+   "blurb": "Records and tools.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Record types",
+     "head": [
+      "Record",
+      "Maps",
+      "Example"
+     ],
+     "rows": [
+      [
+       "A",
+       "Name to IPv4",
+       "`web01 → 10.0.0.20`"
+      ],
+      [
+       "AAAA",
+       "Name to IPv6",
+       "`web01 → 2001:db8::20`"
+      ],
+      [
+       "CNAME",
+       "Alias to name",
+       "`www → web01.example.com`"
+      ],
+      [
+       "MX",
+       "Mail server",
+       "`10 mail.example.com`"
+      ],
+      [
+       "TXT",
+       "Text (SPF)",
+       "`v=spf1 ...`"
+      ],
+      [
+       "PTR",
+       "IP to name",
+       "reverse zone"
+      ],
+      [
+       "NS",
+       "Name servers",
+       "`ns1.example.com`"
+      ],
+      [
+       "SRV",
+       "Service location",
+       "used by AD"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Tools",
+     "rows": [
+      [
+       "nslookup NAME [SERVER]",
+       "Query DNS"
+      ],
+      [
+       "dig @SERVER NAME TYPE",
+       "Detailed query (Linux/macOS)"
+      ],
+      [
+       "ipconfig /all",
+       "Show DNS servers (Windows)"
+      ],
+      [
+       "ipconfig /flushdns",
+       "Clear the cache"
+      ],
+      [
+       "ipconfig /displaydns",
+       "Show the cache"
+      ]
+     ]
+    },
+    {
+     "type": "note",
+     "text": "Names fail but IPs work? Suspect DNS. Check the hosts file and the DNS server setting first. DNS uses port 53 (UDP and TCP)."
+    }
+   ]
+  },
+  {
+   "id": "dhcp",
+   "title": "DHCP",
+   "blurb": "Leases, scopes and options.",
+   "blocks": [
+    {
+     "type": "list",
+     "title": "DORA",
+     "items": [
+      "Discover (client broadcast)",
+      "Offer (server)",
+      "Request (client)",
+      "Acknowledge (server, lease starts)"
+     ]
+    },
+    {
+     "type": "table",
+     "title": "Common options",
+     "head": [
+      "Option",
+      "Provides"
+     ],
+     "rows": [
+      [
+       "3",
+       "Default gateway"
+      ],
+      [
+       "6",
+       "DNS servers"
+      ],
+      [
+       "15",
+       "DNS domain name"
+      ],
+      [
+       "66 / 67",
+       "Boot server / file (PXE)"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Client commands",
+     "rows": [
+      [
+       "ipconfig /release",
+       "Drop the lease"
+      ],
+      [
+       "ipconfig /renew",
+       "Request a lease"
+      ],
+      [
+       "ipconfig /all",
+       "DHCP server and lease times"
+      ]
+     ]
+    },
+    {
+     "type": "note",
+     "text": "169.254.0.0/16 (APIPA) means no DHCP answer. Use reservations for printers, exclusions for static servers, and a relay (`ip helper-address`) for other subnets."
+    }
+   ]
+  }
+ ]
+}

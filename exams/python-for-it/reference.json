@@ -1,0 +1,158 @@
+{
+ "intro": "Python syntax and the standard-library pieces IT scripts use most.",
+ "trainer": false,
+ "sheets": [
+  {
+   "id": "syntax",
+   "title": "Syntax",
+   "blurb": "Core language at a glance.",
+   "blocks": [
+    {
+     "type": "table",
+     "title": "Types",
+     "head": [
+      "Type",
+      "Example"
+     ],
+     "rows": [
+      [
+       "int",
+       "`42`"
+      ],
+      [
+       "float",
+       "`3.14`"
+      ],
+      [
+       "str",
+       "`\"web1\"`"
+      ],
+      [
+       "bool",
+       "`True`"
+      ],
+      [
+       "list",
+       "`[\"a\", \"b\"]`"
+      ],
+      [
+       "dict",
+       "`{\"k\": \"v\"}`"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Control flow",
+     "rows": [
+      [
+       "if x > 1: ... elif: ... else:",
+       "Decisions"
+      ],
+      [
+       "for item in items:",
+       "Loop over a collection"
+      ],
+      [
+       "while cond:",
+       "Loop while true"
+      ],
+      [
+       "def name(a, b): return a + b",
+       "Function"
+      ],
+      [
+       "try: ... except ValueError:",
+       "Handle errors"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Environment",
+     "rows": [
+      [
+       "python script.py",
+       "Run a script"
+      ],
+      [
+       "python -m venv .venv",
+       "Create a virtual environment"
+      ],
+      [
+       "pip install PACKAGE",
+       "Install a package"
+      ],
+      [
+       "pip freeze > requirements.txt",
+       "Record packages"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "stdlib",
+   "title": "Files and automation",
+   "blurb": "Modules and patterns for IT scripts.",
+   "blocks": [
+    {
+     "type": "cmds",
+     "title": "Files and data",
+     "rows": [
+      [
+       "with open(\"f.txt\") as f:",
+       "Read safely"
+      ],
+      [
+       "open(\"f.txt\", \"a\")",
+       "Append (\"w\" replaces!)"
+      ],
+      [
+       "json.load(f) / json.dump(d, f)",
+       "JSON"
+      ],
+      [
+       "csv.DictReader(f)",
+       "CSV rows as dictionaries"
+      ],
+      [
+       "Path(\"logs\").glob(\"*.log\")",
+       "Find files"
+      ]
+     ]
+    },
+    {
+     "type": "cmds",
+     "title": "Automation",
+     "rows": [
+      [
+       "subprocess.run([\"ls\", \"-l\"], capture_output=True, text=True)",
+       "Run a program"
+      ],
+      [
+       "shutil.copy(src, dst)",
+       "Copy a file"
+      ],
+      [
+       "argparse.ArgumentParser()",
+       "Command-line options"
+      ],
+      [
+       "logging.info(\"msg\")",
+       "Logging"
+      ],
+      [
+       "requests.get(url, timeout=10)",
+       "Call an API"
+      ]
+     ]
+    },
+    {
+     "type": "note",
+     "text": "Keep secrets in environment variables, add a `--dry-run`, and avoid `shell=True` with untrusted input."
+    }
+   ]
+  }
+ ]
+}
