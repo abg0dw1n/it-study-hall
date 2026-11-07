@@ -2,6 +2,8 @@
 // Content comes from /exams/<slug>/learn.json. A course with a "narration" block plays
 // prerecorded audio (one file per module); others use the browser's speech synthesis.
 
+import { renderCards, stopCards } from './flashcards.js';
+
 const $ = (id) => document.getElementById(id);
 const esc = (t = '') => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const icon = (name) => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"/></svg>`;
@@ -39,6 +41,7 @@ function mark(id, part) {
 }
 
 export function stopLearn() {
+  stopCards();
   player?.destroy(); player = null;
   if (keyHandler) { document.removeEventListener('keydown', keyHandler); keyHandler = null; }
 }
@@ -47,8 +50,10 @@ export function renderLearn(main, context) {
   ctx = context;
   stopLearn();
   const v = view().view;
-  if (v.module && (!moduleById(v.module) || isLocked(moduleById(v.module)))) v.module = null;
+  if (v.module === ALL_CARDS && !allTerms().length) v.module = null;
+  else if (v.module && v.module !== ALL_CARDS && (!moduleById(v.module) || isLocked(moduleById(v.module)))) v.module = null;
   if (!v.module) return renderIndex(main);
+  if (v.module === ALL_CARDS) return renderAllCards(main);
   return renderModule(main, moduleById(v.module));
 }
 
@@ -59,6 +64,21 @@ function open(moduleId, tab = 'guide') {
   ctx.save();
   renderLearn($('main'), ctx);
   window.scrollTo({ top: 0 });
+}
+
+const ALL_CARDS = '*cards';
+const cardsOf = (m) => (m.terms || []).map(([t, d]) => ({ mod: m.id, t, d, modTitle: m.short || m.title }));
+const allTerms = () => data.modules.filter((m) => !isLocked(m)).flatMap(cardsOf);
+const cardStore = () => (view().cards ||= {});
+
+function renderAllCards(main) {
+  const v = view().view;
+  main.innerHTML = `<section class="stack learn">
+      <div class="learn-crumbs"><button class="btn btn-ghost btn-sm" data-back>${icon('left')}All modules</button></div>
+      <div class="stack" style="gap:6px"><h2 class="home-title">Flashcards</h2><p class="muted">Every key term from this course. Flip a card, then mark it "Got it" or "Again"; cards you miss come back sooner.</p></div>
+      <div id="learn-body"></div></section>`;
+  main.querySelector('[data-back]').addEventListener('click', () => { stopLearn(); v.module = null; ctx.save(); renderLearn(main, ctx); });
+  renderCards($('learn-body'), { cards: allTerms(), store: cardStore(), save: ctx.save, title: `${ctx.exam.code || ctx.exam.name} key terms` });
 }
 
 const isSkill = () => ctx?.exam?.type === 'skill';
@@ -122,9 +142,11 @@ function renderIndex(main) {
       <div class="stack" style="gap:6px"><h2 class="home-title">Learn ${esc(isSkill() ? ctx.exam.name : ctx.exam.code)}</h2>
       <p class="muted">${esc(data.intro || 'Work through each domain: read the study guide, flip through the slides, then watch the video lesson.')}</p></div>
       ${ctx.guest && data.modules.length > 1 ? ctx.guestCta(`Guest preview: module 1 of ${data.modules.length}.`) : studySupport()}
+      ${allTerms().length ? `<div class="learn-cards-cta panel"><div><b>Flashcards</b><span class="muted small">${allTerms().length} key terms${ctx.guest && data.modules.length > 1 ? ' in module 1' : ' across every module'}, with spaced repetition.</span></div><button class="btn btn-primary btn-sm" data-open-cards>${icon('learn')}Study flashcards</button></div>` : ''}
       <div class="learn-grid">${cards}${learningResources()}</div>
     </section>`;
   main.querySelectorAll('[data-open]').forEach((b) => b.addEventListener('click', () => open(b.dataset.open, b.dataset.tab)));
+  main.querySelector('[data-open-cards]')?.addEventListener('click', () => { view().view.module = ALL_CARDS; ctx.save(); renderLearn(main, ctx); window.scrollTo({ top: 0 }); });
 }
 
 const part = (id, tab, ic, label, meta, isDone) =>
@@ -136,7 +158,8 @@ function renderModule(main, m) {
   const v = view().view;
   const idx = data.modules.indexOf(m);
   const p = progressOf(m.id);
-  const tabs = [['guide', 'Study guide', 'book'], ['slides', 'Slides', 'grid'], ['video', 'Video lesson', 'play']];
+  const tabs = [['guide', 'Study guide', 'book'], ['slides', 'Slides', 'grid'], ['video', 'Video lesson', 'play'], ...(m.terms?.length ? [['cards', 'Flashcards', 'learn']] : [])];
+  if (v.tab === 'cards' && !m.terms?.length) v.tab = 'guide';
   main.innerHTML = `<section class="stack learn">
       <div class="learn-crumbs"><button class="btn btn-ghost btn-sm" data-back>${icon('left')}All modules</button>
         <span class="muted small">Module ${idx + 1} of ${data.modules.length}</span></div>
@@ -160,6 +183,7 @@ function renderModule(main, m) {
   const body = $('learn-body');
   if (v.tab === 'slides') renderSlides(body, m);
   else if (v.tab === 'video') renderVideo(body, m);
+  else if (v.tab === 'cards') renderCards(body, { cards: cardsOf(m), store: cardStore(), save: ctx.save, title: `${m.short || m.title} key terms` });
   else renderGuide(body, m);
 }
 

@@ -1734,3 +1734,25 @@ a.icon-btn { display: inline-flex; align-items: center; justify-content: center;
 .pbq-answer ul, .pbq-answer ol { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 3px; font-size: 13px; }
 .pbq-explain { font-size: 13px; color: var(--text-2); line-height: 1.5; }
 
+
+/* Flashcards */
+.learn-cards-cta { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 14px 18px; }
+.learn-cards-cta > div { display: grid; gap: 2px; min-width: 0; }
+.fc { max-width: 640px; }
+.fc-stats { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.fc-stats b { color: var(--text); }
+.fc-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 240px; width: 100%; padding: 28px 24px; text-align: center; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); color: var(--text); cursor: pointer; font: inherit; box-shadow: 0 8px 24px color-mix(in srgb, #000 8%, transparent); transition: transform .15s, border-color .15s; }
+.fc-card:hover { border-color: var(--azure-text); }
+.fc-card:focus-visible { outline: 2px solid var(--azure-text); outline-offset: 3px; }
+.fc-card.flipped { background: color-mix(in srgb, var(--azure) 8%, var(--panel)); }
+.fc-label, .fc-from { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.fc-term { font-size: clamp(1.3rem, 4vw, 1.8rem); font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; }
+.fc-def { font-size: 1.05rem; line-height: 1.55; max-width: 52ch; }
+.fc-hint { font-size: 12px; color: var(--muted); min-height: 1em; }
+.fc-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.fc-actions .btn { flex: 1 1 140px; justify-content: center; }
+.fc-hidden { visibility: hidden; }
+.fc kbd { margin-left: 6px; padding: 0 5px; border: 1px solid var(--border); border-radius: 4px; font: 11px var(--mono, monospace); opacity: .7; }
+.fc-done h3 { margin-bottom: 6px; }
+@media (prefers-reduced-motion: reduce) { .fc-card { transition: none; } }
+.fc-term-sm { font-size: 1.05rem; color: var(--azure-text); }
