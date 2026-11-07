@@ -488,6 +488,7 @@
     "name": "CompTIA CySA+",
     "vendor": "CompTIA",
     "level": "intermediate",
-    "questions": 68
+    "questions": 68,
+    "updated": "2026-11-07"
   }
 ]
