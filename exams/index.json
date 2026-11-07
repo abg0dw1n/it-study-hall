@@ -32,7 +32,7 @@
     "name": "CompTIA Security+",
     "vendor": "CompTIA",
     "level": "intermediate",
-    "updated": "2026-11-03",
+    "updated": "2026-11-07",
     "questions": 195,
     "labs": 6,
     "pbq": 6
@@ -127,7 +127,7 @@
     "name": "CompTIA A+ Core 1",
     "vendor": "CompTIA",
     "level": "beginner",
-    "updated": "2026-11-03",
+    "updated": "2026-11-07",
     "learning": true,
     "learningDescription": "Study mobile devices, networking, hardware, virtualization and cloud, plus practical troubleshooting for common hardware and network problems.",
     "questions": 128,
@@ -141,12 +141,12 @@
     "name": "CompTIA A+ Core 2",
     "vendor": "CompTIA",
     "level": "beginner",
-    "updated": "2026-11-03",
+    "updated": "2026-11-07",
     "learning": true,
     "learningDescription": "Prepare for Windows, macOS, and Linux support; endpoint and network security; software troubleshooting; and safe, professional IT operations.",
     "questions": 127,
     "learningModules": 4,
-    "labs": 6,
+    "labs": 7,
     "pbq": 6
   },
   {
@@ -332,7 +332,7 @@
     "learningModules": 5,
     "questions": 110,
     "updated": "2026-11-07",
-    "labs": 6,
+    "labs": 7,
     "reference": 4
   },
   {
@@ -346,7 +346,7 @@
     "learningModules": 5,
     "questions": 148,
     "updated": "2026-11-07",
-    "labs": 7,
+    "labs": 8,
     "reference": 8
   },
   {
@@ -360,7 +360,7 @@
     "learningModules": 9,
     "questions": 106,
     "updated": "2026-11-07",
-    "labs": 9,
+    "labs": 10,
     "reference": 7
   },
   {
@@ -390,7 +390,7 @@
     "learningModules": 4,
     "questions": 0,
     "updated": "2026-11-03",
-    "labs": 4
+    "labs": 5
   },
   {
     "slug": "networking-practice",
