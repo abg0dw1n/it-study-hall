@@ -7,6 +7,9 @@ on:
     - cron: '17 13 * * 1,4'   # Mondays and Thursdays, 13:17 UTC
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   ping:
     runs-on: ubuntu-latest
