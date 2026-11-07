@@ -1661,20 +1661,22 @@ a.icon-btn { display: inline-flex; align-items: center; justify-content: center;
 .ref-tab[aria-selected="true"] { border-color: var(--azure-text); background: color-mix(in srgb, var(--azure) 14%, var(--panel-2)); }
 .ref-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
 .ref-head h3 { font-size: 1.15rem; }
-.ref-cols { column-width: 380px; column-gap: 22px; }
+.ref-cols { column-width: 380px; font-size: 14px; column-gap: 22px; }
 .ref-block { break-inside: avoid; margin: 0 0 16px; min-width: 0; overflow: hidden; }
 .ref-block h4 { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--azure-text); margin-bottom: 6px; }
-.ref-block table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.ref-block table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .ref-block th, .ref-block td { text-align: left; vertical-align: top; padding: 4px 7px; border-bottom: 1px solid var(--border); line-height: 1.4; }
-.ref-block thead th { font-size: 11px; color: var(--muted); font-weight: 650; }
+.ref-block thead th { font-size: 12px; color: var(--muted); font-weight: 650; }
 .ref-block tbody th { font-weight: 650; color: var(--text); }
 .ref-block code, .trainer code { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: .92em; }
 .ref-block table { table-layout: auto; }
 .ref-cmds td:first-child { width: 58%; padding-right: 12px; }
 .ref-cmds code { white-space: pre-wrap; overflow-wrap: anywhere; }
 .ref-block td, .ref-block th { overflow-wrap: anywhere; }
-.ref-block ul { margin: 0; padding-left: 18px; font-size: 12.5px; display: grid; gap: 3px; line-height: 1.45; }
-.ref-note { padding: 9px 11px; border: 1px solid var(--border); border-left: 3px solid var(--azure-text); border-radius: 8px; background: var(--panel-2); font-size: 12.5px; }
+.ref-block ul { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 3px; line-height: 1.45; }
+.ref-note { padding: 9px 11px; border: 1px solid var(--border); border-left: 3px solid var(--azure-text); border-radius: 8px; background: var(--panel-2); font-size: 14px; }
+@media (min-width: 900px) { .ref-cols { column-width: auto; column-count: 2; } }
+@media (min-width: 1500px) { .ref-cols { column-count: 3; } }
 .ref-foot { margin-top: 8px; }
 .trainer { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 16px; align-items: start; }
 .trainer-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; font-size: 13px; color: var(--text-2); }
